@@ -543,7 +543,7 @@
       return `${targetDate.getFullYear()}-${mm}-${dd}`;
     }
 
-    // 取得當前日期字串 (YYYY-MM-DD)，用於判定一天一次打卡
+    // 取得今天的本地日期字串 (YYYY-MM-DD)，用於判定每日限制
     function getTodayString() {
       const d = new Date();
       const year = d.getFullYear();
@@ -556,7 +556,7 @@
     let currentLang = "zh";
     let currentUser = null;
     let userProgressData = {};
-    let lastCheckInDate = null; // 記錄最後一次打卡的日期
+    let lastCheckInDate = null; // 紀錄使用者最後一次打卡日期
 
     let mockLeaderboard = [
       { name: "Sunny Peng", empId: "5404", days: 1 },
@@ -1264,7 +1264,7 @@
       const isAlreadyCompleted = userProgressData[currentDay] && userProgressData[currentDay].completed;
       const todayStr = getTodayString();
 
-      // 🛑 一天只能打卡一次判定（如果今天已經打過卡，且正在看的不是以前完成的卡）
+      // 🛑 一天打卡一次判定（若今天已完成過新的打卡，且目前檢視的這天先前尚未打卡）
       if (lastCheckInDate === todayStr && !isAlreadyCompleted) {
         btn.classList.remove("active");
         hint.textContent = currentLang === "zh" ? "⏳ 今日打卡額度已用完，請於明日 00:00 刷新後再來！" : "⏳ Today's check-in limit reached. Resets at 00:00!";
@@ -1316,22 +1316,22 @@
       return isValid;
     }
 
-    // 🚀 向 Google Apps Script 傳送打卡資料
+    // 🚀 向 Google Apps Script 後端傳送打卡資料
     async function syncToGoogleSheet(payload) {
       try {
         await fetch(GAS_URL, {
           method: "POST",
-          mode: "no-cors", // 相容 Google Apps Script 跨域限制
+          mode: "no-cors",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         });
-        console.log("Data synced to Google Sheet successfully");
+        console.log("Data successfully submitted to Google Sheet");
       } catch (err) {
-        console.error("Failed to sync data to Google Sheet:", err);
+        console.error("Failed to sync to Google Sheet:", err);
       }
     }
 
-    // 📥 向 Google Apps Script 取得排行榜與最新紀錄
+    // 📥 向 Google Apps Script 獲取即時英雄榜
     async function fetchLeaderboardFromSheet() {
       try {
         const response = await fetch(GAS_URL);
@@ -1341,14 +1341,14 @@
           renderLeaderboard();
         }
       } catch (err) {
-        console.warn("Unable to fetch live leaderboard from GAS, using local cache.", err);
+        console.warn("Unable to fetch live leaderboard, falling back to local cache.", err);
       }
     }
 
     function executeCurrentStamp() {
       const todayStr = getTodayString();
 
-      // 檢查一天一次打卡限制
+      // 一天一次限制檢查
       if (lastCheckInDate === todayStr && !(userProgressData[currentDay] && userProgressData[currentDay].completed)) {
         alert(currentLang === "zh" ? "今日您已經完成過打卡！一天僅限打卡一次，每天 00:00 刷新。" : "You have already checked in today! Limited to once per day, resets at 00:00.");
         return;
@@ -1384,7 +1384,6 @@
         timestamp: new Date().toISOString()
       };
 
-      // 紀錄最後一次打卡日期
       if (isFirstTimeCompleted) {
         lastCheckInDate = todayStr;
         localStorage.setItem(`bsh_passport_last_date_${currentUser.empId}`, lastCheckInDate);
@@ -1392,9 +1391,9 @@
 
       localStorage.setItem(`bsh_passport_2026_${currentUser.empId}`, JSON.stringify(userProgressData));
 
-      // 計算總天數並同步打卡資料到 Google Sheet
+      // 計算總完成天數並同步回傳至 Google Sheet
       const currentCompletedDays = Object.keys(userProgressData).filter(k => userProgressData[k].completed).length;
-      
+
       syncToGoogleSheet({
         action: "checkin",
         empId: currentUser.empId,
@@ -1512,7 +1511,7 @@
         userProgressData = {};
       }
 
-      // 載入該同仁上次打卡日期
+      // 讀取該員工上次打卡日期
       lastCheckInDate = localStorage.getItem(`bsh_passport_last_date_${empIdInput}`) || null;
 
       closeLoginModal();
