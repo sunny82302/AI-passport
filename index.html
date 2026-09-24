@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BSH 10 Days AI Passport 2026</title>
+  <style>
+    :root {
+      --bosch-orange: #F26A3D;
+      --bosch-dark-orange: #C94A25;
+      --bosch-dark: #2B303A;
+      --gray-bg: #F7F9FB;
+      --gray-card: #FFFFFF;
+      --line-color: #E2E8F0;
+      --muted-text: #64748B;
+      --light-orange: #FFF0E8;
+      --shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+      --radius: 20px;
+      
+      --gold: #D69E2E;
+      --silver: #A0AEC0;
+      --bronze: #DD6B20;
+
+      /* AI Tools Accent Colors */
+      --chatgpt-bg: #F0FDF4; --chatgpt-border: #BBF7D0; --chatgpt-accent: #16A34A;
+      --gemini-bg: #F0F9FF; --gemini-border: #BAE6FD; --gemini-accent: #0284C7;
+      --copilot-bg: #F5F3FF; --copilot-border: #DDD6FE; --copilot-accent: #7C3AED;
+      
+      --current-accent: var(--bosch-orange);
+      --current-accent-bg: var(--light-orange);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+      background-color: var(--gray-bg);
+      color: var(--bosch-dark);
+      padding: 30px 20px 80px;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    .brand-strip {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--bosch-orange) 0%, #000000 100%);
+      z-index: 100;
+    }
+
+    /* 左側懸浮按鈕 */
+    .floating-leaderboard-btn {
+      position: fixed;
+      left: 20px;
+      top: 40%;
+      transform: translateY(-50%);
+      background: var(--bosch-dark);
+      color: #FFFFFF;
+      border: 2px solid var(--bosch-orange);
+      border-radius: 16px;
+      padding: 14px 10px;
+      font-weight: 900;
+      font-size: 13px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      z-index: 99;
+      writing-mode: vertical-lr;
+      letter-spacing: 2px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+    .floating-leaderboard-btn:hover {
+      background: var(--bosch-orange);
+      transform: translateY(-50%) scale(1.05);
+    }
+
+    .header-bar {
+      max-width: 1180px;
+      margin: 0 auto 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .logo-area { display: flex; align-items: center; gap: 12px; }
+    .logo-badge {
+      background: var(--bosch-dark);
+      color: #fff;
+      font-weight: 900;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 18px;
+      letter-spacing: 1px;
+    }
+
+    .header-title {
+      font-size: 14px;
+      color: var(--muted-text);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .header-right { display: flex; align-items: center; gap: 12px; }
+
+    .user-profile-badge {
+      display: flex; align-items: center; gap: 10px;
+      background: #ffffff; padding: 6px 14px;
+      border-radius: 999px; border: 1px solid var(--line-color);
+      font-size: 13px; font-weight: 700;
+    }
+
+    .user-avatar {
+      width: 28px; height: 28px;
+      background: var(--bosch-orange); color: #fff;
+      border-radius: 50%; display: flex;
+      align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 900;
+    }
+
+    .btn-secondary {
+      background: #ffffff; border: 1px solid var(--line-color);
+      color: var(--bosch-dark); padding: 8px 18px;
+      border-radius: 999px; font-weight: 800; cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03); transition: all 0.2s ease;
+      font-size: 13px;
+    }
+    .btn-secondary:hover { border-color: var(--bosch-orange); color: var(--bosch-orange); }
+
+    .btn-primary-sm {
+      background: var(--bosch-orange); border: none; color: #ffffff;
+      padding: 8px 18px; border-radius: 999px; font-weight: 800;
+      cursor: pointer; box-shadow: 0 4px 12px rgba(242, 106, 61, 0.2);
+      transition: all 0.2s ease; font-size: 13px;
+    }
+    .btn-primary-sm:hover { background: var(--bosch-dark-orange); }
+
+    .container { max-width: 1180px; margin: 0 auto; }
+
+    /* 📢 即時戰報跑馬燈 */
+    .marquee-container {
+      background: linear-gradient(135deg, var(--bosch-dark), #4A5568);
+      color: white;
+      padding: 10px 15px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(43, 48, 58, 0.12);
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .marquee-label {
+      font-weight: bold;
+      background: var(--bosch-orange);
+      color: #ffffff;
+      padding: 5px 12px;
+      border-radius: 8px;
+      margin-right: 15px;
+      font-size: 0.85em;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .marquee-scroll-area {
+      flex: 1;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .marquee-content {
+      display: inline-block;
+      white-space: nowrap;
+      animation: marquee 35s linear infinite;
+    }
+
+    .marquee-content span {
+      margin-right: 50px;
+      font-size: 0.95em;
+    }
+
+    .marquee-container:hover .marquee-content {
+      animation-play-state: paused;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* Day Selector Navigation */
+    .day-selector {
+      display: flex; gap: 8px;
+      overflow-x: auto; padding-bottom: 12px; margin-bottom: 24px;
+      scrollbar-width: thin;
+    }
+
+    .day-btn {
+      flex: 0 0 auto; background: #ffffff;
+      border: 1px solid var(--line-color); color: var(--muted-text);
+      padding: 10px 18px; border-radius: 12px; font-weight: 800;
+      font-size: 14px; cursor: pointer; transition: all 0.2s ease;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .day-btn:hover { border-color: var(--bosch-orange); color: var(--bosch-orange); }
+    .day-btn.active { background: var(--bosch-dark); border-color: var(--bosch-dark); color: #ffffff; }
+    .day-btn.completed-check::after { content: "✓"; color: #22C55E; font-weight: 900; margin-left: 2px; }
+    .day-btn.locked { background: #F1F5F9; color: #94A3B8; border-color: #E2E8F0; opacity: 0.8; }
+
+    /* Passport Card Layout (52% : 48%) */
+    .passport-card {
+      background: var(--gray-card); border-radius: var(--radius);
+      border: 1px solid var(--line-color); box-shadow: var(--shadow);
+      display: grid; grid-template-columns: 52% 48%;
+      position: relative; overflow: hidden; align-items: stretch;
+      margin-bottom: 30px;
+    }
+
+    .ticket-side { padding: 36px 32px 36px 36px; border-right: 1px dashed var(--line-color); background: #FFFFFF; }
+    .journey-side { padding: 36px 36px 36px 32px; background: #FAFBFD; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+
+    /* 解鎖遮罩 (Lock Overlay) */
+    .locked-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(6px);
+      z-index: 50; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
+      padding: 20px;
+    }
+    .locked-icon { font-size: 48px; margin-bottom: 12px; }
+    .locked-title { font-size: 20px; font-weight: 900; color: var(--bosch-dark); }
+    .locked-sub { font-size: 13px; color: var(--muted-text); margin-top: 6px; }
+
+    .kicker { color: var(--current-accent, var(--bosch-orange)); font-size: 12px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; display: block; }
+    h1.task-title { font-size: 26px; line-height: 1.25; margin-bottom: 8px; color: var(--bosch-dark); font-weight: 900; }
+
+    .goal-banner {
+      background: var(--current-accent-bg, var(--light-orange));
+      border-left: 3px solid var(--current-accent, var(--bosch-orange));
+      padding: 10px 14px; border-radius: 0 10px 10px 0; margin-bottom: 20px;
+    }
+    .goal-banner p { font-size: 13px; color: var(--bosch-dark); font-weight: 600; }
+    .goal-banner span { display: block; font-size: 11px; color: var(--bosch-dark-orange); font-weight: 800; letter-spacing: 0.5px; margin-top: 2px; }
+
+    /* AI Cards Elements */
+    .ai-cards-grid { display: grid; gap: 12px; margin-bottom: 22px; }
+    .ai-tool-card { border-radius: 12px; padding: 14px 16px; border: 1px solid var(--line-color); transition: all 0.25s ease; cursor: pointer; }
+    .ai-tool-card.chatgpt { background: var(--chatgpt-bg); border-color: var(--chatgpt-border); }
+    .ai-tool-card.gemini { background: var(--gemini-bg); border-color: var(--gemini-border); }
+    .ai-tool-card.copilot { background: var(--copilot-bg); border-color: var(--copilot-border); }
+
+    .ai-card-header { display: flex; justify-content: space-between; align-items: center; }
+    .ai-card-title { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 15px; }
+    .ai-card-tag { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
+    .chatgpt .ai-card-tag { color: var(--chatgpt-accent); }
+    .gemini .ai-card-tag { color: var(--gemini-accent); }
+    .copilot .ai-card-tag { color: var(--copilot-accent); }
+
+    .try-when-box { font-size: 12px; margin-top: 6px; font-weight: 600; color: var(--bosch-dark); display: flex; align-items: baseline; gap: 6px; }
+    .try-when-box label { font-size: 10px; font-weight: 900; padding: 1px 5px; border-radius: 4px; background: rgba(0,0,0,0.05); color: var(--muted-text); text-transform: uppercase; }
+
+    .ai-details-list { margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(0,0,0,0.08); display: none; font-size: 12px; color: var(--bosch-dark); }
+    .ai-details-list ul { padding-left: 18px; margin: 0; }
+    .ai-details-list li { margin-bottom: 3px; }
+    .ai-tool-card.open .ai-details-list { display: block; }
+    .expand-hint { font-size: 11px; color: var(--muted-text); font-weight: 700; display: flex; align-items: center; gap: 3px; }
+
+    .how-it-works-section { background: #F8FAFC; border-radius: 14px; padding: 14px 16px; border: 1px solid var(--line-color); margin-top: 15px; }
+    .how-title { font-size: 12px; font-weight: 900; color: var(--muted-text); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+    .step-list { display: grid; gap: 8px; }
+    .step-item-mini { display: flex; align-items: flex-start; gap: 10px; font-size: 12px; }
+    .step-num-badge { background: var(--bosch-dark); color: #fff; font-size: 10px; font-weight: 900; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+
+    .prompt-snippet-box { background: #FFFFFF; border: 1px solid var(--line-color); border-radius: 8px; padding: 8px 10px; margin-top: 6px; font-family: monospace; font-size: 11px; color: var(--bosch-dark); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .btn-copy-mini { background: var(--light-orange); color: var(--bosch-dark-orange); border: 1px solid rgba(242, 106, 61, 0.3); padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; cursor: pointer; white-space: nowrap; }
+    .btn-copy-mini:hover { background: var(--bosch-orange); color: #fff; }
+
+    /* Form & Right Side Elements */
+    .journey-header { margin-bottom: 18px; }
+    .journey-header h2 { font-size: 20px; font-weight: 900; color: var(--bosch-dark); }
+
+    .form-section-block { background: #FFFFFF; border: 1px solid var(--line-color); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
+    .form-section-title { font-size: 13px; font-weight: 800; color: var(--bosch-dark); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
+    .form-section-title span.req-badge { font-size: 10px; color: var(--bosch-orange); font-weight: 700; background: var(--light-orange); padding: 1px 6px; border-radius: 4px; }
+
+    .checkbox-pills, .radio-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    .checkbox-pill-item, .radio-pill-item { position: relative; }
+    .checkbox-pill-item input, .radio-pill-item input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
+    
+    .checkbox-pill-label, .radio-pill-label {
+      display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px;
+      border-radius: 999px; border: 1px solid var(--line-color); background: #FAFBFD;
+      font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; user-select: none;
+    }
+    .checkbox-pill-item input:checked + .checkbox-pill-label,
+    .radio-pill-item input:checked + .radio-pill-label {
+      background: var(--bosch-dark); color: #FFFFFF; border-color: var(--bosch-dark);
+    }
+
+    .text-input-styled { width: 100%; padding: 10px 12px; border: 1px solid var(--line-color); border-radius: 8px; font-size: 12px; background: #FAFBFD; font-family: inherit; transition: all 0.2s; }
+    .text-input-styled:focus { outline: none; border-color: var(--bosch-orange); background: #FFFFFF; box-shadow: 0 0 0 2px rgba(242, 106, 61, 0.15); }
+    textarea.text-input-styled { resize: vertical; min-height: 54px; }
+
+    .upload-box {
+      border: 2px dashed var(--line-color); border-radius: 10px; padding: 12px;
+      text-align: center; background: #FAFBFD; cursor: pointer; transition: all 0.2s;
+    }
+    .upload-box:hover { border-color: var(--bosch-orange); background: #FFF; }
+    .upload-box input { display: none; }
+    .upload-box span { font-size: 12px; color: var(--muted-text); font-weight: 700; }
+
+    .submit-stamp-btn {
+      background: #CBD5E1; color: #64748B; border: none; padding: 14px 20px;
+      border-radius: 999px; font-size: 14px; font-weight: 900; cursor: not-allowed;
+      width: 100%; transition: all 0.3s ease; display: flex; align-items: center;
+      justify-content: center; gap: 8px; margin-top: 8px;
+    }
+    .submit-stamp-btn.active { background: var(--bosch-orange); color: #ffffff; cursor: pointer; box-shadow: 0 8px 20px rgba(242, 106, 61, 0.28); }
+    .submit-stamp-btn.active:hover { background: var(--bosch-dark-orange); transform: translateY(-1px); }
+
+    .validation-hint { font-size: 11px; color: var(--muted-text); text-align: center; margin-top: 6px; font-weight: 600; min-height: 16px; }
+    .validation-hint.ready { color: #16A34A; font-weight: 800; }
+
+    /* Digital Stamp Canvas Effect */
+    .digital-stamp-container {
+      display: none; position: absolute; right: 28px; bottom: 28px;
+      width: 135px; height: 135px; border: 3.5px dashed var(--current-accent, var(--bosch-orange));
+      border-radius: 50%; color: var(--current-accent, var(--bosch-orange));
+      background: rgba(255, 240, 232, 0.95); backdrop-filter: blur(4px);
+      flex-direction: column; justify-content: center; align-items: center;
+      font-weight: 900; text-align: center; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+      pointer-events: none; z-index: 10;
+    }
+    .digital-stamp-container.stamped-anim {
+      display: flex; animation: realStampImpact 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .stamp-brand-text { font-size: 12px; letter-spacing: 1.5px; }
+    .stamp-day-text { font-size: 16px; margin: 1px 0; font-weight: 950; }
+    .stamp-icon-text { font-size: 18px; line-height: 1; margin: 1px 0; }
+    .stamp-status-text { font-size: 10px; letter-spacing: 2px; color: var(--bosch-dark-orange); }
+
+    @keyframes realStampImpact {
+      0% { transform: scale(2.8) rotate(-35deg); opacity: 0; }
+      100% { transform: scale(1) rotate(-14deg); opacity: 1; }
+    }
+
+    /* 📊 競賽牆英雄榜區域 */
+    .leaderboard-section {
+      background: #FFFFFF;
+      border-radius: var(--radius);
+      padding: 24px;
+      border: 1px solid var(--line-color);
+      box-shadow: var(--shadow);
+    }
+
+    .top-three { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+    .podium-card { background: #FFF; border-radius: 16px; padding: 15px; text-align: center; flex: 1; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid var(--line-color); }
+    .podium-card.rank-1 { border-top: 5px solid var(--gold); }
+    .podium-card.rank-2 { border-top: 5px solid var(--silver); }
+    .podium-card.rank-3 { border-top: 5px solid var(--bronze); }
+
+    .leader-row { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line-color); }
+    .rank-num { width: 40px; font-weight: 800; text-align: center; color: var(--bosch-orange); }
+    .name-section { width: 160px; font-weight: 600; color: var(--bosch-dark); }
+    .progress-section { flex: 1; padding: 0 15px; }
+    .progress-bar-bg { background: var(--line-color); height: 12px; border-radius: 6px; overflow: hidden; }
+    .progress-bar-fill { background: linear-gradient(90deg, var(--bosch-orange), #F6AD55); height: 100%; width: 0%; transition: width 0.5s; }
+    .score-badge-box { width: 130px; text-align: right; font-weight: bold; color: var(--bosch-orange); }
+
+    /* Graduation Banner Overlay */
+    .grad-banner {
+      display: none; background: linear-gradient(135deg, var(--bosch-dark), #1E293B);
+      color: #FFFFFF; border-radius: var(--radius); padding: 28px; text-align: center;
+      margin-bottom: 24px; box-shadow: var(--shadow); border: 2px solid var(--gold);
+    }
+    .grad-banner.active { display: block; animation: fadeIn 0.8s ease; }
+    .grad-title { font-size: 24px; font-weight: 900; color: var(--gold); margin-bottom: 6px; }
+    .grad-sub { font-size: 14px; color: #CBD5E1; margin-bottom: 16px; }
+    .grad-badges { display: flex; justify-content: center; gap: 12px; font-size: 12px; font-weight: 800; }
+    .grad-badge-item { background: rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); }
+
+    /* Modal Popups */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+    .modal-card { background: #ffffff; border-radius: var(--radius); max-width: 420px; width: 100%; padding: 28px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; }
+    .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--muted-text); }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 1200px) {
+      .floating-leaderboard-btn { display: none; }
+    }
+
+    @media (max-width: 960px) {
+      .passport-card { grid-template-columns: 1fr; }
+      .ticket-side { border-right: none; border-bottom: 1px dashed var(--line-color); padding: 24px; }
+      .journey-side { padding: 24px; }
+      .digital-stamp-container { right: 20px; bottom: 20px; width: 110px; height: 110px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="brand-strip"></div>
+
+  <!-- 左側懸浮捷徑按鈕 -->
+  <button class="floating-leaderboard-btn" onclick="scrollToLeaderboard()">
+    🏆 即時英雄榜
+  </button>
+
+  <div class="header-bar">
+    <div class="logo-area">
+      <div class="logo-badge">B/S/H/</div>
+      <div class="header-title" id="headerTitle">AI CULTURE WEEK 2026</div>
+    </div>
+    
+    <div class="header-right">
+      <div id="userStateArea">
+        <button class="btn-primary-sm" onclick="openLoginModal()" id="btnLoginNav">同仁登入 / 建立帳號</button>
+      </div>
+      <button class="btn-secondary" onclick="toggleLanguage()" id="langBtn">EN</button>
+    </div>
+  </div>
+
+  <div class="container">
+    
+    <!-- 📢 即時戰報跑馬燈 -->
+    <div class="marquee-container">
+      <div class="marquee-label">⚡ 即時戰報</div>
+      <div class="marquee-scroll-area">
+        <div class="marquee-content" id="marqueeText">
+          <span>🎉 10 Days AI Passport 正式啟動，完成打卡即可躍上英雄榜！</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Final Mission Graduation Banner -->
+    <div class="grad-banner" id="gradBanner">
+      <div class="grad-title">🎓 CONGRATULATIONS! AI PASSPORT COMPLETED</div>
+      <div class="grad-sub">You've completed all 10 missions of B/S/H/ AI Passport 2026!</div>
+      <div class="grad-badges">
+        <div class="grad-badge-item">10 DAYS</div>
+        <div class="grad-badge-item">10 MISSIONS</div>
+        <div class="grad-badge-item">10 STAMPS ✓</div>
+      </div>
+    </div>
+
+    <!-- Day Navigation Bar -->
+    <div class="day-selector" id="daySelector"></div>
+
+    <!-- Dynamic Main Passport Card -->
+    <div class="passport-card" id="passportCard">
+      <div class="ticket-side" id="ticketContent"></div>
+      <div class="journey-side" id="journeyContent"></div>
+    </div>
+
+    <!-- 📊 競賽牆英雄榜區域 -->
+    <div class="leaderboard-section">
+      <h3 style="margin-top:0; border-bottom:2px solid var(--line-color); padding-bottom:10px; font-weight:900;" id="lblLeaderboardTitle">📊 全員即時英雄榜</h3>
+      
+      <div class="top-three">
+        <div class="podium-card rank-1">
+          <div style="font-size:24px;">🥇 No.1</div>
+          <div style="font-weight:bold; margin-top:5px;" id="top1-name">尚無紀錄</div>
+          <div style="color:var(--bosch-orange); font-weight:bold;" id="top1-days">0 / 10 天</div>
+        </div>
+        <div class="podium-card rank-2">
+          <div style="font-size:24px;">🥈 No.2</div>
+          <div style="font-weight:bold; margin-top:5px;" id="top2-name">尚無紀錄</div>
+          <div style="color:var(--bosch-orange); font-weight:bold;" id="top2-days">0 / 10 天</div>
+        </div>
+        <div class="podium-card rank-3">
+          <div style="font-size:24px;">🥉 No.3</div>
+          <div style="font-weight:bold; margin-top:5px;" id="top3-name">尚無紀錄</div>
+          <div style="color:var(--bosch-orange); font-weight:bold;" id="top3-days">0 / 10 天</div>
+        </div>
+      </div>
+
+      <div id="leaderboardList">
+        <div style="color:var(--muted-text); text-align:center; padding:20px;">排行榜同步中...</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal: Account Login / Register -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeLoginModal()">&times;</button>
+      <div style="text-align:center; margin-bottom:18px;">
+        <div style="font-size:20px; font-weight:900;" id="modalTitle">BSH 同仁登入 / 建立帳號</div>
+        <div style="font-size:12px; color:var(--muted-text); margin-top:4px;" id="modalSub">建立個人 AI 護照，記錄 10 天學習旅程</div>
+      </div>
+
+      <form onsubmit="handleAccountSubmit(event)">
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px; font-weight:800; display:block; margin-bottom:4px;" id="lblEmpId">員工編號 (Employee ID)</label>
+          <input type="text" id="accEmpId" required placeholder="例如：5404 / E001 / T001" maxlength="4" class="text-input-styled" />
+        </div>
+        <div style="margin-bottom:16px;">
+          <label style="font-size:12px; font-weight:800; display:block; margin-bottom:4px;" id="lblName">英文姓名 (English Name)</label>
+          <input type="text" id="accName" required placeholder="例如：Sunny Peng" class="text-input-styled" />
+        </div>
+        
+        <button type="submit" class="submit-stamp-btn active" id="btnModalSubmit">進入 AI Passport 🚀</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // 🗓️ 活動日期設定與解鎖計算邏輯
+    // ----------------------------------------------------
+    // 設定 AI Passport 第一天 (Day 01) 的正式開始日期 (格式 YYYY-MM-DD)
+    const EVENT_START_DATE = new Date("2026-03-02T00:00:00"); 
+
+    function getUnlockedMaxDay() {
+      const today = new Date();
+      // 計算今天與活動首日相差的天數
+      const diffTime = today - EVENT_START_DATE;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      
+      // 第 0 天（活動前）開放 Day 01，之後每天增加天數，最多開放到 Day 10
+      let unlocked = diffDays + 1;
+      if (unlocked < 1) unlocked = 1;
+      if (unlocked > 10) unlocked = 10;
+      return unlocked;
+    }
+
+    function getUnlockDateString(dayNum) {
+      const targetDate = new Date(EVENT_START_DATE);
+      targetDate.setDate(targetDate.getDate() + (dayNum - 1));
+      const mm = String(targetDate.getMonth() + 1).padStart(2, '0');
+      const dd = String(targetDate.getDate()).padStart(2, '0');
+      return `${targetDate.getFullYear()}-${mm}-${dd}`;
+    }
+
+    let currentDay = 1;
+    let currentLang = "zh";
+    let currentUser = null;
+    let userProgressData = {};
+
+    let mockLeaderboard = [
+      { name: "Sunny Peng", empId: "5404", days: 1 },
+      { name: "Yuxiang", empId: "E002", days: 1 }
+    ];
+
+    function scrollToLeaderboard() {
+      const elem = document.querySelector('.leaderboard-section');
+      if (elem) elem.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function copyText(txt, btnId) {
+      navigator.clipboard.writeText(txt).then(() => {
+        const btn = document.getElementById(btnId);
+        if (btn) {
+          const oldText = btn.textContent;
+          btn.textContent = currentLang === "zh" ? "已複製！" : "Copied!";
+          setTimeout(() => { btn.textContent = oldText; }, 1500);
+        }
+      });
+    }
+
+    function toggleCardExpand(cardElem) {
+      cardElem.classList.toggle("open");
+      const hint = cardElem.querySelector(".expand-hint");
+      if (hint) hint.textContent = cardElem.classList.contains("open") ? "▲ 預覽" : "▼ 詳情";
+    }
+
+    const daysData = {
+      1: {
+        accent: "#F26A3D",
+        accentBg: "#FFF0E8",
+        zh: {
+          kicker: "DAY 01 | LEARNING TICKET",
+          title: "Meet Your AI Team",
+          goal: "不同 AI 有不同強項。根據工作任務選擇適合的夥伴！",
+          subGoal: "Different strengths. One goal — a smarter you.",
+          cards: [
+            { type: "chatgpt", title: "ChatGPT", tag: "Think & Create｜思考與創作夥伴", try: "「我需要一個想法、草稿或更好的做法。」", details: ["想法發想與 Brainstorming", "寫作、翻譯、摘要與內容整理", "分析資料與解釋複雜概念", "圖像生成與修改及深度創意討論"] },
+            { type: "gemini", title: "Gemini", tag: "Search & Explore｜探索與多模態夥伴", try: "「我想探索資訊、比較不同來源或分析多媒體。」", details: ["即時搜尋與多方資料整理", "處理圖片、文件、影片等多模態內容", "深入研究與比較分析", "Google 生態系相關工作情境整合"] },
+            { type: "copilot", title: "Copilot", tag: "Work & Execute｜工作流程夥伴", try: "「我想在 Email、文件、數據或會議中提升效率。」", details: ["Outlook Email 撰寫與摘要", "Word 寫作與編輯 / Excel 資料分析", "PowerPoint 簡報製作 / Teams 會議整理", "Microsoft 365 日務與團隊高效協作"] }
+          ],
+          howTitle: "HOW IT WORKS｜今天怎麼玩？",
+          steps: [
+            "CHOOSE｜選擇至少 2 個你想體驗的 AI",
+            "ASK｜使用相同的 Prompt 詢問你選擇的 AI",
+            "COMPARE｜觀察哪個回答更有創意、具體或符合情境？",
+            "PICK｜選出今天最喜歡的 AI 並簡短寫下原因"
+          ],
+          recommendedPrompt: "請提供 5 個能幫我簡化日常行政與專案跨部門溝通流程的 AI 實用建議。",
+          journeyTitle: "我的 AI 使用紀錄",
+          journeyFields: [
+            { type: "checkboxes", id: "tried", label: "① I TRIED... 今天試用了哪些 AI？", req: "至少選 2 個", options: ["ChatGPT", "Gemini", "Microsoft Copilot"] },
+            { type: "textarea", id: "prompt", label: "② MY PROMPT 我問了什麼問題？", req: "必填", default: "請提供 5 個能幫我簡化日常行政與專案跨部門溝通流程的 AI 實用建議。" },
+            { type: "radios", id: "favorite", label: "③ MY FAVORITE AI 今天最喜歡哪一個？", req: "必選 1 個", options: ["ChatGPT", "Gemini", "Copilot"] },
+            { type: "input", id: "why", label: "WHY?｜為什麼？(簡短一句話)", req: "必填", placeholder: "例如：回答比較具體，可以直接應用在工作上。" }
+          ]
+        },
+        en: {
+          kicker: "DAY 01 | LEARNING TICKET",
+          title: "Meet Your AI Team",
+          goal: "Different strengths. Choose the right AI for each task!",
+          subGoal: "Different strengths. One goal — a smarter you.",
+          cards: [
+            { type: "chatgpt", title: "ChatGPT", tag: "Think & Create | Ideation Partner", try: '"I need an idea, a draft, or a better approach."', details: ["Brainstorming & Idea Generation", "Writing, Translation & Summarization", "Data Analysis & Concept Explanation"] },
+            { type: "gemini", title: "Gemini", tag: "Search & Explore | Multimodal Partner", try: '"I want to explore data, compare sources, or analyze media."', details: ["Real-time Search & Information Synthesis", "Multimodal Analysis (Image, Video, Doc)", "In-depth Research & Comparison"] },
+            { type: "copilot", title: "Copilot", tag: "Work & Execute | Workflow Partner", try: '"I want to boost efficiency in Emails, Docs, or Meetings."', details: ["Outlook Drafts & Email Summaries", "Word Writing & Excel Analysis", "PowerPoint Decks & Teams Summaries"] }
+          ],
+          howTitle: "HOW IT WORKS | How to Play Today",
+          steps: [
+            "CHOOSE | Select at least 2 AI tools to experience",
+            "ASK | Ask your selected AIs using the same Prompt",
+            "COMPARE | Compare which answer is creative, specific, or relevant",
+            "PICK | Choose your favorite AI and briefly state why"
+          ],
+          recommendedPrompt: "Provide 5 practical AI suggestions to streamline daily admin tasks and cross-departmental project communication.",
+          journeyTitle: "My AI Journey Record",
+          journeyFields: [
+            { type: "checkboxes", id: "tried", label: "① I TRIED... Which AIs did you test today?", req: "Select at least 2", options: ["ChatGPT", "Gemini", "Microsoft Copilot"] },
+            { type: "textarea", id: "prompt", label: "② MY PROMPT | What question did you ask?", req: "Required", default: "Provide 5 practical AI suggestions to streamline daily admin tasks and cross-departmental project communication." },
+            { type: "radios", id: "favorite", label: "③ MY FAVORITE AI | Which one did you like best?", req: "Select 1", options: ["ChatGPT", "Gemini", "Copilot"] },
+            { type: "input", id: "why", label: "WHY? | Brief reason (One sentence)", req: "Required", placeholder: "e.g., Practical and directly applicable to daily work." }
+          ]
+        }
+      },
+      2: {
+        accent: "#0284C7",
+        accentBg: "#F0F9FF",
+        zh: {
+          kicker: "DAY 02 | LEARNING TICKET",
+          title: "From Idea to Great Prompt",
+          goal: "Better prompts ≠ Longer prompts. 把「幫我一下」變成 AI 真的看得懂的指令！",
+          subGoal: "Give AI the information it needs to succeed.",
+          cards: [
+            { type: "gemini", title: "THE 4-PIECE PROMPT FORMULA", tag: "高質感提示詞 4 要素", try: "情境 + 任務 + 要求 + 格式", details: ["① CONTEXT 情境：告訴 AI 背景與對象", "② TASK 任務：明確說出要 AI 做什麼", "③ REQUIREMENTS 要求：提供具體限制與偏好", "④ FORMAT 格式：指定輸出的呈現方式"] }
+          ],
+          howTitle: "TODAY'S CHALLENGE｜跨部門會議 Email 撰寫",
+          steps: [
+            "請撰寫一封內部 Email，布達會議重點與 Action Items 給未出席的成員。",
+            "嘗試套用 4-Piece Formula (Context, Task, Requirements, Format) 撰寫 Prompt。"
+          ],
+          recommendedPrompt: "我剛參加完跨部門會議，請幫我撰寫一封內部 Email 給團隊成員，整理會議重點與 Action Items。語氣專業但友善，包含 Email Subject、重點摘要與行動項目。",
+          journeyTitle: "我的 Prompt 實測",
+          journeyFields: [
+            { type: "textarea", id: "prompt", label: "① MY PROMPT (套用 4-Piece Formula 撰寫)", req: "必填", default: "我剛參加完跨部門會議，請幫我撰寫一封內部 Email 給團隊成員，整理會議重點、決議與後續 Action Items。語氣專業但友善，並包含 Email Subject、重點摘要與行動項目。" },
+            { type: "radios", id: "result", label: "② DID AI DELIVER WHAT YOU NEEDED？", req: "必選 1 項", options: ["Yes, ready to use｜可以直接使用", "Almost, I refined it｜接近需求，我有再調整", "Not yet｜還不太符合"] }
+          ]
+        },
+        en: {
+          kicker: "DAY 02 | LEARNING TICKET",
+          title: "From Idea to Great Prompt",
+          goal: "Better prompts ≠ Longer prompts. Give AI the right information!",
+          subGoal: "Give AI the information it needs to succeed.",
+          cards: [
+            { type: "gemini", title: "THE 4-PIECE PROMPT FORMULA", tag: "4 Core Elements", try: "Context + Task + Requirements + Format", details: ["① CONTEXT: Background & audience", "② TASK: Specific action for AI", "③ REQUIREMENTS: Constraints & preferences", "④ FORMAT: Desired output structure"] }
+          ],
+          howTitle: "TODAY'S CHALLENGE | Meeting Summary Email",
+          steps: [
+            "Draft a follow-up email summarizing meeting updates and action items for absent team members.",
+            "Apply the 4-Piece Formula in your prompt."
+          ],
+          recommendedPrompt: "I just wrapped up a cross-departmental meeting. Draft a concise follow-up email summarizing key decisions and action items with assignees.",
+          journeyTitle: "My Prompt Challenge",
+          journeyFields: [
+            { type: "textarea", id: "prompt", label: "① MY PROMPT (Apply the 4-Piece Formula)", req: "Required", default: "I just wrapped up a cross-departmental meeting. Draft a concise follow-up email summarizing key decisions and action items with assignees." },
+            { type: "radios", id: "result", label: "② DID AI DELIVER WHAT YOU NEEDED?", req: "Select 1", options: ["Yes, ready to use", "Almost, I refined it", "Not yet"] }
+          ]
+        }
+      },
+      3: {
+        accent: "#7C3AED",
+        accentBg: "#F5F3FF",
+        zh: {
+          kicker: "DAY 03 | LEARNING TICKET",
+          title: "AI Personal Branding & K-Style Styling",
+          goal: "Same You. A More Confident You. 不需要個人照片也能打造職場專業穿搭！",
+          subGoal: "探索適合的職場風格，打造更有自信的自己。",
+          cards: [
+            { type: "copilot", title: "MASTER PROMPT 結構", tag: "形象與穿搭提案", try: "職業 + 情境 + 印象 + 色彩 + 偏好", details: ["1. Professional Persona 專業形象分析", "2. Color Styling 5-6 色色彩建議", "3. K-Style Workwear 3 套職場穿搭 (Important Meeting, Smart Casual, Presentation)", "4. Style Board 視覺文字風格整合"] }
+          ],
+          howTitle: "HOW IT WORKS｜簡短 3 步驟",
+          steps: [
+            "告訴 AI 你的工作職務、主要工作情境與穿搭色彩偏好。",
+            "複製 Master Prompt 進行分析，獲得你的 Style Board 成果。"
+          ],
+          recommendedPrompt: "我想用 AI 打造適合自己的 Professional Style。我的工作是：行政管理；主要情境：跨部門溝通與重要會議；希望印象：專業且可靠。請為我生成包含 3–5 個 Branding Keywords 與 3 套 K-Style 穿搭建議的 Style Board。",
+          journeyTitle: "我的個人風格紀錄",
+          journeyFields: [
+            { type: "textarea", id: "result", label: "① MY RESULT (文字摘要或貼上 Style Board)", req: "必填", placeholder: "貼上 AI 為你產出的 Style Board 或穿搭關鍵字..." },
+            { type: "input", id: "persona", label: "② MY PROFESSIONAL PERSONA (專業形象定位)", req: "必填", placeholder: "例如：可靠、具前瞻性且溝通順暢的合作夥伴" },
+            { type: "input", id: "keywords", label: "③ MY BRANDING KEYWORDS (最多 3 個關鍵字)", req: "必填", placeholder: "例如：Reliable, Modern, Professional" }
+          ]
+        },
+        en: {
+          kicker: "DAY 03 | LEARNING TICKET",
+          title: "AI Personal Branding & K-Style Styling",
+          goal: "Same You. A More Confident You. No photos required!",
+          subGoal: "Explore workplace fashion and build confidence.",
+          cards: [
+            { type: "copilot", title: "MASTER PROMPT TEMPLATE", tag: "Personal Style Board", try: "Role + Context + Impression + Color", details: ["1. Professional Persona Analysis", "2. Color Styling Palette (5-6 Colors)", "3. K-Style Workwear (3 Sets: Meeting, Smart Casual, Event)", "4. Integrated Style Board Concept"] }
+          ],
+          howTitle: "HOW IT WORKS | 3 Simple Steps",
+          steps: [
+            "Tell AI your role, work contexts, and color preferences.",
+            "Run the Master Prompt to generate your custom Style Board."
+          ],
+          recommendedPrompt: "Based on my role in Admin Management and key context in cross-team meetings, create a Professional Style Board with 3 Branding Keywords and 3 K-Style outfit recommendations.",
+          journeyTitle: "My Personal Style Record",
+          journeyFields: [
+            { type: "textarea", id: "result", label: "① MY RESULT (Paste Style Board Summary)", req: "Required", placeholder: "Paste AI generated style board summary..." },
+            { type: "input", id: "persona", label: "② MY PROFESSIONAL PERSONA", req: "Required", placeholder: "e.g., Reliable & collaborative partner" },
+            { type: "input", id: "keywords", label: "③ MY BRANDING KEYWORDS (Up to 3)", req: "Required", placeholder: "e.g., Reliable, Modern, Professional" }
+          ]
+        }
+      },
+      4: {
+        accent: "#16A34A",
+        accentBg: "#F0FDF4",
+        zh: {
+          kicker: "DAY 04 | LEARNING TICKET",
+          title: "Create Your AI Character",
+          goal: "From Character → Collectible Figure! 打造專屬 3D 職場公仔！",
+          subGoal: "Create → Refine → Transform.",
+          cards: [
+            { type: "chatgpt", title: "5 個靈魂元素", tag: "3D 公仔設計", try: "角色 + 個性 + 配件 + 色彩 + 風格", details: ["① Character 角色定義", "② Personality 3 個個性關鍵字", "③ Signature Feature 招牌特徵 (眼鏡、筆電、咖啡)", "④ Colors 2-4 主配色", "⑤ Style 3D 潮流公仔與包裝盒"] }
+          ],
+          howTitle: "HOW IT WORKS",
+          steps: [
+            "設定角色 5 元素並輸入指令生成 Character Sheet。",
+            "將角色延伸轉換成精緻 3D 收藏公仔與盒裝設計。"
+          ],
+          recommendedPrompt: "請幫我設計一個原創 AI 角色：眼鏡上班族女性，個性為『可靠、好奇、正面』，手持咖啡與筆電，配色為 BSH 橘色與鈦灰色，並將其轉換為 3D 收藏公仔與包裝盒設計。",
+          journeyTitle: "我的 3D 公仔紀錄",
+          journeyFields: [
+            { type: "upload", id: "sheet", label: "① MY CHARACTER SHEET / 3D FIGURE (上傳圖片或連結)", req: "必填" },
+            { type: "input", id: "name", label: "② CHARACTER NAME (角色名稱)", req: "必填", placeholder: "例如：Nova / Spark" },
+            { type: "input", id: "words", label: "③ MY CHARACTER IN 3 WORDS (3 個描述詞)", req: "必填", placeholder: "例如：Curious / Positive / Reliable" }
+          ]
+        },
+        en: {
+          kicker: "DAY 04 | LEARNING TICKET",
+          title: "Create Your AI Character",
+          goal: "From Character → Collectible Figure! Build your 3D avatar.",
+          subGoal: "Create → Refine → Transform.",
+          cards: [
+            { type: "chatgpt", title: "5 Character Elements", tag: "3D Avatar Design", try: "Role + Personality + Accessories + Colors", details: ["① Character Concept", "② 3 Personality Keywords", "③ Signature Items (Glasses, Laptop, Coffee)", "④ 2-4 Primary Colors", "⑤ 3D Toy Package Design"] }
+          ],
+          howTitle: "HOW IT WORKS",
+          steps: [
+            "Define your 5 elements to build your Character Sheet.",
+            "Transform your character into a 3D collectible vinyl figure."
+          ],
+          recommendedPrompt: "Design an original AI character: an office worker holding coffee and laptop, colored in BSH Orange and Grey. Transform into a 3D collectible vinyl figure with box packaging.",
+          journeyTitle: "My Character Record",
+          journeyFields: [
+            { type: "upload", id: "sheet", label: "① MY CHARACTER SHEET / 3D FIGURE (Image / Link)", req: "Required" },
+            { type: "input", id: "name", label: "② CHARACTER NAME", req: "Required", placeholder: "e.g., Nova" },
+            { type: "input", id: "words", label: "③ MY CHARACTER IN 3 WORDS", req: "Required", placeholder: "e.g., Curious / Positive / Reliable" }
+          ]
+        }
+      },
+      5: {
+        accent: "#F26A3D",
+        accentBg: "#FFF0E8",
+        zh: {
+          kicker: "DAY 05 | LEARNING TICKET",
+          title: "Bring Your Character to Life!",
+          goal: "Turn Your Character into a LINE Sticker Pack! 賦予角色生命！",
+          subGoal: "Same Character. More Expressions. Bigger Connections.",
+          cards: [
+            { type: "chatgpt", title: "LINE 貼圖套件生成", tag: "角色延伸", try: "沿用 Day 04 角色 + 生成 8 張日常語錄", details: ["1. 早安！ / 2. 晚安～", "3. 收到！ / 4. 謝謝！", "5. 加油！ / 6. 排程中，請稍後～", "7. 再麻煩確認一下～ / 8. 完成！"] }
+          ],
+          howTitle: "HOW IT WORKS",
+          steps: [
+            "沿用 Day 04 的角色原型，保持臉部與服裝一致性。",
+            "批量生成包含日常辦公語錄的 8 張貼圖 Sticker Sheet。"
+          ],
+          recommendedPrompt: "請以 Day 04 設計的角色為唯一參考，保持臉部特徵與配色一致，製作包含『早安』、『收到！』、『排程中』、『完成！』等 8 張辦公常用 LINE 風格貼圖套件。",
+          journeyTitle: "我的貼圖套件紀錄",
+          journeyFields: [
+            { type: "upload", id: "stickerSheet", label: "① MY STICKER SHEET (上傳貼圖組合圖或連結)", req: "必填" },
+            { type: "radios", id: "count", label: "② STICKER COUNT (完成貼圖張數)", req: "必選 1 項", options: ["8", "16", "24", "32", "40"] },
+            { type: "input", id: "favSticker", label: "③ MY FAVORITE STICKER (最喜歡哪一張貼圖？)", req: "必填", placeholder: "例如：排程中，請稍後～" }
+          ]
+        },
+        en: {
+          kicker: "DAY 05 | LEARNING TICKET",
+          title: "Bring Your Character to Life!",
+          goal: "Turn Your Character into a LINE Sticker Pack!",
+          subGoal: "Same Character. More Expressions. Bigger Connections.",
+          cards: [
+            { type: "chatgpt", title: "Sticker Pack Generation", tag: "Character Extension", try: "Reuse Day 04 Avatar + 8 Daily Phrases", details: ["1. Good Morning! / 2. Good Night~", "3. Got it! / 4. Thank you!", "5. Keep it up! / 6. In progress...", "7. Please confirm~ / 8. Done!"] }
+          ],
+          howTitle: "HOW IT WORKS",
+          steps: [
+            "Reuse your Day 04 avatar design to keep visual consistency.",
+            "Generate an 8-sticker sheet featuring daily office messaging phrases."
+          ],
+          recommendedPrompt: "Using my Day 04 avatar as reference, create a set of 8 LINE-style office messaging stickers including 'Got it!', 'In progress', and 'Done!'.",
+          journeyTitle: "My Sticker Pack Record",
+          journeyFields: [
+            { type: "upload", id: "stickerSheet", label: "① MY STICKER SHEET (Upload Image / Link)", req: "Required" },
+            { type: "radios", id: "count", label: "② STICKER COUNT", req: "Select 1", options: ["8", "16", "24", "32", "40"] },
+            { type: "input", id: "favSticker", label: "③ MY FAVORITE STICKER", req: "Required", placeholder: "e.g., In progress, please wait~" }
+          ]
+        }
+      },
+      6: {
+        accent: "#0284C7",
+        accentBg: "#F0F9FF",
+        zh: {
+          kicker: "DAY 06 | LEARNING TICKET",
+          title: "Discover More with Perplexity",
+          goal: "Plan Your Next Long Weekend! AI 分析研究，由你做最後決策！",
+          subGoal: "Search Smarter. Explore Wider. Decide Better.",
+          cards: [
+            { type: "gemini", title: "WHY PERPLEXITY？", tag: "即時聯網與引用", try: "搜尋 → 查看來源 → 比較方案 → 決策", details: ["即時網路資料搜尋", "附帶資料來源與引用連結", "整合多方觀點比較優缺點", "結構化表格輸出"] }
+          ],
+          howTitle: "MISSION｜連假行程深度比較",
+          steps: [
+            "用自然語言輸入預算與天數需求。",
+            "讓 Perplexity 整理 3 個方案並附上來源網址。"
+          ],
+          recommendedPrompt: "我的連假有 4 天，預算約 NT$20,000。我想去日本放鬆，偏好美食與文化景點。請提供 3 個適合我的方案，比較預估費用、行程亮點與優缺點，並附上參考資訊來源。",
+          journeyTitle: "我的連假規劃紀錄",
+          journeyFields: [
+            { type: "textarea", id: "options3", label: "① MY 3 OPTIONS (列出 AI 整理的 3 個方案)", req: "必填", placeholder: "1. 京都文化行\n2. 大阪美食之旅\n3. 福岡悠閒小旅行" },
+            { type: "input", id: "finalPick", label: "② MY FINAL PICK (最終選擇哪一個？)", req: "必填", placeholder: "例如：方案 2 大阪美食之旅" },
+            { type: "input", id: "sourceChecked", label: "③ ONE SOURCE I CHECKED (查驗的 1 個來源或 URL)", req: "必填", placeholder: "貼上你點開查驗的網址或來源名稱..." }
+          ]
+        },
+        en: {
+          kicker: "DAY 06 | LEARNING TICKET",
+          title: "Discover More with Perplexity",
+          goal: "Plan Your Next Long Weekend! AI researches, you decide.",
+          subGoal: "Search Smarter. Explore Wider. Decide Better.",
+          cards: [
+            { type: "gemini", title: "WHY PERPLEXITY?", tag: "Live Web & Citations", try: "Search → Check Sources → Compare → Decide", details: ["Real-time internet information search", "Includes citations and source links", "Compares pros & cons across options", "Structured summary table output"] }
+          ],
+          howTitle: "MISSION | Long Weekend Research",
+          steps: [
+            "Describe your vacation requirements and budget.",
+            "Ask Perplexity to generate 3 options with source citations."
+          ],
+          recommendedPrompt: "I have 4 days for a long weekend and a budget of NT$20,000. Recommend 3 travel options with estimated cost, highlights, pros & cons, and source citations.",
+          journeyTitle: "My Research Record",
+          journeyFields: [
+            { type: "textarea", id: "options3", label: "① MY 3 OPTIONS (List the 3 options from AI)", req: "Required", placeholder: "1. Kyoto Culture\n2. Osaka Food Tour\n3. Fukuoka Relaxation" },
+            { type: "input", id: "finalPick", label: "② MY FINAL PICK", req: "Required", placeholder: "e.g., Option 2 Osaka Food Tour" },
+            { type: "input", id: "sourceChecked", label: "③ ONE SOURCE I CHECKED (Source Name or URL)", req: "Required", placeholder: "Paste one source URL you verified..." }
+          ]
+        }
+      },
+      7: {
+        accent: "#7C3AED",
+        accentBg: "#F5F3FF",
+        zh: {
+          kicker: "DAY 07 | LEARNING TICKET",
+          title: "Design Your Dream Workspace",
+          goal: "AI Workspace Makeover! 打造兼具風格、效率與好運的辦公桌！",
+          subGoal: "Same Desk. A Smarter, Happier You.",
+          cards: [
+            { type: "copilot", title: "WORKSPACE MAKEOVER", tag: "軟裝與佈置調整", try: "保持硬體結構 + 調整軟裝物件", details: ["保留：桌子、螢幕、電腦、設備與空間結構", "調整：植物、收納、桌墊、燈具、配色", "Style：Japandi, Minimal, Cozy, Executive", "Lucky Theme：財運, 事業, 靈感, 專注 (趣味設計靈感)"] }
+          ],
+          howTitle: "PRIVACY FIRST｜安全提醒",
+          steps: [
+            "拍照前請確認關閉螢幕，無 Email 或機密文件內容。",
+            "上傳照片並使用 Master Prompt 生成改造後效果圖。"
+          ],
+          recommendedPrompt: "請以我上傳的辦公桌照片為基礎進行 AI Workspace Makeover。Style：日系 Japandi；Lucky Theme：事業運。請保留桌椅螢幕結構，僅建議桌面收納、植物與燈具軟裝改造，並產出 Before → After 效果圖。",
+          journeyTitle: "我的辦公桌改造紀錄",
+          journeyFields: [
+            { type: "checkboxes", id: "planStyle", label: "① MY PLAN Style & Lucky Theme (選擇風格與好運元素)", req: "必選 1 項", options: ["Japandi 日系", "Minimal 簡約", "Cozy 溫馨", "Executive 專業", "Career 事業運", "Focus 專注運"] },
+            { type: "upload", id: "beforeImg", label: "② BEFORE (上傳原始辦公桌照片)", req: "必填" },
+            { type: "upload", id: "afterImg", label: "③ AFTER (上傳 AI 改造成果照片)", req: "必填" }
+          ]
+        },
+        en: {
+          kicker: "DAY 07 | LEARNING TICKET",
+          title: "Design Your Dream Workspace",
+          goal: "AI Workspace Makeover! Upgrade your daily desk.",
+          subGoal: "Same Desk. A Smarter, Happier You.",
+          cards: [
+            { type: "copilot", title: "WORKSPACE MAKEOVER", tag: "Soft Decor & Layout", try: "Keep Structure + Upgrade Decor & Storage", details: ["KEEP: Desk, Monitor, Laptop, Structural Layout", "CHANGE: Plants, Storage, Desk Mat, Lighting, Colors", "Styles: Japandi, Minimal, Cozy, Executive", "Lucky Themes: Abundance, Career, Focus, Creativity"] }
+          ],
+          howTitle: "PRIVACY FIRST | Safety Note",
+          steps: [
+            "Ensure no confidential docs or emails are visible before taking photo.",
+            "Upload photo and run prompt to generate Before -> After makeover."
+          ],
+          recommendedPrompt: "Based on my desk photo, propose an AI Workspace Makeover in Japandi style with Career lucky theme. Keep desk structure and suggest desktop storage and plant decor.",
+          journeyTitle: "My Workspace Record",
+          journeyFields: [
+            { type: "checkboxes", id: "planStyle", label: "① MY PLAN Style & Lucky Theme", req: "Select 1", options: ["Japandi", "Minimal", "Cozy", "Executive", "Career", "Focus"] },
+            { type: "upload", id: "beforeImg", label: "② BEFORE (Upload Desk Photo)", req: "Required" },
+            { type: "upload", id: "afterImg", label: "③ AFTER (Upload AI Makeover Result)", req: "Required" }
+          ]
+        }
+      },
+      8: {
+        accent: "#16A34A",
+        accentBg: "#F0FDF4",
+        zh: {
+          kicker: "DAY 08 | LEARNING TICKET",
+          title: "Make Your Data AI-Ready",
+          goal: "Protect Before You Upload! 資料去識別化大挑戰！",
+          subGoal: "WORK SMART. SHARE SAFE.",
+          cards: [
+            { type: "chatgpt", title: "CAN I TELL WHO THIS IS？", tag: "去識別化 3 大招", try: "保護隱私 ➔ 才能安全使用 AI", details: ["① REMOVE 移除：直接刪除姓名、Email、電話、工號", "② REPLACE 替換：用 Alias 代替 (Amy → Employee 001)", "③ GENERALIZE 降低精細度：生日 → 年齡層 (30-39歲)"] }
+          ],
+          howTitle: "DATA DETECTIVE CHALLENGE",
+          steps: [
+            "閱讀下方 Challenge Dataset 欄位。",
+            "將所有欄位標示為 REMOVE, REPLACE, GENERALIZE 或 KEEP。"
+          ],
+          recommendedPrompt: "此關卡為互動測試，不需上傳真實公司資料。",
+          journeyTitle: "數據去識別化挑戰 (Data Detective)",
+          journeyFields: [
+            { type: "radios", id: "colName", label: "① 欄位『Employee Name』應如何處理？", req: "必選", options: ["REMOVE 移除", "REPLACE 替換", "KEEP 保留"] },
+            { type: "radios", id: "colEmail", label: "② 欄位『Corporate Email』應如何處理？", req: "必選", options: ["REMOVE 移除", "REPLACE 替換", "KEEP 保留"] },
+            { type: "radios", id: "colDept", label: "③ 欄位『Department & Drink Preference』應如何處理？", req: "必選", options: ["KEEP 保留 (有助於分析)", "REMOVE 移除"] },
+            { type: "radios", id: "colSpend", label: "④ 欄位『Exact Spend ($125.5)』應如何處理？", req: "必選", options: ["GENERALIZE 降精細度 (改區間)", "KEEP 保留"] }
+          ]
+        },
+        en: {
+          kicker: "DAY 08 | LEARNING TICKET",
+          title: "Make Your Data AI-Ready",
+          goal: "Protect Before You Upload! Data De-identification Challenge.",
+          subGoal: "WORK SMART. SHARE SAFE.",
+          cards: [
+            { type: "chatgpt", title: "CAN I TELL WHO THIS IS?", tag: "3 De-identification Rules", try: "Protect Privacy -> Safe AI Usage", details: ["① REMOVE: Delete Name, Email, Phone, Employee ID", "② REPLACE: Use Aliases (Amy -> Employee 001)", "③ GENERALIZE: Reduce precision (Exact Date -> Age Group)"] }
+          ],
+          howTitle: "DATA DETECTIVE CHALLENGE",
+          steps: [
+            "Review the challenge dataset fields below.",
+            "Classify each field into REMOVE, REPLACE, GENERALIZE, or KEEP."
+          ],
+          recommendedPrompt: "This is an interactive detective challenge. No real data required.",
+          journeyTitle: "Data Detective Challenge",
+          journeyFields: [
+            { type: "radios", id: "colName", label: "① Field 'Employee Name' action?", req: "Required", options: ["REMOVE", "REPLACE", "KEEP"] },
+            { type: "radios", id: "colEmail", label: "② Field 'Corporate Email' action?", req: "Required", options: ["REMOVE", "REPLACE", "KEEP"] },
+            { type: "radios", id: "colDept", label: "③ Field 'Department & Drink' action?", req: "Required", options: ["KEEP (Useful for analysis)", "REMOVE"] },
+            { type: "radios", id: "colSpend", label: "④ Field 'Exact Spend' action?", req: "Required", options: ["GENERALIZE", "KEEP"] }
+          ]
+        }
+      },
+      9: {
+        accent: "#0284C7",
+        accentBg: "#F0F9FF",
+        zh: {
+          kicker: "DAY 09 | LEARNING TICKET",
+          title: "Talk to Your Data",
+          goal: "讓 AI 從資料中找出真正值得關注的事！",
+          subGoal: "AI finds patterns. You verify the evidence.",
+          cards: [
+            { type: "gemini", title: "DATA DETECTIVE FRAMEWORK", tag: "5 步數據對話法", try: "Gemini in BSH AIM", details: ["1. DESCRIBE 摘要重點與關鍵指標", "2. COMPARE 比較不同月份/區域差異", "3. DETECT 找出異常數值與趨勢", "4. EXPLAIN 區分『數據事實』與『推測』", "5. VERIFY 列出支持結論的具體證據"] }
+          ],
+          howTitle: "TODAY'S CHALLENGE",
+          steps: [
+            "上傳已去識別化的 Dataset 請 Gemini 分析。",
+            "找出 3 個 Key Findings，並要求 Gemini: SHOW ME THE EVIDENCE！"
+          ],
+          recommendedPrompt: "請幫我摘要這份資料的主要重點，找出 3 個重要發現與 1 個異常趨勢。最後請列出支持這個結論的具體數據與計算方式。",
+          journeyTitle: "我的數據洞察紀錄",
+          journeyFields: [
+            { type: "textarea", id: "findings3", label: "① MY 3 KEY FINDINGS (列出 AI 發現的 3 個重點)", req: "必填", placeholder: "1. Latte 是最受歡迎飲品\n2. 5 月份訂單下滑 15%\n3. 高雄分公司滿意度最高" },
+            { type: "input", id: "insightVer", label: "② ONE INSIGHT I VERIFIED (挑選 1 個欲驗證的洞察)", req: "必填", placeholder: "例如：5 月份訂單下滑的原因" },
+            { type: "textarea", id: "evidenceText", label: "③ SHOW ME THE EVIDENCE (AI 提供支持該結論的具體數據)", req: "必填", placeholder: "貼上 AI 提供的數據證據或計算邏輯..." }
+          ]
+        },
+        en: {
+          kicker: "DAY 09 | LEARNING TICKET",
+          title: "Talk to Your Data",
+          goal: "Let AI find what really matters in your dataset!",
+          subGoal: "AI finds patterns. You verify the evidence.",
+          cards: [
+            { type: "gemini", title: "DATA DETECTIVE FRAMEWORK", tag: "5-Step Data Inquiry", try: "Gemini in BSH AIM", details: ["1. DESCRIBE: Summarize key metrics", "2. COMPARE: Spot regional/monthly gaps", "3. DETECT: Flag outliers and anomalies", "4. EXPLAIN: Separate facts from hypotheses", "5. VERIFY: Request supporting evidence"] }
+          ],
+          howTitle: "TODAY'S CHALLENGE",
+          steps: [
+            "Upload your anonymized dataset and run analysis.",
+            "Identify 3 key findings and ask Gemini: SHOW ME THE EVIDENCE!"
+          ],
+          recommendedPrompt: "Analyze this anonymized dataset and output 3 key findings. For the most critical insight, show me the specific supporting data evidence.",
+          journeyTitle: "My Data Insights Record",
+          journeyFields: [
+            { type: "textarea", id: "findings3", label: "① MY 3 KEY FINDINGS", req: "Required", placeholder: "1. Latte is top seller\n2. May order drop 15%\n3. High satisfaction in Kaohsiung" },
+            { type: "input", id: "insightVer", label: "② ONE INSIGHT I VERIFIED", req: "Required", placeholder: "e.g., Reason behind May order drop" },
+            { type: "textarea", id: "evidenceText", label: "③ SHOW ME THE EVIDENCE", req: "Required", placeholder: "Paste supporting data evidence from AI..." }
+          ]
+        }
+      },
+      10: {
+        accent: "#D69E2E",
+        accentBg: "#FEFCBF",
+        zh: {
+          kicker: "DAY 10 | FINAL MISSION",
+          title: "Create with HTML",
+          goal: "用 AI 打造你的 HTML 互動式簡報或儀表板！不需要寫程式！",
+          subGoal: "Don't start over. Improve what already works.",
+          cards: [
+            { type: "copilot", title: "FINAL MISSION WORKFLOW", tag: "單頁 HTML 成果生成", try: "DEFINE ➔ PLAN ➔ BUILD ➔ REFINE", details: ["OPTION A：HTML Presentation (6-8 頁互動簡報)", "OPTION B：HTML Dashboard (單頁數據儀表板)", "關鍵：先請 Gemini 規劃架構，確認後才產出 HTML！", "優化原則：POINT → PROBLEM → CHANGE (一次只改局部)"] }
+          ],
+          howTitle: "FINAL STEP｜終極關卡驗證",
+          steps: [
+            "將報告或數據打包成單一 HTML 檔案。",
+            "完成測試與優化，上傳截圖或貼上作品分享連結！"
+          ],
+          recommendedPrompt: "我想根據以下內容製作一份互動式 HTML 簡報。請先提供頁面架構與建議的視覺呈現方式，請先不要產出 HTML，等我確認後再生成完整的單一 HTML 檔案。",
+          journeyTitle: "終極任務打卡 (Final Submission)",
+          journeyFields: [
+            { type: "radios", id: "builtType", label: "① I BUILT (你打造的作品類型)", req: "必選", options: ["HTML Presentation (簡報)", "HTML Dashboard (儀表板)"] },
+            { type: "input", id: "topicPurpose", label: "② MY TOPIC / PURPOSE (作品主題與目的)", req: "必填", placeholder: "例如：Q3 業務成果匯報互動簡報" },
+            { type: "upload", id: "finalResult", label: "③ MY FINAL RESULT (上傳截圖或貼上作品連結)", req: "必填" },
+            { type: "checkboxes", id: "testCheck", label: "④ TEST CHECK (測試與優化確認)", req: "必選 2 項", options: ["我已測試功能正常", "我至少完成一次優化調整"] }
+          ]
+        },
+        en: {
+          kicker: "DAY 10 | FINAL MISSION",
+          title: "Create with HTML",
+          goal: "Build your interactive HTML Presentation or Dashboard with AI!",
+          subGoal: "Don't start over. Improve what already works.",
+          cards: [
+            { type: "copilot", title: "FINAL MISSION WORKFLOW", tag: "Single-Page HTML Output", try: "DEFINE -> PLAN -> BUILD -> REFINE", details: ["OPTION A: HTML Presentation (6-8 slides)", "OPTION B: HTML Dashboard (KPI summary & charts)", "Key: Confirm structure before generating code!", "Refining: Point -> Problem -> Change"] }
+          ],
+          howTitle: "FINAL STEP | Graduation Mission",
+          steps: [
+            "Build a standalone single-file HTML presentation or dashboard.",
+            "Test and refine, then upload a screenshot or paste your link!"
+          ],
+          recommendedPrompt: "I want to build an interactive HTML presentation based on the following notes. First propose a slide architecture without outputting code.",
+          journeyTitle: "Final Mission Submission",
+          journeyFields: [
+            { type: "radios", id: "builtType", label: "① I BUILT", req: "Select 1", options: ["HTML Presentation", "HTML Dashboard"] },
+            { type: "input", id: "topicPurpose", label: "② MY TOPIC / PURPOSE", req: "Required", placeholder: "e.g., Q3 Business Review Deck" },
+            { type: "upload", id: "finalResult", label: "③ MY FINAL RESULT (Screenshot / Link)", req: "Required" },
+            { type: "checkboxes", id: "testCheck", label: "④ TEST CHECK", req: "Select 2", options: ["I tested the functionality", "I completed at least 1 refinement"] }
+          ]
+        }
+      }
+    };
+
+    function initDaySelector() {
+      const selector = document.getElementById("daySelector");
+      selector.innerHTML = "";
+      const maxUnlocked = getUnlockedMaxDay();
+
+      for (let i = 1; i <= 10; i++) {
+        const btn = document.createElement("button");
+        const isCompleted = userProgressData[i] && userProgressData[i].completed;
+        const isLocked = i > maxUnlocked;
+
+        let lockIcon = isLocked ? " 🔒" : "";
+        btn.className = `day-btn ${i === currentDay ? "active" : ""} ${isCompleted ? "completed-check" : ""} ${isLocked ? "locked" : ""}`;
+        
+        btn.onclick = () => {
+          if (isLocked) {
+            const unlockDate = getUnlockDateString(i);
+            alert(currentLang === "zh" ? `🔒 Day ${String(i).padStart(2, "0")} 尚未開放打卡！\n預計開放時間：${unlockDate}` : `🔒 Day ${String(i).padStart(2, "0")} is locked until ${unlockDate}`);
+            return;
+          }
+          selectDay(i);
+        };
+
+        btn.textContent = `Day ${String(i).padStart(2, "0")}${lockIcon}`;
+        selector.appendChild(btn);
+      }
+    }
+
+    function selectDay(dayNum) {
+      currentDay = dayNum;
+      initDaySelector();
+      renderDayContent();
+      checkGraduationStatus();
+    }
+
+    function renderDayContent() {
+      const dayConfig = daysData[currentDay];
+      const data = dayConfig[currentLang];
+      const maxUnlocked = getUnlockedMaxDay();
+      const isLockedDay = currentDay > maxUnlocked;
+
+      document.documentElement.style.setProperty('--current-accent', dayConfig.accent);
+      document.documentElement.style.setProperty('--current-accent-bg', dayConfig.accentBg);
+
+      const ticketSide = document.getElementById("ticketContent");
+      let cardsHTML = data.cards.map(card => `
+        <div class="ai-tool-card ${card.type}" onclick="toggleCardExpand(this)">
+          <div class="ai-card-header">
+            <div class="ai-card-title">
+              <span>${card.title}</span>
+              <span class="ai-card-tag">${card.tag}</span>
+            </div>
+            <span class="expand-hint">▼ 詳情</span>
+          </div>
+          <div class="try-when-box">
+            <label>TRY IT WHEN</label>
+            <span>${card.try}</span>
+          </div>
+          <div class="ai-details-list">
+            <ul>${card.details.map(d => `<li>${d}</li>`).join('')}</ul>
+          </div>
+        </div>
+      `).join('');
+
+      let stepsHTML = data.steps.map((s, idx) => `
+        <div class="step-item-mini">
+          <span class="step-num-badge">${idx + 1}</span>
+          <div><strong>${s}</strong></div>
+        </div>
+      `).join('');
+
+      ticketSide.innerHTML = `
+        <span class="kicker">${data.kicker}</span>
+        <h1 class="task-title">${data.title}</h1>
+        <div class="goal-banner">
+          <p>${data.goal}</p>
+          <span>${data.subGoal}</span>
+        </div>
+        <div class="ai-cards-grid">${cardsHTML}</div>
+        <div class="how-it-works-section">
+          <div class="how-title">${data.howTitle}</div>
+          <div class="step-list">
+            ${stepsHTML}
+            ${data.recommendedPrompt ? `
+              <div class="prompt-snippet-box">
+                <span id="promptSnippetTxt">${data.recommendedPrompt}</span>
+                <button class="btn-copy-mini" id="btnCopyP" onclick="copyText('${data.recommendedPrompt.replace(/'/g, "\\'")}', 'btnCopyP')">${currentLang === "zh" ? "複製" : "Copy"}</button>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+
+      const journeySide = document.getElementById("journeyContent");
+      const currentDayStore = (userProgressData[currentDay] && userProgressData[currentDay].formData) || {};
+      const isStamped = userProgressData[currentDay] && userProgressData[currentDay].completed;
+
+      let fieldsHTML = data.journeyFields.map(field => {
+        let inputControl = '';
+        const savedVal = currentDayStore[field.id];
+
+        if (field.type === 'checkboxes') {
+          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => {
+            const checked = savedVal && savedVal.includes(opt) ? 'checked' : '';
+            return `
+              <div class="checkbox-pill-item">
+                <input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${checked} onchange="validateCurrentForm()" />
+                <label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label>
+              </div>`;
+          }).join('') + `</div>`;
+        } else if (field.type === 'radios') {
+          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => {
+            const checked = savedVal === opt ? 'checked' : '';
+            return `
+              <div class="radio-pill-item">
+                <input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${checked} onchange="validateCurrentForm()" />
+                <label for="${field.id}_${i}" class="radio-pill-label">${opt}</label>
+              </div>`;
+          }).join('') + `</div>`;
+        } else if (field.type === 'textarea') {
+          const val = savedVal !== undefined ? savedVal : (field.default || '');
+          inputControl = `<textarea id="${field.id}" class="text-input-styled" placeholder="${field.placeholder || ''}" oninput="validateCurrentForm()">${val}</textarea>`;
+        } else if (field.type === 'input') {
+          const val = savedVal || '';
+          inputControl = `<input type="text" id="${field.id}" class="text-input-styled" placeholder="${field.placeholder || ''}" value="${val}" oninput="validateCurrentForm()" />`;
+        } else if (field.type === 'upload') {
+          const val = savedVal || '';
+          inputControl = `
+            <div class="upload-box" onclick="document.getElementById('${field.id}_file').click()">
+              <span>📁 ${val ? '已選擇檔案 / 連結已儲存' : (currentLang === "zh" ? '點擊上傳截圖或檔案' : 'Click to Upload')}</span>
+              <input type="file" id="${field.id}_file" onchange="handleFileUpload(this, '${field.id}')" />
+            </div>
+            <input type="text" id="${field.id}" class="text-input-styled" style="margin-top:6px;" placeholder="${currentLang === 'zh' ? '或貼上圖片/作品分享連結...' : 'Or paste URL...'}" value="${val}" oninput="validateCurrentForm()" />
+          `;
+        }
+
+        return `
+          <div class="form-section-block">
+            <div class="form-section-title">
+              <span>${field.label}</span>
+              <span class="req-badge">${field.req}</span>
+            </div>
+            ${inputControl}
+          </div>
+        `;
+      }).join('');
+
+      const stampLabelDay = currentDay === 10 ? "10 / 10" : `DAY ${String(currentDay).padStart(2, "0")}`;
+      const unlockDateStr = getUnlockDateString(currentDay);
+
+      journeySide.innerHTML = `
+        ${isLockedDay ? `
+          <div class="locked-overlay">
+            <div class="locked-icon">🔒</div>
+            <div class="locked-title">Day ${String(currentDay).padStart(2, "0")} 尚未開放</div>
+            <div class="locked-sub">將於 ${unlockDateStr} 正式解鎖，敬請期待！</div>
+          </div>
+        ` : ''}
+
+        <div>
+          <div class="journey-header">
+            <span class="kicker">MY AI JOURNEY</span>
+            <h2>${data.journeyTitle}</h2>
+          </div>
+          <form id="dayActiveForm" onsubmit="event.preventDefault();">
+            ${fieldsHTML}
+          </form>
+        </div>
+
+        <div>
+          <button type="button" class="submit-stamp-btn" id="btnSubmitStamp" onclick="executeCurrentStamp()">
+            <span>${currentLang === 'zh' ? `完成 Day ${String(currentDay).padStart(2, "0")} 打卡 ✈️` : `Complete Day ${String(currentDay).padStart(2, "0")} Check-in ✈️`}</span>
+          </button>
+          <div class="validation-hint" id="valHintText"></div>
+        </div>
+
+        <div class="digital-stamp-container ${isStamped ? 'stamped-anim' : ''}" id="digitalStamp">
+          <span class="stamp-brand-text">B/S/H/</span>
+          <span class="stamp-day-text">${stampLabelDay}</span>
+          <span class="stamp-icon-text">✈</span>
+          <span class="stamp-status-text">COMPLETED</span>
+        </div>
+      `;
+
+      if (!isLockedDay) validateCurrentForm();
+    }
+
+    function handleFileUpload(fileInput, targetId) {
+      if (fileInput.files && fileInput.files[0]) {
+        document.getElementById(targetId).value = `[Uploaded] ${fileInput.files[0].name}`;
+        validateCurrentForm();
+      }
+    }
+
+    function validateCurrentForm() {
+      const config = daysData[currentDay];
+      const fields = config[currentLang].journeyFields;
+      const btn = document.getElementById("btnSubmitStamp");
+      const hint = document.getElementById("valHintText");
+
+      if (!btn || !hint) return false;
+
+      const isAlreadyCompleted = userProgressData[currentDay] && userProgressData[currentDay].completed;
+
+      if (isAlreadyCompleted) {
+        btn.classList.add("active");
+        hint.textContent = currentLang === "zh" ? `✓ Day ${String(currentDay).padStart(2, "0")} 打卡紀錄已安全儲存！` : `✓ Day ${String(currentDay).padStart(2, "0")} recorded!`;
+        hint.className = "validation-hint ready";
+        return true;
+      }
+
+      let isValid = true;
+      let errorMsg = "";
+
+      for (let field of fields) {
+        if (field.type === 'checkboxes') {
+          const checked = document.querySelectorAll(`input[name="${field.id}"]:checked`).length;
+          if (currentDay === 1 && checked < 2) {
+            isValid = false; errorMsg = currentLang === "zh" ? "💡 請至少選擇 2 個 AI 工具。" : "💡 Select at least 2 AI tools."; break;
+          } else if (checked < 1) {
+            isValid = false; errorMsg = currentLang === "zh" ? "💡 請至少勾選 1 項。" : "💡 Please check at least 1 option."; break;
+          }
+        } else if (field.type === 'radios') {
+          const selected = document.querySelector(`input[name="${field.id}"]:checked`);
+          if (!selected) {
+            isValid = false; errorMsg = currentLang === "zh" ? "💡 請完成單選項答覆。" : "💡 Please select one option."; break;
+          }
+        } else if (field.type === 'textarea' || field.type === 'input' || field.type === 'upload') {
+          const elem = document.getElementById(field.id);
+          if (!elem || !elem.value.trim()) {
+            isValid = false; errorMsg = currentLang === "zh" ? "💡 請填寫所有必要欄位。" : "💡 Please fill in all required fields."; break;
+          }
+        }
+      }
+
+      if (isValid) {
+        btn.classList.add("active");
+        hint.textContent = currentLang === "zh" ? "✨ 條件已達成，點擊完成打卡！" : "✨ All requirements met! Click to stamp.";
+        hint.className = "validation-hint ready";
+      } else {
+        btn.classList.remove("active");
+        hint.textContent = errorMsg;
+        hint.className = "validation-hint";
+      }
+
+      return isValid;
+    }
+
+    function executeCurrentStamp() {
+      if (!validateCurrentForm() && !(userProgressData[currentDay] && userProgressData[currentDay].completed)) return;
+
+      if (!currentUser) {
+        openLoginModal();
+        return;
+      }
+
+      const config = daysData[currentDay];
+      const fields = config[currentLang].journeyFields;
+      const formData = {};
+
+      fields.forEach(field => {
+        if (field.type === 'checkboxes') {
+          formData[field.id] = Array.from(document.querySelectorAll(`input[name="${field.id}"]:checked`)).map(c => c.value);
+        } else if (field.type === 'radios') {
+          formData[field.id] = document.querySelector(`input[name="${field.id}"]:checked`)?.value;
+        } else {
+          const elem = document.getElementById(field.id);
+          formData[field.id] = elem ? elem.value : '';
+        }
+      });
+
+      userProgressData[currentDay] = {
+        completed: true,
+        formData: formData
+      };
+
+      localStorage.setItem(`bsh_passport_2026_${currentUser.empId}`, JSON.stringify(userProgressData));
+
+      const stamp = document.getElementById("digitalStamp");
+      stamp.classList.remove("stamped-anim");
+      void stamp.offsetWidth;
+      stamp.classList.add("stamped-anim");
+
+      initDaySelector();
+      updateUserStateUI();
+      validateCurrentForm();
+      checkGraduationStatus();
+      updateMarqueeAndLeaderboard();
+    }
+
+    function checkGraduationStatus() {
+      let totalCompleted = 0;
+      for (let i = 1; i <= 10; i++) {
+        if (userProgressData[i] && userProgressData[i].completed) totalCompleted++;
+      }
+
+      const gradBanner = document.getElementById("gradBanner");
+      if (totalCompleted === 10) {
+        gradBanner.classList.add("active");
+      } else {
+        gradBanner.classList.remove("active");
+      }
+    }
+
+    function renderLeaderboard() {
+      document.getElementById('top1-name').innerText = mockLeaderboard[0] ? mockLeaderboard[0].name : '尚無紀錄';
+      document.getElementById('top1-days').innerText = mockLeaderboard[0] ? `${mockLeaderboard[0].days} / 10 天` : '0 / 10 天';
+      document.getElementById('top2-name').innerText = mockLeaderboard[1] ? mockLeaderboard[1].name : '尚無紀錄';
+      document.getElementById('top2-days').innerText = mockLeaderboard[1] ? `${mockLeaderboard[1].days} / 10 天` : '0 / 10 天';
+
+      const listContainer = document.getElementById('leaderboardList');
+      listContainer.innerHTML = '';
+      mockLeaderboard.forEach((user, index) => {
+        listContainer.innerHTML += `
+          <div class="leader-row">
+            <div class="rank-num">${index + 1}</div>
+            <div class="name-section">${user.name} <span style="font-size:0.8em; color:#718096;">(${user.empId})</span></div>
+            <div class="progress-section">
+              <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${(user.days/10)*100}%"></div></div>
+            </div>
+            <div class="score-badge-box">${user.days} / 10 天</div>
+          </div>
+        `;
+      });
+    }
+
+    function updateMarqueeAndLeaderboard() {
+      if (currentUser) {
+        let userInList = mockLeaderboard.find(u => u.empId === currentUser.empId);
+        let currentCompleted = Object.keys(userProgressData).filter(k => userProgressData[k].completed).length;
+        if (userInList) {
+          userInList.days = currentCompleted;
+          userInList.name = currentUser.name;
+        } else {
+          mockLeaderboard.push({ name: currentUser.name, empId: currentUser.empId, days: currentCompleted });
+        }
+        mockLeaderboard.sort((a,b) => b.days - a.days);
+
+        const marqueeText = document.getElementById("marqueeText");
+        marqueeText.innerHTML = `<span>🔥 <b>${currentUser.name} (${currentUser.empId})</b> 完成打卡！累積 <b>${currentCompleted}/10 天</b> 護照成就！</span> <span>👑 <b>No.1</b> ${mockLeaderboard[0].name} (${mockLeaderboard[0].days}/10天)</span>`;
+      }
+      renderLeaderboard();
+    }
+
+    function toggleLanguage() {
+      currentLang = currentLang === "zh" ? "en" : "zh";
+      document.getElementById("langBtn").textContent = currentLang === "zh" ? "EN" : "繁中";
+      
+      document.getElementById("modalTitle").textContent = currentLang === "zh" ? "BSH 同仁登入 / 建立帳號" : "BSH Login / Register";
+      document.getElementById("modalSub").textContent = currentLang === "zh" ? "建立個人 AI 護照，記錄 10 天學習旅程" : "Track your 10-day AI learning journey";
+      document.getElementById("lblEmpId").textContent = currentLang === "zh" ? "員工編號 (Employee ID)" : "Employee ID";
+      document.getElementById("lblName").textContent = currentLang === "zh" ? "英文姓名 (English Name)" : "English Name";
+      document.getElementById("btnModalSubmit").textContent = currentLang === "zh" ? "進入 AI Passport 🚀" : "Access AI Passport 🚀";
+      document.getElementById("lblLeaderboardTitle").textContent = currentLang === "zh" ? "📊 全員即時英雄榜" : "📊 Real-time Leaderboard";
+
+      renderDayContent();
+      updateUserStateUI();
+      renderLeaderboard();
+    }
+
+    function openLoginModal() { document.getElementById("loginModal").style.display = "flex"; }
+    function closeLoginModal() { document.getElementById("loginModal").style.display = "none"; }
+
+    function handleAccountSubmit(e) {
+      e.preventDefault();
+      const empIdInput = document.getElementById("accEmpId").value.trim().toUpperCase();
+      const name = document.getElementById("accName").value.trim();
+
+      const empIdRegex = /^(5\d{3}|[ET]\d{3})$/;
+      if (!empIdRegex.test(empIdInput)) {
+        alert("請輸入正確的 4 碼員工編號（例如：5404、E001 或 T001）");
+        return;
+      }
+
+      currentUser = { empId: empIdInput, name: name };
+
+      const saved = localStorage.getItem(`bsh_passport_2026_${empIdInput}`);
+      if (saved) {
+        try { userProgressData = JSON.parse(saved); } catch (err) { userProgressData = {}; }
+      } else {
+        userProgressData = {};
+      }
+
+      closeLoginModal();
+      initDaySelector();
+      renderDayContent();
+      updateUserStateUI();
+      checkGraduationStatus();
+      updateMarqueeAndLeaderboard();
+    }
+
+    function updateUserStateUI() {
+      const area = document.getElementById("userStateArea");
+      let completedCount = 0;
+      for (let i = 1; i <= 10; i++) {
+        if (userProgressData[i] && userProgressData[i].completed) completedCount++;
+      }
+
+      if (currentUser) {
+        const initial = currentUser.name.charAt(0).toUpperCase();
+        area.innerHTML = `
+          <div class="user-profile-badge">
+            <div class="user-avatar">${initial}</div>
+            <span>${currentUser.name} (${currentUser.empId}) - ${completedCount}/10</span>
+            <button onclick="logout()" style="background:none;border:none;cursor:pointer;color:var(--muted-text);font-size:11px;margin-left:4px;">登出</button>
+          </div>
+        `;
+      } else {
+        area.innerHTML = `
+          <button class="btn-primary-sm" onclick="openLoginModal()" id="btnLoginNav">
+            ${currentLang === "zh" ? "同仁登入 / 建立帳號" : "Login / Register"}
+          </button>
+        `;
+      }
+    }
+
+    function logout() {
+      currentUser = null;
+      userProgressData = {};
+      document.getElementById("gradBanner").classList.remove("active");
+      initDaySelector();
+      renderDayContent();
+      updateUserStateUI();
+    }
+
+    // App Initialization
+    initDaySelector();
+    renderDayContent();
+    renderLeaderboard();
+  </script>
+</body>
+</html>
