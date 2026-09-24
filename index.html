@@ -709,6 +709,7 @@
     let currentDay = 1;
     let currentLang = "zh";
     let userProgressMap = {}; 
+    let todayAlreadyCheckedIn = false;
 
     function initSelector() {
       const selector = document.getElementById("daySelector");
@@ -719,7 +720,7 @@
         btn.className = `day-btn ${i === currentDay ? "active" : ""} ${!isUnlocked ? "locked" : ""}`;
         btn.onclick = () => {
           if (!isUnlocked) {
-            alert(`Day ${String(i).padStart(2, '0')} 尚未解鎖！需要先完成前一關打卡，且距離前次打卡滿 24 小時。`);
+            alert(`Day ${String(i).padStart(2, '0')} 尚未解鎖！需先完成前一關打卡，且距離上次打卡需滿 24 小時。`);
             return;
           }
           selectDay(i);
@@ -735,7 +736,7 @@
       if (!prevCompletionTime) return false;
       const now = new Date().getTime();
       const timePassed = now - prevCompletionTime;
-      return timePassed >= 24 * 60 * 60 * 1000; // 24小時冷卻
+      return timePassed >= 24 * 60 * 60 * 1000;
     }
 
     function selectDay(dayNum) {
@@ -767,7 +768,7 @@
       const form = document.getElementById("checkinForm");
       const isCompleted = !!userProgressMap[currentDay];
 
-      if (isCompleted) {
+      if (isCompleted || todayAlreadyCheckedIn) {
         stamp.style.display = "flex";
         form.style.opacity = "0.4";
         document.getElementById("btnSubmit").disabled = true;
@@ -778,20 +779,44 @@
       }
     }
 
+    // 連線 Google Sheet 後端載入該工號線上記錄（防刷關鍵）
     function loadUserRecord() {
       const empId = document.getElementById("empIdInput").value.trim().toUpperCase();
       if (!empId) return;
 
+      // 1. 本地紀錄
       const savedData = localStorage.getItem(`bsh_passport_record_${empId}`);
       if (savedData) {
-        try {
-          userProgressMap = JSON.parse(savedData);
-        } catch (e) {
-          userProgressMap = {};
-        }
+        try { userProgressMap = JSON.parse(savedData); } catch (e) { userProgressMap = {}; }
       } else {
         userProgressMap = {};
       }
+
+      // 2. 從 Google Sheet 線上同步，防止換裝置刷關卡
+      fetch(GAS_SUBMIT_URL)
+        .then(res => res.json())
+        .then(rows => {
+          todayAlreadyCheckedIn = false;
+          const todayStr = new Date().toISOString().split('T')[0];
+
+          rows.forEach(item => {
+            if (String(item.empId).toUpperCase() === empId) {
+              const dayNum = parseInt(String(item.taskDay).replace('Day ', ''), 10);
+              if (dayNum) {
+                userProgressMap[dayNum] = new Date(item.timestamp).getTime() || new Date().getTime();
+              }
+              const itemDateStr = new Date(item.timestamp).toISOString().split('T')[0];
+              if (itemDateStr === todayStr) {
+                todayAlreadyCheckedIn = true;
+              }
+            }
+          });
+
+          localStorage.setItem(`bsh_passport_record_${empId}`, JSON.stringify(userProgressMap));
+          initSelector();
+          renderCard();
+        })
+        .catch(err => console.warn("Online sync warning:", err));
 
       initSelector();
       renderCard();
@@ -825,6 +850,11 @@
         return;
       }
 
+      if (todayAlreadyCheckedIn) {
+        alert("您今天已經完成打卡囉！一天限打卡一次，明天再來挑戰下一關吧！");
+        return;
+      }
+
       const btnSubmit = document.getElementById("btnSubmit");
       btnSubmit.disabled = true;
       btnSubmit.textContent = "正在寫入 Google Sheet...";
@@ -844,6 +874,7 @@
       })
       .then(() => {
         userProgressMap[currentDay] = new Date().getTime();
+        todayAlreadyCheckedIn = true;
         localStorage.setItem(`bsh_passport_record_${empId}`, JSON.stringify(userProgressMap));
 
         const form = document.getElementById("checkinForm");
@@ -853,7 +884,7 @@
         stamp.style.display = "flex";
         btnSubmit.textContent = "打卡成功！已安全儲存 🚀";
 
-        alert(`🎉 Day ${String(currentDay).padStart(2, "0")} 打卡成功！資料已寫入 Google Sheet。`);
+        alert(`🎉 Day ${String(currentDay).padStart(2, "0")} 打卡成功！資料已成功寫入 Google Sheet。`);
         initSelector();
       })
       .catch(err => {
