@@ -326,7 +326,6 @@
       cursor: not-allowed;
     }
 
-    /* Active Form Area */
     .active-form-box {
       background: #FFFFFF;
       border: 2px solid var(--bsh-orange);
@@ -442,7 +441,7 @@
 </div>
 
 <script>
-  // 您的 Google Apps Script 部署 URL
+  // Google Apps Script 部署網址
   const GAS_SUBMIT_URL = 'https://script.google.com/macros/s/AKfycbyxcZpU7hu04j7CVOVDmwrS1EOPFikCC_advL4SYFGTvO4XorFMeOIeW8MbWhL6XvtGUw/exec';
 
   // 活動起始日期：2026/10/12 00:00:00
@@ -466,10 +465,9 @@
   ];
 
   let currentUser = null;
-  let userProgressHistory = {}; // 保存每關完成的時間戳記
+  let userProgressHistory = {}; 
   let activeSelectedDay = null;
 
-  // 登入 / 載入個人紀錄
   function loginUser() {
     const empId = document.getElementById('empInput').value.trim().toUpperCase();
     const name = document.getElementById('nameInput').value.trim();
@@ -481,7 +479,6 @@
 
     currentUser = { empId, name };
     
-    // 從 LocalStorage 載入個人的通關時間紀錄
     const localData = localStorage.getItem(`bsh_passport_user_${empId}`);
     if (localData) {
       try {
@@ -507,27 +504,22 @@
     document.getElementById('profileBar').style.width = `${(Math.min(completedCount, 14) / 14) * 100}%`;
   }
 
-  // 計算關卡解鎖邏輯 (24小時鎖定)
   function checkDayUnlockStatus(dayNum) {
     const now = new Date();
 
-    // 1. 活動未開始 (2026/10/12 之前)
     if (now < EVENT_START_DATE) {
       return { unlocked: false, reason: "活動於 10/12 正式啟動" };
     }
 
-    // Day 1 只要到了 10/12 即可直接解鎖
     if (dayNum === 1) {
       return { unlocked: true };
     }
 
-    // 2. 前一關必須已完成
     const prevDayCompletedTime = userProgressHistory[dayNum - 1];
     if (!prevDayCompletedTime) {
       return { unlocked: false, reason: `需先完成 Day ${String(dayNum - 1).padStart(2, '0')} 打卡` };
     }
 
-    // 3. 需距離前一關完成時間滿 24 小時
     const unlockTime = new Date(prevDayCompletedTime + (24 * 60 * 60 * 1000));
     if (now < unlockTime) {
       const diffMs = unlockTime - now;
@@ -604,7 +596,6 @@
     document.getElementById('submissionBox').scrollIntoView({ behavior: 'smooth' });
   }
 
-  // 提交打卡寫入 Google Sheet
   function handleSubmission(event) {
     event.preventDefault();
 
@@ -621,7 +612,7 @@
 
     const submitBtn = document.getElementById('submitBtn');
     submitBtn.disabled = true;
-    submitBtn.innerText = '正在寫入 Google Sheet...';
+    submitBtn.innerText = '正在驗證並寫入 Google Sheet...';
 
     const payload = {
       employeeId: currentUser.empId,
@@ -630,7 +621,6 @@
       submission: submissionText
     };
 
-    // 發送 POST 至 Google Apps Script[cite: 13]
     fetch(GAS_SUBMIT_URL, {
       method: 'POST',
       mode: 'no-cors',
@@ -640,11 +630,9 @@
     .then(() => {
       alert(`🎉 Day ${activeSelectedDay} 打卡成功！下一個關卡將於 24 小時後解鎖！`);
 
-      // 紀錄當前關卡打卡時間戳記
       userProgressHistory[activeSelectedDay] = new Date().getTime();
       localStorage.setItem(`bsh_passport_user_${currentUser.empId}`, JSON.stringify(userProgressHistory));
 
-      // 重置介面
       document.getElementById('taskSubmissionInput').value = '';
       document.getElementById('submissionBox').style.display = 'none';
       submitBtn.disabled = false;
