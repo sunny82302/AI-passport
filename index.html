@@ -1,712 +1,871 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BSH 14 Days AI Passport - 英雄排行榜</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BSH 10 Days AI Passport - Gamification Learning Hub</title>
   <style>
     :root {
-      --bsh-orange: #F26A3D;
-      --bsh-dark-orange: #D95326;
-      --bsh-soft-orange: #FFF5F1;
-      --bsh-titanium: #2B303A;
-      --bsh-cool-gray: #4A5568;
-      --bsh-light-gray: #EDF2F7;
-      --bg: #F7FAFC;
-      --card-bg: #FFFFFF;
-      --gold: #D69E2E;
-      --silver: #A0AEC0;
-      --bronze: #DD6B20;
+      --bosch-orange: #F26A3D;
+      --bosch-dark-orange: #C94A25;
+      --bosch-dark: #111111;
+      --gray-bg: #F7F9FB;
+      --gray-card: #FFFFFF;
+      --line-color: #DDDDDD;
+      --muted-text: #666666;
+      --light-orange: #FFF0E8;
+      --shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+      --radius: 20px;
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background-color: var(--bg);
-      margin: 0;
-      padding: 15px;
-      color: #2D3748;
+      background-color: var(--gray-bg);
+      color: var(--bosch-dark);
+      padding: 30px 20px 80px;
+      min-height: 100vh;
     }
 
-    body::before {
-      content: "";
+    .brand-strip {
       position: fixed;
       top: 0; left: 0; right: 0;
       height: 6px;
-      z-index: 999;
-      background: linear-gradient(90deg, var(--bsh-orange) 0 65%, var(--bsh-cool-gray) 65% 100%);
+      background: linear-gradient(90deg, var(--bosch-orange) 0%, #000000 100%);
+      z-index: 100;
     }
 
-    .main-wrapper {
-      max-width: 1200px;
-      margin: 10px auto 0;
+    .header-bar {
+      max-width: 1100px;
+      margin: 0 auto 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .header {
-      text-align: center;
-      padding: 10px 0 15px;
-    }
-
-    .header h1 {
-      color: var(--bsh-orange);
-      margin-bottom: 5px;
-      font-size: 1.8em;
-      font-weight: 900;
-      letter-spacing: -0.5px;
-    }
-
-    .marquee-container {
-      background: linear-gradient(135deg, var(--bsh-titanium), var(--bsh-cool-gray));
-      color: white;
-      padding: 10px 15px;
-      border-radius: 12px;
-      overflow: hidden;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 15px rgba(43, 48, 58, 0.12);
+    .logo-area {
       display: flex;
       align-items: center;
-      position: relative;
+      gap: 12px;
     }
 
-    .marquee-label {
-      font-weight: bold;
-      background: var(--bsh-orange);
-      color: #ffffff;
-      padding: 5px 12px;
+    .logo-badge {
+      background: var(--bosch-dark);
+      color: #fff;
+      font-weight: 900;
+      padding: 6px 14px;
       border-radius: 8px;
-      margin-right: 15px;
-      font-size: 0.85em;
-      flex-shrink: 0;
-      position: relative;
-      z-index: 2;
+      font-size: 18px;
+      letter-spacing: 1px;
     }
 
-    .marquee-scroll-area {
-      flex: 1;
-      overflow: hidden;
-      white-space: nowrap;
-      position: relative;
-      z-index: 1;
+    .header-title {
+      font-size: 14px;
+      color: var(--muted-text);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
-    .marquee-content {
-      display: inline-block;
-      white-space: nowrap;
-      animation: marquee 35s linear infinite;
-    }
-
-    .marquee-content span {
-      margin-right: 50px;
-      font-size: 0.95em;
-    }
-
-    @keyframes marquee {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-
-    .content-layout {
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-    }
-
-    .sidebar {
-      width: 300px;
-      flex-shrink: 0;
-      position: sticky;
-      top: 20px;
-    }
-
-    .main-content {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .section-box {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 22px;
-      margin-bottom: 25px;
-      box-shadow: 0 10px 25px rgba(160, 174, 192, 0.12);
-      border-top: 4px solid var(--bsh-orange);
-      border-left: 1px solid var(--bsh-light-gray);
-      border-right: 1px solid var(--bsh-light-gray);
-      border-bottom: 1px solid var(--bsh-light-gray);
-    }
-
-    h3 {
-      color: var(--bsh-titanium);
-      margin-top: 0;
-      border-bottom: 2px solid var(--bsh-light-gray);
-      padding-bottom: 10px;
-      font-size: 1.15em;
+    .lang-toggle-btn {
+      background: #ffffff;
+      border: 1px solid var(--line-color);
+      color: var(--bosch-dark);
+      padding: 8px 18px;
+      border-radius: 999px;
       font-weight: 800;
-    }
-
-    .login-box input, .login-box select, .form-control {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0 12px;
-      border: 1px solid #CBD5E0;
-      border-radius: 8px;
-      box-sizing: border-box;
-      font-size: 15px;
-      background: #F8FAFC;
-    }
-
-    .login-box button, .btn-submit {
-      width: 100%;
-      background: var(--bsh-orange);
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-weight: bold;
       cursor: pointer;
-      font-size: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
       transition: all 0.2s ease;
     }
 
-    .login-box button:hover, .btn-submit:hover {
-      background: var(--bsh-dark-orange);
+    .lang-toggle-btn:hover {
+      border-color: var(--bosch-orange);
+      color: var(--bosch-orange);
     }
 
-    .user-profile {
-      display: none;
-      background: var(--bsh-soft-orange);
-      border: 1px solid rgba(242, 106, 61, 0.25);
-      border-radius: 12px;
-      padding: 15px;
-      margin-top: 15px;
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
     }
 
-    .user-profile.active { display: block; }
-
-    /* Top 3 Podium */
-    .top-three {
+    /* 天數選擇切換軌道 */
+    .day-selector {
       display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 20px;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 24px;
     }
 
-    .podium-card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 15px;
-      text-align: center;
-      flex: 1;
-      box-shadow: 0 8px 20px rgba(160, 174, 192, 0.12);
-      border: 1px solid var(--bsh-light-gray);
-    }
-
-    .podium-card.rank-1 { border-top: 5px solid var(--gold); }
-    .podium-card.rank-2 { border-top: 5px solid var(--silver); }
-    .podium-card.rank-3 { border-top: 5px solid var(--bronze); }
-
-    .badge { font-size: 24px; }
-    .user-name { font-weight: bold; font-size: 1.1em; margin-top: 5px; color: var(--bsh-titanium); }
-    .days-count { color: var(--bsh-orange); font-weight: 800; font-size: 0.9em; margin-top: 5px; }
-
-    /* Leaderboard */
-    .leader-row {
+    .day-btn {
+      flex: 0 0 auto;
+      background: #ffffff;
+      border: 1px solid var(--line-color);
+      color: var(--muted-text);
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
       display: flex;
       align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--bsh-light-gray);
+      gap: 6px;
     }
 
-    .leader-row:last-child { border-bottom: none; }
-    .rank-num { width: 40px; font-weight: 800; text-align: center; color: var(--bsh-orange); }
-    .name-section { width: 140px; font-weight: 600; color: var(--bsh-titanium); }
-    .emp-id { font-size: 0.8em; color: #718096; }
-    .progress-section { flex: 1; padding: 0 15px; }
+    .day-btn:hover {
+      border-color: var(--bosch-orange);
+      color: var(--bosch-orange);
+    }
 
-    .progress-bar-bg {
-      background: var(--bsh-light-gray);
-      height: 12px;
-      border-radius: 6px;
+    .day-btn.active {
+      background: var(--bosch-orange);
+      border-color: var(--bosch-orange);
+      color: #ffffff;
+    }
+
+    .day-btn.locked {
+      background: #EAEAEA;
+      color: #999999;
+      cursor: not-allowed;
+      border-color: #DDDDDD;
+    }
+
+    /* 主任務卡與打卡區域 (左右分頁結構) */
+    .passport-card {
+      background: var(--gray-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--line-color);
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      padding: 36px;
+      position: relative;
       overflow: hidden;
     }
 
-    .progress-bar-fill {
-      background: linear-gradient(90deg, var(--bsh-orange), #F6AD55);
-      height: 100%;
-      width: 0%;
-      transition: width 0.5s ease-in-out;
+    .passport-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--bosch-orange), var(--bosch-dark));
     }
 
-    .score-badge-box { width: 100px; text-align: right; }
-    .score-badge { font-weight: 800; color: var(--bsh-orange); font-size: 0.95em; }
-
-    /* Task Grid & Cards */
-    .tasks-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 18px;
-      margin-top: 15px;
+    .kicker {
+      color: var(--bosch-orange);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: block;
     }
 
-    .task-card {
-      background: #FFFFFF;
-      border-radius: 16px;
+    h1.task-title {
+      font-size: 28px;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      color: var(--bosch-dark);
+    }
+
+    p.task-desc {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--muted-text);
+      margin-bottom: 20px;
+    }
+
+    .prompt-box {
+      background: var(--light-orange);
+      border: 1px solid rgba(242, 106, 61, 0.25);
+      border-radius: 14px;
       padding: 16px;
-      border: 1px solid var(--bsh-light-gray);
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .prompt-box label {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--bosch-dark-orange);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .prompt-box code {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 14px;
+      color: var(--bosch-dark);
+      display: block;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #ffffff;
+      border: 1px solid var(--bosch-orange);
+      color: var(--bosch-orange);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .copy-btn:hover {
+      background: var(--bosch-orange);
+      color: #ffffff;
+    }
+
+    /* 右側表單 */
+    .checkin-form {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      position: relative;
-      transition: all 0.3s ease;
     }
 
-    .task-card.unlocked {
-      border-color: rgba(242, 106, 61, 0.4);
-      box-shadow: 0 4px 12px rgba(242, 106, 61, 0.1);
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
 
-    .task-card.locked {
-      background: #F7FAFC;
-      opacity: 0.65;
-      cursor: not-allowed;
+    .form-group {
+      margin-bottom: 16px;
     }
 
-    .task-card.completed {
-      background: var(--bsh-soft-orange);
-      border-color: var(--bsh-orange);
-    }
-
-    .card-day-badge {
-      align-self: flex-start;
-      background: var(--bsh-soft-orange);
-      color: var(--bsh-orange);
+    .form-group label {
+      display: block;
+      font-size: 13px;
       font-weight: 800;
-      font-size: 0.85em;
-      padding: 4px 12px;
-      border-radius: 20px;
+      margin-bottom: 6px;
+      color: var(--bosch-dark);
     }
 
-    .task-card.locked .card-day-badge {
-      background: #E2E8F0;
-      color: #718096;
-    }
-
-    .card-title {
-      font-size: 1.05em;
-      font-weight: bold;
-      color: var(--bsh-titanium);
-      margin: 10px 0;
-    }
-
-    .lock-status {
-      font-size: 0.8em;
-      color: #718096;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      margin-top: 5px;
-    }
-
-    .select-task-btn {
-      background: var(--bsh-orange);
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 0.85em;
-      cursor: pointer;
-      margin-top: 10px;
+    .form-group input[type="text"],
+    .form-group textarea,
+    .form-group select {
       width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--line-color);
+      border-radius: 10px;
+      font-size: 14px;
+      background: #FAFAFA;
+      transition: border-color 0.2s;
     }
 
-    .select-task-btn:disabled {
-      background: #CBD5E0;
+    .form-group input[type="text"]:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--bosch-orange);
+      background: #ffffff;
+    }
+
+    .submit-btn {
+      background: var(--bosch-orange);
+      color: #ffffff;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s, transform 0.1s;
+      box-shadow: 0 8px 20px rgba(242, 106, 61, 0.25);
+    }
+
+    .submit-btn:hover {
+      background: var(--bosch-dark-orange);
+      transform: translateY(-1px);
+    }
+
+    .submit-btn:disabled {
+      background: #CCCCCC;
       cursor: not-allowed;
+      box-shadow: none;
     }
 
-    .active-form-box {
-      background: #FFFFFF;
-      border: 2px solid var(--bsh-orange);
-      border-radius: 16px;
-      padding: 20px;
-      margin-top: 20px;
+    /* 完成印章 */
+    .stamp {
+      display: none;
+      position: absolute;
+      right: 30px;
+      bottom: 30px;
+      width: 130px;
+      height: 130px;
+      border: 3px dashed var(--bosch-orange);
+      border-radius: 50%;
+      color: var(--bosch-orange);
+      background: rgba(255, 240, 232, 0.95);
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-weight: 900;
+      text-align: center;
+      transform: rotate(-12deg);
+      box-shadow: 0 10px 25px rgba(242, 106, 61, 0.2);
+      animation: stampBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      pointer-events: none;
     }
 
-    @media (max-width: 900px) {
-      .content-layout { flex-direction: column; }
-      .sidebar { width: 100%; position: static; }
-      .top-three { gap: 8px; }
+    .stamp span.stamp-brand { font-size: 12px; letter-spacing: 1px; }
+    .stamp span.stamp-day { font-size: 16px; margin: 2px 0; }
+    .stamp span.stamp-status { font-size: 11px; letter-spacing: 1.5px; color: var(--bosch-dark-orange); }
+
+    @keyframes stampBounce {
+      0% { transform: scale(3) rotate(-30deg); opacity: 0; }
+      100% { transform: scale(1) rotate(-12deg); opacity: 1; }
+    }
+
+    @media (max-width: 860px) {
+      .passport-card { grid-template-columns: 1fr; gap: 24px; padding: 24px; }
+      .stamp { right: 20px; bottom: 20px; width: 100px; height: 100px; }
     }
   </style>
 </head>
 <body>
 
-<div class="main-wrapper">
-  <div class="header">
-    <h1>🚀 BSH 14 Days AI Passport</h1>
-    <p style="margin:0; font-size:0.9em; color:#718096;">活動期間：10/12 ~ 10/30 (工作日限定，每日完成關卡解鎖下一關)</p>
-  </div>
+  <div class="brand-strip"></div>
 
-  <div class="marquee-container">
-    <div class="marquee-label">⚡ 即時戰報</div>
-    <div class="marquee-scroll-area">
-      <div class="marquee-content" id="marqueeText">
-        <span>🎉 BSH 14 天 AI 護照挑戰登場！完成打卡即刻登上英雄榜！</span>
-      </div>
+  <div class="header-bar">
+    <div class="logo-area">
+      <div class="logo-badge">B/S/H/</div>
+      <div class="header-title" id="headerTitle">AI CULTURE WEEK 2026</div>
     </div>
+    <button class="lang-toggle-btn" onclick="toggleLanguage()" id="langBtn">EN</button>
   </div>
 
-  <div class="content-layout">
-    
-    <!-- 左側邊欄 -->
-    <div class="sidebar">
-      <div class="section-box login-box">
-        <h3>👤 登入 / 身份驗證</h3>
-        <label for="empInput" style="font-size:0.85em; color:#4A5568;">員工編號 (工號)</label>
-        <input type="text" id="empInput" placeholder="例如: 5404" maxlength="10">
+  <div class="container">
+    <!-- 天數切換軌道 -->
+    <div class="day-selector" id="daySelector"></div>
+
+    <!-- 任務與打卡卡片 -->
+    <div class="passport-card" id="passportCard">
+      <!-- 左側：任務內容 -->
+      <div class="task-info">
+        <span class="kicker" id="taskKicker">DAY 01 | LEARNING TICKET</span>
+        <h1 class="task-title" id="taskTitle">Meet Your AI Team</h1>
+        <p class="task-desc" id="taskDesc">認識 ChatGPT、Gemini 與 Copilot 的強項與適用情境，找到最適合你的日常工作夥伴！</p>
         
-        <label for="nameInput" style="font-size:0.85em; color:#4A5568;">英文姓名</label>
-        <input type="text" id="nameInput" placeholder="例如: Sunny">
+        <div class="prompt-box">
+          <button class="copy-btn" onclick="copyPrompt()">複製 Prompt</button>
+          <label id="promptBoxLabel">RECOMMENDED PROMPT / 建議指令</label>
+          <code id="promptCode">"Give me 5 practical ideas to streamline my daily workflow using AI."</code>
+        </div>
+      </div>
 
-        <button onclick="loginUser()">開始 / 載入個人進度</button>
+      <!-- 右側：打卡表單 -->
+      <div class="checkin-form">
+        <form id="checkinForm" onsubmit="submitCheckin(event)">
+          <span class="kicker">MY AI JOURNEY</span>
+          <h2 style="font-size:18px; margin-bottom:14px;" id="formHeading">我的學習與實測紀錄</h2>
 
-        <div class="user-profile" id="userProfile">
-          <div style="text-align:center; font-size:32px;">🏅</div>
-          <div style="text-align:center; font-weight:bold; color:var(--bsh-titanium);" id="profileName">--</div>
-          <div style="font-size:0.85em; color:#718096; text-align:center;" id="profileEmpId">工號: --</div>
-          <hr style="border:none; border-top:1px dashed #CBD5E0; margin:10px 0;">
-          <div style="font-size:0.9em; margin-bottom:4px;">累積完成：<b id="profileDays" style="color:var(--bsh-orange);">0</b> / 14 天</div>
-          <div class="progress-bar-bg">
-            <div class="progress-bar-fill" id="profileBar" style="width: 0%"></div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="empIdInput">員工工號 (Employee ID)</label>
+              <input type="text" id="empIdInput" required placeholder="例如: 5404" onchange="loadUserRecord()">
+            </div>
+            <div class="form-group">
+              <label for="empNameInput">英文姓名 (English Name)</label>
+              <input type="text" id="empNameInput" required placeholder="例如: Sunny">
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- 右側主要內容 -->
-    <div class="main-content">
-      
-      <!-- Top 3 -->
-      <div class="top-three">
-        <div class="podium-card rank-1">
-          <div class="badge">🥇 No.1</div>
-          <div class="user-name" id="top1-name">尚無紀錄</div>
-          <div class="days-count" id="top1-days">0 / 14 天</div>
-        </div>
-        <div class="podium-card rank-2">
-          <div class="badge">🥈 No.2</div>
-          <div class="user-name" id="top2-name">尚無紀錄</div>
-          <div class="days-count" id="top2-days">0 / 14 天</div>
-        </div>
-        <div class="podium-card rank-3">
-          <div class="badge">🥉 No.3</div>
-          <div class="user-name" id="top3-name">尚無紀錄</div>
-          <div class="days-count" id="top3-days">0 / 14 天</div>
-        </div>
-      </div>
+          <div class="form-group">
+            <label id="lblField1">1. 今天試用了哪些 AI 工具？</label>
+            <input type="text" id="txtTools" required placeholder="例如: ChatGPT, Copilot" />
+          </div>
 
-      <!-- 排行榜 -->
-      <div class="section-box">
-        <h3>📊 即時英雄榜</h3>
-        <div id="leaderboardList">
-          <div style="color:#A0AEC0; text-align:center; padding:15px;">載入中...</div>
-        </div>
-      </div>
+          <div class="form-group">
+            <label id="lblField2" for="txtInput1">2. 你的 Prompt 或實測成果</label>
+            <textarea id="txtInput1" rows="3" required placeholder="貼上你今天測試的 Prompt 或產出的內容..."></textarea>
+          </div>
 
-      <!-- 14天關卡 -->
-      <div class="section-box">
-        <h3>🎯 14 天挑戰關卡 (每日 24 小時關卡鎖)</h3>
-        <p style="font-size:0.85em; color:#718096; margin-top:-5px;">* 活動於 2026/10/12 正式啟動。打卡完成當天關卡後，需等待 24 小時解鎖下一關。</p>
-        <div class="tasks-grid" id="tasksGrid"></div>
-      </div>
+          <div class="form-group">
+            <label id="lblField3" for="txtInput2">3. 主要心得與收穫 (Takeaway)</label>
+            <input type="text" id="txtInput2" required placeholder="寫下一句話心得..." />
+          </div>
 
-      <!-- 打卡輸入區 -->
-      <div class="section-box" id="submissionBox" style="display:none;">
-        <h3 id="currentTaskTitle">✍️ 關卡打卡：Day 01</h3>
-        <div id="currentTaskDesc" style="font-size:0.9em; color:#4A5568; margin-bottom:15px;"></div>
-        
-        <form onsubmit="handleSubmission(event)">
-          <label style="font-weight:bold; font-size:0.9em;">任務成果 / Prompt 實測心得：</label>
-          <textarea id="taskSubmissionInput" class="form-control" rows="4" placeholder="請輸入您實測的 Prompt 或任務成果..." required></textarea>
-          
-          <button type="submit" class="btn-submit" id="submitBtn">🚀 提交打卡紀錄</button>
+          <button type="submit" class="submit-btn" id="btnSubmit">完成打卡並蓋章 🚀</button>
         </form>
       </div>
 
+      <!-- 完成印章 -->
+      <div class="stamp" id="completedStamp">
+        <span class="stamp-brand">B/S/H/</span>
+        <span class="stamp-day" id="stampDayText">DAY 01</span>
+        <span class="stamp-status">COMPLETED</span>
+      </div>
     </div>
-
   </div>
-</div>
 
-<script>
-  // Google Apps Script 部署網址
-  const GAS_SUBMIT_URL = 'https://script.google.com/macros/s/AKfycbyxcZpU7hu04j7CVOVDmwrS1EOPFikCC_advL4SYFGTvO4XorFMeOIeW8MbWhL6XvtGUw/exec';
+  <script>
+    // 您的 Google Apps Script 後端部署 API
+    const GAS_SUBMIT_URL = 'https://script.google.com/macros/s/AKfycbyxcZpU7hu04j7CVOVDmwrS1EOPFikCC_advL4SYFGTvO4XorFMeOIeW8MbWhL6XvtGUw/exec';
 
-  // 活動起始日期：2026/10/12 00:00:00
-  const EVENT_START_DATE = new Date('2026-10-12T00:00:00+08:00');
-
-  const TASKS_DATA = [
-    { day: 1, title: "Prompt 魔法改造大師", desc: "請輸入一段原始 Prompt，使用角色設定、指定格式與明確步驟，讓 AI 自動將你的 Prompt 升級成高密度的專業提示詞！" },
-    { day: 2, title: "會議紀錄一秒變摘要", desc: "提供一段散亂的會議對話紀錄，請 AI 整理出 3 個核心重點與 2 個待辦事項（包含負責人與截止日）。" },
-    { day: 3, title: "信件語氣切換器", desc: "提供一段簡短的便條內容，請 AI 分別輸出「極致尊榮禮貌（對客戶）」與「簡潔高效（對內部同仁）」兩種版本的 Email 範本。" },
-    { day: 4, title: "高 EQ 訊息翻譯", desc: "輸入一句內心話，請 AI 翻譯成符合 BSH 企業文化、極具專業度的神回覆提案。" },
-    { day: 5, title: "數據表格整理術", desc: "將一段未經排版的混合文字數據貼給 AI，請它解析並輸出為 Markdown 結構化表格。" },
-    { day: 6, title: "文案發想衝刺", desc: "設定一個家電新功能，請 AI 在 10 秒內腦力激盪 5 個吸引消費者的社群行銷標語。" },
-    { day: 7, title: "長文重點拆解", desc: "貼上一篇科技趨勢文章，請 AI 以 350 字內的 Bullet Points 快速拆解核心精髓。" },
-    { day: 8, title: "邏輯除錯特工", desc: "提供一段企劃大綱，請 AI 以「批判性思維」角度找出潛在漏洞與可擴充的點子。" },
-    { day: 9, title: "活動開場稿撰寫", desc: "設定活動場景，請 AI 寫出一份 2 分鐘兼具熱情與專業度的主持人開場講稿。" },
-    { day: 10, title: "跨國語言溝通橋樑", desc: "輸入一段中文專案進度，請 AI 翻譯成道地的商務英文，並保留專有名詞與謙遜尊重的語氣。" },
-    { day: 11, title: "痛點解決專家", desc: "輸入消費者客訴問題，請 AI 以同理心框架產出 3 步驟客訴安撫處置方案。" },
-    { day: 12, title: "簡報大綱產生器", desc: "設定簡報主題，請 AI 規劃出 5 頁簡報的投影片標題與核心內容亮點。" },
-    { day: 13, title: "腦力激盪 SWOT 分析", desc: "設定內部優化目標，請 AI 對該目標進行包含優勢、劣勢、機會與威脅的分析矩陣。" },
-    { day: 14, title: "終極 AI 護照結業提案", desc: "總結你在 14 天中最常用的一個 AI 提示詞技巧，寫成一份可分享給部門同仁的小技巧手冊。" }
-  ];
-
-  let currentUser = null;
-  let userProgressHistory = {}; 
-  let activeSelectedDay = null;
-
-  function loginUser() {
-    const empId = document.getElementById('empInput').value.trim().toUpperCase();
-    const name = document.getElementById('nameInput').value.trim();
-
-    if (!empId || !name) {
-      alert('請填寫員工編號與英文姓名！');
-      return;
-    }
-
-    currentUser = { empId, name };
-    
-    const localData = localStorage.getItem(`bsh_passport_user_${empId}`);
-    if (localData) {
-      try {
-        userProgressHistory = JSON.parse(localData);
-      } catch(e) {
-        userProgressHistory = {};
+    const taskData = [
+      {
+        day: 1,
+        zh: {
+          kicker: "DAY 01 | LEARNING TICKET",
+          title: "Meet Your AI Team",
+          desc: "認識 ChatGPT、Gemini 與 Copilot 各自的核心優勢與適用情境，為不同工作任務選擇最合適的 AI 夥伴。",
+          promptLabel: "RECOMMENDED PROMPT",
+          prompt: "「請提供 5 個能幫我簡化日常行政與專案跨部門溝通流程的 AI 實用建議。」",
+          f1: "1. 今天試用了哪些 AI 工具？",
+          f2: "2. My Prompt (你輸入了什麼指令？)",
+          f2Ph: "貼上你今天測試的 Prompt...",
+          f3: "3. My Takeaway (今天的核心收穫)",
+          f3Ph: "寫下一句話學習心得...",
+          btn: "完成 Day 01 打卡 🚀"
+        },
+        en: {
+          kicker: "DAY 01 | LEARNING TICKET",
+          title: "Meet Your AI Team",
+          desc: "Explore the distinct strengths of ChatGPT, Gemini, and Copilot. Learn how to select the right tool for your daily responsibilities.",
+          promptLabel: "RECOMMENDED PROMPT",
+          prompt: '"Suggest 5 practical ways I can use AI to streamline daily workflow and team coordination."',
+          f1: "1. Which AI tools did you test today?",
+          f2: "2. My Prompt (What did you ask?)",
+          f2Ph: "Paste the prompt you used today...",
+          f3: "3. Key Takeaway",
+          f3Ph: "Share your main insight in one sentence...",
+          btn: "Complete Day 01 Check-in 🚀"
+        }
+      },
+      {
+        day: 2,
+        zh: {
+          kicker: "DAY 02 | LEARNING TICKET",
+          title: "From Idea to Great Prompt",
+          desc: "掌握高質感 Prompt 四要素：情境 (Context)、任務 (Task)、要求 (Requirements) 與格式 (Format)，讓 AI 精準回應。",
+          promptLabel: "4-PIECE PROMPT FORMULA",
+          prompt: "「我剛結束跨部門會議，請幫我撰寫一封精簡的內部 Email，摘要會議重點並條列負責人與 Action Items。」",
+          f1: "1. 測試使用的 AI 工具名稱？",
+          f2: "2. My Prompt (試著套用四要素撰寫)",
+          f2Ph: "輸入包含情境、任務、要求與格式的指令...",
+          f3: "3. 提示詞優化心得",
+          f3Ph: "加上哪一個要素後效果提升最明顯？",
+          btn: "完成 Day 02 打卡 🚀"
+        },
+        en: {
+          kicker: "DAY 02 | LEARNING TICKET",
+          title: "Mastering the Prompt Formula",
+          desc: "Learn the four core elements of effective prompts: Context, Task, Requirements, and Format to get precise results.",
+          promptLabel: "4-PIECE PROMPT FORMULA",
+          prompt: '"I just wrapped up a cross-departmental meeting. Draft a concise follow-up email summarizing key decisions and action items with assignees."',
+          f1: "1. AI Tool used for testing?",
+          f2: "2. My Prompt (Apply the 4-element formula)",
+          f2Ph: "Write a prompt including Context, Task, Requirements, and Format...",
+          f3: "3. Prompt Optimization Insight",
+          f3Ph: "Which element made the biggest difference in response quality?",
+          btn: "Complete Day 02 Check-in 🚀"
+        }
+      },
+      {
+        day: 3,
+        zh: {
+          kicker: "DAY 03 | LEARNING TICKET",
+          title: "AI Personal Branding",
+          desc: "運用 Master Prompt 讓 AI 為你分析職場專業形象，並量身打造適用的穿搭風格與溝通提案。",
+          promptLabel: "MASTER PROMPT TEMPLATE",
+          prompt: "「請根據我的工作角色，推薦 3 套適合重要會議與日常辦公的專業穿搭組合與顏色搭配。」",
+          f1: "1. 測試使用的 AI 工具？",
+          f2: "2. 生成的穿搭與風格提案重點",
+          f2Ph: "貼上 AI 為你建議的色彩或搭配關鍵字...",
+          f3: "3. 個人品牌建立收穫",
+          f3Ph: "今天的風格分析對你有什麼啟發？",
+          btn: "完成 Day 03 打卡 🚀"
+        },
+        en: {
+          kicker: "DAY 03 | LEARNING TICKET",
+          title: "AI Personal Branding & Styling",
+          desc: "Use a structured prompt to define your professional persona and generate tailored workplace outfit recommendations.",
+          promptLabel: "MASTER PROMPT TEMPLATE",
+          prompt: '"Based on my role, recommend 3 professional outfit combinations with color palette suggestions for key client meetings."',
+          f1: "1. AI Tool used?",
+          f2: "2. Style Recommendation Highlights",
+          f2Ph: "Paste the key styling recommendations generated by AI...",
+          f3: "3. Personal Branding Takeaway",
+          f3Ph: "How will you apply this styling advice to your workplace routine?",
+          btn: "Complete Day 03 Check-in 🚀"
+        }
+      },
+      {
+        day: 4,
+        zh: {
+          kicker: "DAY 04 | LEARNING TICKET",
+          title: "Create Your AI Character",
+          desc: "從角色特質、配件到配色設定，運用 AI 工具打造屬於你的 3D 專屬職場公仔形象。",
+          promptLabel: "IMAGE PROMPT EXAMPLE",
+          prompt: "「設計一款 3D 潮流公仔，設定：戴眼鏡、手中拿著咖啡與筆電，配色為 BSH 橘色與鈦灰色組合。」",
+          f1: "1. 測試使用的 AI 繪圖工具？",
+          f2: "2. 角色公仔描述或圖片連結",
+          f2Ph: "描述你生成的角色外貌或貼上對話分享連結...",
+          f3: "3. 創作心得",
+          f3Ph: "這個公仔如何代表你的工作態度？",
+          btn: "完成 Day 04 打卡 🚀"
+        },
+        en: {
+          kicker: "DAY 04 | LEARNING TICKET",
+          title: "Create Your AI Avatar Character",
+          desc: "Define traits, signature items, and color schemes to build a personalized 3D collectible avatar.",
+          promptLabel: "IMAGE PROMPT EXAMPLE",
+          prompt: '"Design a 3D vinyl figure of an executive assistant with glasses, holding a coffee cup and a laptop, styled in orange and grey tones."',
+          f1: "1. AI Tool used?",
+          f2: "2. Character Description / Image Link",
+          f2Ph: "Describe your avatar's look or paste the image link...",
+          f3: "3. Creative Reflection",
+          f3Ph: "How does this character reflect your approach to work?",
+          btn: "Complete Day 04 Check-in 🚀"
+        }
+      },
+      {
+        day: 5,
+        zh: {
+          kicker: "DAY 05 | LEARNING TICKET",
+          title: "Bring Your Character to Life!",
+          desc: "延續 Day 04 設定的角色，運用 AI 批量生成 8 張常用職場溝通的 LINE / Teams 風格貼圖套件。",
+          promptLabel: "STICKER PROMPT TEMPLATE",
+          prompt: "「請以 Day 04 的角色為原型，生成 8 張包含『早安』、『收到！』、『加油！』等日常辦公語錄的貼圖組合。」",
+          f1: "1. 生成貼圖使用的工具？",
+          f2: "2. 最喜歡的一句貼圖語錄與視覺設計",
+          f2Ph: "分享你最滿意的一張貼圖文字與動作...",
+          f3: "3. 職場應用思考",
+          f3Ph: "這些客製化貼圖能如何增加團隊溝通的趣味？",
+          btn: "完成 Day 05 打卡 🚀"
+        },
+        en: {
+          kicker: "DAY 05 | LEARNING TICKET",
+          title: "Bring Your Character to Life",
+          desc: "Extend your Day 04 avatar into a set of 8 custom communication stickers designed for daily team chat on LINE or Teams.",
+          promptLabel: "STICKER PROMPT TEMPLATE",
+          prompt: '"Using my avatar design, generate 8 messaging stickers featuring phrases like "Good Morning!", "Understood!", and "Great Job!"."',
+          f1: "1. AI Tool used?",
+          f2: "2. Favorite Sticker Concept",
+          f2Ph: "Share your favorite sticker phrase and visual detail...",
+          f3: "3. Communication Value",
+          f3Ph: "How can personalized stickers add engagement to daily messaging?",
+          btn: "Complete Day 05 Check-in 🚀"
+        }
+      },
+      {
+        day: 6,
+        zh: {
+          kicker: "DAY 06 | LEARNING TICKET",
+          title: "Discover More with Perplexity",
+          desc: "體驗 Perplexity 聯網搜尋與附帶引用的優勢，快速完成連假行程規劃、競品分析或市場趨勢比較。",
+          promptLabel: "RESEARCH PROMPT",
+          prompt: "「請幫我規劃 4 天 3 夜的連假行程，整理 3 個方案並以表格比較預算、交通便捷度與特色景點，並附上資料來源。」",
+          f1: "1. 搜尋使用的平台 (Perplexity 等)？",
+          f2: "2. 最終選擇的方案與評估原因",
+          f2Ph: "摘要 AI 為你整理出的比較結果與決策依據...",
+          f3: "3. 實時搜尋心得",
+          f3Ph: "Perplexity 的引用功能對研究資料有何幫助？",
+          btn: "完成 Day 06 打卡 🚀"
+        },
+        en: {
+          kicker: "DAY 06 | LEARNING TICKET",
+          title: "Real-time Research with Perplexity",
+          desc: "Leverage Perplexity's live web search and source citation capabilities to compile itinerary options or market benchmarks.",
+          promptLabel: "RESEARCH PROMPT",
+          prompt: '"Compare 3 weekend getaway options with a summary table covering estimated budget, transit convenience, and top attractions, including citations."',
+          f1: "1. Search platform used?",
+          f2: "2. Selected Option & Key Factors",
+          f2Ph: "Summarize the comparison table and decision rationale...",
+          f3: "3. Search Experience Takeaway",
+          f3Ph: "How did real-time citations improve confidence in the answers?",
+          btn: "Complete Day 06 Check-in 🚀"
+        }
+      },
+      {
+        day: 7,
+        zh: {
+          kicker: "DAY 07 | LEARNING TICKET",
+          title: "Design Your Dream Workspace",
+          desc: "上傳辦公桌照片，讓 AI 進行視覺評估，在不改變硬體下提供兼具效率與美感的改造方案。",
+          promptLabel: "INTERIOR REDESIGN PROMPT",
+          prompt: "「這是我目前的辦公桌，請在不改變硬體結構下，建議 3 個能提升收納效率、視覺舒適度與專注力的改造建議。」",
+          f1: "1. 使用的 AI 分析工具？",
+          f2: "2. AI 建議的最佳改造亮點",
+          f2Ph: "列出 AI 建議加入的收納或佈置小物...",
+          f3: "3. 工作環境改善思考",
+          f3Ph: "哪個調整最能直接提升你的日常辦公效率？",
+          btn: "完成 Day 07 打卡 🚀"
+        },
+        en: {
+          kicker: "DAY 07 | LEARNING TICKET",
+          title: "AI Workspace Makeover",
+          desc: "Upload a desk photo and ask AI to propose ergonomic and aesthetic layout enhancements without changing furniture.",
+          promptLabel: "INTERIOR REDESIGN PROMPT",
+          prompt: '"Analyze this desk setup and suggest 3 practical improvements for cable management, storage efficiency, and lighting comfort."',
+          f1: "1. AI Tool used?",
+          f2: "2. Key Layout Recommendation",
+          f2Ph: "List the top layout or organization tips suggested by AI...",
+          f3: "3. Productivity Takeaway",
+          f3Ph: "Which small change will have the biggest impact on your daily focus?",
+          btn: "Complete Day 07 Check-in 🚀"
+        }
+      },
+      {
+        day: 8,
+        zh: {
+          kicker: "DAY 08 | LEARNING TICKET",
+          title: "Turn Data into Interactive Dashboard",
+          desc: "上傳 Excel/CSV 資料，讓 AI 分析數據、找出關鍵 Insight，並直接生成單頁互動式 HTML 儀表板。",
+          promptLabel: "DASHBOARD GENERATION PROMPT",
+          prompt: "「請分析這份銷售資料，找出 Top 3 異常值與成長趨勢，並為我寫一份包含卡片與圖表的單頁 HTML 儀表板程式碼。」",
+          f1: "1. 分析資料使用的 AI 工具？",
+          f2: "2. AI 發現的最重要數據洞察 (Insight)",
+          f2Ph: "摘要資料中發現的趨勢或異常數字...",
+          f3: "3. 數據視覺化學習心得",
+          f3Ph: "將靜態 Excel 轉為互動儀表板對報告有何幫助？",
+          btn: "完成 Day 08 打卡 🚀"
+        },
+        en: {
+          kicker: "DAY 08 | LEARNING TICKET",
+          title: "Turn Data into Interactive Dashboards",
+          desc: "Upload anonymized datasets to generate core business insights and convert raw spreadsheets into interactive dashboards.",
+          promptLabel: "DASHBOARD GENERATION PROMPT",
+          prompt: '"Analyze this sales dataset, identify top growth drivers, and output a complete single-page HTML dashboard with KPI summary cards."',
+          f1: "1. AI Tool used?",
+          f2: "2. Key Data Insight Identified",
+          f2Ph: "Summarize the key metric, trend, or outlier discovered...",
+          f3: "3. Data Storytelling Reflection",
+          f3Ph: "How does an interactive dashboard enhance executive reporting?",
+          btn: "Complete Day 08 Check-in 🚀"
+        }
+      },
+      {
+        day: 9,
+        zh: {
+          kicker: "DAY 09 | LEARNING TICKET",
+          title: "Talk to Your Data",
+          desc: "透過深度提問，讓 AI 協助從商業資料中歸納原因、驗證假設，並提出具體的下一步行動建議。",
+          promptLabel: "DEEP DRILL-DOWN PROMPT",
+          prompt: "「分析 Q3 銷售下滑的主要原因，請區分『資料支持的結論』與『合理推測』，並給出 3 個具體改善行動。」",
+          f1: "1. 使用的 AI 分析工具？",
+          f2: "2. AI 提出的行動建議 (Action Items)",
+          f2Ph: "列出 AI 建議的下一步具體改善做法...",
+          f3: "3. 數據對話心得",
+          f3Ph: "如何避免對 AI 數據推論產生過度依賴？",
+          btn: "完成 Day 09 打卡 🚀"
+        },
+        en: {
+          kicker: "DAY 09 | LEARNING TICKET",
+          title: "Talk to Your Data for Deeper Insights",
+          desc: "Practice targeted questioning techniques to help AI separate factual data signals from hypotheses and deliver recommendations.",
+          promptLabel: "DEEP DRILL-DOWN PROMPT",
+          prompt: '"Analyze Q3 performance data. Separate data-backed facts from assumptions and provide 3 concrete action items for improvement."',
+          f1: "1. AI Tool used?",
+          f2: "2. Recommended Action Items",
+          f2Ph: "List the action items proposed by AI...",
+          f3: "3. Data Inquiry Reflection",
+          f3Ph: "How do you verify AI interpretation against actual operational context?",
+          btn: "Complete Day 09 Check-in 🚀"
+        }
+      },
+      {
+        day: 10,
+        zh: {
+          kicker: "DAY 10 | FINAL MISSION",
+          title: "Your Interactive Presentation",
+          desc: "終極關卡！整合 10 天所學，運用 AI 將你的學習總結打包成一份可互動的單頁 HTML 簡報，領取完賽證書。",
+          promptLabel: "FINAL PROJECT PROMPT",
+          prompt: "「請幫我整理這份專案報告，生成一份包含 5 頁卡片、切換按鈕與簡潔視覺風格的單頁 HTML 簡報檔。」",
+          f1: "1. 完成作品使用的 AI 工具？",
+          f2: "2. 成果檔案說明或分享連結",
+          f2Ph: "貼上 HTML 作品名稱或雲端分享連結...",
+          f3: "3. 10 Days AI Passport 完賽感言",
+          f3Ph: "10 天後，AI 如何改變了你的日常工作習慣？",
+          btn: "提交終極成果並領取證書 🎓"
+        },
+        en: {
+          kicker: "DAY 10 | FINAL MISSION",
+          title: "Build Your Interactive Presentation",
+          desc: "Final Mission: Synthesize 10 days of learning and use AI to create a standalone interactive HTML presentation.",
+          promptLabel: "FINAL PROJECT PROMPT",
+          prompt: '"Format this project proposal into a clean single-page HTML pitch deck featuring 5 slide sections and smooth navigation controls."',
+          f1: "1. AI Tool used?",
+          f2: "2. Deliverable Link or Summary",
+          f2Ph: "Paste your project title or cloud link...",
+          f3: "3. Completion Reflection",
+          f3Ph: "How has this challenge impacted your day-to-day productivity?",
+          btn: "Submit Final Project & Claim Certificate 🎓"
+        }
       }
-    } else {
-      userProgressHistory = {};
+    ];
+
+    let currentDay = 1;
+    let currentLang = "zh";
+    let userProgressMap = {}; 
+
+    function initSelector() {
+      const selector = document.getElementById("daySelector");
+      selector.innerHTML = "";
+      for (let i = 1; i <= 10; i++) {
+        const btn = document.createElement("button");
+        const isUnlocked = checkDayUnlocked(i);
+        btn.className = `day-btn ${i === currentDay ? "active" : ""} ${!isUnlocked ? "locked" : ""}`;
+        btn.onclick = () => {
+          if (!isUnlocked) {
+            alert(`Day ${String(i).padStart(2, '0')} 尚未解鎖！需要先完成前一關打卡，且距離前次打卡滿 24 小時。`);
+            return;
+          }
+          selectDay(i);
+        };
+        btn.innerHTML = `Day ${String(i).padStart(2, "0")} ${!isUnlocked ? "🔒" : ""}`;
+        selector.appendChild(btn);
+      }
     }
 
-    updateUserProfileUI();
-    renderTasksGrid();
-  }
-
-  function updateUserProfileUI() {
-    document.getElementById('userProfile').classList.add('active');
-    document.getElementById('profileName').innerText = currentUser.name;
-    document.getElementById('profileEmpId').innerText = `工號: ${currentUser.empId}`;
-
-    const completedCount = Object.keys(userProgressHistory).length;
-    document.getElementById('profileDays').innerText = Math.min(completedCount, 14);
-    document.getElementById('profileBar').style.width = `${(Math.min(completedCount, 14) / 14) * 100}%`;
-  }
-
-  function checkDayUnlockStatus(dayNum) {
-    const now = new Date();
-
-    if (now < EVENT_START_DATE) {
-      return { unlocked: false, reason: "活動於 10/12 正式啟動" };
+    function checkDayUnlocked(dayNum) {
+      if (dayNum === 1) return true;
+      const prevCompletionTime = userProgressMap[dayNum - 1];
+      if (!prevCompletionTime) return false;
+      const now = new Date().getTime();
+      const timePassed = now - prevCompletionTime;
+      return timePassed >= 24 * 60 * 60 * 1000; // 24小時冷卻
     }
 
-    if (dayNum === 1) {
-      return { unlocked: true };
+    function selectDay(dayNum) {
+      currentDay = dayNum;
+      initSelector();
+      renderCard();
     }
 
-    const prevDayCompletedTime = userProgressHistory[dayNum - 1];
-    if (!prevDayCompletedTime) {
-      return { unlocked: false, reason: `需先完成 Day ${String(dayNum - 1).padStart(2, '0')} 打卡` };
-    }
+    function renderCard() {
+      const data = taskData[currentDay - 1];
+      const content = data[currentLang];
 
-    const unlockTime = new Date(prevDayCompletedTime + (24 * 60 * 60 * 1000));
-    if (now < unlockTime) {
-      const diffMs = unlockTime - now;
-      const hoursLeft = Math.floor(diffMs / (1000 * 60 * 60));
-      const minsLeft = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-      return { 
-        unlocked: false, 
-        reason: `倒數 ${hoursLeft}小時 ${minsLeft}分 解鎖` 
-      };
-    }
+      document.getElementById("taskKicker").textContent = content.kicker;
+      document.getElementById("taskTitle").textContent = content.title;
+      document.getElementById("taskDesc").textContent = content.desc;
+      document.getElementById("promptBoxLabel").textContent = content.promptLabel;
+      document.getElementById("promptCode").textContent = content.prompt;
 
-    return { unlocked: true };
-  }
+      document.getElementById("lblField1").textContent = content.f1;
+      document.getElementById("lblField2").textContent = content.f2;
+      document.getElementById("txtInput1").placeholder = content.f2Ph;
+      document.getElementById("lblField3").textContent = content.f3;
+      document.getElementById("txtInput2").placeholder = content.f3Ph;
+      document.getElementById("btnSubmit").textContent = content.btn;
 
-  function renderTasksGrid() {
-    const grid = document.getElementById('tasksGrid');
-    grid.innerHTML = '';
+      document.getElementById("stampDayText").textContent = `DAY ${String(currentDay).padStart(2, "0")}`;
 
-    TASKS_DATA.forEach(task => {
-      const isCompleted = !!userProgressHistory[task.day];
-      const status = checkDayUnlockStatus(task.day);
-
-      let cardClass = "task-card";
-      let btnText = "開始關卡";
-      let statusHtml = "";
+      const stamp = document.getElementById("completedStamp");
+      const form = document.getElementById("checkinForm");
+      const isCompleted = !!userProgressMap[currentDay];
 
       if (isCompleted) {
-        cardClass += " completed";
-        btnText = "✓ 已通關";
-        statusHtml = `<div class="lock-status" style="color:var(--bsh-orange);">🎉 打卡完成</div>`;
-      } else if (status.unlocked) {
-        cardClass += " unlocked";
-        btnText = "✍️ 立即打卡";
-        statusHtml = `<div class="lock-status" style="color:#28A745;">🔓 已解鎖</div>`;
+        stamp.style.display = "flex";
+        form.style.opacity = "0.4";
+        document.getElementById("btnSubmit").disabled = true;
       } else {
-        cardClass += " locked";
-        btnText = "🔒 尚未解鎖";
-        statusHtml = `<div class="lock-status">🔒 ${status.reason}</div>`;
+        stamp.style.display = "none";
+        form.style.opacity = "1";
+        document.getElementById("btnSubmit").disabled = false;
+      }
+    }
+
+    function loadUserRecord() {
+      const empId = document.getElementById("empIdInput").value.trim().toUpperCase();
+      if (!empId) return;
+
+      const savedData = localStorage.getItem(`bsh_passport_record_${empId}`);
+      if (savedData) {
+        try {
+          userProgressMap = JSON.parse(savedData);
+        } catch (e) {
+          userProgressMap = {};
+        }
+      } else {
+        userProgressMap = {};
       }
 
-      grid.innerHTML += `
-        <div class="${cardClass}">
-          <div>
-            <div class="card-day-badge">Day ${String(task.day).padStart(2, '0')}</div>
-            <div class="card-title">${task.title}</div>
-            <div style="font-size:0.82em; color:#4A5568;">${task.desc}</div>
-          </div>
-          <div>
-            ${statusHtml}
-            <button class="select-task-btn" 
-              ${(!status.unlocked || isCompleted) ? 'disabled' : ''} 
-              onclick="selectTaskForSubmission(${task.day})">
-              ${btnText}
-            </button>
-          </div>
-        </div>
-      `;
-    });
-  }
-
-  function selectTaskForSubmission(dayNum) {
-    if (!currentUser) {
-      alert('請先在左側輸入工號與姓名進行登入驗證！');
-      return;
+      initSelector();
+      renderCard();
     }
 
-    activeSelectedDay = dayNum;
-    const task = TASKS_DATA.find(t => t.day === dayNum);
-    
-    document.getElementById('currentTaskTitle').innerText = `✍️ 任務打卡：Day ${String(dayNum).padStart(2, '0')} - ${task.title}`;
-    document.getElementById('currentTaskDesc').innerText = task.desc;
-    document.getElementById('submissionBox').style.display = 'block';
-    
-    document.getElementById('submissionBox').scrollIntoView({ behavior: 'smooth' });
-  }
-
-  function handleSubmission(event) {
-    event.preventDefault();
-
-    if (!currentUser || !activeSelectedDay) {
-      alert('無效的登入狀態！');
-      return;
+    function copyPrompt() {
+      const text = document.getElementById("promptCode").innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Prompt 指令已複製到剪貼簿！");
+      });
     }
 
-    const submissionText = document.getElementById('taskSubmissionInput').value.trim();
-    if (!submissionText) {
-      alert('請填寫任務成果！');
-      return;
+    function toggleLanguage() {
+      currentLang = currentLang === "zh" ? "en" : "zh";
+      document.getElementById("langBtn").textContent = currentLang === "zh" ? "EN" : "繁中";
+      document.getElementById("headerTitle").textContent = "AI CULTURE WEEK 2026";
+      renderCard();
     }
 
-    const submitBtn = document.getElementById('submitBtn');
-    submitBtn.disabled = true;
-    submitBtn.innerText = '正在驗證並寫入 Google Sheet...';
+    function submitCheckin(event) {
+      event.preventDefault();
 
-    const payload = {
-      employeeId: currentUser.empId,
-      name: currentUser.name,
-      day: `Day ${String(activeSelectedDay).padStart(2, '0')}`,
-      submission: submissionText
-    };
+      const empId = document.getElementById("empIdInput").value.trim().toUpperCase();
+      const empName = document.getElementById("empNameInput").value.trim();
+      const tools = document.getElementById("txtTools").value.trim();
+      const input1 = document.getElementById("txtInput1").value.trim();
+      const input2 = document.getElementById("txtInput2").value.trim();
 
-    fetch(GAS_SUBMIT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    })
-    .then(() => {
-      alert(`🎉 Day ${activeSelectedDay} 打卡成功！下一個關卡將於 24 小時後解鎖！`);
+      if (!empId || !empName || !input1 || !input2) {
+        alert("請完整填寫工號、姓名與打卡內容！");
+        return;
+      }
 
-      userProgressHistory[activeSelectedDay] = new Date().getTime();
-      localStorage.setItem(`bsh_passport_user_${currentUser.empId}`, JSON.stringify(userProgressHistory));
+      const btnSubmit = document.getElementById("btnSubmit");
+      btnSubmit.disabled = true;
+      btnSubmit.textContent = "正在寫入 Google Sheet...";
 
-      document.getElementById('taskSubmissionInput').value = '';
-      document.getElementById('submissionBox').style.display = 'none';
-      submitBtn.disabled = false;
-      submitBtn.innerText = '🚀 提交打卡紀錄';
+      const payload = {
+        employeeId: empId,
+        name: empName,
+        day: `Day ${String(currentDay).padStart(2, '0')}`,
+        submission: `[Tools] ${tools} | [Prompt/Output] ${input1} | [Takeaway] ${input2}`
+      };
 
-      updateUserProfileUI();
-      renderTasksGrid();
-      fetchLeaderboard();
-    })
-    .catch(err => {
-      console.error('Submission Error:', err);
-      alert('資料傳送失敗，請稍後再試。');
-      submitBtn.disabled = false;
-      submitBtn.innerText = '🚀 提交打卡紀錄';
-    });
-  }
-
-  function fetchLeaderboard() {
-    fetch(GAS_SUBMIT_URL)
-      .then(res => res.json())
-      .then(data => {
-        const userMap = {};
-        data.forEach(item => {
-          const empId = String(item.empId || '').trim().toUpperCase();
-          const name = item.name || empId;
-          if (empId) {
-            if (!userMap[empId]) userMap[empId] = { name, empId, days: new Set() };
-            userMap[empId].days.add(item.taskDay);
-          }
-        });
-
-        const sorted = Object.values(userMap)
-          .map(u => ({ name: u.name, empId: u.empId, days: Math.min(u.days.size, 14) }))
-          .sort((a, b) => b.days - a.days);
-
-        renderLeaderboardUI(sorted);
+      fetch(GAS_SUBMIT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
       })
-      .catch(err => console.error("Leaderboard fetch error:", err));
-  }
+      .then(() => {
+        userProgressMap[currentDay] = new Date().getTime();
+        localStorage.setItem(`bsh_passport_record_${empId}`, JSON.stringify(userProgressMap));
 
-  function renderLeaderboardUI(users) {
-    document.getElementById('top1-name').innerText = users[0] ? users[0].name : '尚無紀錄';
-    document.getElementById('top1-days').innerText = users[0] ? `${users[0].days} / 14 天` : '0 / 14 天';
-    document.getElementById('top2-name').innerText = users[1] ? users[1].name : '尚無紀錄';
-    document.getElementById('top2-days').innerText = users[1] ? `${users[1].days} / 14 天` : '0 / 14 天';
-    document.getElementById('top3-name').innerText = users[2] ? users[2].name : '尚無紀錄';
-    document.getElementById('top3-days').innerText = users[2] ? `${users[2].days} / 14 天` : '0 / 14 天';
+        const form = document.getElementById("checkinForm");
+        const stamp = document.getElementById("completedStamp");
 
-    const list = document.getElementById('leaderboardList');
-    list.innerHTML = '';
+        form.style.opacity = "0.4";
+        stamp.style.display = "flex";
+        btnSubmit.textContent = "打卡成功！已安全儲存 🚀";
 
-    if (users.length === 0) {
-      list.innerHTML = '<div style="color:#A0AEC0; text-align:center; padding:15px;">尚無打卡紀錄。</div>';
-      return;
+        alert(`🎉 Day ${String(currentDay).padStart(2, "0")} 打卡成功！資料已寫入 Google Sheet。`);
+        initSelector();
+      })
+      .catch(err => {
+        console.error("Error:", err);
+        alert("資料傳送時發生錯誤，請重新試一次。");
+        btnSubmit.disabled = false;
+        btnSubmit.textContent = "完成打卡並蓋章 🚀";
+      });
     }
 
-    users.forEach((u, idx) => {
-      const pct = (u.days / 14) * 100;
-      list.innerHTML += `
-        <div class="leader-row">
-          <div class="rank-num">${idx + 1}</div>
-          <div class="name-section">${u.name}<div class="emp-id">(${u.empId})</div></div>
-          <div class="progress-section">
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
-          </div>
-          <div class="score-badge-box"><div class="score-badge">${u.days} / 14 天</div></div>
-        </div>
-      `;
-    });
-  }
-
-  renderTasksGrid();
-  fetchLeaderboard();
-</script>
-
+    initSelector();
+    renderCard();
+  </script>
 </body>
 </html>
