@@ -1,1232 +1,429 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BSH 10 Days AI Passport 2026</title>
-  <style>
-    :root {
-      --bosch-orange: #F26A3D;
-      --bosch-dark-orange: #C94A25;
-      --bosch-dark: #111111;
-      --gray-bg: #F7F9FB;
-      --gray-card: #FFFFFF;
-      --line-color: #DDDDDD;
-      --muted-text: #666666;
-      --light-orange: #FFF0E8;
-      --shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
-      --radius: 20px;
-    }
-
-    /* Accents for Each Day */
-    .day-accent-1 { --accent-color: #F26A3D; --accent-light: #FFF0E8; }
-    .day-accent-2 { --accent-color: #3182CE; --accent-light: #EBF8FF; }
-    .day-accent-3 { --accent-color: #D69E2E; --accent-light: #FEFCBF; }
-    .day-accent-4 { --accent-color: #805AD5; --accent-light: #EBF4FF; }
-    .day-accent-5 { --accent-color: #DD6B20; --accent-light: #FEEBC8; }
-    .day-accent-6 { --accent-color: #319795; --accent-light: #E6FFFA; }
-    .day-accent-7 { --accent-color: #38A169; --accent-light: #F0FFF4; }
-    .day-accent-8 { --accent-color: #E53E3E; --accent-light: #FFF5F5; }
-    .day-accent-9 { --accent-color: #00A3C4; --accent-light: #E6FFFA; }
-    .day-accent-10 { --accent-color: #2B6CB0; --accent-light: #EBF8FF; }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background-color: var(--gray-bg);
-      color: var(--bosch-dark);
-      padding: 30px 20px 80px;
-      min-height: 100vh;
-    }
-
-    .brand-strip {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 6px;
-      background: linear-gradient(90deg, var(--bosch-orange) 0%, #000000 100%);
-      z-index: 100;
-    }
-
-    .header-bar {
-      max-width: 1100px;
-      margin: 0 auto 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo-area {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo-badge {
-      background: var(--bosch-dark);
-      color: #fff;
-      font-weight: 900;
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 18px;
-      letter-spacing: 1px;
-    }
-
-    .header-title {
-      font-size: 14px;
-      color: var(--muted-text);
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .lang-toggle-btn {
-      background: #ffffff;
-      border: 1px solid var(--line-color);
-      color: var(--bosch-dark);
-      padding: 8px 18px;
-      border-radius: 999px;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      transition: all 0.2s ease;
-    }
-
-    .lang-toggle-btn:hover {
-      border-color: var(--bosch-orange);
-      color: var(--bosch-orange);
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    /* Day Selector Nav */
-    .day-selector {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 12px;
-      margin-bottom: 24px;
-    }
-
-    .day-btn {
-      flex: 0 0 auto;
-      background: #ffffff;
-      border: 1px solid var(--line-color);
-      color: var(--muted-text);
-      padding: 10px 18px;
-      border-radius: 12px;
-      font-weight: 800;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .day-btn:hover {
-      border-color: var(--accent-color, var(--bosch-orange));
-      color: var(--accent-color, var(--bosch-orange));
-    }
-
-    .day-btn.active {
-      background: var(--accent-color, var(--bosch-orange));
-      border-color: var(--accent-color, var(--bosch-orange));
-      color: #ffffff;
-    }
-
-    .day-btn.completed-step::after {
-      content: "✓";
-      margin-left: 4px;
-      font-weight: 900;
-    }
-
-    /* Main Passport Card Layout */
-    .passport-card {
-      background: var(--gray-card);
-      border-radius: var(--radius);
-      border: 1px solid var(--line-color);
-      box-shadow: var(--shadow);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-      padding: 36px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .passport-card::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 5px;
-      background: linear-gradient(90deg, var(--accent-color, var(--bosch-orange)), var(--bosch-dark));
-    }
-
-    .kicker {
-      color: var(--accent-color, var(--bosch-orange));
-      font-size: 13px;
-      font-weight: 900;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-      display: block;
-    }
-
-    h1.task-title {
-      font-size: 26px;
-      line-height: 1.2;
-      margin-bottom: 8px;
-      color: var(--bosch-dark);
-    }
-
-    .task-subtitle {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--accent-color, var(--bosch-orange));
-      margin-bottom: 12px;
-    }
-
-    p.task-desc {
-      font-size: 14px;
-      line-height: 1.6;
-      color: var(--muted-text);
-      margin-bottom: 20px;
-    }
-
-    /* Structured Boxes inside Left Side */
-    .info-box {
-      background: var(--accent-light, var(--light-orange));
-      border: 1px solid rgba(0,0,0,0.08);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-
-    .info-box label {
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--accent-color, var(--bosch-dark-orange));
-      text-transform: uppercase;
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    .prompt-box {
-      background: var(--accent-light, var(--light-orange));
-      border: 1px solid rgba(0,0,0,0.1);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 20px;
-      position: relative;
-    }
-
-    .prompt-box code {
-      font-family: "Courier New", Courier, monospace;
-      font-size: 13px;
-      color: var(--bosch-dark);
-      display: block;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .copy-btn {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: #ffffff;
-      border: 1px solid var(--accent-color, var(--bosch-orange));
-      color: var(--accent-color, var(--bosch-orange));
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 11px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    .copy-btn:hover {
-      background: var(--accent-color, var(--bosch-orange));
-      color: #ffffff;
-    }
-
-    /* Grid for Formula / Framework Cards */
-    .formula-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .formula-card {
-      background: #ffffff;
-      border: 1px solid var(--line-color);
-      border-radius: 10px;
-      padding: 10px 12px;
-    }
-
-    .formula-card h4 {
-      font-size: 12px;
-      color: var(--accent-color, var(--bosch-orange));
-      font-weight: 900;
-      margin-bottom: 4px;
-    }
-
-    .formula-card p {
-      font-size: 11px;
-      color: var(--muted-text);
-      line-height: 1.4;
-    }
-
-    /* Right Side Form */
-    .checkin-form {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 13px;
-      font-weight: 800;
-      margin-bottom: 6px;
-      color: var(--bosch-dark);
-    }
-
-    .form-group input[type="text"],
-    .form-group textarea,
-    .form-group select {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid var(--line-color);
-      border-radius: 10px;
-      font-size: 13px;
-      background: #FAFAFA;
-      transition: border-color 0.2s;
-    }
-
-    .form-group input[type="text"]:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      outline: none;
-      border-color: var(--accent-color, var(--bosch-orange));
-      background: #ffffff;
-    }
-
-    .radio-group, .checkbox-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 6px;
-    }
-
-    .radio-label, .checkbox-label {
-      font-size: 13px;
-      background: #FAFAFA;
-      border: 1px solid var(--line-color);
-      padding: 8px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-weight: 600;
-    }
-
-    .radio-label:has(input:checked), .checkbox-label:has(input:checked) {
-      border-color: var(--accent-color, var(--bosch-orange));
-      background: var(--accent-light, var(--light-orange));
-      color: var(--accent-color, var(--bosch-dark-orange));
-    }
-
-    .submit-btn {
-      background: var(--accent-color, var(--bosch-orange));
-      color: #ffffff;
-      border: none;
-      padding: 14px 24px;
-      border-radius: 999px;
-      font-size: 15px;
-      font-weight: 900;
-      cursor: pointer;
-      width: 100%;
-      transition: background 0.2s, transform 0.1s;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .submit-btn:hover {
-      filter: brightness(0.9);
-      transform: translateY(-1px);
-    }
-
-    .submit-btn:disabled {
-      background: #CCCCCC;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-
-    /* Passport Stamp System */
-    .stamp {
-      display: none;
-      position: absolute;
-      right: 30px;
-      bottom: 30px;
-      width: 130px;
-      height: 130px;
-      border: 3px dashed var(--accent-color, var(--bosch-orange));
-      border-radius: 50%;
-      color: var(--accent-color, var(--bosch-orange));
-      background: rgba(255, 255, 255, 0.95);
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      font-weight: 900;
-      text-align: center;
-      transform: rotate(-12deg);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      animation: stampBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-      pointer-events: none;
-      z-index: 10;
-    }
-
-    .stamp span.stamp-brand { font-size: 11px; letter-spacing: 1px; }
-    .stamp span.stamp-day { font-size: 15px; margin: 2px 0; }
-    .stamp span.stamp-plane { font-size: 14px; margin-bottom: 2px; }
-    .stamp span.stamp-status { font-size: 10px; letter-spacing: 1.5px; }
-
-    @keyframes stampBounce {
-      0% { transform: scale(3) rotate(-30deg); opacity: 0; }
-      100% { transform: scale(1) rotate(-12deg); opacity: 1; }
-    }
-
-    /* Day 08 Data Detective Challenge Table */
-    .data-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-      margin-top: 8px;
-    }
-
-    .data-table th, .data-table td {
-      border: 1px solid var(--line-color);
-      padding: 8px;
-      text-align: left;
-    }
-
-    .data-table th {
-      background: var(--accent-light, var(--light-orange));
-      color: var(--accent-color, var(--bosch-dark-orange));
-      font-weight: 800;
-    }
-
-    /* Final Graduation Completion Overlay Modal */
-    .final-modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(5px);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .final-modal {
-      background: #ffffff;
-      border-radius: var(--radius);
-      padding: 40px;
-      max-width: 500px;
-      width: 100%;
-      text-align: center;
-      position: relative;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-      border-top: 6px solid var(--bosch-orange);
-    }
-
-    .final-modal h2 {
-      font-size: 26px;
-      color: var(--bosch-dark);
-      margin-bottom: 8px;
-    }
-
-    .final-modal p {
-      color: var(--muted-text);
-      font-size: 14px;
-      line-height: 1.6;
-      margin-bottom: 24px;
-    }
-
-    .final-modal-stamp {
-      width: 150px;
-      height: 150px;
-      border: 4px dashed var(--bosch-orange);
-      border-radius: 50%;
-      margin: 0 auto 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      color: var(--bosch-orange);
-      transform: rotate(-8deg);
-      background: var(--light-orange);
-    }
-
-    .close-modal-btn {
-      background: var(--bosch-dark);
-      color: #ffffff;
-      border: none;
-      padding: 12px 30px;
-      border-radius: 999px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    @media (max-width: 860px) {
-      .passport-card { grid-template-columns: 1fr; gap: 24px; padding: 24px; }
-      .formula-grid { grid-template-columns: 1fr; }
-      .stamp { right: 20px; bottom: 20px; width: 100px; height: 100px; }
-    }
-  </style>
-</head>
-<body class="day-accent-1">
-
-  <div class="brand-strip"></div>
-
-  <div class="header-bar">
-    <div class="logo-area">
-      <div class="logo-badge">B/S/H/</div>
-      <div class="header-title" id="headerTitle">AI CULTURE WEEK 2026</div>
-    </div>
-    <button class="lang-toggle-btn" onclick="toggleLanguage()" id="langBtn">EN</button>
-  </div>
-
-  <div class="container">
-    <!-- Day Selector Track -->
-    <div class="day-selector" id="daySelector"></div>
-
-    <!-- Main Passport Experience Card -->
-    <div class="passport-card" id="passportCard">
-      <!-- LEFT: LEARNING TICKET -->
-      <div class="task-info" id="leftContainer"></div>
-
-      <!-- RIGHT: MY AI JOURNEY -->
-      <div class="checkin-form">
-        <form id="checkinForm" onsubmit="handleCheckinSubmit(event)">
-          <span class="kicker">MY AI JOURNEY</span>
-          <h2 style="font-size:18px; margin-bottom:14px;" id="formHeading">我的學習與實測紀錄</h2>
-
-          <div id="rightFormFields"></div>
-
-          <button type="submit" class="submit-btn" id="btnSubmit">完成打卡並蓋章 🚀</button>
-        </form>
-      </div>
-
-      <!-- Passport Stamp -->
-      <div class="stamp" id="completedStamp">
-        <span class="stamp-brand" id="stampBrand">B/S/H/</span>
-        <span class="stamp-day" id="stampDayText">DAY 01</span>
-        <span class="stamp-plane">✈</span>
-        <span class="stamp-status" id="stampStatusText">COMPLETED</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Graduation Modal -->
-  <div class="final-modal-overlay" id="finalModal">
-    <div class="final-modal">
-      <div class="final-modal-stamp">
-        <span style="font-size:12px; font-weight:900;">B/S/H/</span>
-        <span style="font-size:18px; font-weight:900; margin:4px 0;">AI PASSPORT</span>
-        <span style="font-size:16px; font-weight:800; color:var(--bosch-dark-orange);">10 / 10</span>
-        <span style="font-size:10px; letter-spacing:2px; margin-top:2px;">COMPLETED</span>
-      </div>
-      <h2>Congratulations!</h2>
-      <p> You've completed the B/S/H/ AI Passport 2026.<br/><br/>
-      <strong>10 DAYS ｜ 10 MISSIONS ｜ 10 STAMPS</strong><br/><br/>
-      Small Steps. New Skills. A Brighter You.</p>
-      <button class="close-modal-btn" onclick="closeGraduationModal()">View My Completed Passport</button>
-    </div>
-  </div>
-
-  <script>
-    // System LocalStorage Key
-    const STORAGE_KEY = 'bsh_ai_passport_2026_progress';
-
-    // State Variables
-    let currentDay = 1;
-    let currentLang = 'zh';
-    let passportProgress = {}; // Stores user inputs and status per day
-
-    // Multilingual Content for Day 01 to Day 10
-    const passportData = [
-      // DAY 01
-      {
-        day: 1,
-        accentClass: "day-accent-1",
-        zh: {
-          kicker: "DAY 01 | LEARNING TICKET",
-          title: "Meet Your AI Team",
-          subtitle: "找到最適合你的日常工作夥伴！",
-          desc: "認識 ChatGPT、Gemini 與 Copilot 各自的核心優勢與適用情境，為不同工作任務選擇最合適的 AI 夥伴。",
-          infoTitle: "WHY AI TEAM MATTERS？",
-          infoText: "不同的 AI 有不同的『性格』與『強項』。ChatGPT 擅長邏輯推理與文字創作；Gemini 整合 Google 生態系與長文本；Copilot 則完美嵌入 Microsoft 365 辦公套件。",
-          promptLabel: "RECOMMENDED PROMPT",
-          prompt: "「請提供 5 個能幫我簡化日常行政與專案跨部門溝通流程的 AI 實用建議。」",
-          fields: [
-            { id: "tools", type: "text", label: "1. 今天試用了哪些 AI 工具？", placeholder: "例如: ChatGPT, Copilot" },
-            { id: "prompt", type: "textarea", label: "2. My Prompt (你輸入了什麼指令？)", placeholder: "貼上你今天測試的 Prompt..." },
-            { id: "takeaway", type: "text", label: "3. My Takeaway (今天的核心收穫)", placeholder: "寫下一句話學習心得..." }
-          ]
-        },
-        en: {
-          kicker: "DAY 01 | LEARNING TICKET",
-          title: "Meet Your AI Team",
-          subtitle: "Find the best AI partner for your daily tasks!",
-          desc: "Explore the distinct strengths of ChatGPT, Gemini, and Copilot. Learn how to select the right tool for your daily responsibilities.",
-          infoTitle: "WHY AI TEAM MATTERS?",
-          infoText: "Different AIs have different strengths. ChatGPT excels in reasoning and text creation; Gemini handles long documents and Google tools; Copilot integrates seamlessly with Microsoft 365.",
-          promptLabel: "RECOMMENDED PROMPT",
-          prompt: '"Suggest 5 practical ways I can use AI to streamline daily workflow and team coordination."',
-          fields: [
-            { id: "tools", type: "text", label: "1. Which AI tools did you test today?", placeholder: "e.g., ChatGPT, Copilot" },
-            { id: "prompt", type: "textarea", label: "2. My Prompt (What did you ask?)", placeholder: "Paste the prompt you used today..." },
-            { id: "takeaway", type: "text", label: "3. Key Takeaway", placeholder: "Share your main insight in one sentence..." }
-          ]
-        }
-      },
-      // DAY 02
-      {
-        day: 2,
-        accentClass: "day-accent-2",
-        zh: {
-          kicker: "DAY 02 | LEARNING TICKET",
-          title: "From Idea to Great Prompt",
-          subtitle: "把「幫我一下」變成 AI 真的看得懂的指令！",
-          desc: "Better prompts ≠ Longer prompts. Give AI the information it needs to succeed. 當你把情境、任務、要求與格式說清楚，AI 就能更準確回應。",
-          formula: [
-            { title: "① CONTEXT｜情境", desc: "背景、對象與使用情境" },
-            { title: "② TASK｜任務", desc: "明確說出你要 AI 做什麼" },
-            { title: "③ REQUIREMENTS｜要求", desc: "具體限制、風格與偏好" },
-            { title: "④ FORMAT｜格式", desc: "指定輸出的呈現方式" }
-          ],
-          promptLabel: "BETTER PROMPT EXAMPLE",
-          prompt: "「我剛參加完一場跨部門會議，請幫我撰寫一封內部 Email 給團隊成員，整理會議重點、決議與後續 Action Items。語氣專業但友善，並包含 Email Subject、重點摘要與行動項目。」",
-          fields: [
-            { id: "myprompt", type: "textarea", label: "① MY PROMPT (依照 4-Piece Formula 撰寫)", placeholder: "填入你的 Prompt..." },
-            { id: "result_radio", type: "radio", label: "② DID AI DELIVER WHAT YOU NEEDED？", options: [
-              { val: "Yes", label: "Yes, ready to use｜可以直接使用" },
-              { val: "Refined", label: "Almost, I refined it｜接近需求，我有再調整" },
-              { val: "NotYet", label: "Not yet｜還不太符合" }
-            ]}
-          ]
-        },
-        en: {
-          kicker: "DAY 02 | LEARNING TICKET",
-          title: "From Idea to Great Prompt",
-          subtitle: "Turn vague ideas into prompts AI understands!",
-          desc: "Better prompts ≠ Longer prompts. Give AI the information it needs to succeed. Provide Context, Task, Requirements, and Format for precise results.",
-          formula: [
-            { title: "① CONTEXT", desc: "Background & audience" },
-            { title: "② TASK", desc: "Specific action required" },
-            { title: "③ REQUIREMENTS", desc: "Constraints & preferences" },
-            { title: "④ FORMAT", desc: "Output layout" }
-          ],
-          promptLabel: "BETTER PROMPT EXAMPLE",
-          prompt: '"I just wrapped up a cross-departmental meeting. Draft a concise follow-up email summarizing key decisions and action items with assignees. Professional yet friendly tone."',
-          fields: [
-            { id: "myprompt", type: "textarea", label: "① MY PROMPT (Using 4-Piece Formula)", placeholder: "Enter your prompt..." },
-            { id: "result_radio", type: "radio", label: "② DID AI DELIVER WHAT YOU NEEDED?", options: [
-              { val: "Yes", label: "Yes, ready to use" },
-              { val: "Refined", label: "Almost, I refined it" },
-              { val: "NotYet", label: "Not yet" }
-            ]}
-          ]
-        }
-      },
-      // DAY 03
-      {
-        day: 3,
-        accentClass: "day-accent-3",
-        zh: {
-          kicker: "DAY 03 | LEARNING TICKET",
-          title: "AI Personal Branding & K-Style Styling",
-          subtitle: "用 AI 打造你的專業形象與韓系職場風格！",
-          desc: "Same You. A More Confident You. 不需要上傳個人照片，運用 Master Prompt 讓 AI 為你分析職場專業形象與風格建議。",
-          promptLabel: "MASTER PROMPT TEMPLATE",
-          prompt: "「我想用 AI 打造個人 Professional Style。\n【關於我】職務：[填入]｜主要情境：[填入]｜期望印象：[填入]｜常用顏色：[填入]\n請生成：1. Professional Persona 與 3-5 個 Keywords  2. 5-6 個色彩風格建議  3. 3 套 K-Style 職場穿搭 (Important Meeting, Smart Casual, Event)  4. Style Board 概要。」",
-          fields: [
-            { id: "persona", type: "text", label: "① MY PROFESSIONAL PERSONA (專業形象定位)", placeholder: "例如: 高效前瞻的科技管理專員" },
-            { id: "keywords", type: "text", label: "② MY BRANDING KEYWORDS (最多 3 個關鍵字)", placeholder: "例如: Professional, Innovative, Approachable" },
-            { id: "result_summary", type: "textarea", label: "③ MY STYLE BOARD / RESULT (貼上 AI 穿搭建議精華)", placeholder: "貼上 AI 輸出的 K-Style 穿搭亮點..." }
-          ]
-        },
-        en: {
-          kicker: "DAY 03 | LEARNING TICKET",
-          title: "AI Personal Branding & K-Style Styling",
-          subtitle: "Craft your professional persona with AI!",
-          desc: "Same You. A More Confident You. No photo upload needed. Use the Master Prompt to generate personalized style boards and professional keywords.",
-          promptLabel: "MASTER PROMPT TEMPLATE",
-          prompt: '"Help me build a Professional Style. Role: [Insert], Context: [Insert], Desired Impression: [Insert]. Generate: 1. Persona & Branding Keywords 2. Color Palette 3. 3 Sets of K-Style Workwear 4. Style Board summary."',
-          fields: [
-            { id: "persona", type: "text", label: "① MY PROFESSIONAL PERSONA", placeholder: "e.g., Forward-looking Operations Specialist" },
-            { id: "keywords", type: "text", label: "② MY BRANDING KEYWORDS (Max 3)", placeholder: "e.g., Professional, Innovative, Approachable" },
-            { id: "result_summary", type: "textarea", label: "③ MY STYLE BOARD / RESULT", placeholder: "Paste key recommendations from AI..." }
-          ]
-        }
-      },
-      // DAY 04
-      {
-        day: 4,
-        accentClass: "day-accent-4",
-        zh: {
-          kicker: "DAY 04 | LEARNING TICKET",
-          title: "Create Your AI Character",
-          subtitle: "From Character → Collectible Figure",
-          desc: "掌握 Create → Refine → Transform 三步驟。設定 5 大元素（角色、個性、招牌特色、配色、風格），讓 AI 打造獨一無二的 3D 收藏公仔！",
-          promptLabel: "MASTER PROMPT TEMPLATE",
-          prompt: "「設計一個原創 AI 角色：角色為[填入]，個性關鍵字[填入]，招牌特色[填入]，主要配色[填入]，插畫風格[填入]。請產出：1. Character Design Sheet (含正側面、表情、Name) 2. 轉換為精緻 3D 收藏公仔與外盒包裝。」",
-          fields: [
-            { id: "char_name", type: "text", label: "① CHARACTER NAME (角色名稱)", placeholder: "例如: BSH Sparky" },
-            { id: "char_words", type: "text", label: "② MY CHARACTER IN 3 WORDS (3 個個性單字)", placeholder: "例如: Curious, Sharp, Friendly" },
-            { id: "sheet_result", type: "textarea", label: "③ MY CHARACTER & FIGURE RESULT (描述成果或貼上連結)", placeholder: "描述你設計的公仔外觀特徵或圖片分享連結..." }
-          ]
-        },
-        en: {
-          kicker: "DAY 04 | LEARNING TICKET",
-          title: "Create Your AI Character",
-          subtitle: "From Character → Collectible Figure",
-          desc: "Master the Create → Refine → Transform workflow. Define Character, Personality, Signature Features, Colors, and Style to build your 3D figure.",
-          promptLabel: "MASTER PROMPT TEMPLATE",
-          prompt: '"Design an original AI character and transform it into a 3D collectible figure with packaging. Include Character Sheet, 3D Figure, and Packaging design."',
-          fields: [
-            { id: "char_name", type: "text", label: "① CHARACTER NAME", placeholder: "e.g., BSH Sparky" },
-            { id: "char_words", type: "text", label: "② MY CHARACTER IN 3 WORDS", placeholder: "e.g., Curious, Sharp, Friendly" },
-            { id: "sheet_result", type: "textarea", label: "③ MY CHARACTER & FIGURE RESULT", placeholder: "Describe your collectible figure or paste image link..." }
-          ]
-        }
-      },
-      // DAY 05
-      {
-        day: 5,
-        accentClass: "day-accent-5",
-        zh: {
-          kicker: "DAY 05 | LEARNING TICKET",
-          title: "Bring Your Character to Life!",
-          subtitle: "Turn Your Character into a LINE Sticker Pack",
-          desc: "Same Character. More Expressions. Bigger Connections. 延用 Day 04 的角色設定，製作一套符合日常職場溝通的貼圖套件！",
-          promptLabel: "MASTER PROMPT TEMPLATE",
-          prompt: "「請以 Day 04 設計的角色為原型，保持臉部特徵、服裝與畫風一致，生成包含『早安、收到、謝謝、加油、排程中、確認中、完成！』等 8 張 LINE 風格貼圖 Sheet。」",
-          fields: [
-            { id: "sticker_count", type: "radio", label: "① STICKER COUNT (貼圖數量)", options: [
-              { val: "8", label: "8 張" }, { val: "16", label: "16 張" }, { val: "24", label: "24 張" }, { val: "32", label: "32 張" }, { val: "40", label: "40 張" }
-            ]},
-            { id: "fav_sticker", type: "text", label: "② MY FAVORITE STICKER (最喜歡的一張貼圖)", placeholder: "例如: 排程中，請稍後～" },
-            { id: "sheet_desc", type: "textarea", label: "③ MY STICKER SHEET (貼圖生成成果或文字簡述)", placeholder: "描述貼圖組合成果或貼上連結..." }
-          ]
-        },
-        en: {
-          kicker: "DAY 05 | LEARNING TICKET",
-          title: "Bring Your Character to Life!",
-          subtitle: "Turn Your Character into a LINE Sticker Pack",
-          desc: "Same Character. More Expressions. Bigger Connections. Reuse your Day 04 character to build an 8-sticker communication pack.",
-          promptLabel: "MASTER PROMPT TEMPLATE",
-          prompt: '"Using my Day 04 character design as reference, generate an 8-sticker sheet for LINE/Teams featuring daily work phrases like Good Morning, Understood, Thanks, and Completed!"',
-          fields: [
-            { id: "sticker_count", type: "radio", label: "① STICKER COUNT", options: [
-              { val: "8", label: "8 Stickers" }, { val: "16", label: "16 Stickers" }, { val: "24", label: "24 Stickers" }, { val: "32", label: "32 Stickers" }, { val: "40", label: "40 Stickers" }
-            ]},
-            { id: "fav_sticker", type: "text", label: "② MY FAVORITE STICKER", placeholder: "e.g., Working on it!" },
-            { id: "sheet_desc", type: "textarea", label: "③ MY STICKER SHEET RESULT", placeholder: "Describe sticker pack or paste link..." }
-          ]
-        }
-      },
-      // DAY 06
-      {
-        day: 6,
-        accentClass: "day-accent-6",
-        zh: {
-          kicker: "DAY 06 | LEARNING TICKET",
-          title: "Discover More with Perplexity",
-          subtitle: "Plan Your Next Long Weekend",
-          desc: "Search Smarter. Explore Wider. Decide Better. 體驗 Perplexity 實時聯網搜尋與附帶引用的優勢，規劃你的連假計畫。",
-          promptLabel: "RECOMMENDED PROMPT",
-          prompt: "「我的連假有 3 天，預算 NT$15,000，我想進行戶外放鬆小旅行。請使用最新資訊提供 3 個方案，比較預估費用、行程安排與優缺點，並附上參考資訊來源。」",
-          fields: [
-            { id: "options_3", type: "text", label: "① MY 3 OPTIONS (整理出的三個方案簡稱)", placeholder: "例如: 1. 宜蘭露營 2. 花蓮太魯閣 3. 台南美食巡禮" },
-            { id: "final_pick", type: "text", label: "② MY FINAL PICK (最終選擇的一個方案)", placeholder: "例如: 方案 1. 宜蘭露營" },
-            { id: "source_checked", type: "text", label: "③ ONE SOURCE I CHECKED (驗證過的來源名稱或 URL)", placeholder: "例如: Klook 2026 露營指南或網址" }
-          ]
-        },
-        en: {
-          kicker: "DAY 06 | LEARNING TICKET",
-          title: "Discover More with Perplexity",
-          subtitle: "Plan Your Next Long Weekend",
-          desc: "Search Smarter. Explore Wider. Decide Better. AI researches. You decide. Use real-time web search with cited sources to plan your trip.",
-          promptLabel: "RECOMMENDED PROMPT",
-          prompt: '"I have a 3-day long weekend and $500 budget. Provide 3 travel options with estimated costs, pros/cons, and verified source citations in a table."',
-          fields: [
-            { id: "options_3", type: "text", label: "① MY 3 OPTIONS", placeholder: "e.g., 1. Glamping 2. Coastal Drive 3. City Staycation" },
-            { id: "final_pick", type: "text", label: "② MY FINAL PICK", placeholder: "e.g., Option 1 Glamping" },
-            { id: "source_checked", type: "text", label: "③ ONE SOURCE I CHECKED", placeholder: "Source name or URL verified..." }
-          ]
-        }
-      },
-      // DAY 07
-      {
-        day: 7,
-        accentClass: "day-accent-7",
-        zh: {
-          kicker: "DAY 07 | LEARNING TICKET",
-          title: "Design Your Dream Workspace",
-          subtitle: "AI Workspace Makeover",
-          desc: "Same Desk. A Smarter, Happier You. 上傳辦公桌照片（請隱藏機密文字/黑畫面），請 AI 在不變動硬體結構下進行質感軟裝改造！",
-          promptLabel: "MASTER PROMPT",
-          prompt: "「請以這張照片為基礎進行 AI Workspace Makeover。Style: Japandi 日系簡約｜改善重點: 收納與燈光｜Lucky Theme: Career。保留桌子與螢幕，加入植物、桌墊與收納盒軟裝，生成 After 改造圖。」",
-          fields: [
-            { id: "style_plan", type: "text", label: "① MY PLAN (Style / Improvement / Lucky Theme)", placeholder: "例如: Minimal 簡約 / 線材收納 / Focus 專注" },
-            { id: "before_after_notes", type: "textarea", label: "② BEFORE & AFTER MAKEOVER (改造前後說明)", placeholder: "描述改造前後最大改變點..." },
-            { id: "fav_design", type: "text", label: "③ MY FAVORITE DESIGN POINT (最喜歡的改動 - 選填)", placeholder: "例如: 螢幕增高架底下的隱藏收納" }
-          ]
-        },
-        en: {
-          kicker: "DAY 07 | LEARNING TICKET",
-          title: "Design Your Dream Workspace",
-          subtitle: "AI Workspace Makeover",
-          desc: "Same Desk. A Smarter, Happier You. Keep monitors & furniture structure, change plants, organizers, and desk pads for better focus.",
-          promptLabel: "MASTER PROMPT",
-          prompt: '"Perform an AI Workspace Makeover on my desk photo. Style: Japandi. Retain desk and screen structure. Add plants, organizer trays, and soft lighting for an After image."',
-          fields: [
-            { id: "style_plan", type: "text", label: "① MY PLAN (Style / Improvement / Lucky Theme)", placeholder: "e.g., Minimal / Cable Mgmt / Focus" },
-            { id: "before_after_notes", type: "textarea", label: "② BEFORE & AFTER MAKEOVER", placeholder: "Describe key changes in After result..." },
-            { id: "fav_design", type: "text", label: "③ MY FAVORITE DESIGN POINT (Optional)", placeholder: "e.g., Added greenery and warm desk lamp" }
-          ]
-        }
-      },
-      // DAY 08
-      {
-        day: 8,
-        accentClass: "day-accent-8",
-        zh: {
-          kicker: "DAY 08 | LEARNING TICKET",
-          title: "Make Your Data AI-Ready",
-          subtitle: "Protect Before You Upload｜WORK SMART. SHARE SAFE.",
-          desc: "核心判斷：CAN I TELL WHO THIS IS？如果資料可以直接或間接辨識『這是誰』，上傳 AI 前必須去識別化！",
-          infoTitle: "3 DE-IDENTIFICATION METHODS",
-          infoText: "① REMOVE: 刪除姓名、Email、身分證號等多餘欄位。\n② REPLACE: 使用 Alias (如 Amy Chen → Employee 001)。\n③ GENERALIZE: 降低精細度 (如 1993/03/02 → Age 30–39)。",
-          promptLabel: "BEFORE I UPLOAD CHECKLIST",
-          prompt: "☐ Do I need this column?  ☐ Can it identify someone?\n☐ Can I replace it with an Alias?  ☐ Can I make it less specific?",
-          isDetectiveTable: true, // Special interactive table rendering
-          fields: []
-        },
-        en: {
-          kicker: "DAY 08 | LEARNING TICKET",
-          title: "Make Your Data AI-Ready",
-          subtitle: "Protect Before You Upload｜WORK SMART. SHARE SAFE.",
-          desc: "Core Question: CAN I TELL WHO THIS IS? If data directly or indirectly identifies someone, de-identify before uploading to AI!",
-          infoTitle: "3 DE-IDENTIFICATION METHODS",
-          infoText: "① REMOVE: Delete PII (Name, Email, ID).\n② REPLACE: Use Aliases (Amy Chen → Employee 001).\n③ GENERALIZE: Reduce precision (DOB → Age 30–39).",
-          promptLabel: "BEFORE I UPLOAD CHECKLIST",
-          prompt: "☐ Do I need this column?  ☐ Can it identify someone?\n☐ Can I replace it with Alias?  ☐ Can I make it less specific?",
-          isDetectiveTable: true,
-          fields: []
-        }
-      },
-      // DAY 09
-      {
-        day: 9,
-        accentClass: "day-accent-9",
-        zh: {
-          kicker: "DAY 09 | LEARNING TICKET",
-          title: "Talk to Your Data",
-          subtitle: "讓 AI 從資料中找出真正值得關注的事",
-          desc: "AI finds patterns. You verify the evidence. 搭配 Day 08 已去識別化的 Dataset，使用 Data Detective Framework 與 AI 對話分析。",
-          formula: [
-            { title: "① DESCRIBE", desc: "摘要整體趨勢與重點" },
-            { title: "② COMPARE", desc: "比較不同類別與月份" },
-            { title: "③ DETECT", desc: "找出異常數值與波動" },
-            { title: "④ EXPLAIN", desc: "區分事實與推測原因" }
-          ],
-          promptLabel: "EVIDENCE VERIFICATION PROMPT",
-          prompt: "「請分析這份資料，提出 3 個重要 Insight，並針對第 1 個 Insight 提出『支持此結論的具體數據與計算方式』，明確標示證據。」",
-          fields: [
-            { id: "findings_3", type: "textarea", label: "① MY 3 KEY FINDINGS (3 個重要數據發現)", placeholder: "1. ...\n2. ...\n3. ..." },
-            { id: "insight_verified", type: "text", label: "② ONE INSIGHT I VERIFIED (挑選一個驗證的 Insight)", placeholder: "寫下你挑選驗證的洞察..." },
-            { id: "evidence_data", type: "textarea", label: "③ SHOW ME THE EVIDENCE (支持該洞察的具體數據)", placeholder: "列出 AI 提供的具體數據證據..." }
-          ]
-        },
-        en: {
-          kicker: "DAY 09 | LEARNING TICKET",
-          title: "Talk to Your Data",
-          subtitle: "AI finds patterns. You verify the evidence.",
-          desc: "Use Day 08's de-identified dataset. Engage AI with the Data Detective Framework to uncover insights and double-check evidence.",
-          formula: [
-            { title: "① DESCRIBE", desc: "Summarize main trends" },
-            { title: "② COMPARE", desc: "Compare categories" },
-            { title: "③ DETECT", desc: "Find anomalies" },
-            { title: "④ EXPLAIN", desc: "Separate facts from guesses" }
-          ],
-          promptLabel: "EVIDENCE VERIFICATION PROMPT",
-          prompt: '"Analyze this dataset, provide 3 key insights, and for Insight #1, show me the exact data evidence and calculation method."',
-          fields: [
-            { id: "findings_3", type: "textarea", label: "① MY 3 KEY FINDINGS", placeholder: "1. ...\n2. ...\n3. ..." },
-            { id: "insight_verified", type: "text", label: "② ONE INSIGHT I VERIFIED", placeholder: "Enter the verified insight..." },
-            { id: "evidence_data", type: "textarea", label: "③ SHOW ME THE EVIDENCE", placeholder: "List the supporting data points..." }
-          ]
-        }
-      },
-      // DAY 10
-      {
-        day: 10,
-        accentClass: "day-accent-10",
-        zh: {
-          kicker: "DAY 10 | FINAL MISSION",
-          title: "Create with HTML",
-          subtitle: "用 AI 打造你的 HTML 互動式簡報或儀表板",
-          desc: "不需要寫程式！只要說清楚需求，讓 Gemini 把內容變成可互動、可視化的成果。\n工作流：DEFINE → PLAN (先不產 HTML) → BUILD → REFINE (Point-Problem-Change)。",
-          promptLabel: "OPTION A / B PROMPT FORMULA",
-          prompt: "「我想製作一份 6 頁互動式 HTML 簡報。請先提供頁面架構與關鍵訊息，【先不要產出 HTML】。等我確認架構後，再將所有 HTML/CSS/JS 打包在單一檔案中。」",
-          fields: [
-            { id: "build_type", type: "radio", label: "① I BUILT (選擇製作類型)", options: [
-              { val: "Presentation", label: "HTML Presentation (簡報)" },
-              { val: "Dashboard", label: "HTML Dashboard (儀表板)" }
-            ]},
-            { id: "topic_purpose", type: "text", label: "② MY TOPIC / PURPOSE (主題與目的)", placeholder: "例如: 跨部門 AI 工具推廣提案" },
-            { id: "result_link", type: "textarea", label: "③ MY FINAL RESULT (貼上程式碼摘要或截圖/連結)", placeholder: "說明 HTML 成果功能或貼上分享連結..." },
-            { id: "test_check", type: "checkbox", label: "④ TEST CHECK (完成自我測試)", options: [
-              { val: "tested", label: "我已測試功能正常且沒有文字溢出" },
-              { val: "refined", label: "我至少完成一次 Point-Problem-Change 優化調整" }
-            ]}
-          ]
-        },
-        en: {
-          kicker: "DAY 10 | FINAL MISSION",
-          title: "Create with HTML",
-          subtitle: "Build Interactive Presentations or Dashboards with AI",
-          desc: "No coding needed! Define → Plan (no HTML first) → Build → Refine. Turn ideas into interactive single-file HTML deliverables.",
-          promptLabel: "OPTION A / B PROMPT FORMULA",
-          prompt: '"I want an interactive single-page HTML presentation. First, provide the outline. DO NOT output HTML yet. After I confirm, output the full code in one file."',
-          fields: [
-            { id: "build_type", type: "radio", label: "① I BUILT", options: [
-              { val: "Presentation", label: "HTML Presentation" },
-              { val: "Dashboard", label: "HTML Dashboard" }
-            ]},
-            { id: "topic_purpose", type: "text", label: "② MY TOPIC / PURPOSE", placeholder: "e.g., Team AI Enablement Pitch" },
-            { id: "result_link", type: "textarea", label: "③ MY FINAL RESULT", placeholder: "Describe your HTML deliverable or paste link..." },
-            { id: "test_check", type: "checkbox", label: "④ TEST CHECK", options: [
-              { val: "tested", label: "Tested & verified no layout overflow" },
-              { val: "refined", label: "Completed at least one Refine iteration" }
-            ]}
-          ]
-        }
-      }
-    ];
-
-    // Initialize System
-    function initApp() {
-      loadProgress();
-      renderDaySelector();
-      renderDayContent();
-    }
-
-    // Load LocalStorage Progress
-    function loadProgress() {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        try {
-          passportProgress = JSON.parse(saved);
-        } catch (e) {
-          passportProgress = {};
-        }
-      }
-    }
-
-    // Save Progress to LocalStorage
-    function saveProgress() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(passportProgress));
-    }
-
-    // Render Navigation Day Selector Track
-    function renderDaySelector() {
-      const selector = document.getElementById("daySelector");
-      selector.innerHTML = "";
-      for (let i = 1; i <= 10; i++) {
-        const btn = document.createElement("button");
-        const isDone = passportProgress[i] && passportProgress[i].completed;
-        btn.className = `day-btn ${i === currentDay ? "active" : ""} ${isDone ? "completed-step" : ""}`;
-        btn.onclick = () => selectDay(i);
-        btn.innerHTML = `Day ${String(i).padStart(2, "0")}`;
-        selector.appendChild(btn);
-      }
-    }
-
-    function selectDay(dayNum) {
-      currentDay = dayNum;
-      document.body.className = passportData[dayNum - 1].accentClass;
-      renderDaySelector();
-      renderDayContent();
-    }
-
-    // Render Main Page Content
-    function renderDayContent() {
-      const data = passportData[currentDay - 1];
-      const content = data[currentLang];
-
-      // LEFT CONTAINER (LEARNING TICKET)
-      const left = document.getElementById("leftContainer");
-      let leftHtml = `
-        <span class="kicker">${content.kicker}</span>
-        <h1 class="task-title">${content.title}</h1>
-        <div class="task-subtitle">${content.subtitle}</div>
-        <p class="task-desc">${content.desc}</p>
-      `;
-
-      if (content.infoTitle) {
-        leftHtml += `
-          <div class="info-box">
-            <label>${content.infoTitle}</label>
-            <div style="font-size:13px; color:var(--bosch-dark); white-space:pre-line; line-height:1.5;">${content.infoText}</div>
-          </div>
-        `;
-      }
-
-      if (content.formula) {
-        leftHtml += `<div class="formula-grid">`;
-        content.formula.forEach(item => {
-          leftHtml += `
-            <div class="formula-card">
-              <h4>${item.title}</h4>
-              <p>${item.desc}</p>
-            </div>
-          `;
-        });
-        leftHtml += `</div>`;
-      }
-
-      if (content.prompt) {
-        leftHtml += `
-          <div class="prompt-box">
-            <button class="copy-btn" onclick="copyPromptText()">複製 Prompt</button>
-            <label>${content.promptLabel}</label>
-            <code id="promptCode">${content.prompt}</code>
-          </div>
-        `;
-      }
-
-      left.innerHTML = leftHtml;
-
-      // RIGHT FORM FIELDS (MY AI JOURNEY)
-      const rightFields = document.getElementById("rightFormFields");
-      rightFields.innerHTML = "";
-
-      const currentDayData = passportProgress[currentDay] || {};
-
-      // DAY 08 Special Data Detective Table
-      if (content.isDetectiveTable) {
-        const detectiveFields = [
-          { name: "Employee Name", defaultVal: "REMOVE" },
-          { name: "Email Address", defaultVal: "REMOVE" },
-          { name: "Department", defaultVal: "KEEP" },
-          { name: "Store Location", defaultVal: "GENERALIZE" },
-          { name: "Monthly Spend", defaultVal: "KEEP" },
-          { name: "Satisfaction Score", defaultVal: "KEEP" }
-        ];
-
-        let tableHtml = `
-          <div class="form-group">
-            <label>DATA DETECTIVE CHALLENGE｜為範例資料進行去識別化分類</label>
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Field Name</th>
-                  <th>Action Needed</th>
-                </tr>
-              </thead>
-              <tbody>
-        `;
-
-        detectiveFields.forEach((item, idx) => {
-          const fieldKey = `d_field_${idx}`;
-          const val = currentDayData[fieldKey] || item.defaultVal;
-          tableHtml += `
-            <tr>
-              <td><strong>${item.name}</strong></td>
-              <td>
-                <select name="${fieldKey}" required>
-                  <option value="REMOVE" ${val==='REMOVE'?'selected':''}>REMOVE (移除)</option>
-                  <option value="REPLACE" ${val==='REPLACE'?'selected':''}>REPLACE (替換別名)</option>
-                  <option value="GENERALIZE" ${val==='GENERALIZE'?'selected':''}>GENERALIZE (降低精細度)</option>
-                  <option value="KEEP" ${val==='KEEP'?'selected':''}>KEEP (保留)</option>
-                </select>
-              </td>
-            </tr>
-          `;
-        });
-
-        tableHtml += `</tbody></table></div>`;
-        rightFields.innerHTML = tableHtml;
-      } else {
-        // Standard Form Fields
-        content.fields.forEach(field => {
-          const fg = document.createElement("div");
-          fg.className = "form-group";
-
-          const label = document.createElement("label");
-          label.textContent = field.label;
-          fg.appendChild(label);
-
-          const savedVal = currentDayData[field.id] || "";
-
-          if (field.type === "text") {
-            const input = document.createElement("input");
-            input.type = "text";
-            input.name = field.id;
-            input.placeholder = field.placeholder || "";
-            input.value = savedVal;
-            input.required = true;
-            fg.appendChild(input);
-          } else if (field.type === "textarea") {
-            const textarea = document.createElement("textarea");
-            textarea.name = field.id;
-            textarea.rows = 3;
-            textarea.placeholder = field.placeholder || "";
-            textarea.value = savedVal;
-            textarea.required = true;
-            fg.appendChild(textarea);
-          } else if (field.type === "radio") {
-            const container = document.createElement("div");
-            container.className = "radio-group";
-            field.options.forEach(opt => {
-              const lbl = document.createElement("label");
-              lbl.className = "radio-label";
-              const radio = document.createElement("input");
-              radio.type = "radio";
-              radio.name = field.id;
-              radio.value = opt.val;
-              if (savedVal === opt.val) radio.checked = true;
-              radio.required = true;
-              lbl.appendChild(radio);
-              lbl.appendChild(document.createTextNode(opt.label));
-              container.appendChild(lbl);
-            });
-            fg.appendChild(container);
-          } else if (field.type === "checkbox") {
-            const container = document.createElement("div");
-            container.className = "checkbox-group";
-            field.options.forEach(opt => {
-              const lbl = document.createElement("label");
-              lbl.className = "checkbox-label";
-              const cb = document.createElement("input");
-              cb.type = "checkbox";
-              cb.name = field.id;
-              cb.value = opt.val;
-              const isChecked = Array.isArray(savedVal) ? savedVal.includes(opt.val) : savedVal === opt.val;
-              if (isChecked) cb.checked = true;
-              lbl.appendChild(cb);
-              lbl.appendChild(document.createTextNode(opt.label));
-              container.appendChild(lbl);
-            });
-            fg.appendChild(container);
-          }
-
-          rightFields.appendChild(fg);
-        });
-      }
-
-      // Update Stamp and Button Completion UI
-      const stamp = document.getElementById("completedStamp");
-      const form = document.getElementById("checkinForm");
-      const btn = document.getElementById("btnSubmit");
-      const isCompleted = currentDayData.completed;
-
-      if (isCompleted) {
-        stamp.style.display = "flex";
-        document.getElementById("stampDayText").textContent = currentDay === 10 ? "10 / 10" : `DAY ${String(currentDay).padStart(2, "0")}`;
-        form.style.opacity = "0.7";
-        btn.textContent = currentLang === 'zh' ? "✓ 已完成打卡 (點擊更新紀錄)" : "✓ Completed (Click to update)";
-      } else {
-        stamp.style.display = "none";
-        form.style.opacity = "1";
-        btn.textContent = currentLang === 'zh' ? `完成 Day ${String(currentDay).padStart(2, '0')} 打卡 🚀` : `Complete Day ${String(currentDay).padStart(2, '0')} 🚀`;
-      }
-    }
-
-    // Handle Form Check-in Submission
-    function handleCheckinSubmit(event) {
-      event.preventDefault();
-
-      const form = document.getElementById("checkinForm");
-      const formData = new FormData(form);
-      const dayRecord = { completed: true, timestamp: new Date().toISOString() };
-
-      // Collect Checkboxes and Inputs
-      for (let [key, val] of formData.entries()) {
-        if (dayRecord[key]) {
-          if (Array.isArray(dayRecord[key])) {
-            dayRecord[key].push(val);
-          } else {
-            dayRecord[key] = [dayRecord[key], val];
-          }
-        } else {
-          dayRecord[key] = val;
-        }
-      }
-
-      passportProgress[currentDay] = dayRecord;
-      saveProgress();
-
-      // Show Digital Stamp
-      const stamp = document.getElementById("completedStamp");
-      stamp.style.display = "flex";
-      document.getElementById("stampDayText").textContent = currentDay === 10 ? "10 / 10" : `DAY ${String(currentDay).padStart(2, "0")}`;
-
-      renderDaySelector();
-
-      // Check for Final Graduation (All 10 Days Completed)
-      checkGraduationStatus();
-    }
-
-    // Check if All 10 Days are Completed
-    function checkGraduationStatus() {
-      let completedCount = 0;
-      for (let i = 1; i <= 10; i++) {
-        if (passportProgress[i] && passportProgress[i].completed) {
-          completedCount++;
-        }
-      }
-
-      if (completedCount === 10 && currentDay === 10) {
-        document.getElementById("finalModal").style.display = "flex";
-      } else {
-        alert(currentLang === 'zh' ? `🎉 Day ${String(currentDay).padStart(2, '0')} 打卡成功！數位護照印章已蓋上。` : `🎉 Day ${String(currentDay).padStart(2, '0')} Completed! Passport stamp issued.`);
-      }
-    }
-
-    function closeGraduationModal() {
-      document.getElementById("finalModal").style.display = "none";
-    }
-
-    function copyPromptText() {
-      const code = document.getElementById("promptCode").innerText;
-      navigator.clipboard.writeText(code).then(() => {
-        alert(currentLang === 'zh' ? "Prompt 已複製到剪貼簿！" : "Prompt copied to clipboard!");
-      });
-    }
-
-    function toggleLanguage() {
-      currentLang = currentLang === "zh" ? "en" : "zh";
-      document.getElementById("langBtn").textContent = currentLang === "zh" ? "EN" : "繁中";
-      document.getElementById("formHeading").textContent = currentLang === "zh" ? "我的學習與實測紀錄" : "My Learning Ticket Record";
-      renderDayContent();
-    }
-
-    // Startup
-    initApp();
-  </script>
-</body>
-</html>
+請基於目前已完成的 AI Passport HTML 繼續優化。
+
+IMPORTANT：
+請不要重新設計整個網站，也不要修改 Day 02–Day 10 的內容。
+目前的整體 UI、Day Navigation、語言切換、Digital Passport 概念、數位戳章與打卡互動方向都很好，請全部保留。
+
+這一輪只需要完整優化：
+
+DAY 01｜Meet Your AI Team
+
+Day 01 將作為後續 Day 02–Day 10 的 Master UX Template。
+請先完成 Day 01，確認內容密度、互動方式與視覺呈現後，再延伸其他 Days。
+
+────────────────────────────
+DAY 01｜MEET YOUR AI TEAM
+認識你的 AI 工作夥伴
+────────────────────────────
+
+【LEARNING GOAL｜學習目標】
+
+認識 ChatGPT、Gemini 與 Microsoft Copilot 各自的核心優勢與適用情境。
+
+讓使用者理解：
+
+Different strengths. One goal — a smarter you.
+
+不同 AI 有不同強項。
+不需要只選一個 AI，而是根據不同工作任務，選擇適合的 AI 工作夥伴。
+
+今天的任務：
+使用「同一個 Prompt」詢問至少 2 個 AI，
+實際比較不同 AI 的回答差異。
+
+
+────────────────────────────
+TODAY'S FOCUS｜認識你的 AI TEAM
+────────────────────────────
+
+請將以下 3 個 AI 工具設計成清楚、簡潔、容易比較的 Cards。
+
+不要塞入太多文字，可以使用 icon、tag、tooltip 或展開方式呈現詳細資訊。
+
+
+① ChatGPT
+
+Think & Create｜思考與創作夥伴
+
+適合：
+• 想法發想與 Brainstorming
+• 寫作、翻譯、摘要與內容整理
+• 分析資料與解釋複雜概念
+• 圖像生成與修改
+• 深度討論與創意發想
+
+TRY IT WHEN：
+
+「我需要一個想法、草稿或更好的做法。」
+
+
+② Gemini
+
+Search & Explore｜探索與多模態夥伴
+
+適合：
+• 搜尋與整理資訊
+• 處理圖片、文件、影片等多模態內容
+• 深入研究與比較分析
+• Google 生態系相關工作情境
+• 多元內容理解與探索
+
+TRY IT WHEN：
+
+「我想探索資訊、比較不同來源，或分析多媒體內容。」
+
+
+③ Microsoft Copilot
+
+Work & Execute｜工作流程夥伴
+
+適合：
+• Outlook Email 撰寫與摘要
+• Word 寫作與編輯
+• Excel 資料分析
+• PowerPoint 簡報製作
+• Teams 會議內容整理
+• Microsoft 365 日常工作與團隊協作
+
+TRY IT WHEN：
+
+「我想在 Email、文件、數據、簡報或會議中提升工作效率。」
+
+
+────────────────────────────
+HOW IT WORKS｜今天怎麼玩？
+────────────────────────────
+
+請將以下流程設計得非常直覺，不要做成大量文字說明。
+
+STEP 1｜CHOOSE
+選擇至少 2 個你今天想體驗的 AI。
+
+☐ ChatGPT
+☐ Gemini
+☐ Microsoft Copilot
+
+
+STEP 2｜ASK
+使用相同的 Prompt 詢問你選擇的 AI。
+
+RECOMMENDED PROMPT：
+
+「請提供 5 個能幫我簡化日常行政與專案跨部門溝通流程的 AI 實用建議。」
+
+使用者可以直接複製，也可以自行修改 Prompt。
+
+
+STEP 3｜COMPARE
+比較不同 AI 的回答。
+
+請用簡單的小提示引導使用者觀察：
+
+• 哪個回答比較有創意？
+• 哪個回答比較具體？
+• 哪個比較符合你的工作情境？
+• 哪個讓你最想繼續追問？
+
+不要要求使用者逐題回答以上問題。
+這些只作為思考提示。
+
+
+STEP 4｜PICK YOUR FAVORITE
+選出今天最喜歡的 AI，並簡短寫下原因。
+
+完成後即可打卡。
+
+
+────────────────────────────
+MY AI JOURNEY｜我的 AI 使用紀錄
+────────────────────────────
+
+右側互動區請盡量簡潔。
+
+不要讓使用者覺得自己在填問卷。
+
+只保留以下 3 個主要互動區塊：
+
+
+① I TRIED...
+今天試用了哪些 AI？（至少選 2 個）
+
+☐ ChatGPT
+☐ Gemini
+☐ Microsoft Copilot
+
+
+② MY PROMPT
+我問了什麼問題？
+
+預設帶入：
+
+「請提供 5 個能幫我簡化日常行政與專案跨部門溝通流程的 AI 實用建議。」
+
+使用者可以自由修改。
+
+
+③ MY FAVORITE AI
+今天最喜歡哪一個？
+
+○ ChatGPT
+○ Gemini
+○ Microsoft Copilot
+
+WHY?｜為什麼？
+
+提供一個簡短文字輸入框即可。
+
+Placeholder：
+
+「例如：回答比較具體，可以直接應用在工作上。」
+
+IMPORTANT：
+這裡只需要簡短一句話。
+
+不要增加其他心得問題。
+
+
+────────────────────────────
+REMOVE
+────────────────────────────
+
+請完全刪除目前 Day 01 的：
+
+「My Takeaway｜今天的核心收穫」
+
+不要用其他 Reflection、Learning、Takeaway 或心得題目取代。
+
+Day 01 不需要額外心得。
+
+希望降低同仁填寫負擔。
+
+
+────────────────────────────
+DAY 01 COMPLETION RULE
+────────────────────────────
+
+「完成 Day 01 打卡 ✈️」按鈕的完成條件：
+
+1. 至少選擇 2 個 AI 工具
+2. My Prompt 不可為空白
+3. 選擇 1 個 My Favorite AI
+4. Why? 有填寫內容
+
+以上 4 個條件完成後，
+「完成 Day 01 打卡 ✈️」按鈕才變成 Active / 可點擊狀態。
+
+如果尚未完成，不需要跳出複雜警告。
+
+可以用簡單提示告訴使用者還缺少哪個步驟。
+
+
+────────────────────────────
+DIGITAL STAMP｜數位戳章
+────────────────────────────
+
+Digital Stamp 是整個 AI Passport 非常重要的 Gamification Element。
+
+請保留目前可愛的圓形 Passport Stamp 設計，並稍微強化完成時的體驗。
+
+當使用者按下：
+
+「完成 Day 01 打卡 ✈️」
+
+請：
+
+1. 播放簡短、俐落的蓋章動畫
+2. Stamp 像真的蓋在 Passport 上一樣出現
+3. 可以有輕微旋轉角度
+4. 不要過度動畫，約 0.5–1 秒即可
+5. 完成後 Stamp 保持顯示
+
+Stamp 文字：
+
+B/S/H/
+DAY 01
+✈
+COMPLETED
+
+完成後：
+
+• Day 01 Navigation 顯示 ✓ 或 Completed 狀態
+• Day 01 的填寫內容保留
+• 重新開啟網頁後，使用者資料與完成狀態仍應保留
+• 可以使用 localStorage 儲存 Day 01 progress
+
+
+────────────────────────────
+LAYOUT｜版面配置
+────────────────────────────
+
+目前的左右雙欄結構是對的，請保留。
+
+建議：
+
+LEFT｜Learning Ticket
+約 50–55%
+
+內容：
+• Day 01 Title
+• Learning Goal
+• ChatGPT / Gemini / Copilot Cards
+• How It Works
+
+RIGHT｜My AI Journey
+約 45–50%
+
+內容：
+• I Tried
+• My Prompt
+• My Favorite AI + Why?
+• Complete Day 01 Button
+• Digital Stamp
+
+請不要因為 Learning Ticket 內容增加，就把所有文字直接塞在畫面上。
+
+優先使用：
+• Cards
+• Icons
+• Tags
+• Progressive disclosure
+• Accordion / Expand
+• Tooltip
+
+讓第一眼仍然非常乾淨。
+
+
+────────────────────────────
+UX PRINCIPLE
+────────────────────────────
+
+整個 Day 01 的使用流程應該讓使用者第一眼就理解：
+
+LEARN
+↓
+TRY
+↓
+COMPARE
+↓
+PICK
+↓
+STAMP ✓
+
+不要做成 Training Manual。
+不要做成問卷。
+不要做成大量文字閱讀頁面。
+
+它應該像一個：
+
+Interactive Digital AI Passport
+
+Learning Ticket 負責「教」，
+My AI Journey 負責「做」，
+Digital Stamp 負責「完成感」。
+
+
+────────────────────────────
+VISUAL STYLE
+────────────────────────────
+
+請保留目前 Digital Passport 的視覺方向。
+
+主要色彩：
+• B/S/H/ Black
+• White
+• Orange / Coral
+
+輔助色可以使用非常淡的：
+• Blue
+• Green
+• Purple
+
+來區分 ChatGPT / Gemini / Copilot Cards。
+
+整體感覺：
+
+Clean
+Modern
+Friendly
+Playful
+Corporate
+Passport-inspired
+
+避免：
+• 過多漸層
+• 過度卡通化
+• 太多 Emoji
+• 太多文字
+• 太像 Microsoft Forms
+• 太像一般企業 LMS
+• 資訊全部塞在同一層
+
+
+────────────────────────────
+LANGUAGE
+────────────────────────────
+
+網站目前已有 EN 語言切換功能，請保留。
+
+中文模式：
+所有課程說明、按鈕、欄位名稱、Placeholder、Validation Message、完成訊息皆使用「繁體中文」。
+
+不要使用簡體中文。
+
+以下名稱可以保留英文並搭配繁體中文：
+
+ChatGPT
+Gemini
+Microsoft Copilot
+Think & Create｜思考與創作夥伴
+Search & Explore｜探索與多模態夥伴
+Work & Execute｜工作流程夥伴
+My AI Journey｜我的 AI 使用紀錄
+
+
+────────────────────────────
+TECHNICAL REQUIREMENTS
+────────────────────────────
+
+請直接修改目前的 HTML，不要重新建立另一套網站。
+
+保留目前已有的：
+• Header
+• B/S/H/ branding
+• Day 01–Day 10 navigation
+• EN language switch
+• Existing responsive behavior
+• Existing Digital Stamp concept
+
+並確保：
+
+• HTML / CSS / JavaScript 維持在單一 HTML
+• 不要加入不必要的外部套件
+• 桌機版為主要使用情境
+• 不可有文字重疊
+• 不可有 element overflow
+• 重要操作不需要 scroll 很久才能找到
+• 使用者輸入與完成狀態可以透過 localStorage 保留
+
+
+────────────────────────────
+FINAL CHECK
+────────────────────────────
+
+完成修改後，請自行檢查：
+
+1. 使用者是否能在 5 秒內理解 Day 01 要做什麼？
+2. Learning Ticket 是否真的有教會 ChatGPT / Gemini / Copilot 的差異？
+3. 同仁需要主動輸入的內容是否已降到最低？
+4. 是否已完全刪除 My Takeaway？
+5. 是否至少體驗 2 個 AI 才能完成？
+6. Digital Stamp 是否有明確的完成感？
+7. 重新整理網頁後，進度是否仍保留？
+8. 是否完全使用繁體中文，而非簡體中文？
+9. 是否保留原本乾淨、可愛的 Digital AI Passport 感覺？
+10. Day 02–Day 10 是否完全沒有被修改？
+
+請先只完成 Day 01。
+
+Day 01 將作為後續 Day 02–Day 10 的 Master UX Template。
+不要自行延伸其他 Days。
