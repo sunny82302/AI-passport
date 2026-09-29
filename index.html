@@ -516,6 +516,13 @@
   </div>
 
   <script>
+    // ====================================================
+    // ⚙️ 日期限制與測試模式控制開關 (Date Restriction Switch)
+    // ====================================================
+    // false = 關閉日期與每日限打卡一次限制 (測試模式/簡報體驗)
+    // true  = 開啟日期限制 (正式上線模式)
+    const ENABLE_DATE_LIMIT = false; 
+
     // ----------------------------------------------------
     // 🔗 Google Apps Script 部署 URL
     // ----------------------------------------------------
@@ -525,6 +532,8 @@
     const EVENT_START_DATE = new Date("2026-03-02T00:00:00"); 
 
     function getUnlockedMaxDay() {
+      if (!ENABLE_DATE_LIMIT) return 10; // 關閉限制時，10 天全部解鎖
+
       const today = new Date();
       const diffTime = today - EVENT_START_DATE;
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
@@ -1264,8 +1273,8 @@
       const isAlreadyCompleted = userProgressData[currentDay] && userProgressData[currentDay].completed;
       const todayStr = getTodayString();
 
-      // 🛑 一天打卡一次判定（若今天已完成過新的打卡，且目前檢視的這天先前尚未打卡）
-      if (lastCheckInDate === todayStr && !isAlreadyCompleted) {
+      // 🛑 一天打卡一次判定（僅在 ENABLE_DATE_LIMIT = true 時生效）
+      if (ENABLE_DATE_LIMIT && lastCheckInDate === todayStr && !isAlreadyCompleted) {
         btn.classList.remove("active");
         hint.textContent = currentLang === "zh" ? "⏳ 今日打卡額度已用完，請於明日 00:00 刷新後再來！" : "⏳ Today's check-in limit reached. Resets at 00:00!";
         hint.className = "validation-hint warn";
@@ -1348,8 +1357,8 @@
     function executeCurrentStamp() {
       const todayStr = getTodayString();
 
-      // 一天一次限制檢查
-      if (lastCheckInDate === todayStr && !(userProgressData[currentDay] && userProgressData[currentDay].completed)) {
+      // 一天一次限制檢查 (僅在 ENABLE_DATE_LIMIT = true 時生效)
+      if (ENABLE_DATE_LIMIT && lastCheckInDate === todayStr && !(userProgressData[currentDay] && userProgressData[currentDay].completed)) {
         alert(currentLang === "zh" ? "今日您已經完成過打卡！一天僅限打卡一次，每天 00:00 刷新。" : "You have already checked in today! Limited to once per day, resets at 00:00.");
         return;
       }
