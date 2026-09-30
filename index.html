@@ -132,6 +132,14 @@
     }
     .btn-secondary:hover { border-color: var(--bosch-orange); color: var(--bosch-orange); }
 
+    .btn-danger-sm {
+      background: #FFF1F2; border: 1px solid #FECDD3;
+      color: #E11D48; padding: 8px 14px;
+      border-radius: 999px; font-weight: 800; cursor: pointer;
+      transition: all 0.2s ease; font-size: 12px;
+    }
+    .btn-danger-sm:hover { background: #E11D48; color: #FFFFFF; }
+
     .btn-primary-sm {
       background: var(--bosch-orange); border: none; color: #ffffff;
       padding: 8px 18px; border-radius: 999px; font-weight: 800;
@@ -423,6 +431,9 @@
     </div>
     
     <div class="header-right">
+      <!-- 🧹 測試專用一鍵重置按鈕 -->
+      <button class="btn-danger-sm" onclick="resetAllTestingData()">🧹 清除測試紀錄</button>
+      
       <div id="userStateArea">
         <button class="btn-primary-sm" onclick="openLoginModal()" id="btnLoginNav">同仁登入 / 建立帳號</button>
       </div>
@@ -552,7 +563,6 @@
       return `${targetDate.getFullYear()}-${mm}-${dd}`;
     }
 
-    // 取得今天的本地日期字串 (YYYY-MM-DD)，用於判定每日限制
     function getTodayString() {
       const d = new Date();
       const year = d.getFullYear();
@@ -565,12 +575,17 @@
     let currentLang = "zh";
     let currentUser = null;
     let userProgressData = {};
-    let lastCheckInDate = null; // 紀錄使用者最後一次打卡日期
+    let lastCheckInDate = null; 
 
-    let mockLeaderboard = [
-      { name: "Sunny Peng", empId: "5404", days: 1 },
-      { name: "Yuxiang", empId: "E002", days: 1 }
-    ];
+    let mockLeaderboard = [];
+
+    // 🧹 一鍵清除測試紀錄函式
+    function resetAllTestingData() {
+      if (confirm("確定要重置本機所有測試紀錄嗎？（頁面將會清空並自動重新載入）")) {
+        localStorage.clear();
+        location.reload();
+      }
+    }
 
     function scrollToLeaderboard() {
       const elem = document.querySelector('.leaderboard-section');
@@ -1273,7 +1288,6 @@
       const isAlreadyCompleted = userProgressData[currentDay] && userProgressData[currentDay].completed;
       const todayStr = getTodayString();
 
-      // 🛑 一天打卡一次判定（僅在 ENABLE_DATE_LIMIT = true 時生效）
       if (ENABLE_DATE_LIMIT && lastCheckInDate === todayStr && !isAlreadyCompleted) {
         btn.classList.remove("active");
         hint.textContent = currentLang === "zh" ? "⏳ 今日打卡額度已用完，請於明日 00:00 刷新後再來！" : "⏳ Today's check-in limit reached. Resets at 00:00!";
@@ -1365,7 +1379,6 @@
     function executeCurrentStamp() {
       const todayStr = getTodayString();
 
-      // 一天一次限制檢查 (僅在 ENABLE_DATE_LIMIT = true 時生效)
       if (ENABLE_DATE_LIMIT && lastCheckInDate === todayStr && !(userProgressData[currentDay] && userProgressData[currentDay].completed)) {
         alert(currentLang === "zh" ? "今日您已經完成過打卡！一天僅限打卡一次，每天 00:00 刷新。" : "You have already checked in today! Limited to once per day, resets at 00:00.");
         return;
@@ -1408,17 +1421,14 @@
 
       localStorage.setItem(`bsh_passport_2026_${currentUser.empId}`, JSON.stringify(userProgressData));
 
-      // 計算總完成天數並同步回傳至 Google Sheet
       const currentCompletedDays = Object.keys(userProgressData).filter(k => userProgressData[k].completed).length;
 
+      // 精準傳送打卡資料至 Google Sheet
       syncToGoogleSheet({
-        action: "checkin",
         empId: currentUser.empId,
         name: currentUser.name,
-        day: `Day ${currentDay}`,
-        formData: JSON.stringify(formData),
-        totalCompletedDays: currentCompletedDays,
-        checkInDate: todayStr
+        day: `Day ${String(currentDay).padStart(2, "0")}`,
+        formData: JSON.stringify(formData)
       });
 
       const stamp = document.getElementById("digitalStamp");
@@ -1457,6 +1467,12 @@
 
       const listContainer = document.getElementById('leaderboardList');
       listContainer.innerHTML = '';
+
+      if (mockLeaderboard.length === 0) {
+        listContainer.innerHTML = '<div style="color:var(--muted-text); text-align:center; padding:20px;">尚無打卡紀錄，歡迎率先挑戰！</div>';
+        return;
+      }
+
       mockLeaderboard.forEach((user, index) => {
         listContainer.innerHTML += `
           <div class="leader-row">
@@ -1528,7 +1544,6 @@
         userProgressData = {};
       }
 
-      // 讀取該員工上次打卡日期
       lastCheckInDate = localStorage.getItem(`bsh_passport_last_date_${empIdInput}`) || null;
 
       closeLoginModal();
