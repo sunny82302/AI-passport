@@ -670,7 +670,36 @@
       if (userProgressData && userProgressData[1] && userProgressData[1].formData) {
         return userProgressData[1].formData.prompt || "（您尚未在 Day 01 填寫 Prompt）";
       }
-      return "請幫我寫一封會議紀錄 Email。"; // 未完成 Day 01 時的預設範例
+      return "請幫我寫一封會議紀錄 Email。"; 
+    }
+
+    // 🎨 Day 3 動態組裝 AI Prompt
+    function updateDay3GeneratedPrompt() {
+      const styleRadio = document.querySelector('input[name="prefStyle"]:checked');
+      const styleVal = styleRadio ? styleRadio.value : "日系質感 Japandi";
+
+      const personaRadio = document.querySelector('input[name="prefPersona"]:checked');
+      const personaVal = personaRadio ? personaRadio.value : "值得信賴的專業顧問";
+
+      const dressBoxes = document.querySelectorAll('input[name="prefDress"]:checked');
+      const dressVals = Array.from(dressBoxes).map(b => b.value).join(', ') || "Smart Casual";
+
+      const generatedPrompt = `我想為自己打造專屬的職場專業形象與風格（Style Board）。
+風格調性：${styleVal}
+期望專業形象：${personaVal}
+穿搭情境：${dressVals}
+
+請為我生成：
+1. 我的 Professional Persona 專業形象定位摘要
+2. 3 個關鍵字 (Branding Keywords)
+3. 適合我的色彩配置 (5-6 色 Palette)
+4. 針對上列穿搭情境的 K-Style 職場穿搭建議
+5. 一段可以直接貼到 AI 繪圖工具（如 Midjourney / DALL-E）生成我專屬職場形象照的英文 Prompt。`;
+
+      const promptBox = document.getElementById("generatedPromptBox");
+      if (promptBox) promptBox.value = generatedPrompt;
+
+      validateCurrentForm();
     }
 
     const daysData = {
@@ -856,44 +885,132 @@
         zh: {
           kicker: "DAY 03 | LEARNING TICKET",
           title: "AI Personal Branding & K-Style Styling",
-          goal: "Same You. A More Confident You. 不需要個人照片也能打造職場專業穿搭！",
-          subGoal: "探索適合的職場風格，打造更有自信的自己。",
+          goal: "勾選你的風格偏好，自動生成專屬 Prompt 貼到 AI (ChatGPT / Gemini) 打造職場個人品牌！",
+          subGoal: "Same You. A More Confident You. 不需要照片也能生成質感形象與穿搭提案。",
           cards: [
-            { type: "copilot", title: "MASTER PROMPT 結構", tag: "形象與穿搭提案", try: "職業 + 情境 + 印象 + 色彩 + 偏好", details: ["1. Professional Persona 專業形象分析", "2. Color Styling 5-6 色色彩建議", "3. K-Style Workwear 3 套職場穿搭 (Important Meeting, Smart Casual, Presentation)", "4. Style Board 視覺文字風格整合"] }
+            { 
+              type: "copilot", 
+              title: "AI 個人形象提案架構", 
+              tag: "一鍵產出 Style Board", 
+              try: "選擇偏好 ➔ 生成專屬 Prompt ➔ 貼至 AI 產出圖文", 
+              details: [
+                "1. 專業形象定位 (Professional Persona)",
+                "2. 個人品牌關鍵字 (3 Branding Keywords)",
+                "3. 色彩質感調色盤 (5-6 Color Palette)",
+                "4. K-Style 職場穿搭組合 (Outfit Ideas)",
+                "5. AI 繪圖指令 (Text-to-Image Prompt)"
+              ] 
+            }
           ],
-          howTitle: "HOW IT WORKS｜簡短 3 步驟",
+          howTitle: "HOW IT WORKS｜輕鬆 3 步驟",
           steps: [
-            "告訴 AI 你的工作職務、主要工作情境與穿搭色彩偏好。",
-            "複製 Master Prompt 進行分析，獲得你的 Style Board 成果。"
+            "STEP 1｜在右側勾選你喜歡的風格、專業形象與穿搭場合。",
+            "STEP 2｜點擊『📋 複製 Prompt』並貼到 ChatGPT 或 Gemini 進行生成。",
+            "STEP 3｜將 AI 產出的關鍵字貼回右側完成打卡！"
           ],
-          recommendedPrompt: "我想用 AI 打造適合自己的 Professional Style。我的工作是：行政管理；主要情境：跨部門溝通與重要會議；希望印象：專業且可靠。請為我生成包含 3–5 個 Branding Keywords 與 3 套 K-Style 穿搭建議的 Style Board。",
-          journeyTitle: "我的個人風格紀錄",
+          recommendedPrompt: "💡 提示：複製下方產出的 Prompt 後，貼給 AI 即可獲得專屬穿搭指南與繪圖指令！",
+          journeyTitle: "打造我的 AI 職場個人品牌",
           journeyFields: [
-            { type: "textarea", id: "result", label: "① MY RESULT (文字摘要或貼上 Style Board)", req: "必填", placeholder: "貼上 AI 為你產出的 Style Board 或穿搭關鍵字..." },
-            { type: "input", id: "persona", label: "② MY PROFESSIONAL PERSONA (專業形象定位)", req: "必填", placeholder: "例如：可靠、具前瞻性且溝通順暢的合作夥伴" },
-            { type: "input", id: "keywords", label: "③ MY BRANDING KEYWORDS (最多 3 個關鍵字)", req: "必填", placeholder: "例如：Reliable, Modern, Professional" },
+            { 
+              type: "radios_d3", 
+              id: "prefStyle", 
+              label: "① 我喜歡的風格 (主視覺調性)", 
+              req: "必選 1 項", 
+              options: ["日系質感 Japandi", "現代俐落 Modern Minimal", "美式率性 Smart Street"] 
+            },
+            { 
+              type: "radios_d3", 
+              id: "prefPersona", 
+              label: "② 我需要的專業形象 (期望展現特質)", 
+              req: "必选 1 項", 
+              options: ["值得信賴的專業顧問 (Reliable Advisor)", "具創新思維的合作夥伴 (Innovative Collaborator)", "具決策力的領導者 (Decisive Leader)"] 
+            },
+            { 
+              type: "checkboxes_d3", 
+              id: "prefDress", 
+              label: "③ 工作場合穿搭情境 (可複選)", 
+              req: "可複選", 
+              options: ["Casual (日常辦公)", "Smart Casual (跨部門會議)", "Business Casual (專案發表)", "Business 正裝 (高階會議)"] 
+            },
+            {
+              type: "prompt_builder",
+              id: "generatedPrompt",
+              label: "④ 自動生成的專屬 PROMPT (請複製貼到 ChatGPT 或 Gemini)",
+              req: "複製使用"
+            },
+            { 
+              type: "input", 
+              id: "keywords", 
+              label: "⑤ 貼上 AI 為你產出的 3 個關鍵字 (Branding Keywords)", 
+              req: "必填", 
+              placeholder: "例如：Reliable, Modern, Professional" 
+            },
             commonRatingFieldZh
           ]
         },
         en: {
           kicker: "DAY 03 | LEARNING TICKET",
           title: "AI Personal Branding & K-Style Styling",
-          goal: "Same You. A More Confident You. No photos required!",
-          subGoal: "Explore workplace fashion and build confidence.",
+          goal: "Select your preferences to generate a custom Prompt for ChatGPT/Gemini!",
+          subGoal: "Same You. A More Confident You. Build your brand without photos.",
           cards: [
-            { type: "copilot", title: "MASTER PROMPT TEMPLATE", tag: "Personal Style Board", try: "Role + Context + Impression + Color", details: ["1. Professional Persona Analysis", "2. Color Styling Palette (5-6 Colors)", "3. K-Style Workwear (3 Sets: Meeting, Smart Casual, Event)", "4. Integrated Style Board Concept"] }
+            { 
+              type: "copilot", 
+              title: "AI Branding Structure", 
+              tag: "Style Board Generation", 
+              try: "Select -> Generate Prompt -> Paste to AI", 
+              details: [
+                "1. Professional Persona Statement",
+                "2. 3 Branding Keywords",
+                "3. 5-6 Color Styling Palette",
+                "4. K-Style Workplace Outfit Ideas",
+                "5. Text-to-Image Prompt"
+              ] 
+            }
           ],
-          howTitle: "HOW IT WORKS | 3 Simple Steps",
+          howTitle: "HOW IT WORKS | 3 Steps",
           steps: [
-            "Tell AI your role, work contexts, and color preferences.",
-            "Run the Master Prompt to generate your custom Style Board."
+            "STEP 1 | Select your style, persona, and dressing contexts on the right.",
+            "STEP 2 | Click 'Copy Prompt' and paste it to ChatGPT or Gemini.",
+            "STEP 3 | Paste back your 3 keywords to check in!"
           ],
-          recommendedPrompt: "Based on my role in Admin Management and key context in cross-team meetings, create a Professional Style Board with 3 Branding Keywords and 3 K-Style outfit recommendations.",
-          journeyTitle: "My Personal Style Record",
+          recommendedPrompt: "💡 Hint: Copy the generated prompt, paste to AI, and get your personalized Style Board!",
+          journeyTitle: "My AI Personal Branding Record",
           journeyFields: [
-            { type: "textarea", id: "result", label: "① MY RESULT (Paste Style Board Summary)", req: "Required", placeholder: "Paste AI generated style board summary..." },
-            { type: "input", id: "persona", label: "② MY PROFESSIONAL PERSONA", req: "Required", placeholder: "e.g., Reliable & collaborative partner" },
-            { type: "input", id: "keywords", label: "③ MY BRANDING KEYWORDS (Up to 3)", req: "Required", placeholder: "e.g., Reliable, Modern, Professional" },
+            { 
+              type: "radios_d3", 
+              id: "prefStyle", 
+              label: "① Preferred Style Tone", 
+              req: "Select 1", 
+              options: ["Japandi", "Modern Minimal", "Smart Street"] 
+            },
+            { 
+              type: "radios_d3", 
+              id: "prefPersona", 
+              label: "② Desired Professional Persona", 
+              req: "Select 1", 
+              options: ["Reliable Advisor", "Innovative Collaborator", "Decisive Leader"] 
+            },
+            { 
+              type: "checkboxes_d3", 
+              id: "prefDress", 
+              label: "③ Dressing Contexts (Multiple)", 
+              req: "Multiple", 
+              options: ["Casual", "Smart Casual", "Business Casual", "Business Formal"] 
+            },
+            {
+              type: "prompt_builder",
+              id: "generatedPrompt",
+              label: "④ Generated Prompt (Copy to ChatGPT / Gemini)",
+              req: "Copy & Use"
+            },
+            { 
+              type: "input", 
+              id: "keywords", 
+              label: "⑤ Paste 3 Branding Keywords generated by AI", 
+              req: "Required", 
+              placeholder: "e.g., Reliable, Modern, Professional" 
+            },
             commonRatingFieldEn
           ]
         }
@@ -1347,6 +1464,29 @@
               ${d1Prompt}
             </div>
           `;
+        } else if (field.type === 'radios_d3') {
+          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => {
+            const checked = (savedVal === opt || i === 0) ? 'checked' : '';
+            return `
+              <div class="radio-pill-item">
+                <input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${checked} onchange="updateDay3GeneratedPrompt()" />
+                <label for="${field.id}_${i}" class="radio-pill-label">${opt}</label>
+              </div>`;
+          }).join('') + `</div>`;
+        } else if (field.type === 'checkboxes_d3') {
+          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => {
+            const checked = (savedVal && savedVal.includes(opt)) || i === 1 ? 'checked' : '';
+            return `
+              <div class="checkbox-pill-item">
+                <input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${checked} onchange="updateDay3GeneratedPrompt()" />
+                <label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label>
+              </div>`;
+          }).join('') + `</div>`;
+        } else if (field.type === 'prompt_builder') {
+          inputControl = `
+            <textarea id="generatedPromptBox" class="text-input-styled" style="min-height:120px;" readonly></textarea>
+            <button type="button" class="btn-primary-sm" id="btnCopyPrompt" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('generatedPromptBox').value, 'btnCopyPrompt')">📋 複製 PROMPT 貼至 ChatGPT / Gemini</button>
+          `;
         } else if (field.type === 'star_rating') {
           const currentStar = savedVal || 0;
           let starsHTML = '';
@@ -1444,6 +1584,7 @@
         </div>
       `;
 
+      if (currentDay === 3) updateDay3GeneratedPrompt();
       if (!isLockedDay) validateCurrentForm();
     }
 
@@ -1483,7 +1624,7 @@
       let errorMsg = "";
 
       for (let field of fields) {
-        if (field.type === 'star_rating' || field.type === 'day1_prompt_display') continue;
+        if (field.type === 'star_rating' || field.type === 'day1_prompt_display' || field.type === 'prompt_builder' || field.type === 'radios_d3' || field.type === 'checkboxes_d3') continue;
 
         if (field.type === 'checkboxes') {
           const checked = document.querySelectorAll(`input[name="${field.id}"]:checked`).length;
@@ -1575,12 +1716,14 @@
       fields.forEach(field => {
         if (field.type === 'day1_prompt_display') {
           formData[field.id] = getDay1PromptText();
+        } else if (field.type === 'prompt_builder') {
+          formData[field.id] = document.getElementById("generatedPromptBox")?.value;
         } else if (field.type === 'star_rating') {
           const val = document.getElementById("rating_value")?.value;
           formData[field.id] = val && val !== '0' ? `${val} 星` : '未評分';
-        } else if (field.type === 'checkboxes') {
+        } else if (field.type === 'checkboxes' || field.type === 'checkboxes_d3') {
           formData[field.id] = Array.from(document.querySelectorAll(`input[name="${field.id}"]:checked`)).map(c => c.value);
-        } else if (field.type === 'radios') {
+        } else if (field.type === 'radios' || field.type === 'radios_d3') {
           formData[field.id] = document.querySelector(`input[name="${field.id}"]:checked`)?.value;
         } else {
           const elem = document.getElementById(field.id);
