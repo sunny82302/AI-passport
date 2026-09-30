@@ -320,7 +320,7 @@
 
     .star-rating-box .star-item {
       font-size: 28px;
-      color: #CBD5E1; /* 空白星星灰框顏色 */
+      color: #CBD5E1;
       cursor: pointer;
       transition: color 0.15s ease, transform 0.15s ease;
       user-select: none;
@@ -328,7 +328,7 @@
 
     .star-rating-box .star-item:hover,
     .star-rating-box .star-item.active {
-      color: #F59E0B; /* 填滿時的鮮黃色 */
+      color: #F59E0B;
     }
 
     .star-rating-box .star-item:hover {
@@ -665,6 +665,14 @@
       if (hint) hint.textContent = cardElem.classList.contains("open") ? "▲ 預覽" : "▼ 詳情";
     }
 
+    // 🎯 讀取同仁在 Day 01 填寫的 Prompt 紀錄
+    function getDay1PromptText() {
+      if (userProgressData && userProgressData[1] && userProgressData[1].formData) {
+        return userProgressData[1].formData.prompt || "（您尚未在 Day 01 填寫 Prompt）";
+      }
+      return "請幫我寫一封會議紀錄 Email。"; // 未完成 Day 01 時的預設範例
+    }
+
     const daysData = {
       1: {
         accent: "#F26A3D",
@@ -746,42 +754,98 @@
         zh: {
           kicker: "DAY 02 | LEARNING TICKET",
           title: "From Idea to Great Prompt",
-          goal: "Better prompts ≠ Longer prompts. 把「幫我一下」變成 AI 真的看得懂的指令！",
+          goal: "把 Day 01 簡單的問句，升級成 AI 看得懂的『4 要素黃金 Prompt』！",
           subGoal: "Give AI the information it needs to succeed.",
           cards: [
-            { type: "gemini", title: "THE 4-PIECE PROMPT FORMULA", tag: "高質感提示詞 4 要素", try: "情境 + 任務 + 要求 + 格式", details: ["① CONTEXT 情境：告訴 AI 背景與對象", "② TASK 任務：明確說出要 AI 做什麼", "③ REQUIREMENTS 要求：提供具體限制與偏好", "④ FORMAT 格式：指定輸出的呈現方式"] }
+            { 
+              type: "gemini", 
+              title: "THE 4-PIECE PROMPT FORMULA", 
+              tag: "高質感提示詞 4 要素", 
+              try: "情境 + 任務 + 要求 + 格式", 
+              details: [
+                "① CONTEXT 情境：告訴 AI 背景與對象 (例：跨部門專案會議)",
+                "② TASK 任務：明確說出要 AI 做什麼 (例：撰寫 Email)",
+                "③ REQUIREMENTS 要求：具體限制 (例：語氣專業、標示負責人)",
+                "④ FORMAT 格式：輸出的呈現方式 (例：主旨 + 重點列點 + 行動表格)"
+              ] 
+            }
           ],
-          howTitle: "TODAY'S CHALLENGE｜跨部門會議 Email 撰寫",
+          howTitle: "💡 PROMPT 升級對比實例",
           steps: [
-            "請撰寫一封內部 Email，布達會議重點與 Action Items 給未出席的成員。",
-            "嘗試套用 4-Piece Formula (Context, Task, Requirements, Format) 撰寫 Prompt。"
+            "❌ 普通提示詞：『幫我寫一封會議紀錄 Email。』",
+            "✅ 4 要素提示詞：『我剛開完跨部門會議(情境)，請幫我撰寫會議摘要 Email(任務)。語氣專業且標示負責人(要求)，包含主旨與 Action Items 表格(格式)。』"
           ],
-          recommendedPrompt: "我剛參加完跨部門會議，請幫我撰寫一封內部 Email 給團隊成員，整理會議重點與 Action Items。語氣專業但友善，包含 Email Subject、重點摘要與行動項目。",
-          journeyTitle: "我的 Prompt 實測",
+          journeyTitle: "我的 Prompt 升級大挑戰",
           journeyFields: [
-            { type: "textarea", id: "prompt", label: "① MY PROMPT (套用 4-Piece Formula 撰寫)", req: "必填", default: "我剛參加完跨部門會議，請幫我撰寫一封內部 Email 給團隊成員，整理會議重點、決議與後續 Action Items。語氣專業但友善，並包含 Email Subject、重點摘要與行動項目。" },
-            { type: "radios", id: "result", label: "② DID AI DELIVER WHAT YOU NEEDED？", req: "必選 1 項", options: ["Yes, ready to use｜可以直接使用", "Almost, I refined it｜接近需求，我有再調整", "Not yet｜還不太符合"] },
+            { 
+              type: "day1_prompt_display", 
+              id: "day1Original", 
+              label: "① 你在 DAY 01 寫的原始 PROMPT (自動帶入)", 
+              req: "對比參考" 
+            },
+            { 
+              type: "textarea", 
+              id: "prompt", 
+              label: "② UPGRADED PROMPT｜套用 4 要素改寫你的 Prompt", 
+              req: "必填", 
+              placeholder: "加入：情境 + 任務 + 要求 + 格式，讓 AI 回答更精準！" 
+            },
+            { 
+              type: "radios", 
+              id: "result", 
+              label: "③ 改寫後 AI 的回答表現如何？", 
+              req: "必選 1 項", 
+              options: ["變得很精準，可直接使用！", "比昨天好很多，稍作微調", "還需要更多訓練"] 
+            },
             commonRatingFieldZh
           ]
         },
         en: {
           kicker: "DAY 02 | LEARNING TICKET",
           title: "From Idea to Great Prompt",
-          goal: "Better prompts ≠ Longer prompts. Give AI the right information!",
+          goal: "Upgrade your Day 01 prompt into a 4-Piece Formula Prompt!",
           subGoal: "Give AI the information it needs to succeed.",
           cards: [
-            { type: "gemini", title: "THE 4-PIECE PROMPT FORMULA", tag: "4 Core Elements", try: "Context + Task + Requirements + Format", details: ["① CONTEXT: Background & audience", "② TASK: Specific action for AI", "③ REQUIREMENTS: Constraints & preferences", "④ FORMAT: Desired output structure"] }
+            { 
+              type: "gemini", 
+              title: "THE 4-PIECE PROMPT FORMULA", 
+              tag: "4 Core Elements", 
+              try: "Context + Task + Requirements + Format", 
+              details: [
+                "① CONTEXT: Background & audience",
+                "② TASK: Specific action for AI",
+                "③ REQUIREMENTS: Constraints & preferences",
+                "④ FORMAT: Desired output structure"
+              ] 
+            }
           ],
-          howTitle: "TODAY'S CHALLENGE | Meeting Summary Email",
+          howTitle: "💡 PROMPT COMPARISON EXAMPLE",
           steps: [
-            "Draft a follow-up email summarizing meeting updates and action items for absent team members.",
-            "Apply the 4-Piece Formula in your prompt."
+            "❌ Basic Prompt: 'Write a meeting summary email.'",
+            "✅ 4-Piece Prompt: 'I just wrapped up a project meeting (Context). Draft a summary email for absent members (Task). Keep tone professional and assignees clear (Requirements). Include Subject Line and Action Items Table (Format).'"
           ],
-          recommendedPrompt: "I just wrapped up a cross-departmental meeting. Draft a concise follow-up email summarizing key decisions and action items with assignees.",
-          journeyTitle: "My Prompt Challenge",
+          journeyTitle: "My Prompt Upgrade Challenge",
           journeyFields: [
-            { type: "textarea", id: "prompt", label: "① MY PROMPT (Apply the 4-Piece Formula)", req: "Required", default: "I just wrapped up a cross-departmental meeting. Draft a concise follow-up email summarizing key decisions and action items with assignees." },
-            { type: "radios", id: "result", label: "② DID AI DELIVER WHAT YOU NEEDED?", req: "Select 1", options: ["Yes, ready to use", "Almost, I refined it", "Not yet"] },
+            { 
+              type: "day1_prompt_display", 
+              id: "day1Original", 
+              label: "① YOUR DAY 01 PROMPT (Auto-filled)", 
+              req: "Reference" 
+            },
+            { 
+              type: "textarea", 
+              id: "prompt", 
+              label: "② UPGRADED PROMPT | Apply the 4-Piece Formula", 
+              req: "Required", 
+              placeholder: "Add: Context + Task + Requirements + Format..." 
+            },
+            { 
+              type: "radios", 
+              id: "result", 
+              label: "③ How did AI perform after upgrading?", 
+              req: "Select 1", 
+              options: ["Much more accurate!", "Better than yesterday", "Needs more refinement"] 
+            },
             commonRatingFieldEn
           ]
         }
@@ -1276,7 +1340,14 @@
         const savedVal = currentDayStore[field.id];
         const isOptional = field.req && field.req.includes('Optional');
 
-        if (field.type === 'star_rating') {
+        if (field.type === 'day1_prompt_display') {
+          const d1Prompt = getDay1PromptText();
+          inputControl = `
+            <div style="background:#F1F5F9; border:1px solid var(--line-color); border-radius:8px; padding:10px 12px; font-size:12px; color:var(--bosch-dark); font-weight:600;">
+              ${d1Prompt}
+            </div>
+          `;
+        } else if (field.type === 'star_rating') {
           const currentStar = savedVal || 0;
           let starsHTML = '';
           for (let i = 1; i <= 5; i++) {
@@ -1412,8 +1483,7 @@
       let errorMsg = "";
 
       for (let field of fields) {
-        // 星星評分為選填，不阻擋打卡
-        if (field.type === 'star_rating') continue;
+        if (field.type === 'star_rating' || field.type === 'day1_prompt_display') continue;
 
         if (field.type === 'checkboxes') {
           const checked = document.querySelectorAll(`input[name="${field.id}"]:checked`).length;
@@ -1503,7 +1573,9 @@
       const formData = {};
 
       fields.forEach(field => {
-        if (field.type === 'star_rating') {
+        if (field.type === 'day1_prompt_display') {
+          formData[field.id] = getDay1PromptText();
+        } else if (field.type === 'star_rating') {
           const val = document.getElementById("rating_value")?.value;
           formData[field.id] = val && val !== '0' ? `${val} 星` : '未評分';
         } else if (field.type === 'checkboxes') {
