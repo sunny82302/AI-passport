@@ -1325,14 +1325,22 @@
       return isValid;
     }
 
-    // 🚀 向 Google Apps Script 後端傳送打卡資料
+    // 🚀 向 Google Apps Script 後端傳送打卡資料 (修復跨域傳送)
     async function syncToGoogleSheet(payload) {
       try {
+        const formData = new URLSearchParams();
+        formData.append("empId", payload.empId || "");
+        formData.append("employeeId", payload.empId || "");
+        formData.append("name", payload.name || "");
+        formData.append("day", payload.day || "");
+        formData.append("formData", payload.formData || "");
+
         await fetch(GAS_URL, {
           method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body: formData.toString()
         });
         console.log("Data successfully submitted to Google Sheet");
       } catch (err) {
@@ -1407,7 +1415,7 @@
         action: "checkin",
         empId: currentUser.empId,
         name: currentUser.name,
-        day: currentDay,
+        day: `Day ${currentDay}`,
         formData: JSON.stringify(formData),
         totalCompletedDays: currentCompletedDays,
         checkInDate: todayStr
