@@ -286,10 +286,6 @@
     .step-item-mini { display: flex; align-items: flex-start; gap: 10px; font-size: 12px; }
     .step-num-badge { background: var(--bosch-dark); color: #fff; font-size: 10px; font-weight: 900; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
 
-    .prompt-snippet-box { background: #FFFFFF; border: 1px solid var(--line-color); border-radius: 8px; padding: 8px 10px; margin-top: 6px; font-family: monospace; font-size: 11px; color: var(--bosch-dark); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-    .btn-copy-mini { background: var(--light-orange); color: var(--bosch-dark-orange); border: 1px solid rgba(242, 106, 61, 0.3); padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; cursor: pointer; white-space: nowrap; }
-    .btn-copy-mini:hover { background: var(--bosch-orange); color: #fff; }
-
     /* Form & Right Side Elements */
     .journey-header { margin-bottom: 18px; }
     .journey-header h2 { font-size: 20px; font-weight: 900; color: var(--bosch-dark); }
@@ -311,6 +307,39 @@
     .checkbox-pill-item input:checked + .checkbox-pill-label,
     .radio-pill-item input:checked + .radio-pill-label {
       background: var(--bosch-dark); color: #FFFFFF; border-color: var(--bosch-dark);
+    }
+
+    /* ⭐ 互動式空白/實心星星評分控制項樣式 */
+    .star-rating-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      direction: ltr;
+      padding: 4px 0;
+    }
+
+    .star-rating-box .star-item {
+      font-size: 28px;
+      color: #CBD5E1; /* 空白星星灰框顏色 */
+      cursor: pointer;
+      transition: color 0.15s ease, transform 0.15s ease;
+      user-select: none;
+    }
+
+    .star-rating-box .star-item:hover,
+    .star-rating-box .star-item.active {
+      color: #F59E0B; /* 填滿時的鮮黃色 */
+    }
+
+    .star-rating-box .star-item:hover {
+      transform: scale(1.2);
+    }
+
+    .star-rating-hint {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--bosch-orange);
+      margin-left: 10px;
     }
 
     .text-input-styled { width: 100%; padding: 10px 12px; border: 1px solid var(--line-color); border-radius: 8px; font-size: 12px; background: #FAFBFD; font-family: inherit; transition: all 0.2s; }
@@ -580,9 +609,9 @@
 
     let mockLeaderboard = [];
 
-    // 通用 5 星評分元件設定
-    const commonRatingFieldZh = { type: "radios", id: "rating", label: "⭐ TODAY'S RATING｜今天的任務體驗評分？", req: "選填 (Optional)", options: ["1 星 ⭐", "2 星 ⭐⭐", "3 星 ⭐⭐⭐", "4 星 ⭐⭐⭐⭐", "5 星 ⭐⭐⭐⭐⭐"] };
-    const commonRatingFieldEn = { type: "radios", id: "rating", label: "⭐ TODAY'S RATING | Rate today's task experience", req: "Optional", options: ["1 Star ⭐", "2 Stars ⭐⭐", "3 Stars ⭐⭐⭐", "4 Stars ⭐⭐⭐⭐", "5 Stars ⭐⭐⭐⭐⭐"] };
+    // ⭐ 點選式 5 星評分欄位設定
+    const commonRatingFieldZh = { type: "star_rating", id: "rating", label: "⭐ TODAY'S RATING｜今天的任務體驗評分？", req: "選填 (Optional)" };
+    const commonRatingFieldEn = { type: "star_rating", id: "rating", label: "⭐ TODAY'S RATING | Rate today's task experience", req: "Optional" };
 
     // 🧹 一鍵清除測試紀錄函式
     function resetAllTestingData() {
@@ -606,6 +635,28 @@
           setTimeout(() => { btn.textContent = oldText; }, 1500);
         }
       });
+    }
+
+    // 星星點擊與動態滿意度提示
+    function selectStarRating(val) {
+      document.getElementById("rating_value").value = val;
+      const stars = document.querySelectorAll(".star-rating-box .star-item");
+      stars.forEach((s, idx) => {
+        if (idx < val) {
+          s.classList.add("active");
+          s.textContent = "★";
+        } else {
+          s.classList.remove("active");
+          s.textContent = "☆";
+        }
+      });
+
+      const hintsZh = ["1 星 (不滿意)", "2 星 (尚可)", "3 星 (普通)", "4 星 (滿意)", "5 星 (非常滿意)"];
+      const hintsEn = ["1 Star", "2 Stars", "3 Stars", "4 Stars", "5 Stars"];
+      const hintText = currentLang === "zh" ? hintsZh[val - 1] : hintsEn[val - 1];
+      document.getElementById("starHintText").textContent = hintText;
+
+      validateCurrentForm();
     }
 
     function toggleCardExpand(cardElem) {
@@ -1225,7 +1276,21 @@
         const savedVal = currentDayStore[field.id];
         const isOptional = field.req && field.req.includes('Optional');
 
-        if (field.type === 'checkboxes') {
+        if (field.type === 'star_rating') {
+          const currentStar = savedVal || 0;
+          let starsHTML = '';
+          for (let i = 1; i <= 5; i++) {
+            const isActive = i <= currentStar;
+            starsHTML += `<span class="star-item ${isActive ? 'active' : ''}" onclick="selectStarRating(${i})">${isActive ? '★' : '☆'}</span>`;
+          }
+          inputControl = `
+            <div class="star-rating-box">
+              <input type="hidden" id="rating_value" value="${currentStar}" />
+              ${starsHTML}
+              <span class="star-rating-hint" id="starHintText">${currentStar ? `${currentStar} 星` : ''}</span>
+            </div>
+          `;
+        } else if (field.type === 'checkboxes') {
           inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => {
             const checked = savedVal && savedVal.includes(opt) ? 'checked' : '';
             return `
@@ -1347,7 +1412,8 @@
       let errorMsg = "";
 
       for (let field of fields) {
-        if (field.id === 'rating') continue;
+        // 星星評分為選填，不阻擋打卡
+        if (field.type === 'star_rating') continue;
 
         if (field.type === 'checkboxes') {
           const checked = document.querySelectorAll(`input[name="${field.id}"]:checked`).length;
@@ -1437,7 +1503,10 @@
       const formData = {};
 
       fields.forEach(field => {
-        if (field.type === 'checkboxes') {
+        if (field.type === 'star_rating') {
+          const val = document.getElementById("rating_value")?.value;
+          formData[field.id] = val && val !== '0' ? `${val} 星` : '未評分';
+        } else if (field.type === 'checkboxes') {
           formData[field.id] = Array.from(document.querySelectorAll(`input[name="${field.id}"]:checked`)).map(c => c.value);
         } else if (field.type === 'radios') {
           formData[field.id] = document.querySelector(`input[name="${field.id}"]:checked`)?.value;
