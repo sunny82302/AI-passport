@@ -346,14 +346,6 @@
     .text-input-styled:focus { outline: none; border-color: var(--bosch-orange); background: #FFFFFF; box-shadow: 0 0 0 2px rgba(242, 106, 61, 0.15); }
     textarea.text-input-styled { resize: vertical; min-height: 54px; }
 
-    .upload-box {
-      border: 2px dashed var(--line-color); border-radius: 10px; padding: 12px;
-      text-align: center; background: #FAFBFD; cursor: pointer; transition: all 0.2s;
-    }
-    .upload-box:hover { border-color: var(--bosch-orange); background: #FFF; }
-    .upload-box input { display: none; }
-    .upload-box span { font-size: 12px; color: var(--muted-text); font-weight: 700; }
-
     .submit-stamp-btn {
       background: #CBD5E1; color: #64748B; border: none; padding: 14px 20px;
       border-radius: 999px; font-size: 14px; font-weight: 900; cursor: not-allowed;
@@ -846,13 +838,10 @@ Professional Persona
       const accessoryBoxes = document.querySelectorAll('input[name="d4Accessory"]:checked');
       const accessoryVals = Array.from(accessoryBoxes).map(b => b.value).join(', ') || "☕ 質感咖啡杯";
 
-      const colorRadio = document.querySelector('input[name="d4Color"]:checked');
-      const colorVal = colorRadio ? colorRadio.value : "經典 Bosch 活力橘黑 (BSH Signature Orange & Dark)";
-
       const generatedPrompt = `Design a 3D collectible vinyl figure toy in Pop Mart style.
 Character Style: ${charBaseVal}
 Accessories: Holding ${accessoryVals}
-Brand Color Theme: ${colorVal}
+Brand Color Theme: BSH Signature Orange & Dark
 Inspiration: ${d3Info}
 
 Detail Requirements:
@@ -1213,9 +1202,9 @@ Detail Requirements:
           ],
           howTitle: "HOW IT WORKS｜輕鬆 3 步驟",
           steps: [
-            "STEP 1｜選擇你的公仔角色型態（可自訂萌寵種類）、招牌配件與配色。",
+            "STEP 1｜選擇你的公仔角色型態（可自訂萌寵種類）與招牌配件。",
             "STEP 2｜點擊『📋 複製 3D 公仔 PROMPT』並貼到 ChatGPT / Midjourney 生成圖片。",
-            "STEP 3｜上傳產出的 3D 公仔作品或連結並打卡！"
+            "STEP 3｜貼上產出的 3D 公仔圖片或作品分享連結並打卡！"
           ],
           recommendedPrompt: "💡 提示：複製下方 Prompt 貼給 AI，即可獲得盒裝潮玩公仔效果圖！",
           journeyTitle: "我的 3D 職場公仔紀錄",
@@ -1240,21 +1229,14 @@ Detail Requirements:
               req: "最多選 2 項", 
               options: ["☕ 質感咖啡杯", "💻 筆電與工作檔", "📱 智慧手機 / Home Connect App", "👓 經典黑框眼鏡"] 
             },
-            { 
-              type: "radios_d4", 
-              id: "d4Color", 
-              label: "④ BSH 品牌配色", 
-              req: "必選 1 項", 
-              options: ["經典 Bosch 活力橘黑 (BSH Signature Orange & Dark)", "極致黑灰金屬質感 (Titanium & Metal)", "溫潤北歐木質柔和色 (Warm Japandi Earth)"] 
-            },
             {
               type: "prompt_builder_d4",
               id: "d4GeneratedPrompt",
-              label: "⑤ 自動生成的 3D 公仔 PROMPT (請複製貼至 ChatGPT / Midjourney)",
+              label: "④ 自動生成的 3D 公仔 PROMPT (請複製貼至 ChatGPT / Midjourney)",
               req: "複製使用"
             },
-            { type: "upload", id: "sheet", label: "⑥ 上傳產出的 3D 公仔圖片或作品連結", req: "必填" },
-            { type: "input", id: "name", label: "⑦ CHARACTER NAME (給你的公仔取個名字吧！)", req: "必填", placeholder: "例如：Bosch Buddy / Sparky" },
+            { type: "input", id: "sheet", label: "⑤ 貼上產出的 3D 公仔圖片或作品連結", req: "必填", placeholder: "例如貼上 ChatGPT 圖檔連結或作品分享網址..." },
+            { type: "input", id: "name", label: "⑥ CHARACTER NAME (給你的公仔取個名字吧！)", req: "必填", placeholder: "例如：Bosch Buddy / Sparky" },
             commonRatingFieldZh
           ]
         },
@@ -1279,9 +1261,9 @@ Detail Requirements:
           ],
           howTitle: "HOW IT WORKS | 3 Steps",
           steps: [
-            "STEP 1 | Pick character base (custom animal supported), accessories, and color theme.",
+            "STEP 1 | Pick character base (custom animal supported) and signature accessories.",
             "STEP 2 | Click 'Copy 3D Toy Prompt' and paste into ChatGPT / Midjourney.",
-            "STEP 3 | Upload your 3D figure result image and stamp!"
+            "STEP 3 | Paste your 3D figure image URL or share link and stamp!"
           ],
           recommendedPrompt: "💡 Hint: Copy the prompt below to generate a trendy boxed vinyl figure!",
           journeyTitle: "My 3D Character Record",
@@ -1306,21 +1288,14 @@ Detail Requirements:
               req: "Max 2", 
               options: ["Coffee Cup", "Laptop & Files", "Smartphone & App", "Classic Glasses"] 
             },
-            { 
-              type: "radios_d4", 
-              id: "d4Color", 
-              label: "④ BSH Color Theme", 
-              req: "Select 1", 
-              options: ["BSH Signature Orange & Dark", "Titanium & Metal", "Warm Japandi Earth"] 
-            },
             {
               type: "prompt_builder_d4",
               id: "d4GeneratedPrompt",
-              label: "⑤ Generated 3D Toy Prompt (Copy to AI)",
+              label: "④ Generated 3D Toy Prompt (Copy to AI)",
               req: "Copy & Use"
             },
-            { type: "upload", id: "sheet", label: "⑥ Upload 3D Figure Image / Link", req: "Required" },
-            { type: "input", id: "name", label: "⑦ CHARACTER NAME", req: "Required", placeholder: "e.g., Bosch Buddy" },
+            { type: "input", id: "sheet", label: "⑤ Paste 3D Figure Image / Share Link", req: "Required", placeholder: "e.g., Paste ChatGPT image URL or share link..." },
+            { type: "input", id: "name", label: "⑥ CHARACTER NAME", req: "Required", placeholder: "e.g., Bosch Buddy" },
             commonRatingFieldEn
           ]
         }
@@ -1344,7 +1319,7 @@ Detail Requirements:
           recommendedPrompt: "請以 Day 04 設計的角色為唯一參考，保持臉部特徵與配色一致，製作包含『早安』、『收到！』、『排程中』、『完成！』等 8 張辦公常用 LINE 風格貼圖套件。",
           journeyTitle: "我的貼圖套件紀錄",
           journeyFields: [
-            { type: "upload", id: "stickerSheet", label: "① MY STICKER SHEET (上傳貼圖組合圖或連結)", req: "必填" },
+            { type: "input", id: "stickerSheet", label: "① MY STICKER SHEET (貼上貼圖組合圖或作品分享連結)", req: "必填", placeholder: "貼上圖片/作品分享連結..." },
             { type: "radios", id: "count", label: "② STICKER COUNT (完成貼圖張數)", req: "必選 1 項", options: ["8", "16", "24", "32", "40"] },
             { type: "input", id: "favSticker", label: "③ MY FAVORITE STICKER (最喜歡哪一張貼圖？)", req: "必填", placeholder: "例如：排程中，請稍後～" },
             commonRatingFieldZh
@@ -1366,7 +1341,7 @@ Detail Requirements:
           recommendedPrompt: "Using my Day 04 avatar as reference, create a set of 8 LINE-style office messaging stickers including 'Got it!', 'In progress', and 'Done!'.",
           journeyTitle: "My Sticker Pack Record",
           journeyFields: [
-            { type: "upload", id: "stickerSheet", label: "① MY STICKER SHEET (Upload Image / Link)", req: "Required" },
+            { type: "input", id: "stickerSheet", label: "① MY STICKER SHEET (Paste Image / Share Link)", req: "Required", placeholder: "Paste URL..." },
             { type: "radios", id: "count", label: "② STICKER COUNT", req: "Select 1", options: ["8", "16", "24", "32", "40"] },
             { type: "input", id: "favSticker", label: "③ MY FAVORITE STICKER", req: "Required", placeholder: "e.g., In progress, please wait~" },
             commonRatingFieldEn
@@ -1441,8 +1416,8 @@ Detail Requirements:
           journeyTitle: "我的辦公桌改造紀錄",
           journeyFields: [
             { type: "checkboxes", id: "planStyle", label: "① MY PLAN Style & Lucky Theme (選擇風格與好運元素)", req: "必選 1 項", options: ["Japandi 日系", "Minimal 簡約", "Cozy 溫馨", "Executive 專業", "Career 事業運", "Focus 專注運"] },
-            { type: "upload", id: "beforeImg", label: "② BEFORE (上傳原始辦公桌照片)", req: "必填" },
-            { type: "upload", id: "afterImg", label: "③ AFTER (上傳 AI 改造成果照片)", req: "必填" },
+            { type: "input", id: "beforeImg", label: "② BEFORE (貼上原始辦公桌照片分享連結)", req: "必填", placeholder: "貼上照片網址或連結..." },
+            { type: "input", id: "afterImg", label: "③ AFTER (貼上 AI 改造成果照片分享連結)", req: "必填", placeholder: "貼上 AI 成果網址或連結..." },
             commonRatingFieldZh
           ]
         },
@@ -1463,8 +1438,8 @@ Detail Requirements:
           journeyTitle: "My Workspace Record",
           journeyFields: [
             { type: "checkboxes", id: "planStyle", label: "① MY PLAN Style & Lucky Theme", req: "Select 1", options: ["Japandi", "Minimal", "Cozy", "Executive", "Career", "Focus"] },
-            { type: "upload", id: "beforeImg", label: "② BEFORE (Upload Desk Photo)", req: "Required" },
-            { type: "upload", id: "afterImg", label: "③ AFTER (Upload AI Makeover Result)", req: "Required" },
+            { type: "input", id: "beforeImg", label: "② BEFORE (Paste Desk Photo Link)", req: "Required", placeholder: "Paste URL..." },
+            { type: "input", id: "afterImg", label: "③ AFTER (Paste AI Makeover Result Link)", req: "Required", placeholder: "Paste URL..." },
             commonRatingFieldEn
           ]
         }
@@ -1581,14 +1556,14 @@ Detail Requirements:
           howTitle: "FINAL STEP｜終極關卡驗證",
           steps: [
             "將報告或數據打包成單一 HTML 檔案。",
-            "完成測試與優化，上傳截圖或貼上作品分享連結！"
+            "完成測試與優化，貼上截圖或作品分享連結！"
           ],
           recommendedPrompt: "我想根據以下內容製作一份互動式 HTML 簡報。請先提供頁面架構與建議的視覺呈現方式，請先不要產出 HTML，等我確認後再生成完整的單一 HTML 檔案。",
           journeyTitle: "終極任務打卡 (Final Submission)",
           journeyFields: [
             { type: "radios", id: "builtType", label: "① I BUILT (你打造的作品類型)", req: "必選", options: ["HTML Presentation (簡報)", "HTML Dashboard (儀表板)"] },
             { type: "input", id: "topicPurpose", label: "② MY TOPIC / PURPOSE (作品主題與目的)", req: "必填", placeholder: "例如：Q3 業務成果匯報互動簡報" },
-            { type: "upload", id: "finalResult", label: "③ MY FINAL RESULT (上傳截圖或貼上作品連結)", req: "必填" },
+            { type: "input", id: "finalResult", label: "③ MY FINAL RESULT (貼上截圖或作品分享連結)", req: "必填", placeholder: "貼上分享連結或網址..." },
             { type: "checkboxes", id: "testCheck", label: "④ TEST CHECK (測試與優化確認)", req: "必選 2 項", options: ["我已測試功能正常", "我至少完成一次優化調整"] },
             commonRatingFieldZh
           ]
@@ -1604,14 +1579,14 @@ Detail Requirements:
           howTitle: "FINAL STEP | Graduation Mission",
           steps: [
             "Build a standalone single-file HTML presentation or dashboard.",
-            "Test and refine, then upload a screenshot or paste your link!"
+            "Test and refine, then paste your screenshot URL or link!"
           ],
           recommendedPrompt: "I want to build an interactive HTML presentation based on the following notes. First propose a slide architecture without outputting code.",
           journeyTitle: "Final Mission Submission",
           journeyFields: [
             { type: "radios", id: "builtType", label: "① I BUILT", req: "Select 1", options: ["HTML Presentation", "HTML Dashboard"] },
             { type: "input", id: "topicPurpose", label: "② MY TOPIC / PURPOSE", req: "Required", placeholder: "e.g., Q3 Business Review Deck" },
-            { type: "upload", id: "finalResult", label: "③ MY FINAL RESULT (Screenshot / Link)", req: "Required" },
+            { type: "input", id: "finalResult", label: "③ MY FINAL RESULT (Paste Link)", req: "Required", placeholder: "Paste URL..." },
             { type: "checkboxes", id: "testCheck", label: "④ TEST CHECK", req: "Select 2", options: ["I tested the functionality", "I completed at least 1 refinement"] },
             commonRatingFieldEn
           ]
@@ -1840,15 +1815,6 @@ Detail Requirements:
         } else if (field.type === 'input') {
           const val = savedVal || '';
           inputControl = `<input type="text" id="${field.id}" class="text-input-styled" placeholder="${field.placeholder || ''}" value="${val}" oninput="validateCurrentForm()" />`;
-        } else if (field.type === 'upload') {
-          const val = savedVal || '';
-          inputControl = `
-            <div class="upload-box" onclick="document.getElementById('${field.id}_file').click()">
-              <span>📁 ${val ? '已選擇檔案 / 連結已儲存' : (currentLang === "zh" ? '點擊上傳截圖或檔案' : 'Click to Upload')}</span>
-              <input type="file" id="${field.id}_file" onchange="handleFileUpload(this, '${field.id}')" />
-            </div>
-            <input type="text" id="${field.id}" class="text-input-styled" style="margin-top:6px;" placeholder="${currentLang === 'zh' ? '或貼上圖片/作品分享連結...' : 'Or paste URL...'}" value="${val}" oninput="validateCurrentForm()" />
-          `;
         }
 
         return `
@@ -1904,13 +1870,6 @@ Detail Requirements:
       if (!isLockedDay) validateCurrentForm();
     }
 
-    function handleFileUpload(fileInput, targetId) {
-      if (fileInput.files && fileInput.files[0]) {
-        document.getElementById(targetId).value = `[Uploaded] ${fileInput.files[0].name}`;
-        validateCurrentForm();
-      }
-    }
-
     function validateCurrentForm() {
       const config = daysData[currentDay];
       const fields = config[currentLang].journeyFields;
@@ -1952,7 +1911,7 @@ Detail Requirements:
           if (!selected) {
             isValid = false; errorMsg = currentLang === "zh" ? "💡 請完成單選項答覆。" : "💡 Please select one option."; break;
           }
-        } else if (field.type === 'textarea' || field.type === 'input' || field.type === 'upload') {
+        } else if (field.type === 'textarea' || field.type === 'input') {
           const elem = document.getElementById(field.id);
           if (!elem || !elem.value.trim()) {
             isValid = false; errorMsg = currentLang === "zh" ? "💡 請填寫所有必要欄位。" : "💡 Please fill in all required fields."; break;
