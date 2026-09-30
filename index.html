@@ -621,54 +621,70 @@
         zh: {
           kicker: "DAY 01 | LEARNING TICKET",
           title: "Meet Your AI Team",
-          goal: "不同 AI 有不同強項。根據工作任務選擇適合的夥伴！",
+          goal: "不同 AI 有不同強項。今天先不用想太複雜，用你平常講話的方式跟 AI 聊聊看！",
           subGoal: "Different strengths. One goal — a smarter you.",
           cards: [
             { type: "chatgpt", title: "ChatGPT", tag: "Think & Create｜思考與創作夥伴", try: "「我需要一個想法、草稿或更好的做法。」", details: ["想法發想與 Brainstorming", "寫作、翻譯、摘要與內容整理", "分析資料與解釋複雜概念", "圖像生成與修改及深度創意討論"] },
             { type: "gemini", title: "Gemini", tag: "Search & Explore｜探索與多模態夥伴", try: "「我想探索資訊、比較不同來源或分析多媒體。」", details: ["即時搜尋與多方資料整理", "處理圖片、文件、影片等多模態內容", "深入研究與比較分析", "Google 生態系相關工作情境整合"] },
             { type: "copilot", title: "Copilot", tag: "Work & Execute｜工作流程夥伴", try: "「我想在 Email、文件、數據或會議中提升效率。」", details: ["Outlook Email 撰寫與摘要", "Word 寫作與編輯 / Excel 資料分析", "PowerPoint 簡報製作 / Teams 會議整理", "Microsoft 365 日務與團隊高效協作"] }
           ],
-          howTitle: "HOW IT WORKS｜今天怎麼玩？",
+          howTitle: "HOW IT WORKS｜輕鬆 2 步驟體驗",
           steps: [
-            "CHOOSE｜選擇至少 2 個你想體驗的 AI",
-            "ASK｜使用相同的 Prompt 詢問你選擇的 AI",
-            "COMPARE｜觀察哪個回答更有創意、具體或符合情境？",
-            "PICK｜選出今天最喜歡的 AI 並簡短寫下原因"
+            "STEP 1｜選擇一個你今天想請 AI 幫忙的情境",
+            "STEP 2｜用自己的話寫下指令發問，並把你的 Prompt 紀錄在右側打卡！"
           ],
-          recommendedPrompt: "請提供 5 個能幫我簡化日常行政與專案跨部門溝通流程的 AI 實用建議。",
-          journeyTitle: "我的 AI 使用紀錄",
+          recommendedPrompt: "💡 提示：如果不知道怎麼寫，試試看『請幫我...』，例如：『請幫我寫一封請假 Mail 範本，語氣有禮貌。』",
+          journeyTitle: "我的 AI 第一次對話紀錄",
           journeyFields: [
-            { type: "checkboxes", id: "tried", label: "① I TRIED... 今天試用了哪些 AI？", req: "至少選 2 個", options: ["ChatGPT", "Gemini", "Microsoft Copilot"] },
-            { type: "textarea", id: "prompt", label: "② MY PROMPT 我問了什麼問題？", req: "必填", default: "請提供 5 個能幫我簡化日常行政與專案跨部門溝通流程的 AI 實用建議。" },
-            { type: "radios", id: "favorite", label: "③ MY FAVORITE AI 今天最喜歡哪一個？", req: "必選 1 個", options: ["ChatGPT", "Gemini", "Copilot"] },
-            { type: "input", id: "why", label: "WHY?｜為什麼？(簡短一句話)", req: "必填", placeholder: "例如：回答比較具體，可以直接應用在工作上。" },
+            { 
+              type: "radios", 
+              id: "goalOption", 
+              label: "① 我今天想要請 AI 幫我什麼？", 
+              req: "必選 1 項", 
+              options: ["思考與發想專案", "製作簡報與圖文", "紀錄與整理工作"] 
+            },
+            { 
+              type: "textarea", 
+              id: "prompt", 
+              label: "② MY PROMPT｜試著用自己的話對 AI 下指令（簡單一句話就可以！）", 
+              req: "必填", 
+              placeholder: "例如：請幫我針對這個專案給 3 個點子、請幫我寫一封感謝信..." 
+            },
             commonRatingFieldZh
           ]
         },
         en: {
           kicker: "DAY 01 | LEARNING TICKET",
           title: "Meet Your AI Team",
-          goal: "Different strengths. Choose the right AI for each task!",
+          goal: "Different strengths. Don't worry about complex prompts today—just start a conversation!",
           subGoal: "Different strengths. One goal — a smarter you.",
           cards: [
             { type: "chatgpt", title: "ChatGPT", tag: "Think & Create | Ideation Partner", try: '"I need an idea, a draft, or a better approach."', details: ["Brainstorming & Idea Generation", "Writing, Translation & Summarization", "Data Analysis & Concept Explanation"] },
             { type: "gemini", title: "Gemini", tag: "Search & Explore | Multimodal Partner", try: '"I want to explore data, compare sources, or analyze media."', details: ["Real-time Search & Information Synthesis", "Multimodal Analysis (Image, Video, Doc)", "In-depth Research & Comparison"] },
             { type: "copilot", title: "Copilot", tag: "Work & Execute | Workflow Partner", try: '"I want to boost efficiency in Emails, Docs, or Meetings."', details: ["Outlook Drafts & Email Summaries", "Word Writing & Excel Analysis", "PowerPoint Decks & Teams Summaries"] }
           ],
-          howTitle: "HOW IT WORKS | How to Play Today",
+          howTitle: "HOW IT WORKS | 2 Simple Steps",
           steps: [
-            "CHOOSE | Select at least 2 AI tools to experience",
-            "ASK | Ask your selected AIs using the same Prompt",
-            "COMPARE | Compare which answer is creative, specific, or relevant",
-            "PICK | Choose your favorite AI and briefly state why"
+            "STEP 1 | Choose a work scenario you'd like AI to help with today.",
+            "STEP 2 | Type your prompt in your own words, ask AI, and check in!"
           ],
-          recommendedPrompt: "Provide 5 practical AI suggestions to streamline daily admin tasks and cross-departmental project communication.",
-          journeyTitle: "My AI Journey Record",
+          recommendedPrompt: "💡 Hint: Try starting with 'Please help me...', e.g., 'Please help me draft a polite leave request email.'",
+          journeyTitle: "My First AI Conversation Record",
           journeyFields: [
-            { type: "checkboxes", id: "tried", label: "① I TRIED... Which AIs did you test today?", req: "Select at least 2", options: ["ChatGPT", "Gemini", "Microsoft Copilot"] },
-            { type: "textarea", id: "prompt", label: "② MY PROMPT | What question did you ask?", req: "Required", default: "Provide 5 practical AI suggestions to streamline daily admin tasks and cross-departmental project communication." },
-            { type: "radios", id: "favorite", label: "③ MY FAVORITE AI | Which one did you like best?", req: "Select 1", options: ["ChatGPT", "Gemini", "Copilot"] },
-            { type: "input", id: "why", label: "WHY? | Brief reason (One sentence)", req: "Required", placeholder: "e.g., Practical and directly applicable to daily work." },
+            { 
+              type: "radios", 
+              id: "goalOption", 
+              label: "① What do you want AI to help with today?", 
+              req: "Select 1", 
+              options: ["思考與發想專案", "製作簡報與圖文", "紀錄與整理工作"] 
+            },
+            { 
+              type: "textarea", 
+              id: "prompt", 
+              label: "② MY PROMPT | Try writing a prompt in your own words (even one simple sentence counts!)", 
+              req: "Required", 
+              placeholder: "e.g., Give me 3 ideas for this project / Help me draft a thank-you email..." 
+            },
             commonRatingFieldEn
           ]
         }
@@ -1192,9 +1208,8 @@
           <div class="step-list">
             ${stepsHTML}
             ${data.recommendedPrompt ? `
-              <div class="prompt-snippet-box">
-                <span id="promptSnippetTxt">${data.recommendedPrompt}</span>
-                <button class="btn-copy-mini" id="btnCopyP" onclick="copyText('${data.recommendedPrompt.replace(/'/g, "\\'")}', 'btnCopyP')">${currentLang === "zh" ? "複製" : "Copy"}</button>
+              <div style="font-size:11px; color:var(--bosch-dark-orange); font-weight:700; margin-top:8px; background:#FFFFFF; padding:8px 10px; border-radius:8px; border:1px solid var(--line-color);">
+                ${data.recommendedPrompt}
               </div>
             ` : ''}
           </div>
@@ -1332,14 +1347,11 @@
       let errorMsg = "";
 
       for (let field of fields) {
-        // Skip optional rating from blocking submission
         if (field.id === 'rating') continue;
 
         if (field.type === 'checkboxes') {
           const checked = document.querySelectorAll(`input[name="${field.id}"]:checked`).length;
-          if (currentDay === 1 && checked < 2) {
-            isValid = false; errorMsg = currentLang === "zh" ? "💡 請至少選擇 2 個 AI 工具。" : "💡 Select at least 2 AI tools."; break;
-          } else if (checked < 1) {
+          if (checked < 1) {
             isValid = false; errorMsg = currentLang === "zh" ? "💡 請至少勾選 1 項。" : "💡 Please check at least 1 option."; break;
           }
         } else if (field.type === 'radios') {
@@ -1368,7 +1380,7 @@
       return isValid;
     }
 
-    // 🚀 向 Google Apps Script 後端傳送打卡資料 (修復跨域傳送)
+    // 🚀 向 Google Apps Script 後端傳送打卡資料
     async function syncToGoogleSheet(payload) {
       try {
         const formData = new URLSearchParams();
