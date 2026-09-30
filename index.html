@@ -678,7 +678,7 @@
       if (userProgressData && userProgressData[3] && userProgressData[3].formData) {
         const d3 = userProgressData[3].formData;
         const style = d3.prefStyle || "Japandi 日系質感";
-        const persona = Array.isArray(d3.prefPersona) ? d3.prefPersona.join('、') : (d3.prefPersona || "俐落專業");
+        const persona = Array.isArray(d3.prefPersona) ? d3.prefPersona.join('、') : (d3.prefPersona || "親切可靠");
         return `Day 03 個人品牌：${style} ｜ ${persona}`;
       }
       return "（延伸 Day 03 質感風格與專業特質）";
@@ -689,13 +689,13 @@
       const checkedBoxes = document.querySelectorAll('input[name="prefPersona"]:checked');
       if (checkedBoxes.length > 2) {
         checkboxElem.checked = false;
-        alert(currentLang === "zh" ? "⚠️ 期望展現特質最多選擇 2 項喔！" : "⚠️ You can select up to 2 options!");
+        alert(currentLang === "zh" ? "⚠️️ 期望展現特質最多選擇 2 項喔！" : "⚠️ You can select up to 2 options!");
         return;
       }
       updateDay3GeneratedPrompt();
     }
 
-    // 🎨 Day 3 動態組裝 AI Prompt
+    // 🎨 Day 3 動態組裝 AI Prompt (已升級為您指定的新版指令)
     function updateDay3GeneratedPrompt() {
       const styleRadio = document.querySelector('input[name="prefStyle"]:checked');
       const styleVal = styleRadio ? styleRadio.value : "日系質感 Japandi";
@@ -706,17 +706,19 @@
       const dressBoxes = document.querySelectorAll('input[name="prefDress"]:checked');
       const dressVals = Array.from(dressBoxes).map(b => b.value).join(', ') || "Smart Casual";
 
-      const generatedPrompt = `我想為自己打造專屬的職場專業形象與風格（Style Board）。
-風格調性：${styleVal}
-期望展現特質：${personaVals}
-穿搭情境：${dressVals}
+      const generatedPrompt = `我想為自己打造專屬的職場 Professional Style Board。
 
-請為我生成：
-1. 我的 Professional Persona 專業形象定位摘要
-2. 3 個關鍵字 (Branding Keywords)
-3. 適合我的色彩配置 (5-6 色 Palette)
-4. 針對上列穿搭情境的 K-Style 職場穿搭建議
-5. 一段可以直接貼到 AI 繪圖工具（如 Midjourney / DALL-E）生成我專屬職場形象照的英文 Prompt。`;
+我的選擇：
+・風格調性：${styleVal}
+・期望展現的專業形象：${personaVals}
+・穿搭情境：${dressVals}
+
+請根據我的選擇，為我規劃適合的職場形象、配色與 K-Style 穿搭。
+
+請直接以一張完整的 Professional Style Board 圖文呈現結果，
+讓我可以直觀看到整體風格與穿搭效果。
+
+風格請保持專業、自然、有質感，並以實際可運用於職場為原則。`;
 
       const promptBox = document.getElementById("generatedPromptBox");
       if (promptBox) promptBox.value = generatedPrompt;
@@ -729,7 +731,7 @@
       const checkedBoxes = document.querySelectorAll('input[name="d4Accessory"]:checked');
       if (checkedBoxes.length > 2) {
         checkboxElem.checked = false;
-        alert(currentLang === "zh" ? "⚠️ 招牌配件最多選擇 2 項喔！" : "⚠️ You can select up to 2 accessories!");
+        alert(currentLang === "zh" ? "⚠️ 招牌配件最多選擇 2 項喔！" : "⚠️️ You can select up to 2 accessories!");
         return;
       }
       updateDay4GeneratedPrompt();
@@ -969,9 +971,9 @@ Detail Requirements:
           steps: [
             "STEP 1｜在右側勾選你喜歡的風格、期望特質與穿搭場合。",
             "STEP 2｜點擊『📋 複製 Prompt』並貼到 ChatGPT 或 Gemini 進行生成。",
-            "STEP 3｜將 AI 為你產出的英文 Prompt 或重點內容貼回右側完成打卡！"
+            "STEP 3｜將 AI 為你產出的英文 Prompt 或成果摘要貼回右側完成打卡！"
           ],
-          recommendedPrompt: "💡 提示：複製下方產出的 Prompt 後，貼給 AI 即可獲得專屬穿搭指南與繪圖指令！",
+          recommendedPrompt: "💡 提示：複製下方產出的 Prompt 後，貼給 AI 即可獲得專屬 Style Board 指南與繪圖指令！",
           journeyTitle: "打造我的 AI 職場個人品牌",
           journeyFields: [
             { 
@@ -1651,7 +1653,7 @@ Detail Requirements:
           }).join('') + `</div>`;
         } else if (field.type === 'prompt_builder') {
           inputControl = `
-            <textarea id="generatedPromptBox" class="text-input-styled" style="min-height:120px;" readonly></textarea>
+            <textarea id="generatedPromptBox" class="text-input-styled" style="min-height:160px;" readonly></textarea>
             <button type="button" class="btn-primary-sm" id="btnCopyPrompt" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('generatedPromptBox').value, 'btnCopyPrompt')">📋 複製 PROMPT 貼至 ChatGPT / Gemini</button>
           `;
         } else if (field.type === 'radios_d4') {
@@ -1761,7 +1763,7 @@ Detail Requirements:
 
         <div>
           <button type="button" class="submit-stamp-btn" id="btnSubmitStamp" onclick="executeCurrentStamp()">
-            <span>${currentLang === 'zh' ? `完成 Day ${String(currentDay).padStart(2, "0")} 打卡 ✈️` : `Complete Day ${String(currentDay).padStart(2, "0")} Check-in ✈️`}</span>
+            <span>${currentLang === 'zh' ? `完成 Day ${String(currentDay).padStart(2, "0")} 打卡 ✈️️` : `Complete Day ${String(currentDay).padStart(2, "0")} Check-in ✈️`}</span>
           </button>
           <div class="validation-hint" id="valHintText"></div>
         </div>
