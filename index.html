@@ -297,6 +297,7 @@
     .form-section-block { background: #FFFFFF; border: 1px solid var(--line-color); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
     .form-section-title { font-size: 13px; font-weight: 800; color: var(--bosch-dark); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
     .form-section-title span.req-badge { font-size: 10px; color: var(--bosch-orange); font-weight: 700; background: var(--light-orange); padding: 1px 6px; border-radius: 4px; }
+    .form-section-title span.opt-badge { font-size: 10px; color: #64748B; font-weight: 700; background: #F1F5F9; padding: 1px 6px; border-radius: 4px; }
 
     .checkbox-pills, .radio-pills { display: flex; gap: 8px; flex-wrap: wrap; }
     .checkbox-pill-item, .radio-pill-item { position: relative; }
@@ -543,7 +544,7 @@
     const EVENT_START_DATE = new Date("2026-03-02T00:00:00"); 
 
     function getUnlockedMaxDay() {
-      if (!ENABLE_DATE_LIMIT) return 10; // 關閉限制時，10 天全部解鎖
+      if (!ENABLE_DATE_LIMIT) return 10;
 
       const today = new Date();
       const diffTime = today - EVENT_START_DATE;
@@ -578,6 +579,10 @@
     let lastCheckInDate = null; 
 
     let mockLeaderboard = [];
+
+    // 通用 5 星評分元件設定
+    const commonRatingFieldZh = { type: "radios", id: "rating", label: "⭐ TODAY'S RATING｜今天的任務體驗評分？", req: "選填 (Optional)", options: ["1 星 ⭐", "2 星 ⭐⭐", "3 星 ⭐⭐⭐", "4 星 ⭐⭐⭐⭐", "5 星 ⭐⭐⭐⭐⭐"] };
+    const commonRatingFieldEn = { type: "radios", id: "rating", label: "⭐ TODAY'S RATING | Rate today's task experience", req: "Optional", options: ["1 Star ⭐", "2 Stars ⭐⭐", "3 Stars ⭐⭐⭐", "4 Stars ⭐⭐⭐⭐", "5 Stars ⭐⭐⭐⭐⭐"] };
 
     // 🧹 一鍵清除測試紀錄函式
     function resetAllTestingData() {
@@ -636,7 +641,8 @@
             { type: "checkboxes", id: "tried", label: "① I TRIED... 今天試用了哪些 AI？", req: "至少選 2 個", options: ["ChatGPT", "Gemini", "Microsoft Copilot"] },
             { type: "textarea", id: "prompt", label: "② MY PROMPT 我問了什麼問題？", req: "必填", default: "請提供 5 個能幫我簡化日常行政與專案跨部門溝通流程的 AI 實用建議。" },
             { type: "radios", id: "favorite", label: "③ MY FAVORITE AI 今天最喜歡哪一個？", req: "必選 1 個", options: ["ChatGPT", "Gemini", "Copilot"] },
-            { type: "input", id: "why", label: "WHY?｜為什麼？(簡短一句話)", req: "必填", placeholder: "例如：回答比較具體，可以直接應用在工作上。" }
+            { type: "input", id: "why", label: "WHY?｜為什麼？(簡短一句話)", req: "必填", placeholder: "例如：回答比較具體，可以直接應用在工作上。" },
+            commonRatingFieldZh
           ]
         },
         en: {
@@ -662,7 +668,8 @@
             { type: "checkboxes", id: "tried", label: "① I TRIED... Which AIs did you test today?", req: "Select at least 2", options: ["ChatGPT", "Gemini", "Microsoft Copilot"] },
             { type: "textarea", id: "prompt", label: "② MY PROMPT | What question did you ask?", req: "Required", default: "Provide 5 practical AI suggestions to streamline daily admin tasks and cross-departmental project communication." },
             { type: "radios", id: "favorite", label: "③ MY FAVORITE AI | Which one did you like best?", req: "Select 1", options: ["ChatGPT", "Gemini", "Copilot"] },
-            { type: "input", id: "why", label: "WHY? | Brief reason (One sentence)", req: "Required", placeholder: "e.g., Practical and directly applicable to daily work." }
+            { type: "input", id: "why", label: "WHY? | Brief reason (One sentence)", req: "Required", placeholder: "e.g., Practical and directly applicable to daily work." },
+            commonRatingFieldEn
           ]
         }
       },
@@ -686,7 +693,8 @@
           journeyTitle: "我的 Prompt 實測",
           journeyFields: [
             { type: "textarea", id: "prompt", label: "① MY PROMPT (套用 4-Piece Formula 撰寫)", req: "必填", default: "我剛參加完跨部門會議，請幫我撰寫一封內部 Email 給團隊成員，整理會議重點、決議與後續 Action Items。語氣專業但友善，並包含 Email Subject、重點摘要與行動項目。" },
-            { type: "radios", id: "result", label: "② DID AI DELIVER WHAT YOU NEEDED？", req: "必選 1 項", options: ["Yes, ready to use｜可以直接使用", "Almost, I refined it｜接近需求，我有再調整", "Not yet｜還不太符合"] }
+            { type: "radios", id: "result", label: "② DID AI DELIVER WHAT YOU NEEDED？", req: "必選 1 項", options: ["Yes, ready to use｜可以直接使用", "Almost, I refined it｜接近需求，我有再調整", "Not yet｜還不太符合"] },
+            commonRatingFieldZh
           ]
         },
         en: {
@@ -706,7 +714,8 @@
           journeyTitle: "My Prompt Challenge",
           journeyFields: [
             { type: "textarea", id: "prompt", label: "① MY PROMPT (Apply the 4-Piece Formula)", req: "Required", default: "I just wrapped up a cross-departmental meeting. Draft a concise follow-up email summarizing key decisions and action items with assignees." },
-            { type: "radios", id: "result", label: "② DID AI DELIVER WHAT YOU NEEDED?", req: "Select 1", options: ["Yes, ready to use", "Almost, I refined it", "Not yet"] }
+            { type: "radios", id: "result", label: "② DID AI DELIVER WHAT YOU NEEDED?", req: "Select 1", options: ["Yes, ready to use", "Almost, I refined it", "Not yet"] },
+            commonRatingFieldEn
           ]
         }
       },
@@ -731,7 +740,8 @@
           journeyFields: [
             { type: "textarea", id: "result", label: "① MY RESULT (文字摘要或貼上 Style Board)", req: "必填", placeholder: "貼上 AI 為你產出的 Style Board 或穿搭關鍵字..." },
             { type: "input", id: "persona", label: "② MY PROFESSIONAL PERSONA (專業形象定位)", req: "必填", placeholder: "例如：可靠、具前瞻性且溝通順暢的合作夥伴" },
-            { type: "input", id: "keywords", label: "③ MY BRANDING KEYWORDS (最多 3 個關鍵字)", req: "必填", placeholder: "例如：Reliable, Modern, Professional" }
+            { type: "input", id: "keywords", label: "③ MY BRANDING KEYWORDS (最多 3 個關鍵字)", req: "必填", placeholder: "例如：Reliable, Modern, Professional" },
+            commonRatingFieldZh
           ]
         },
         en: {
@@ -752,7 +762,8 @@
           journeyFields: [
             { type: "textarea", id: "result", label: "① MY RESULT (Paste Style Board Summary)", req: "Required", placeholder: "Paste AI generated style board summary..." },
             { type: "input", id: "persona", label: "② MY PROFESSIONAL PERSONA", req: "Required", placeholder: "e.g., Reliable & collaborative partner" },
-            { type: "input", id: "keywords", label: "③ MY BRANDING KEYWORDS (Up to 3)", req: "Required", placeholder: "e.g., Reliable, Modern, Professional" }
+            { type: "input", id: "keywords", label: "③ MY BRANDING KEYWORDS (Up to 3)", req: "Required", placeholder: "e.g., Reliable, Modern, Professional" },
+            commonRatingFieldEn
           ]
         }
       },
@@ -777,7 +788,8 @@
           journeyFields: [
             { type: "upload", id: "sheet", label: "① MY CHARACTER SHEET / 3D FIGURE (上傳圖片或連結)", req: "必填" },
             { type: "input", id: "name", label: "② CHARACTER NAME (角色名稱)", req: "必填", placeholder: "例如：Nova / Spark" },
-            { type: "input", id: "words", label: "③ MY CHARACTER IN 3 WORDS (3 個描述詞)", req: "必填", placeholder: "例如：Curious / Positive / Reliable" }
+            { type: "input", id: "words", label: "③ MY CHARACTER IN 3 WORDS (3 個描述詞)", req: "必填", placeholder: "例如：Curious / Positive / Reliable" },
+            commonRatingFieldZh
           ]
         },
         en: {
@@ -798,7 +810,8 @@
           journeyFields: [
             { type: "upload", id: "sheet", label: "① MY CHARACTER SHEET / 3D FIGURE (Image / Link)", req: "Required" },
             { type: "input", id: "name", label: "② CHARACTER NAME", req: "Required", placeholder: "e.g., Nova" },
-            { type: "input", id: "words", label: "③ MY CHARACTER IN 3 WORDS", req: "Required", placeholder: "e.g., Curious / Positive / Reliable" }
+            { type: "input", id: "words", label: "③ MY CHARACTER IN 3 WORDS", req: "Required", placeholder: "e.g., Curious / Positive / Reliable" },
+            commonRatingFieldEn
           ]
         }
       },
@@ -823,7 +836,8 @@
           journeyFields: [
             { type: "upload", id: "stickerSheet", label: "① MY STICKER SHEET (上傳貼圖組合圖或連結)", req: "必填" },
             { type: "radios", id: "count", label: "② STICKER COUNT (完成貼圖張數)", req: "必選 1 項", options: ["8", "16", "24", "32", "40"] },
-            { type: "input", id: "favSticker", label: "③ MY FAVORITE STICKER (最喜歡哪一張貼圖？)", req: "必填", placeholder: "例如：排程中，請稍後～" }
+            { type: "input", id: "favSticker", label: "③ MY FAVORITE STICKER (最喜歡哪一張貼圖？)", req: "必填", placeholder: "例如：排程中，請稍後～" },
+            commonRatingFieldZh
           ]
         },
         en: {
@@ -844,7 +858,8 @@
           journeyFields: [
             { type: "upload", id: "stickerSheet", label: "① MY STICKER SHEET (Upload Image / Link)", req: "Required" },
             { type: "radios", id: "count", label: "② STICKER COUNT", req: "Select 1", options: ["8", "16", "24", "32", "40"] },
-            { type: "input", id: "favSticker", label: "③ MY FAVORITE STICKER", req: "Required", placeholder: "e.g., In progress, please wait~" }
+            { type: "input", id: "favSticker", label: "③ MY FAVORITE STICKER", req: "Required", placeholder: "e.g., In progress, please wait~" },
+            commonRatingFieldEn
           ]
         }
       },
@@ -869,7 +884,8 @@
           journeyFields: [
             { type: "textarea", id: "options3", label: "① MY 3 OPTIONS (列出 AI 整理的 3 個方案)", req: "必填", placeholder: "1. 京都文化行\n2. 大阪美食之旅\n3. 福岡悠閒小旅行" },
             { type: "input", id: "finalPick", label: "② MY FINAL PICK (最終選擇哪一個？)", req: "必填", placeholder: "例如：方案 2 大阪美食之旅" },
-            { type: "input", id: "sourceChecked", label: "③ ONE SOURCE I CHECKED (查驗的 1 個來源或 URL)", req: "必填", placeholder: "貼上你點開查驗的網址或來源名稱..." }
+            { type: "input", id: "sourceChecked", label: "③ ONE SOURCE I CHECKED (查驗的 1 個來源或 URL)", req: "必填", placeholder: "貼上你點開查驗的網址或來源名稱..." },
+            commonRatingFieldZh
           ]
         },
         en: {
@@ -890,7 +906,8 @@
           journeyFields: [
             { type: "textarea", id: "options3", label: "① MY 3 OPTIONS (List the 3 options from AI)", req: "Required", placeholder: "1. Kyoto Culture\n2. Osaka Food Tour\n3. Fukuoka Relaxation" },
             { type: "input", id: "finalPick", label: "② MY FINAL PICK", req: "Required", placeholder: "e.g., Option 2 Osaka Food Tour" },
-            { type: "input", id: "sourceChecked", label: "③ ONE SOURCE I CHECKED (Source Name or URL)", req: "Required", placeholder: "Paste one source URL you verified..." }
+            { type: "input", id: "sourceChecked", label: "③ ONE SOURCE I CHECKED (Source Name or URL)", req: "Required", placeholder: "Paste one source URL you verified..." },
+            commonRatingFieldEn
           ]
         }
       },
@@ -915,7 +932,8 @@
           journeyFields: [
             { type: "checkboxes", id: "planStyle", label: "① MY PLAN Style & Lucky Theme (選擇風格與好運元素)", req: "必選 1 項", options: ["Japandi 日系", "Minimal 簡約", "Cozy 溫馨", "Executive 專業", "Career 事業運", "Focus 專注運"] },
             { type: "upload", id: "beforeImg", label: "② BEFORE (上傳原始辦公桌照片)", req: "必填" },
-            { type: "upload", id: "afterImg", label: "③ AFTER (上傳 AI 改造成果照片)", req: "必填" }
+            { type: "upload", id: "afterImg", label: "③ AFTER (上傳 AI 改造成果照片)", req: "必填" },
+            commonRatingFieldZh
           ]
         },
         en: {
@@ -936,7 +954,8 @@
           journeyFields: [
             { type: "checkboxes", id: "planStyle", label: "① MY PLAN Style & Lucky Theme", req: "Select 1", options: ["Japandi", "Minimal", "Cozy", "Executive", "Career", "Focus"] },
             { type: "upload", id: "beforeImg", label: "② BEFORE (Upload Desk Photo)", req: "Required" },
-            { type: "upload", id: "afterImg", label: "③ AFTER (Upload AI Makeover Result)", req: "Required" }
+            { type: "upload", id: "afterImg", label: "③ AFTER (Upload AI Makeover Result)", req: "Required" },
+            commonRatingFieldEn
           ]
         }
       },
@@ -962,7 +981,8 @@
             { type: "radios", id: "colName", label: "① 欄位『Employee Name』應如何處理？", req: "必選", options: ["REMOVE 移除", "REPLACE 替換", "KEEP 保留"] },
             { type: "radios", id: "colEmail", label: "② 欄位『Corporate Email』應如何處理？", req: "必選", options: ["REMOVE 移除", "REPLACE 替換", "KEEP 保留"] },
             { type: "radios", id: "colDept", label: "③ 欄位『Department & Drink Preference』應如何處理？", req: "必選", options: ["KEEP 保留 (有助於分析)", "REMOVE 移除"] },
-            { type: "radios", id: "colSpend", label: "④ 欄位『Exact Spend ($125.5)』應如何處理？", req: "必選", options: ["GENERALIZE 降精細度 (改區間)", "KEEP 保留"] }
+            { type: "radios", id: "colSpend", label: "④ 欄位『Exact Spend ($125.5)』應如何處理？", req: "必選", options: ["GENERALIZE 降精細度 (改區間)", "KEEP 保留"] },
+            commonRatingFieldZh
           ]
         },
         en: {
@@ -984,7 +1004,8 @@
             { type: "radios", id: "colName", label: "① Field 'Employee Name' action?", req: "Required", options: ["REMOVE", "REPLACE", "KEEP"] },
             { type: "radios", id: "colEmail", label: "② Field 'Corporate Email' action?", req: "Required", options: ["REMOVE", "REPLACE", "KEEP"] },
             { type: "radios", id: "colDept", label: "③ Field 'Department & Drink' action?", req: "Required", options: ["KEEP (Useful for analysis)", "REMOVE"] },
-            { type: "radios", id: "colSpend", label: "④ Field 'Exact Spend' action?", req: "Required", options: ["GENERALIZE", "KEEP"] }
+            { type: "radios", id: "colSpend", label: "④ Field 'Exact Spend' action?", req: "Required", options: ["GENERALIZE", "KEEP"] },
+            commonRatingFieldEn
           ]
         }
       },
@@ -1009,7 +1030,8 @@
           journeyFields: [
             { type: "textarea", id: "findings3", label: "① MY 3 KEY FINDINGS (列出 AI 發現的 3 個重點)", req: "必填", placeholder: "1. Latte 是最受歡迎飲品\n2. 5 月份訂單下滑 15%\n3. 高雄分公司滿意度最高" },
             { type: "input", id: "insightVer", label: "② ONE INSIGHT I VERIFIED (挑選 1 個欲驗證的洞察)", req: "必填", placeholder: "例如：5 月份訂單下滑的原因" },
-            { type: "textarea", id: "evidenceText", label: "③ SHOW ME THE EVIDENCE (AI 提供支持該結論的具體數據)", req: "必填", placeholder: "貼上 AI 提供的數據證據或計算邏輯..." }
+            { type: "textarea", id: "evidenceText", label: "③ SHOW ME THE EVIDENCE (AI 提供支持該結論的具體數據)", req: "必填", placeholder: "貼上 AI 提供的數據證據或計算邏輯..." },
+            commonRatingFieldZh
           ]
         },
         en: {
@@ -1030,7 +1052,8 @@
           journeyFields: [
             { type: "textarea", id: "findings3", label: "① MY 3 KEY FINDINGS", req: "Required", placeholder: "1. Latte is top seller\n2. May order drop 15%\n3. High satisfaction in Kaohsiung" },
             { type: "input", id: "insightVer", label: "② ONE INSIGHT I VERIFIED", req: "Required", placeholder: "e.g., Reason behind May order drop" },
-            { type: "textarea", id: "evidenceText", label: "③ SHOW ME THE EVIDENCE", req: "Required", placeholder: "Paste supporting data evidence from AI..." }
+            { type: "textarea", id: "evidenceText", label: "③ SHOW ME THE EVIDENCE", req: "Required", placeholder: "Paste supporting data evidence from AI..." },
+            commonRatingFieldEn
           ]
         }
       },
@@ -1056,7 +1079,8 @@
             { type: "radios", id: "builtType", label: "① I BUILT (你打造的作品類型)", req: "必選", options: ["HTML Presentation (簡報)", "HTML Dashboard (儀表板)"] },
             { type: "input", id: "topicPurpose", label: "② MY TOPIC / PURPOSE (作品主題與目的)", req: "必填", placeholder: "例如：Q3 業務成果匯報互動簡報" },
             { type: "upload", id: "finalResult", label: "③ MY FINAL RESULT (上傳截圖或貼上作品連結)", req: "必填" },
-            { type: "checkboxes", id: "testCheck", label: "④ TEST CHECK (測試與優化確認)", req: "必選 2 項", options: ["我已測試功能正常", "我至少完成一次優化調整"] }
+            { type: "checkboxes", id: "testCheck", label: "④ TEST CHECK (測試與優化確認)", req: "必選 2 項", options: ["我已測試功能正常", "我至少完成一次優化調整"] },
+            commonRatingFieldZh
           ]
         },
         en: {
@@ -1078,7 +1102,8 @@
             { type: "radios", id: "builtType", label: "① I BUILT", req: "Select 1", options: ["HTML Presentation", "HTML Dashboard"] },
             { type: "input", id: "topicPurpose", label: "② MY TOPIC / PURPOSE", req: "Required", placeholder: "e.g., Q3 Business Review Deck" },
             { type: "upload", id: "finalResult", label: "③ MY FINAL RESULT (Screenshot / Link)", req: "Required" },
-            { type: "checkboxes", id: "testCheck", label: "④ TEST CHECK", req: "Select 2", options: ["I tested the functionality", "I completed at least 1 refinement"] }
+            { type: "checkboxes", id: "testCheck", label: "④ TEST CHECK", req: "Select 2", options: ["I tested the functionality", "I completed at least 1 refinement"] },
+            commonRatingFieldEn
           ]
         }
       }
@@ -1183,6 +1208,7 @@
       let fieldsHTML = data.journeyFields.map(field => {
         let inputControl = '';
         const savedVal = currentDayStore[field.id];
+        const isOptional = field.req && field.req.includes('Optional');
 
         if (field.type === 'checkboxes') {
           inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => {
@@ -1223,7 +1249,7 @@
           <div class="form-section-block">
             <div class="form-section-title">
               <span>${field.label}</span>
-              <span class="req-badge">${field.req}</span>
+              <span class="${isOptional ? 'opt-badge' : 'req-badge'}">${field.req}</span>
             </div>
             ${inputControl}
           </div>
@@ -1306,6 +1332,9 @@
       let errorMsg = "";
 
       for (let field of fields) {
+        // Skip optional rating from blocking submission
+        if (field.id === 'rating') continue;
+
         if (field.type === 'checkboxes') {
           const checked = document.querySelectorAll(`input[name="${field.id}"]:checked`).length;
           if (currentDay === 1 && checked < 2) {
