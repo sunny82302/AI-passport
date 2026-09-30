@@ -673,20 +673,31 @@
       return "請幫我寫一封會議紀錄 Email。"; 
     }
 
+    // 限制 Day 3 第二題選取數量最多為 2 項
+    function handleDay3PersonaCheck(checkboxElem) {
+      const checkedBoxes = document.querySelectorAll('input[name="prefPersona"]:checked');
+      if (checkedBoxes.length > 2) {
+        checkboxElem.checked = false;
+        alert(currentLang === "zh" ? "⚠️ 期望展現特質最多選擇 2 項喔！" : "⚠️ You can select up to 2 options!");
+        return;
+      }
+      updateDay3GeneratedPrompt();
+    }
+
     // 🎨 Day 3 動態組裝 AI Prompt
     function updateDay3GeneratedPrompt() {
       const styleRadio = document.querySelector('input[name="prefStyle"]:checked');
       const styleVal = styleRadio ? styleRadio.value : "日系質感 Japandi";
 
-      const personaRadio = document.querySelector('input[name="prefPersona"]:checked');
-      const personaVal = personaRadio ? personaRadio.value : "值得信賴的專業顧問";
+      const personaBoxes = document.querySelectorAll('input[name="prefPersona"]:checked');
+      const personaVals = Array.from(personaBoxes).map(b => b.value).join(' 與 ') || "親切可靠";
 
       const dressBoxes = document.querySelectorAll('input[name="prefDress"]:checked');
       const dressVals = Array.from(dressBoxes).map(b => b.value).join(', ') || "Smart Casual";
 
       const generatedPrompt = `我想為自己打造專屬的職場專業形象與風格（Style Board）。
 風格調性：${styleVal}
-期望專業形象：${personaVal}
+期望展現特質：${personaVals}
 穿搭情境：${dressVals}
 
 請為我生成：
@@ -904,7 +915,7 @@
           ],
           howTitle: "HOW IT WORKS｜輕鬆 3 步驟",
           steps: [
-            "STEP 1｜在右側勾選你喜歡的風格、專業形象與穿搭場合。",
+            "STEP 1｜在右側勾選你喜歡的風格、期望特質與穿搭場合。",
             "STEP 2｜點擊『📋 複製 Prompt』並貼到 ChatGPT 或 Gemini 進行生成。",
             "STEP 3｜將 AI 產出的關鍵字貼回右側完成打卡！"
           ],
@@ -919,11 +930,11 @@
               options: ["日系質感 Japandi", "現代俐落 Modern Minimal", "美式率性 Smart Street"] 
             },
             { 
-              type: "radios_d3", 
+              type: "checkboxes_persona_d3", 
               id: "prefPersona", 
               label: "② 我需要的專業形象 (期望展現特質)", 
-              req: "必选 1 項", 
-              options: ["值得信賴的專業顧問 (Reliable Advisor)", "具創新思維的合作夥伴 (Innovative Collaborator)", "具決策力的領導者 (Decisive Leader)"] 
+              req: "最多選 2 項", 
+              options: ["親切可靠", "俐落專業", "自信有影響力", "沉穩有質感", "聰明有想法", "活力有親和力"] 
             },
             { 
               type: "checkboxes_d3", 
@@ -970,7 +981,7 @@
           ],
           howTitle: "HOW IT WORKS | 3 Steps",
           steps: [
-            "STEP 1 | Select your style, persona, and dressing contexts on the right.",
+            "STEP 1 | Select your style, traits, and dressing contexts on the right.",
             "STEP 2 | Click 'Copy Prompt' and paste it to ChatGPT or Gemini.",
             "STEP 3 | Paste back your 3 keywords to check in!"
           ],
@@ -985,11 +996,11 @@
               options: ["Japandi", "Modern Minimal", "Smart Street"] 
             },
             { 
-              type: "radios_d3", 
+              type: "checkboxes_persona_d3", 
               id: "prefPersona", 
-              label: "② Desired Professional Persona", 
-              req: "Select 1", 
-              options: ["Reliable Advisor", "Innovative Collaborator", "Decisive Leader"] 
+              label: "② Desired Traits (Up to 2)", 
+              req: "Max 2", 
+              options: ["Warm & Reliable", "Sleek & Professional", "Confident & Influential", "Poised & Sophisticated", "Smart & Creative", "Energetic & Approachable"] 
             },
             { 
               type: "checkboxes_d3", 
@@ -1473,6 +1484,15 @@
                 <label for="${field.id}_${i}" class="radio-pill-label">${opt}</label>
               </div>`;
           }).join('') + `</div>`;
+        } else if (field.type === 'checkboxes_persona_d3') {
+          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => {
+            const checked = (savedVal && savedVal.includes(opt)) || i === 0 ? 'checked' : '';
+            return `
+              <div class="checkbox-pill-item">
+                <input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${checked} onchange="handleDay3PersonaCheck(this)" />
+                <label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label>
+              </div>`;
+          }).join('') + `</div>`;
         } else if (field.type === 'checkboxes_d3') {
           inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => {
             const checked = (savedVal && savedVal.includes(opt)) || i === 1 ? 'checked' : '';
@@ -1624,7 +1644,7 @@
       let errorMsg = "";
 
       for (let field of fields) {
-        if (field.type === 'star_rating' || field.type === 'day1_prompt_display' || field.type === 'prompt_builder' || field.type === 'radios_d3' || field.type === 'checkboxes_d3') continue;
+        if (field.type === 'star_rating' || field.type === 'day1_prompt_display' || field.type === 'prompt_builder' || field.type === 'radios_d3' || field.type === 'checkboxes_d3' || field.type === 'checkboxes_persona_d3') continue;
 
         if (field.type === 'checkboxes') {
           const checked = document.querySelectorAll(`input[name="${field.id}"]:checked`).length;
@@ -1721,7 +1741,7 @@
         } else if (field.type === 'star_rating') {
           const val = document.getElementById("rating_value")?.value;
           formData[field.id] = val && val !== '0' ? `${val} 星` : '未評分';
-        } else if (field.type === 'checkboxes' || field.type === 'checkboxes_d3') {
+        } else if (field.type === 'checkboxes' || field.type === 'checkboxes_d3' || field.type === 'checkboxes_persona_d3') {
           formData[field.id] = Array.from(document.querySelectorAll(`input[name="${field.id}"]:checked`)).map(c => c.value);
         } else if (field.type === 'radios' || field.type === 'radios_d3') {
           formData[field.id] = document.querySelector(`input[name="${field.id}"]:checked`)?.value;
