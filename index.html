@@ -677,7 +677,7 @@
     function getDay3StyleSummary() {
       if (userProgressData && userProgressData[3] && userProgressData[3].formData) {
         const d3 = userProgressData[3].formData;
-        const style = d3.prefStyle || "Japandi 日系質感";
+        const style = d3.prefStyle || "日系質感 Japandi";
         const persona = Array.isArray(d3.prefPersona) ? d3.prefPersona.join('、') : (d3.prefPersona || "親切可靠");
         return `Day 03 個人品牌：${style} ｜ ${persona}`;
       }
@@ -689,13 +689,13 @@
       const checkedBoxes = document.querySelectorAll('input[name="prefPersona"]:checked');
       if (checkedBoxes.length > 2) {
         checkboxElem.checked = false;
-        alert(currentLang === "zh" ? "⚠️️ 期望展現特質最多選擇 2 項喔！" : "⚠️ You can select up to 2 options!");
+        alert(currentLang === "zh" ? "⚠️ 期望展現特質最多選擇 2 項喔！" : "⚠️ You can select up to 2 options!");
         return;
       }
       updateDay3GeneratedPrompt();
     }
 
-    // 🎨 Day 3 動態組裝 AI Prompt (已升級為您指定的新版指令)
+    // 🎨 Day 3 動態組裝 AI Style Board Prompt (精準依據全新需求升級)
     function updateDay3GeneratedPrompt() {
       const styleRadio = document.querySelector('input[name="prefStyle"]:checked');
       const styleVal = styleRadio ? styleRadio.value : "日系質感 Japandi";
@@ -704,21 +704,99 @@
       const personaVals = Array.from(personaBoxes).map(b => b.value).join(' 與 ') || "親切可靠";
 
       const dressBoxes = document.querySelectorAll('input[name="prefDress"]:checked');
-      const dressVals = Array.from(dressBoxes).map(b => b.value).join(', ') || "Smart Casual";
+      const dressVals = Array.from(dressBoxes).map(b => b.value).join(', ') || "Smart Casual｜日常辦公（一般上班、內部會議）";
 
-      const generatedPrompt = `我想為自己打造專屬的職場 Professional Style Board。
+      const generatedPrompt = `我想為自己打造一份專屬的職場 Professional Style Board。
 
-我的選擇：
+【我的選擇】
+
 ・風格調性：${styleVal}
 ・期望展現的專業形象：${personaVals}
 ・穿搭情境：${dressVals}
 
-請根據我的選擇，為我規劃適合的職場形象、配色與 K-Style 穿搭。
+請根據以上選擇，為我打造適合的職場專業形象與穿搭風格。
 
-請直接以一張完整的 Professional Style Board 圖文呈現結果，
-讓我可以直觀看到整體風格與穿搭效果。
+請先理解我選擇的「風格調性」與「專業形象」，
+並將兩者自然融合，不要套用固定的韓系、日系或其他特定穿搭風格。
+「風格調性」應作為整體視覺與穿搭設計的主要依據。
 
-風格請保持專業、自然、有質感，並以實際可運用於職場為原則。`;
+請直接以一張完整的 Professional Style Board 圖文呈現結果。
+
+Style Board 請自然整合以下內容：
+
+1. PROFESSIONAL PERSONA｜專業形象定位
+用簡短的一句名稱與 2–3 句說明，
+呈現這組選擇所代表的職場形象與給人的印象。
+
+2. BRANDING KEYWORDS｜形象關鍵字
+整理 3 個最能代表這個職場形象的關鍵字。
+
+3. COLOR PALETTE｜專屬色彩配置
+提供 5–6 個適合此風格的色彩，
+並顯示色票、色彩名稱與 Hex Code。
+色彩需適合實際職場穿搭，不要只有視覺好看。
+
+4. WORKWEAR STYLE｜職場穿搭提案
+依照我選擇的「穿搭情境」，
+提供 3 套不同但風格一致的完整職場 Look。
+
+每套請包含：
+・上身
+・下身
+・外套（若適合）
+・鞋款
+・包款
+・配件
+
+三套 Look 不需要完全不同風格，
+而是在同一個 Professional Style 下呈現不同搭配方式。
+
+5. ACCESSORIES & DETAILS｜配件與細節
+推薦適合整體形象的：
+・包款
+・鞋款
+・腕錶／飾品
+・其他能提升完成度的小細節
+
+【視覺呈現要求】
+
+請將以上內容整合成「一張完整的 Professional Style Board」，
+不要只輸出大段文字。
+
+整體應像專業 Fashion / Personal Branding Moodboard：
+
+・Clean
+・Modern
+・Professional
+・Natural
+・Refined
+・Editorial
+
+版面需清楚呈現：
+
+Professional Persona
+→ Branding Keywords
+→ Color Palette
+→ 3 Workwear Looks
+→ Accessories & Details
+
+人物請使用虛構的專業職場人物作為穿搭示意，
+不需要模仿任何真實人物。
+
+服裝需符合真實職場情境，
+避免過度時裝化、舞台化或不實用的造型。
+
+請特別注意：
+
+・不要預設為 K-Style / Korean Style
+・不要自動套用固定的韓系穿搭
+・請以我選擇的「風格調性」決定服裝輪廓、材質、配色與視覺方向
+・「期望展現的專業形象」決定整體給人的感受
+・「穿搭情境」決定正式程度與單品選擇
+・三者需要被整合，而不是各自獨立呈現
+
+最終成果應讓我可以直觀看到：
+「如果我要呈現這樣的職場形象，我實際可以怎麼穿。」`;
 
       const promptBox = document.getElementById("generatedPromptBox");
       if (promptBox) promptBox.value = generatedPrompt;
@@ -731,7 +809,7 @@
       const checkedBoxes = document.querySelectorAll('input[name="d4Accessory"]:checked');
       if (checkedBoxes.length > 2) {
         checkboxElem.checked = false;
-        alert(currentLang === "zh" ? "⚠️ 招牌配件最多選擇 2 項喔！" : "⚠️️ You can select up to 2 accessories!");
+        alert(currentLang === "zh" ? "⚠️ 招牌配件最多選擇 2 項喔！" : "⚠️ You can select up to 2 accessories!");
         return;
       }
       updateDay4GeneratedPrompt();
@@ -949,21 +1027,21 @@ Detail Requirements:
         accentBg: "#F5F3FF",
         zh: {
           kicker: "DAY 03 | LEARNING TICKET",
-          title: "AI Personal Branding & K-Style Styling",
-          goal: "勾選你的風格偏好，自動生成專屬 Prompt 貼到 AI (ChatGPT / Gemini) 打造職場個人品牌！",
-          subGoal: "Same You. A More Confident You. 不需要照片也能生成質感形象與穿搭提案。",
+          title: "AI Personal Branding & Workplace Style",
+          goal: "勾選你的風格偏好與正式程度，自動生成專屬 Prompt 貼到 AI (ChatGPT / Gemini) 打造全套職場 Style Board！",
+          subGoal: "Same You. A More Confident You. 自然融合風格與形象，直觀掌握職場實用穿搭。",
           cards: [
             { 
               type: "copilot", 
-              title: "AI 個人形象提案架構", 
+              title: "AI 專業形象板架構", 
               tag: "一鍵產出 Style Board", 
               try: "選擇偏好 ➔ 生成專屬 Prompt ➔ 貼至 AI 產出圖文", 
               details: [
-                "1. 專業形象定位 (Professional Persona)",
-                "2. 個人品牌關鍵字 (3 Branding Keywords)",
-                "3. 色彩質感調色盤 (5-6 Color Palette)",
-                "4. K-Style 職場穿搭組合 (Outfit Ideas)",
-                "5. AI 繪圖指令 (Text-to-Image Prompt)"
+                "1. Professional Persona（專業形象定位）",
+                "2. Branding Keywords（3 個代表關鍵字）",
+                "3. Color Palette（5–6 個色票、名稱與 Hex Code）",
+                "4. Workwear Style（依照情境提供 3 套完整 Look）",
+                "5. Accessories & Details（鞋包、飾品與質感細節）"
               ] 
             }
           ],
@@ -979,23 +1057,28 @@ Detail Requirements:
             { 
               type: "radios_d3", 
               id: "prefStyle", 
-              label: "① 我喜歡的風格 (主視覺調性)", 
+              label: "① 我喜歡的風格調性 (視覺與穿搭主依據)", 
               req: "必選 1 項", 
-              options: ["日系質感 Japandi", "現代俐落 Modern Minimal", "美式率性 Smart Street"] 
+              options: ["日系質感 Japandi", "現代俐落 Modern Minimal", "美式率性 Smart Street", "北歐極簡 Nordic Clean", "法式優雅 French Chic"] 
             },
             { 
               type: "checkboxes_persona_d3", 
               id: "prefPersona", 
-              label: "② 我需要的專業形象 (期望展現特質)", 
+              label: "② 我期望展現的專業形象 (給人的印象特質)", 
               req: "最多選 2 項", 
               options: ["親切可靠", "俐落專業", "自信有影響力", "沉穩有質感", "聰明有想法", "活力有親和力"] 
             },
             { 
               type: "checkboxes_d3", 
               id: "prefDress", 
-              label: "③ 工作場合穿搭情境 (可複選)", 
+              label: "③ 穿搭情境 (正式程度與場合，可複選)", 
               req: "可複選", 
-              options: ["Casual (日常辦公)", "Smart Casual (跨部門會議)", "Business Casual (專案發表)", "Business 正裝 (高階會議)"] 
+              options: [
+                "Casual｜輕鬆休閒（輕鬆活動、非正式場合）",
+                "Smart Casual｜日常辦公（一般上班、內部會議）",
+                "Business Casual｜商務會議（跨部門會議、對外交流）",
+                "Business Formal｜正式商務（高階會議、重要簡報／正式場合）"
+              ] 
             },
             {
               type: "prompt_builder",
@@ -1006,36 +1089,36 @@ Detail Requirements:
             { 
               type: "textarea", 
               id: "aiOutputPrompt", 
-              label: "⑤ 貼上 AI 為你生成的 Prompt (可貼上英文繪圖指令或成果摘要)", 
+              label: "⑤ 貼上 AI 為你生成的 Style Board 成果 (可貼上英文繪圖指令或成果摘要)", 
               req: "必填", 
-              placeholder: "請貼上 AI 生成的內容，例如：A professional headshot of a confident manager wearing smart casual outfit, Japandi style..." 
+              placeholder: "請貼上 AI 生成的內容，例如：Professional Persona: Calm & Approachable Leader... 3 Looks details..." 
             },
             commonRatingFieldZh
           ]
         },
         en: {
           kicker: "DAY 03 | LEARNING TICKET",
-          title: "AI Personal Branding & K-Style Styling",
-          goal: "Select your preferences to generate a custom Prompt for ChatGPT/Gemini!",
-          subGoal: "Same You. A More Confident You. Build your brand without photos.",
+          title: "AI Personal Branding & Workplace Style",
+          goal: "Select your preferences to generate a custom Style Board Prompt for ChatGPT/Gemini!",
+          subGoal: "Same You. A More Confident You. Seamlessly blend style and persona.",
           cards: [
             { 
               type: "copilot", 
-              title: "AI Branding Structure", 
+              title: "AI Style Board Structure", 
               tag: "Style Board Generation", 
               try: "Select -> Generate Prompt -> Paste to AI", 
               details: [
                 "1. Professional Persona Statement",
                 "2. 3 Branding Keywords",
-                "3. 5-6 Color Styling Palette",
-                "4. K-Style Workplace Outfit Ideas",
-                "5. Text-to-Image Prompt"
+                "3. 5-6 Color Palette with Hex Codes",
+                "4. 3 Complete Workwear Looks",
+                "5. Accessories & Detail Suggestions"
               ] 
             }
           ],
           howTitle: "HOW IT WORKS | 3 Steps",
           steps: [
-            "STEP 1 | Select your style, traits, and dressing contexts on the right.",
+            "STEP 1 | Select your style tone, traits, and formality levels on the right.",
             "STEP 2 | Click 'Copy Prompt' and paste it to ChatGPT or Gemini.",
             "STEP 3 | Paste back the generated prompt or summary from AI to check in!"
           ],
@@ -1047,12 +1130,12 @@ Detail Requirements:
               id: "prefStyle", 
               label: "① Preferred Style Tone", 
               req: "Select 1", 
-              options: ["Japandi", "Modern Minimal", "Smart Street"] 
+              options: ["Japandi", "Modern Minimal", "Smart Street", "Nordic Clean", "French Chic"] 
             },
             { 
               type: "checkboxes_persona_d3", 
               id: "prefPersona", 
-              label: "② Desired Traits (Up to 2)", 
+              label: "② Desired Persona Traits (Up to 2)", 
               req: "Max 2", 
               options: ["Warm & Reliable", "Sleek & Professional", "Confident & Influential", "Poised & Sophisticated", "Smart & Creative", "Energetic & Approachable"] 
             },
@@ -1061,7 +1144,12 @@ Detail Requirements:
               id: "prefDress", 
               label: "③ Dressing Contexts (Multiple)", 
               req: "Multiple", 
-              options: ["Casual", "Smart Casual", "Business Casual", "Business Formal"] 
+              options: [
+                "Casual | Casual Events",
+                "Smart Casual | Daily Office & Internal Meetings",
+                "Business Casual | Cross-dept Meetings",
+                "Business Formal | High-level Meetings & Presentations"
+              ] 
             },
             {
               type: "prompt_builder",
@@ -1072,9 +1160,9 @@ Detail Requirements:
             { 
               type: "textarea", 
               id: "aiOutputPrompt", 
-              label: "⑤ Paste the Prompt generated by AI (Image Prompt or Summary)", 
+              label: "⑤ Paste the Style Board Result generated by AI", 
               req: "Required", 
-              placeholder: "Paste AI generated prompt, e.g., A professional headshot of a confident manager wearing smart casual outfit..." 
+              placeholder: "Paste AI generated prompt or summary..." 
             },
             commonRatingFieldEn
           ]
@@ -1653,8 +1741,8 @@ Detail Requirements:
           }).join('') + `</div>`;
         } else if (field.type === 'prompt_builder') {
           inputControl = `
-            <textarea id="generatedPromptBox" class="text-input-styled" style="min-height:160px;" readonly></textarea>
-            <button type="button" class="btn-primary-sm" id="btnCopyPrompt" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('generatedPromptBox').value, 'btnCopyPrompt')">📋 複製 PROMPT 貼至 ChatGPT / Gemini</button>
+            <textarea id="generatedPromptBox" class="text-input-styled" style="min-height:180px;" readonly></textarea>
+            <button type="button" class="btn-primary-sm" id="btnCopyPrompt" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('generatedPromptBox').value, 'btnCopyPrompt')">📋 複製 STYLE BOARD PROMPT 貼至 ChatGPT / Gemini</button>
           `;
         } else if (field.type === 'radios_d4') {
           inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => {
@@ -1763,7 +1851,7 @@ Detail Requirements:
 
         <div>
           <button type="button" class="submit-stamp-btn" id="btnSubmitStamp" onclick="executeCurrentStamp()">
-            <span>${currentLang === 'zh' ? `完成 Day ${String(currentDay).padStart(2, "0")} 打卡 ✈️️` : `Complete Day ${String(currentDay).padStart(2, "0")} Check-in ✈️`}</span>
+            <span>${currentLang === 'zh' ? `完成 Day ${String(currentDay).padStart(2, "0")} 打卡 ✈` : `Complete Day ${String(currentDay).padStart(2, "0")} Check-in ✈️`}</span>
           </button>
           <div class="validation-hint" id="valHintText"></div>
         </div>
