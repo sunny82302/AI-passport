@@ -695,7 +695,7 @@
       updateDay3GeneratedPrompt();
     }
 
-    // 🎨 Day 3 動態組裝 AI Style Board Prompt (精準依據全新需求升級)
+    // 🎨 Day 3 動態組裝 AI Style Board Prompt
     function updateDay3GeneratedPrompt() {
       const styleRadio = document.querySelector('input[name="prefStyle"]:checked');
       const styleVal = styleRadio ? styleRadio.value : "日系質感 Japandi";
@@ -804,6 +804,20 @@ Professional Persona
       validateCurrentForm();
     }
 
+    // 🧸 Day 4 角色切換與萌寵輸入控制
+    function handleDay4BaseChange() {
+      const charBaseRadio = document.querySelector('input[name="d4CharBase"]:checked');
+      const animalInputContainer = document.getElementById("d4AnimalInputContainer");
+      
+      // 判斷是否選擇第二項（萌寵）
+      if (charBaseRadio && (charBaseRadio.value === "擬人化幸運萌寵" || charBaseRadio.value === "Anthropomorphic Animal Avatar")) {
+        if (animalInputContainer) animalInputContainer.style.display = "block";
+      } else {
+        if (animalInputContainer) animalInputContainer.style.display = "none";
+      }
+      updateDay4GeneratedPrompt();
+    }
+
     // 🧸 Day 4 限制招牌配件最多選 2 項
     function handleDay4AccessoryCheck(checkboxElem) {
       const checkedBoxes = document.querySelectorAll('input[name="d4Accessory"]:checked');
@@ -820,7 +834,14 @@ Professional Persona
       const d3Info = getDay3StyleSummary();
       
       const charBaseRadio = document.querySelector('input[name="d4CharBase"]:checked');
-      const charBaseVal = charBaseRadio ? charBaseRadio.value : "真人職場造型 (3D Human Avatar)";
+      let charBaseVal = charBaseRadio ? charBaseRadio.value : (currentLang === "zh" ? "真人職場造型" : "3D Human Avatar");
+
+      // 如果選萌寵，代入同仁自訂輸入的動物名稱
+      if (charBaseRadio && (charBaseRadio.value === "擬人化幸運萌寵" || charBaseRadio.value === "Anthropomorphic Animal Avatar")) {
+        const customAnimal = document.getElementById("d4CustomAnimalInput")?.value.trim();
+        const animalName = customAnimal || (currentLang === "zh" ? "水豚" : "Capybara");
+        charBaseVal = currentLang === "zh" ? `擬人化幸運萌寵 (${animalName})` : `Anthropomorphic Cute ${animalName} Avatar`;
+      }
 
       const accessoryBoxes = document.querySelectorAll('input[name="d4Accessory"]:checked');
       const accessoryVals = Array.from(accessoryBoxes).map(b => b.value).join(', ') || "☕ 質感咖啡杯";
@@ -1184,7 +1205,7 @@ Detail Requirements:
               try: "延伸 Day 03 設定 ➔ 選擇公仔元素 ➔ 產出 3D 圖像", 
               details: [
                 "① 自動帶入 Day 03 個人品牌風格與特質",
-                "② 可選擇『真人 3D Avatar』或『擬人萌寵』",
+                "② 可選擇『真人職場造型』或『擬人化幸運萌寵』",
                 "③ 加入招牌辦公配件與 BSH 品牌配色",
                 "④ 產出精緻 C4D 光影質感與透明盒裝展示效果"
               ] 
@@ -1192,7 +1213,7 @@ Detail Requirements:
           ],
           howTitle: "HOW IT WORKS｜輕鬆 3 步驟",
           steps: [
-            "STEP 1｜選擇你的公仔角色型態、招牌配件與配色。",
+            "STEP 1｜選擇你的公仔角色型態（可自訂萌寵種類）、招牌配件與配色。",
             "STEP 2｜點擊『📋 複製 3D 公仔 PROMPT』並貼到 ChatGPT / Midjourney 生成圖片。",
             "STEP 3｜上傳產出的 3D 公仔作品或連結並打卡！"
           ],
@@ -1206,23 +1227,23 @@ Detail Requirements:
               req: "風格延伸"
             },
             { 
-              type: "radios_d4", 
+              type: "radios_d4_base", 
               id: "d4CharBase", 
-              label: "② 公仔角色型態 (Character Base)", 
+              label: "② 公仔角色型態", 
               req: "必選 1 項", 
-              options: ["真人職場造型 (3D Human Avatar)", "擬人化幸運萌寵 (Anthropomorphic Animal Avatar)"] 
+              options: ["真人職場造型", "擬人化幸運萌寵"] 
             },
             { 
               type: "checkboxes_d4_acc", 
               id: "d4Accessory", 
-              label: "③ 招牌配件 (Signature Accessories)", 
+              label: "③ 招牌配件", 
               req: "最多選 2 項", 
               options: ["☕ 質感咖啡杯", "💻 筆電與工作檔", "📱 智慧手機 / Home Connect App", "👓 經典黑框眼鏡"] 
             },
             { 
               type: "radios_d4", 
               id: "d4Color", 
-              label: "④ BSH 品牌配色 (Color Theme)", 
+              label: "④ BSH 品牌配色", 
               req: "必選 1 項", 
               options: ["經典 Bosch 活力橘黑 (BSH Signature Orange & Dark)", "極致黑灰金屬質感 (Titanium & Metal)", "溫潤北歐木質柔和色 (Warm Japandi Earth)"] 
             },
@@ -1250,7 +1271,7 @@ Detail Requirements:
               try: "Extend Day 03 Style -> Pick Elements -> Generate 3D Image", 
               details: [
                 "① Inherit Day 03 personal branding style & traits",
-                "② Choose Human Avatar or Animal Avatar",
+                "② Choose Human Avatar or Anthropomorphic Animal Avatar",
                 "③ Add signature work accessories & BSH colors",
                 "④ C4D Octane render with box packaging look"
               ] 
@@ -1258,7 +1279,7 @@ Detail Requirements:
           ],
           howTitle: "HOW IT WORKS | 3 Steps",
           steps: [
-            "STEP 1 | Pick character base, accessories, and color theme.",
+            "STEP 1 | Pick character base (custom animal supported), accessories, and color theme.",
             "STEP 2 | Click 'Copy 3D Toy Prompt' and paste into ChatGPT / Midjourney.",
             "STEP 3 | Upload your 3D figure result image and stamp!"
           ],
@@ -1272,7 +1293,7 @@ Detail Requirements:
               req: "Style Reference"
             },
             { 
-              type: "radios_d4", 
+              type: "radios_d4_base", 
               id: "d4CharBase", 
               label: "② Character Base", 
               req: "Select 1", 
@@ -1744,6 +1765,20 @@ Detail Requirements:
             <textarea id="generatedPromptBox" class="text-input-styled" style="min-height:180px;" readonly></textarea>
             <button type="button" class="btn-primary-sm" id="btnCopyPrompt" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('generatedPromptBox').value, 'btnCopyPrompt')">📋 複製 STYLE BOARD PROMPT 貼至 ChatGPT / Gemini</button>
           `;
+        } else if (field.type === 'radios_d4_base') {
+          const savedAnimalName = currentDayStore.d4CustomAnimalInput || '';
+          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => {
+            const checked = (savedVal === opt || i === 0) ? 'checked' : '';
+            return `
+              <div class="radio-pill-item">
+                <input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${checked} onchange="handleDay4BaseChange()" />
+                <label for="${field.id}_${i}" class="radio-pill-label">${opt}</label>
+              </div>`;
+          }).join('') + `</div>
+          <div id="d4AnimalInputContainer" style="margin-top:10px; display:${savedVal === field.options[1] ? 'block' : 'none'};">
+            <label style="font-size:11px; font-weight:800; color:var(--bosch-orange); display:block; margin-bottom:4px;">🐾 ${currentLang === 'zh' ? '請輸入您喜歡的萌寵動物名稱' : 'Enter your favorite animal name'}</label>
+            <input type="text" id="d4CustomAnimalInput" class="text-input-styled" placeholder="${currentLang === 'zh' ? '例如：水豚、柴犬、貓咪、水獺...' : 'e.g., Capybara, Shiba Inu, Otter...'}" value="${savedAnimalName}" oninput="updateDay4GeneratedPrompt()" />
+          </div>`;
         } else if (field.type === 'radios_d4') {
           inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => {
             const checked = (savedVal === opt || i === 0) ? 'checked' : '';
@@ -1865,7 +1900,7 @@ Detail Requirements:
       `;
 
       if (currentDay === 3) updateDay3GeneratedPrompt();
-      if (currentDay === 4) updateDay4GeneratedPrompt();
+      if (currentDay === 4) handleDay4BaseChange();
       if (!isLockedDay) validateCurrentForm();
     }
 
@@ -1905,7 +1940,7 @@ Detail Requirements:
       let errorMsg = "";
 
       for (let field of fields) {
-        if (field.type === 'star_rating' || field.type === 'day1_prompt_display' || field.type === 'day3_style_display' || field.type === 'prompt_builder' || field.type === 'prompt_builder_d4' || field.type === 'radios_d3' || field.type === 'checkboxes_d3' || field.type === 'checkboxes_persona_d3' || field.type === 'radios_d4' || field.type === 'checkboxes_d4_acc') continue;
+        if (field.type === 'star_rating' || field.type === 'day1_prompt_display' || field.type === 'day3_style_display' || field.type === 'prompt_builder' || field.type === 'prompt_builder_d4' || field.type === 'radios_d3' || field.type === 'checkboxes_d3' || field.type === 'checkboxes_persona_d3' || field.type === 'radios_d4' || field.type === 'radios_d4_base' || field.type === 'checkboxes_d4_acc') continue;
 
         if (field.type === 'checkboxes') {
           const checked = document.querySelectorAll(`input[name="${field.id}"]:checked`).length;
@@ -2003,6 +2038,9 @@ Detail Requirements:
           formData[field.id] = document.getElementById("generatedPromptBox")?.value;
         } else if (field.type === 'prompt_builder_d4') {
           formData[field.id] = document.getElementById("d4GeneratedPromptBox")?.value;
+        } else if (field.type === 'radios_d4_base') {
+          formData[field.id] = document.querySelector(`input[name="${field.id}"]:checked`)?.value;
+          formData.d4CustomAnimalInput = document.getElementById("d4CustomAnimalInput")?.value || '';
         } else if (field.type === 'star_rating') {
           const val = document.getElementById("rating_value")?.value;
           formData[field.id] = val && val !== '0' ? `${val} 星` : '未評分';
