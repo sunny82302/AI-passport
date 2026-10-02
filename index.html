@@ -694,6 +694,64 @@
       return "（沿用 Day 04 打造的 3D 專屬職場角色原型）";
     }
 
+    /* Day 09 數據集動態生成與 CSV 匯出邏輯 */
+    function generateERPData(isAnonymized) {
+      const lastNames = ["陳", "林", "黃", "張", "李", "王", "吳", "劉", "蔡", "楊"];
+      const firstNames = ["志明", "雅婷", "嘉豪", "怡君", "建宏", "詩涵", "宗翰", "佩珊", "承翰", "雅琪"];
+      const regions = [
+        { name: "北部", cities: [ {city: "台北市大安區", road: "敦化南路二段100號"}, {city: "新北市板橋區", road: "文化路一段50號"}, {city: "桃園市中壢區", road: "中華路二段10號"} ] },
+        { name: "中部", cities: [ {city: "台中市西屯區", road: "台灣大道三段99號"}, {city: "彰化市中央路", road: "中山路二段150號"} ] },
+        { name: "南部", cities: [ {city: "高雄市左營區", road: "博愛二路777號"}, {city: "台南市東區", road: "中華東路一段88號"} ] },
+        { name: "東部", cities: [ {city: "花蓮市中山路", road: "中正路200號"} ] }
+      ];
+      const storeTypes = ["專櫃門市", "網路商城", "授權經銷商"];
+      const products = [
+        { model: "BOSCH 獨立式洗碗機 SMS53E02TC", price: 36900 },
+        { model: "BOSCH 嵌入式烤箱 HBG634BS1", price: 42000 },
+        { model: "BOSCH 滾筒洗衣機 WAX32MV0TC", price: 49900 },
+        { model: "BOSCH 雙門冰箱 KFN96VPEEA", price: 65000 },
+        { model: "BOSCH 感應爐 PXX875D67E", price: 58000 }
+      ];
+
+      let csvContent = "\uFEFF"; // UTF-8 BOM，防止 Excel 開啟亂碼
+      csvContent += "OrderID,Customer,Address,StoreType,Region,ProductModel,Quantity,Amount_TWD,PurchaseDate\n";
+
+      for (let i = 1; i <= 800; i++) {
+        const orderId = `ORD-2026-${String(i).padStart(4, '0')}`;
+        const custName = isAnonymized ? `CUST-${String(i).padStart(3, '0')}` : `${lastNames[i % 10]}${firstNames[(i * 3) % 10]}`;
+        
+        const regObj = regions[i % regions.length];
+        const cityObj = regObj.cities[i % regObj.cities.length];
+        const address = isAnonymized ? cityObj.city : `${cityObj.city}${cityObj.road}`;
+        
+        const store = storeTypes[i % storeTypes.length];
+        const prod = products[i % products.length];
+        const qty = (i % 15 === 0) ? 3 : (i % 7 === 0 ? 2 : 1); 
+        const amount = prod.price * qty;
+        
+        const month = String((i % 6) + 1).padStart(2, '0');
+        const day = String((i % 28) + 1).padStart(2, '0');
+        const date = `2026-${month}-${day}`;
+
+        csvContent += `"${orderId}","${custName}","${address}","${store}","${regObj.name}","${prod.model}",${qty},${amount},"${date}"\n`;
+      }
+
+      return csvContent;
+    }
+
+    function downloadSampleCSV(isAnonymized) {
+      const csvData = generateERPData(isAnonymized);
+      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      
+      link.setAttribute("href", url);
+      link.setAttribute("download", isAnonymized ? "BSH_Safe_ERP_Sales_800.csv" : "BSH_Raw_ERP_Sales_800.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
     function handleDay3PersonaCheck(checkboxElem) {
       const checkedBoxes = document.querySelectorAll('input[name="prefPersona"]:checked');
       if (checkedBoxes.length > 2) {
@@ -795,7 +853,6 @@ Phrases: ${phraseVals}`;
       validateCurrentForm();
     }
 
-    /* Day 06 (影音動畫) 切換與 Prompt 產生 */
     function switchD6Mode(mode) {
       d6Mode = mode;
       document.getElementById("btnD6Auto").classList.toggle("active", mode === "auto");
@@ -844,7 +901,6 @@ Phrases: ${phraseVals}`;
       validateCurrentForm();
     }
 
-    /* Day 07 (工作圖文指南) 切換與 Prompt 產生 */
     function switchD7Mode(mode) {
       d7Mode = mode;
       document.getElementById("btnD7Auto").classList.toggle("active", mode === "auto");
@@ -1541,44 +1597,46 @@ Phrases: ${phraseVals}`;
         zh: {
           kicker: "DAY 09 | LEARNING TICKET",
           title: "Talk to Your Data",
-          goal: "讓 AI 從資料中找出真正值得關注的事！",
+          goal: "下載模擬 800 筆 ERP 數據，先辨識敏感欄位並使用安全的去識別化資料集進行 AI 分析與洞察驗證！",
           subGoal: "AI finds patterns. You verify the evidence.",
           cards: [
             { type: "gemini", title: "DATA DETECTIVE FRAMEWORK", tag: "5 步數據對話法", try: "Gemini in BSH AIM", details: ["1. DESCRIBE 摘要重點", "2. COMPARE 比較差異", "3. DETECT 找出異常", "4. EXPLAIN 區分事實與推測", "5. VERIFY 列出支持證據"] }
           ],
           howTitle: "TODAY'S CHALLENGE",
           steps: [
-            "上傳已去識別化的 Dataset 請 Gemini 分析。",
-            "找出 3 個 Key Findings，並要求 Gemini: SHOW ME THE EVIDENCE！"
+            "下載下方的去識別化 ERP 數據集 (Safe_ERP_800.csv)。",
+            "上傳請 Gemini 分析，找出 3 個 Key Findings 與 1 個異常趨勢，並要求：SHOW ME THE EVIDENCE！"
           ],
           recommendedPrompt: "請摘要主要重點，找出 3 個重要發現與 1 個異常趨勢，並列出支持數據。",
           journeyTitle: "我的數據洞察紀錄",
           journeyFields: [
-            { type: "textarea", id: "findings3", label: "① MY 3 KEY FINDINGS (3 個重點)", req: "必填", placeholder: "1. 發現 A\n2. 發現 B\n3. 發現 C" },
-            { type: "input", id: "insightVer", label: "② ONE INSIGHT I VERIFIED (1 個欲驗證洞察)", req: "必填", placeholder: "例如：5 月份訂單下滑原因" },
-            { type: "textarea", id: "evidenceText", label: "③ SHOW ME THE EVIDENCE (AI 提供的具體證據)", req: "必填", placeholder: "貼上數據證據..." },
+            { type: "d9_dataset_download_block", id: "d9DataBlock", label: "① DAY 09 數據下載與安全驗證專區", req: "下載體驗" },
+            { type: "textarea", id: "findings3", label: "② MY 3 KEY FINDINGS (3 個重點)", req: "必填", placeholder: "1. 發現 A\n2. 發現 B\n3. 發現 C" },
+            { type: "input", id: "insightVer", label: "③ ONE INSIGHT I VERIFIED (1 個欲驗證洞察)", req: "必填", placeholder: "例如：5 月份訂單下滑原因" },
+            { type: "textarea", id: "evidenceText", label: "④ SHOW ME THE EVIDENCE (AI 提供的具體證據)", req: "必填", placeholder: "貼上數據證據..." },
             commonRatingFieldZh
           ]
         },
         en: {
           kicker: "DAY 09 | LEARNING TICKET",
           title: "Talk to Your Data",
-          goal: "Let AI find what really matters in your dataset!",
+          goal: "Download simulated 800-row ERP dataset, analyze safe anonymized data with AI, and verify evidence!",
           subGoal: "AI finds patterns. You verify the evidence.",
           cards: [
             { type: "gemini", title: "DATA DETECTIVE FRAMEWORK", tag: "5-Step Data Inquiry", try: "Gemini in BSH AIM", details: ["1. DESCRIBE metrics", "2. COMPARE gaps", "3. DETECT outliers", "4. EXPLAIN facts", "5. VERIFY evidence"] }
           ],
           howTitle: "TODAY'S CHALLENGE",
           steps: [
-            "Upload anonymized dataset and run analysis.",
-            "Identify 3 key findings and ask Gemini: SHOW ME THE EVIDENCE!"
+            "Download anonymized ERP dataset (Safe_ERP_800.csv) below.",
+            "Upload to Gemini and run analysis to get 3 key findings and 1 anomaly."
           ],
           recommendedPrompt: "Analyze this anonymized dataset and output 3 key findings with evidence.",
           journeyTitle: "My Data Insights Record",
           journeyFields: [
-            { type: "textarea", id: "findings3", label: "① MY 3 KEY FINDINGS", req: "Required", placeholder: "1. Finding A\n2. Finding B\n3. Finding C" },
-            { type: "input", id: "insightVer", label: "② ONE INSIGHT I VERIFIED", req: "Required", placeholder: "e.g., Reason for May drop" },
-            { type: "textarea", id: "evidenceText", label: "③ SHOW ME THE EVIDENCE", req: "Required", placeholder: "Paste supporting data..." },
+            { type: "d9_dataset_download_block", id: "d9DataBlock", label: "① DAY 09 DATASET & PRIVACY GUIDE", req: "Download" },
+            { type: "textarea", id: "findings3", label: "② MY 3 KEY FINDINGS", req: "Required", placeholder: "1. Finding A\n2. Finding B\n3. Finding C" },
+            { type: "input", id: "insightVer", label: "③ ONE INSIGHT I VERIFIED", req: "Required", placeholder: "e.g., Reason for May drop" },
+            { type: "textarea", id: "evidenceText", label: "④ SHOW ME THE EVIDENCE", req: "Required", placeholder: "Paste supporting data..." },
             commonRatingFieldEn
           ]
         }
@@ -1733,8 +1791,67 @@ Phrases: ${phraseVals}`;
         const savedVal = currentDayStore[field.id];
         const isOptional = field.req && field.req.includes('Optional');
 
-        if (field.type === 'quiz_radio') {
-          /* Day 08 正確答案驗證單選按鈕 */
+        if (field.type === 'd9_dataset_download_block') {
+          /* Day 09 數據集下載與預覽對比區塊 */
+          inputControl = `
+            <div style="font-size:12px; color:var(--bosch-dark); margin-bottom:10px; line-height:1.5;">
+              請下載下方的模擬 ERP 銷售數據集 (800 筆)。可先對比原始資料中的<b>敏感欄位 (客戶姓名、完整門牌)</b>，並使用去識別化後的安全版本進行 AI 數據分析與洞察驗證！
+            </div>
+
+            <div style="background:#FFFFFF; border-left:4px solid var(--bosch-orange); padding:8px 12px; border-radius:6px; font-size:11px; color:#334155; margin-bottom:12px;">
+              <b>⚠️ 公司數據資安規範提醒：</b><br/>
+              • 去識別化是數據分析的第一步，但<b>去識別化本身不代表可以任意上傳至外部未授權工具</b>。<br/>
+              • 請務必遵守公司 IT 與資安規範，使用公司指定的安全 AI 環境 (如 BSH AIM / Copilot)。
+            </div>
+
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+              <button type="button" class="btn-primary-sm" style="background:#0284C7; flex:1; text-align:center; padding:10px 12px;" onclick="downloadSampleCSV(true)">
+                📥 下載：去識別化安全資料集 (Safe_ERP_800.csv)
+              </button>
+              <button type="button" class="btn-secondary" style="font-size:11px; padding:10px 12px;" onclick="downloadSampleCSV(false)">
+                ⚠️ 下載：含 PII 原始資料集 (Raw_ERP_800.csv)
+              </button>
+            </div>
+
+            <div style="background:#FFFFFF; border:1px solid var(--line-color); border-radius:8px; padding:8px; overflow-x:auto;">
+              <div style="font-size:11px; font-weight:800; color:var(--muted-text); margin-bottom:6px;">📊 資料預覽 (前 3 筆對比)：</div>
+              <table style="width:100%; font-size:11px; border-collapse:collapse; text-align:left;">
+                <thead>
+                  <tr style="background:#F1F5F9; border-bottom:1px solid var(--line-color);">
+                    <th style="padding:4px 6px;">訂單編號</th>
+                    <th style="padding:4px 6px; color:#DC2626;">姓名 (原始 ➔ 安全)</th>
+                    <th style="padding:4px 6px; color:#DC2626;">地址 (原始 ➔ 安全)</th>
+                    <th style="padding:4px 6px;">區域</th>
+                    <th style="padding:4px 6px;">金額 (TWD)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom:1px solid #E2E8F0;">
+                    <td style="padding:4px 6px;">ORD-2026-0001</td>
+                    <td style="padding:4px 6px;"><del style="color:#94A3B8;">陳志明</del> ➔ <b>CUST-001</b></td>
+                    <td style="padding:4px 6px;"><del style="color:#94A3B8;">台北市大安區信義路四段100號</del> ➔ <b>台北市大安區</b></td>
+                    <td style="padding:4px 6px;">北部</td>
+                    <td style="padding:4px 6px;">$36,900</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #E2E8F0;">
+                    <td style="padding:4px 6px;">ORD-2026-0002</td>
+                    <td style="padding:4px 6px;"><del style="color:#94A3B8;">林雅婷</del> ➔ <b>CUST-002</b></td>
+                    <td style="padding:4px 6px;"><del style="color:#94A3B8;">台中市西屯區台灣大道三段99號</del> ➔ <b>台中市西屯區</b></td>
+                    <td style="padding:4px 6px;">中部</td>
+                    <td style="padding:4px 6px;">$49,900</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:4px 6px;">ORD-2026-0003</td>
+                    <td style="padding:4px 6px;"><del style="color:#94A3B8;">黃嘉豪</del> ➔ <b>CUST-003</b></td>
+                    <td style="padding:4px 6px;"><del style="color:#94A3B8;">高雄市左營區博愛二路777號</del> ➔ <b>高雄市左營區</b></td>
+                    <td style="padding:4px 6px;">南部</td>
+                    <td style="padding:4px 6px;">$42,000</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          `;
+        } else if (field.type === 'quiz_radio') {
           inputControl = `<div class="radio-pills" style="flex-direction:column; gap:6px;">` + 
             field.options.map((opt, i) => {
               const optVal = typeof opt === 'object' ? opt.value : opt;
@@ -1994,7 +2111,7 @@ Phrases: ${phraseVals}`;
       let wrongQuizCount = 0;
 
       for (let field of fields) {
-        if (field.type === 'star_rating' || field.type === 'day1_prompt_display' || field.type === 'day3_style_display' || field.type === 'day4_char_display' || field.type === 'prompt_builder' || field.type === 'prompt_builder_d4' || field.type === 'prompt_builder_d5' || field.type === 'radios_d3' || field.type === 'checkboxes_d3' || field.type === 'checkboxes_persona_d3' || field.type === 'radios_d4_base' || field.type === 'checkboxes_d4_acc' || field.type === 'radios_d5_count' || field.type === 'radios_d5_style' || field.type === 'checkboxes_d5_phrases') continue;
+        if (field.type === 'star_rating' || field.type === 'd9_dataset_download_block' || field.type === 'day1_prompt_display' || field.type === 'day3_style_display' || field.type === 'day4_char_display' || field.type === 'prompt_builder' || field.type === 'prompt_builder_d4' || field.type === 'prompt_builder_d5' || field.type === 'radios_d3' || field.type === 'checkboxes_d3' || field.type === 'checkboxes_persona_d3' || field.type === 'radios_d4_base' || field.type === 'checkboxes_d4_acc' || field.type === 'radios_d5_count' || field.type === 'radios_d5_style' || field.type === 'checkboxes_d5_phrases') continue;
 
         if (field.type === 'quiz_radio') {
           const selected = document.querySelector(`input[name="${field.id}"]:checked`);
@@ -2052,12 +2169,12 @@ Phrases: ${phraseVals}`;
 
       if (wrongQuizCount > 0) {
         isValid = false;
-        errorMsg = currentLang === "zh" ? "⚠️ 有選項非最佳安全作法 (紅標 ✕)，請調整為綠標 (✓)！" : "⚠️️ Please adjust your answers to green checkmarks (✓)!";
+        errorMsg = currentLang === "zh" ? "⚠️ 有選項非最佳安全作法 (紅標 ✕)，請調整為綠標 (✓)！" : "⚠ Please adjust your answers to green checkmarks (✓)!";
       }
 
       if (isValid) {
         btn.classList.add("active");
-        hint.textContent = currentLang === "zh" ? "✨ 答案全對，安全去識別化認證通過！點擊完成打卡！" : "✨ All answers validated as safe! Click to stamp.";
+        hint.textContent = currentLang === "zh" ? "✨ 答案全對，安全驗證通過！點擊完成打卡！" : "✨ All answers validated as safe! Click to stamp.";
         hint.className = "validation-hint ready";
       } else {
         btn.classList.remove("active");
@@ -2163,6 +2280,8 @@ Phrases: ${phraseVals}`;
           formData[field.id] = Array.from(document.querySelectorAll(`input[name="${field.id}"]:checked`)).map(c => c.value);
         } else if (field.type === 'radios' || field.type === 'quiz_radio' || field.type === 'radios_d3' || field.type === 'radios_d5_count' || field.type === 'radios_d5_style') {
           formData[field.id] = document.querySelector(`input[name="${field.id}"]:checked`)?.value;
+        } else if (field.type === 'd9_dataset_download_block') {
+          formData[field.id] = "已下載模擬 800 筆去識別化 ERP 銷售數據集 (Safe_ERP_800.csv)";
         } else {
           const elem = document.getElementById(field.id);
           formData[field.id] = elem ? elem.value : '';
