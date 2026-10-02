@@ -302,6 +302,20 @@
       background: var(--bosch-dark); color: #FFFFFF; border-color: var(--bosch-dark);
     }
 
+    /* 正確與錯誤標籤樣式 (Day 08 專用) */
+    .radio-pill-item input:checked + .radio-pill-label.correct-choice {
+      background: #16A34A !important; color: #FFFFFF !important; border-color: #16A34A !important;
+    }
+    .radio-pill-item input:checked + .radio-pill-label.correct-choice::after {
+      content: " ✓"; font-weight: 900; margin-left: 4px;
+    }
+    .radio-pill-item input:checked + .radio-pill-label.wrong-choice {
+      background: #DC2626 !important; color: #FFFFFF !important; border-color: #DC2626 !important;
+    }
+    .radio-pill-item input:checked + .radio-pill-label.wrong-choice::after {
+      content: " ✕"; font-weight: 900; margin-left: 4px;
+    }
+
     .mode-tab-container {
       display: flex;
       background: #E2E8F0;
@@ -717,7 +731,7 @@
 
     function handleDay4BaseChange() {
       const charBaseRadio = document.querySelector('input[name="d4CharBase"]:checked');
-      const animalInputContainer = document.getElementById("d4CustomAnimalInputContainer");
+      const animalInputContainer = document.getElementById("d4AnimalInputContainer");
       if (charBaseRadio && (charBaseRadio.value === "擬人化幸運萌寵" || charBaseRadio.value === "Anthropomorphic Animal Avatar")) {
         if (animalInputContainer) animalInputContainer.style.display = "block";
       } else {
@@ -1323,44 +1337,200 @@ Phrases: ${phraseVals}`;
         zh: {
           kicker: "DAY 08 | LEARNING TICKET",
           title: "Make Your Data AI-Ready",
-          goal: "Protect Before You Upload! 資料去識別化大挑戰！",
+          goal: "Protect Customer Privacy & Be AI-Ready! 訂單與客戶個資去識別化大挑戰！",
           subGoal: "WORK SMART. SHARE SAFE.",
           cards: [
-            { type: "chatgpt", title: "CAN I TELL WHO THIS IS？", tag: "去識別化 3 大招", try: "保護隱私 ➔ 才能安全使用 AI", details: ["① REMOVE 移除：直接刪除姓名、Email、電話、工號", "② REPLACE 替換：用 Alias 代替 (Amy → Employee 001)", "③ GENERALIZE 降低精細度：生日 → 年齡層"] }
+            { 
+              type: "chatgpt", 
+              title: "GEMINI DATA SAFETY GUIDE (ORDERS)", 
+              tag: "訂單個資保護 3 大原則", 
+              try: "客戶隱私 ➔ 去識別化後才能送入 AI 分析", 
+              details: [
+                "① 姓名與電話：去除或替換為代號 (例：Amy → Client A, 0912-345-678 → 0912-***-***)",
+                "② 詳細地址：降精細度至縣市行政區 (例：信義路五段10號5樓 → 台北市信義區)",
+                "③ 興趣愛好/消費偏好：可直接保留以利 AI 做客群偏好歸納"
+              ] 
+            }
           ],
-          howTitle: "DATA DETECTIVE CHALLENGE",
+          howTitle: "PROMPT EXAMPLE 範例提示詞",
           steps: [
-            "閱讀欄位並標示為 REMOVE, REPLACE, GENERALIZE 或 KEEP。"
+            "「請幫我分析以下這批已去識別化的訂單數據（客戶名稱與詳細地址已去識別，僅保留縣市區與購買產品偏好），找出最熱銷的產品組合。」"
           ],
-          recommendedPrompt: "此關卡為互動測試，不需上傳真實公司資料。",
-          journeyTitle: "數據去識別化挑戰 (Data Detective)",
+          recommendedPrompt: "💡 提示：每個問答選擇後會顯示即時正確性標籤，全對即可完成打卡！",
+          journeyTitle: "數據去識別化挑戰 (Data Detective - Order Processing)",
           journeyFields: [
-            { type: "radios", id: "colName", label: "① 欄位『Employee Name』應如何處理？", req: "必選", options: ["REMOVE 移除", "REPLACE 替換", "KEEP 保留"] },
-            { type: "radios", id: "colEmail", label: "② 欄位『Corporate Email』應如何處理？", req: "必選", options: ["REMOVE 移除", "REPLACE 替換", "KEEP 保留"] },
-            { type: "radios", id: "colDept", label: "③ 欄位『Department & Drink Preference』應如何處理？", req: "必選", options: ["KEEP 保留 (有助於分析)", "REMOVE 移除"] },
-            { type: "radios", id: "colSpend", label: "④ 欄位『Exact Spend ($125.5)』應如何處理？", req: "必選", options: ["GENERALIZE 降精細度", "KEEP 保留"] },
+            { 
+              type: "quiz_radio", 
+              id: "orderAddress", 
+              label: "情境 A：處理含有客戶詳細配送地址的訂單時（如：台北市信義區信義路五段10號5樓）：", 
+              req: "必選", 
+              correct: "B",
+              options: [
+                { label: "A. 保留完整門牌地址直接餵給 AI", value: "A" },
+                { label: "B. 降低精細度，僅保留『台北市信義區』", value: "B" },
+                { label: "C. 將地址欄位完全刪除", value: "C" }
+              ] 
+            },
+            { 
+              type: "quiz_radio", 
+              id: "orderPhone", 
+              label: "情境 B：分析客戶聯絡電話（如：0912-345-678）以統計區碼或推廣效益時：", 
+              req: "必選", 
+              correct: "C",
+              options: [
+                { label: "A. 保留完整 10 碼手機號碼", value: "A" },
+                { label: "B. 替換為隨機雜湊碼 (Hash ID)", value: "B" },
+                { label: "C. 進行部分遮蔽 (如 0912-***-***)", value: "C" }
+              ] 
+            },
+            { 
+              type: "quiz_radio", 
+              id: "orderInterests", 
+              label: "情境 C：利用客戶填寫的『興趣與偏好』（如：烘焙、露營）進行受眾畫像分析時：", 
+              req: "必選", 
+              correct: "A",
+              options: [
+                { label: "A. 直接保留興趣標籤進行分析", value: "A" },
+                { label: "B. 泛化為『戶外活動』", value: "B" },
+                { label: "C. 移除所有興趣資訊", value: "C" }
+              ] 
+            },
+            { 
+              type: "quiz_radio", 
+              id: "highRiskPii", 
+              label: "1. 哪一組欄位組合屬於高風險極致直接個資 (Highest Risk Personal Data)？", 
+              req: "必选", 
+              correct: "C",
+              options: [
+                { label: "客戶姓名 & 電話", value: "A" },
+                { label: "訂單編號 & 購買商品", value: "B" },
+                { label: "完整地址 & 個人 Email", value: "C" }
+              ] 
+            },
+            { 
+              type: "quiz_radio", 
+              id: "empAnonymize", 
+              label: "2. 如何去識別化員工資料 '5404 / sunny.peng@bshg.com'？", 
+              req: "必选", 
+              correct: "B",
+              options: [
+                { label: "原封不動保留完整資訊", value: "A" },
+                { label: "遮蔽工號與 Email 姓名 (例: Employee 01 / s***@bshg.com)", value: "B" },
+                { label: "僅保留工號 T001", value: "C" }
+              ] 
+            },
+            { 
+              type: "quiz_radio", 
+              id: "bestPractice", 
+              label: "3. 準備資料給 AI 分析時的最佳安全作法 (Best Approach)？", 
+              req: "必选", 
+              correct: "A",
+              options: [
+                { label: "分享已完整遮蔽敏感欄位的去識別化數據集", value: "A" },
+                { label: "直接分享含有個人細節的原始資料", value: "B" },
+                { label: "只分享隨意抽樣的幾筆個資", value: "C" }
+              ] 
+            },
             commonRatingFieldZh
           ]
         },
         en: {
           kicker: "DAY 08 | LEARNING TICKET",
           title: "Make Your Data AI-Ready",
-          goal: "Protect Before You Upload! Data De-identification Challenge.",
+          goal: "Protect Customer Privacy & Be AI-Ready!",
           subGoal: "WORK SMART. SHARE SAFE.",
           cards: [
-            { type: "chatgpt", title: "CAN I TELL WHO THIS IS?", tag: "3 De-identification Rules", try: "Protect Privacy -> Safe AI Usage", details: ["① REMOVE: Delete Name, Email, Phone, Employee ID", "② REPLACE: Use Aliases", "③ GENERALIZE: Reduce precision"] }
+            { 
+              type: "chatgpt", 
+              title: "GEMINI DATA SAFETY GUIDE (ORDERS)", 
+              tag: "Order Anonymization Rules", 
+              try: "Protect Privacy -> Safe AI Analysis", 
+              details: [
+                "① Name & Phone: Mask or replace with alias (e.g., Client A, 0912-***-***)",
+                "② Detailed Address: Generalize to city/district level",
+                "③ Hobbies & Interests: Keep for audience clustering"
+              ] 
+            }
           ],
-          howTitle: "DATA DETECTIVE CHALLENGE",
+          howTitle: "PROMPT EXAMPLE",
           steps: [
-            "Classify each field into REMOVE, REPLACE, GENERALIZE, or KEEP."
+            "Analyze this anonymized dataset (addresses generalized to district level) and identify top product combinations."
           ],
-          recommendedPrompt: "This is an interactive detective challenge. No real data required.",
-          journeyTitle: "Data Detective Challenge",
+          recommendedPrompt: "💡 Hint: Instant validation feedback is displayed upon selection!",
+          journeyTitle: "Data Detective - Order Processing",
           journeyFields: [
-            { type: "radios", id: "colName", label: "① Field 'Employee Name' action?", req: "Required", options: ["REMOVE", "REPLACE", "KEEP"] },
-            { type: "radios", id: "colEmail", label: "② Field 'Corporate Email' action?", req: "Required", options: ["REMOVE", "REPLACE", "KEEP"] },
-            { type: "radios", id: "colDept", label: "③ Field 'Department & Drink' action?", req: "Required", options: ["KEEP", "REMOVE"] },
-            { type: "radios", id: "colSpend", label: "④ Field 'Exact Spend' action?", req: "Required", options: ["GENERALIZE", "KEEP"] },
+            { 
+              type: "quiz_radio", 
+              id: "orderAddress", 
+              label: "Scenario A: Handling detailed customer shipping address:", 
+              req: "Required", 
+              correct: "B",
+              options: [
+                { label: "A. Keep detailed full address", value: "A" },
+                { label: "B. Generalize to city/district level", value: "B" },
+                { label: "C. Remove address field entirely", value: "C" }
+              ] 
+            },
+            { 
+              type: "quiz_radio", 
+              id: "orderPhone", 
+              label: "Scenario B: Analyzing customer phone numbers:", 
+              req: "Required", 
+              correct: "C",
+              options: [
+                { label: "A. Keep full 10-digit number", value: "A" },
+                { label: "B. Replace with random Hash ID", value: "B" },
+                { label: "C. Mask partially (e.g., 0912-***-***)", value: "C" }
+              ] 
+            },
+            { 
+              type: "quiz_radio", 
+              id: "orderInterests", 
+              label: "Scenario C: Utilizing customer interests & hobbies:", 
+              req: "Required", 
+              correct: "A",
+              options: [
+                { label: "A. Keep interests as is for audience grouping", value: "A" },
+                { label: "B. Generalize specific hobbies", value: "B" },
+                { label: "C. Remove all interests", value: "C" }
+              ] 
+            },
+            { 
+              type: "quiz_radio", 
+              id: "highRiskPii", 
+              label: "1. Which is the highest risk personal data?", 
+              req: "Required", 
+              correct: "C",
+              options: [
+                { label: "Customer Name & Phone", value: "A" },
+                { label: "Order ID & Purchased Product", value: "B" },
+                { label: "Full Address & Personal Email", value: "C" }
+              ] 
+            },
+            { 
+              type: "quiz_radio", 
+              id: "empAnonymize", 
+              label: "2. How to anonymize '5404 / sunny.peng@bshg.com'?", 
+              req: "Required", 
+              correct: "B",
+              options: [
+                { label: "Keep all as is", value: "A" },
+                { label: "Mask Employee ID & Email name", value: "B" },
+                { label: "Keep only ID T001", value: "C" }
+              ] 
+            },
+            { 
+              type: "quiz_radio", 
+              id: "bestPractice", 
+              label: "3. Best approach to share data for AI analysis?", 
+              req: "Required", 
+              correct: "A",
+              options: [
+                { label: "Share full anonymized dataset with masked fields", value: "A" },
+                { label: "Share raw dataset with personal details", value: "B" },
+                { label: "Share random unmasked samples", value: "C" }
+              ] 
+            },
             commonRatingFieldEn
           ]
         }
@@ -1563,8 +1733,25 @@ Phrases: ${phraseVals}`;
         const savedVal = currentDayStore[field.id];
         const isOptional = field.req && field.req.includes('Optional');
 
-        if (field.type === 'd6_video_wrapper') {
-          /* Day 06 IP 影音雙軌面板 */
+        if (field.type === 'quiz_radio') {
+          /* Day 08 正確答案驗證單選按鈕 */
+          inputControl = `<div class="radio-pills" style="flex-direction:column; gap:6px;">` + 
+            field.options.map((opt, i) => {
+              const optVal = typeof opt === 'object' ? opt.value : opt;
+              const optLabel = typeof opt === 'object' ? opt.label : opt;
+              const isChecked = savedVal === optVal;
+              let answerClass = '';
+              if (isChecked) {
+                answerClass = (optVal === field.correct) ? 'correct-choice' : 'wrong-choice';
+              }
+              return `
+                <div class="radio-pill-item">
+                  <input type="radio" id="${field.id}_${i}" name="${field.id}" value="${optVal}" ${isChecked ? 'checked' : ''} onchange="validateCurrentForm()">
+                  <label for="${field.id}_${i}" class="radio-pill-label ${answerClass}" style="width:100%; text-align:left;">${optLabel}</label>
+                </div>
+              `;
+            }).join('') + `</div>`;
+        } else if (field.type === 'd6_video_wrapper') {
           inputControl = `
             <div class="mode-tab-container">
               <button type="button" class="mode-tab-btn ${d6Mode === 'auto' ? 'active' : ''}" id="btnD6Auto" onclick="switchD6Mode('auto')">⚡ 新手模式：快速組裝 PROMPT</button>
@@ -1620,7 +1807,6 @@ Phrases: ${phraseVals}`;
             </div>
           `;
         } else if (field.type === 'd7_dual_mode_wrapper') {
-          /* Day 07 工作圖文指南雙軌面板 */
           inputControl = `
             <div class="mode-tab-container">
               <button type="button" class="mode-tab-btn ${d7Mode === 'auto' ? 'active' : ''}" id="btnD7Auto" onclick="switchD7Mode('auto')">⚡ 新手模式：快速組裝 PROMPT</button>
@@ -1805,11 +1991,34 @@ Phrases: ${phraseVals}`;
 
       let isValid = true;
       let errorMsg = "";
+      let wrongQuizCount = 0;
 
       for (let field of fields) {
         if (field.type === 'star_rating' || field.type === 'day1_prompt_display' || field.type === 'day3_style_display' || field.type === 'day4_char_display' || field.type === 'prompt_builder' || field.type === 'prompt_builder_d4' || field.type === 'prompt_builder_d5' || field.type === 'radios_d3' || field.type === 'checkboxes_d3' || field.type === 'checkboxes_persona_d3' || field.type === 'radios_d4_base' || field.type === 'checkboxes_d4_acc' || field.type === 'radios_d5_count' || field.type === 'radios_d5_style' || field.type === 'checkboxes_d5_phrases') continue;
 
-        if (field.type === 'd6_video_wrapper') {
+        if (field.type === 'quiz_radio') {
+          const selected = document.querySelector(`input[name="${field.id}"]:checked`);
+          if (!selected) {
+            isValid = false;
+            if (!errorMsg) errorMsg = currentLang === "zh" ? "💡 請完成所有測驗問答。" : "💡 Please answer all questions.";
+          } else {
+            const labels = document.querySelectorAll(`input[name="${field.id}"]`);
+            labels.forEach(input => {
+              const lbl = input.nextElementSibling;
+              if (lbl) {
+                lbl.classList.remove('correct-choice', 'wrong-choice');
+                if (input.checked) {
+                  if (input.value === field.correct) {
+                    lbl.classList.add('correct-choice');
+                  } else {
+                    lbl.classList.add('wrong-choice');
+                    wrongQuizCount++;
+                  }
+                }
+              }
+            });
+          }
+        } else if (field.type === 'd6_video_wrapper') {
           if (d6Mode === 'custom') {
             const customVal = document.getElementById("d6CustomPromptInput")?.value.trim();
             if (!customVal) {
@@ -1841,14 +2050,19 @@ Phrases: ${phraseVals}`;
         }
       }
 
+      if (wrongQuizCount > 0) {
+        isValid = false;
+        errorMsg = currentLang === "zh" ? "⚠️ 有選項非最佳安全作法 (紅標 ✕)，請調整為綠標 (✓)！" : "⚠️ Please adjust your answers to green checkmarks (✓)!";
+      }
+
       if (isValid) {
         btn.classList.add("active");
-        hint.textContent = currentLang === "zh" ? "✨ 條件已達成，點擊完成打卡！" : "✨ All requirements met! Click to stamp.";
+        hint.textContent = currentLang === "zh" ? "✨ 答案全對，安全去識別化認證通過！點擊完成打卡！" : "✨ All answers validated as safe! Click to stamp.";
         hint.className = "validation-hint ready";
       } else {
         btn.classList.remove("active");
         hint.textContent = errorMsg;
-        hint.className = "validation-hint";
+        hint.className = "validation-hint warn";
       }
 
       return isValid;
@@ -1947,7 +2161,7 @@ Phrases: ${phraseVals}`;
           formData[field.id] = val && val !== '0' ? `${val} 星` : '未評分';
         } else if (field.type === 'checkboxes' || field.type === 'checkboxes_d3' || field.type === 'checkboxes_persona_d3' || field.type === 'checkboxes_d4_acc' || field.type === 'checkboxes_d5_phrases') {
           formData[field.id] = Array.from(document.querySelectorAll(`input[name="${field.id}"]:checked`)).map(c => c.value);
-        } else if (field.type === 'radios' || field.type === 'radios_d3' || field.type === 'radios_d5_count' || field.type === 'radios_d5_style') {
+        } else if (field.type === 'radios' || field.type === 'quiz_radio' || field.type === 'radios_d3' || field.type === 'radios_d5_count' || field.type === 'radios_d5_style') {
           formData[field.id] = document.querySelector(`input[name="${field.id}"]:checked`)?.value;
         } else {
           const elem = document.getElementById(field.id);
