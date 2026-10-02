@@ -131,14 +131,6 @@
     }
     .btn-secondary:hover { border-color: var(--bosch-orange); color: var(--bosch-orange); }
 
-    .btn-danger-sm {
-      background: #FFF1F2; border: 1px solid #FECDD3;
-      color: #E11D48; padding: 8px 14px;
-      border-radius: 999px; font-weight: 800; cursor: pointer;
-      transition: all 0.2s ease; font-size: 12px;
-    }
-    .btn-danger-sm:hover { background: #E11D48; color: #FFFFFF; }
-
     .btn-primary-sm {
       background: var(--bosch-orange); border: none; color: #ffffff;
       padding: 8px 18px; border-radius: 999px; font-weight: 800;
@@ -479,8 +471,6 @@
     </div>
     
     <div class="header-right">
-      <button class="btn-danger-sm" onclick="resetAllTestingData()">🧹 清除測試紀錄</button>
-      
       <div id="userStateArea">
         <button class="btn-primary-sm" onclick="openLoginModal()" id="btnLoginNav">同仁登入 / 建立帳號</button>
       </div>
@@ -613,13 +603,6 @@
     const commonRatingFieldZh = { type: "star_rating", id: "rating", label: "⭐ TODAY'S RATING｜今天的任務體驗評分？", req: "選填 (Optional)" };
     const commonRatingFieldEn = { type: "star_rating", id: "rating", label: "⭐ TODAY'S RATING | Rate today's task experience", req: "Optional" };
 
-    function resetAllTestingData() {
-      if (confirm("確定要重置本機所有測試紀錄嗎？（頁面將會清空並自動重新載入）")) {
-        localStorage.clear();
-        location.reload();
-      }
-    }
-
     function scrollToLeaderboard() {
       const elem = document.querySelector('.leaderboard-section');
       if (elem) elem.scrollIntoView({ behavior: 'smooth' });
@@ -711,7 +694,7 @@
       const regions = [
         { name: "北部", cities: [ {city: "台北市大安區", road: "敦化南路二段100號"}, {city: "新北市板橋區", road: "文化路一段50號"}, {city: "桃園市中壢區", road: "中華路二段10號"} ] },
         { name: "中部", cities: [ {city: "台中市西屯區", road: "台灣大道三段99號"}, {city: "彰化市中央路", road: "中山路二段150號"} ] },
-        { name: "南部", cities: [ {city: "高雄市左營區", road: "博愛二路777號"}, {city: "台南市東區", road: "中華東路一段88號"} ] },
+        { name: "南部", cities: [ {city: "高雄市左營區", road: "博影二路777號"}, {city: "台南市東區", road: "中華東路一段88號"} ] },
         { name: "東部", cities: [ {city: "花蓮市中山路", road: "中正路200號"} ] }
       ];
       const storeTypes = ["專櫃門市", "網路商城", "授權經銷商"];
@@ -1448,7 +1431,7 @@ ${d9Info}
               details: [
                 "① 📂 新進人員公用槽導覽：目錄結構與存取權限說明",
                 "② 📝 合約檢查要點指南：審查 Check-list 與注意事項圖表",
-                "③ ✍️️ 簽呈使用範例說明：撰寫架構與範本參照表",
+                "③ ✍ 簽呈使用範例說明：撰寫架構與範本參照表",
                 "④ 🌴 請假流程與規則圖解：簽核階層與系統步驟"
               ] 
             }
@@ -1778,14 +1761,13 @@ ${d9Info}
           steps: [
             "STEP 1｜下載 BSH 企業 HTML 範本：點擊右側按鈕取得原始結構檔 (BSH_Template_v5.html)。",
             "STEP 2｜選擇模式並複製 PROMPT：系統將自動結合 Day 09 輸入的 3 大數據發現與洞察，合成精準 HTML 生成指令。",
-            "STEP 3｜貼至 ChatGPT / Gemini 生成 HTML 成果，並貼上代碼或預覽連結完成打卡畢業！"
+            "STEP 3｜貼至 ChatGPT / Gemini 生成 HTML 成果，確認產出後即可點擊完成打卡畢業！"
           ],
           recommendedPrompt: "💡 提示：點擊右上角可切換「新手模式」或「進階模式」，複製 Prompt 貼給 AI 即可生成高階 HTML 簡報！",
           journeyTitle: "終極畢業任務打卡 (Final BSH HTML Presentation)",
           journeyFields: [
             { type: "d10_template_download_block", id: "d10DownloadBlock", label: "① STEP 1：下載 BSH 企業 HTML 簡報範本", req: "下載體驗" },
             { type: "d10_dual_mode_wrapper", id: "d10Wrapper", label: "② STEP 2：選擇模式並生成專屬 HTML PROMPT", req: "核心步驟" },
-            { type: "textarea", id: "finalHtmlCode", label: "③ MY HTML RESULT｜貼上 AI 生成的 HTML 程式碼或作品連結", req: "必填", placeholder: "貼上完整的 HTML 代碼或分享網址..." },
             commonRatingFieldZh
           ]
         },
@@ -1801,14 +1783,13 @@ ${d9Info}
           steps: [
             "STEP 1 | Download BSH Presentation Template (BSH_Template_v5.html) on the right.",
             "STEP 2 | Auto-inject Day 09 findings and copy system-built HTML prompt.",
-            "STEP 3 | Paste code or URL to complete your graduation check-in!"
+            "STEP 3 | Paste code or generate deck, then click to complete your graduation check-in!"
           ],
           recommendedPrompt: "💡 Hint: Toggle between Auto and Custom mode using tabs above!",
           journeyTitle: "Final Mission Check-in (BSH HTML Presentation)",
           journeyFields: [
             { type: "d10_template_download_block", id: "d10DownloadBlock", label: "① STEP 1: Download BSH Presentation Template", req: "Download" },
             { type: "d10_dual_mode_wrapper", id: "d10Wrapper", label: "② STEP 2: Select Mode & Generate HTML Prompt", req: "Core Step" },
-            { type: "textarea", id: "finalHtmlCode", label: "③ MY HTML RESULT | Paste HTML Code or Share Link", req: "Required", placeholder: "Paste HTML code or URL..." },
             commonRatingFieldEn
           ]
         }
@@ -2073,7 +2054,7 @@ ${d9Info}
           inputControl = `
             <div class="mode-tab-container">
               <button type="button" class="mode-tab-btn ${d7Mode === 'auto' ? 'active' : ''}" id="btnD7Auto" onclick="switchD7Mode('auto')">⚡ 新手模式：快速組裝 PROMPT</button>
-              <button type="button" class="mode-tab-btn ${d7Mode === 'custom' ? 'active' : ''}" id="btnD7Custom" onclick="switchD7Mode('custom')">✍️ 進階挑戰：親自撰寫 PROMPT</button>
+              <button type="button" class="mode-tab-btn ${d7Mode === 'custom' ? 'active' : ''}" id="btnD7Custom" onclick="switchD7Mode('custom')">✍️️ 進階挑戰：親自撰寫 PROMPT</button>
             </div>
 
             <!-- Mode A: 自動組裝 -->
