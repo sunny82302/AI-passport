@@ -1,44 +1,501 @@
-10: {
-        accent: "#D69E2E",
-        accentBg: "#FEFCBF",
-        zh: {
-          kicker: "DAY 10 | FINAL MISSION",
-          title: "Create Your AI Deliverable",
-          goal: "終極任務雙軌分流：無論選擇單頁圖文報告或挑戰 BSH 官方 HTML 動畫簡報，都能輕鬆帶出專屬成果！",
-          subGoal: "Don't start from scratch. Upgrade what you've learned.",
-          cards: [
-            { type: "copilot", title: "BSH OFFICIAL HTML TEMPLATE", tag: "企業風格簡報範本", try: "下載官方範本 ➔ 請 AI 填入內容 ➔ 產出頂級動畫簡報", details: ["① 內建 BSH 品牌橘/黑經典配色", "② 支援流暢頁面切換與 KPI 數字動畫", "③ 內建 Gantt 矩陣圖、圖表與全螢幕播放功能"] }
-          ],
-          howTitle: "FINAL MISSION｜挑戰選單",
-          steps: [
-            "🌱 Explorer 路線：請 AI 製作「一頁式圖文報告/工作懶人包/流程圖」。",
-            "🚀 Creator 路線：下載 BSH 簡報範本，請 AI 將內容套入生成「HTML 動畫簡報」。"
-          ],
-          recommendedPrompt: "請參考引導區複製專屬 Prompt 貼給 AI，完成體驗後即可進行最後打卡！",
-          journeyTitle: "終極任務打卡 (Final Deliverable Submission)",
-          journeyFields: [
-            { type: "d10_dual_mode_wrapper", id: "d10Wrapper", label: "① 選擇挑戰路線與下載資源", req: "核心步驟" },
-            commonRatingFieldZh
-          ]
-        },
-        en: {
-          kicker: "DAY 10 | FINAL MISSION",
-          title: "Create Your AI Deliverable",
-          goal: "Choose Explorer (Visual Card) or Creator (HTML Presentation)!",
-          subGoal: "Don't start from scratch. Upgrade what you've learned.",
-          cards: [
-            { type: "copilot", title: "BSH OFFICIAL HTML TEMPLATE", tag: "Official Presentation Deck", try: "Download template ➔ Prompt AI ➔ Generate deck", details: ["1. Official BSH brand colors", "2. Smooth slide animation & KPI counter", "3. Gantt matrix, charts & full-screen mode"] }
-          ],
-          howTitle: "FINAL MISSION | Workflow",
-          steps: [
-            "🌱 Explorer: Ask AI for a one-page visual report/SOP diagram.",
-            "🚀 Creator: Download BSH template and prompt AI to generate an interactive HTML deck."
-          ],
-          recommendedPrompt: "Copy your prompt, try it with AI, and click to complete your ticket!",
-          journeyTitle: "Final Deliverable Submission",
-          journeyFields: [
-            { type: "d10_dual_mode_wrapper", id: "d10Wrapper", label: "① Choose Track & Access Resources", req: "Core Step" },
-            commonRatingFieldEn
-          ]
-        }
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BSH 10 Days AI Passport 2026</title>
+  <style>
+    :root {
+      --bosch-orange: #F26A3D;
+      --bosch-dark-orange: #C94A25;
+      --bosch-dark: #2B303A;
+      --gray-bg: #F7F9FB;
+      --gray-card: #FFFFFF;
+      --line-color: #E2E8F0;
+      --muted-text: #64748B;
+      --light-orange: #FFF0E8;
+      --shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+      --radius: 20px;
+      
+      --chatgpt-bg: #F0FDF4; --chatgpt-border: #BBF7D0; --chatgpt-accent: #16A34A;
+      --gemini-bg: #F0F9FF; --gemini-border: #BAE6FD; --gemini-accent: #0284C7;
+      --copilot-bg: #F5F3FF; --copilot-border: #DDD6FE; --copilot-accent: #7C3AED;
+      
+      --current-accent: var(--bosch-orange);
+      --current-accent-bg: var(--light-orange);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+      background-color: var(--gray-bg);
+      color: var(--bosch-dark);
+      padding: 30px 20px 80px;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    .brand-strip {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--bosch-orange) 0%, #000000 100%);
+      z-index: 100;
+    }
+
+    .header-bar {
+      max-width: 1180px; margin: 0 auto 20px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+    }
+
+    .logo-area { display: flex; align-items: center; gap: 12px; }
+    .logo-badge { background: var(--bosch-dark); color: #fff; font-weight: 900; padding: 6px 14px; border-radius: 8px; font-size: 18px; letter-spacing: 1px; }
+    .header-title { font-size: 14px; color: var(--muted-text); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .header-right { display: flex; align-items: center; gap: 12px; }
+
+    .user-profile-badge {
+      display: flex; align-items: center; gap: 10px; background: #ffffff; padding: 6px 14px;
+      border-radius: 999px; border: 1px solid var(--line-color); font-size: 13px; font-weight: 700;
+    }
+
+    .user-avatar {
+      width: 28px; height: 28px; background: var(--bosch-orange); color: #fff;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900;
+    }
+
+    .btn-primary-sm { background: var(--bosch-orange); border: none; color: #ffffff; padding: 8px 18px; border-radius: 999px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 12px rgba(242, 106, 61, 0.2); transition: all 0.2s ease; font-size: 13px; }
+    .btn-primary-sm:hover { background: var(--bosch-dark-orange); }
+
+    .container { max-width: 1180px; margin: 0 auto; }
+
+    .day-selector { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 24px; scrollbar-width: thin; }
+    .day-btn { flex: 0 0 auto; background: #ffffff; border: 1px solid var(--line-color); color: var(--muted-text); padding: 10px 18px; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 6px; }
+    .day-btn:hover { border-color: var(--bosch-orange); color: var(--bosch-orange); }
+    .day-btn.active { background: var(--bosch-dark); border-color: var(--bosch-dark); color: #ffffff; }
+    .day-btn.completed-check::after { content: "✓"; color: #22C55E; font-weight: 900; margin-left: 2px; }
+    .day-btn.locked { background: #F1F5F9; color: #94A3B8; border-color: #E2E8F0; opacity: 0.8; cursor: not-allowed; }
+
+    .passport-card {
+      background: var(--gray-card); border-radius: var(--radius);
+      border: 1px solid var(--line-color); box-shadow: var(--shadow);
+      display: grid; grid-template-columns: 52% 48%; position: relative; overflow: hidden; align-items: stretch; margin-bottom: 30px;
+    }
+
+    .ticket-side { padding: 36px 32px 36px 36px; border-right: 1px dashed var(--line-color); background: #FFFFFF; }
+    .journey-side { padding: 36px 36px 36px 32px; background: #FAFBFD; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+
+    .kicker { color: var(--current-accent, var(--bosch-orange)); font-size: 12px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; display: block; }
+    h1.task-title { font-size: 26px; line-height: 1.25; margin-bottom: 8px; color: var(--bosch-dark); font-weight: 900; }
+
+    .goal-banner { background: var(--current-accent-bg, var(--light-orange)); border-left: 3px solid var(--current-accent, var(--bosch-orange)); padding: 10px 14px; border-radius: 0 10px 10px 0; margin-bottom: 20px; }
+    .goal-banner p { font-size: 13px; color: var(--bosch-dark); font-weight: 600; }
+
+    .ai-cards-grid { display: grid; gap: 12px; margin-bottom: 22px; }
+    .ai-tool-card { border-radius: 12px; padding: 14px 16px; border: 1px solid var(--line-color); }
+    .ai-tool-card.chatgpt { background: var(--chatgpt-bg); border-color: var(--chatgpt-border); }
+    .ai-tool-card.gemini { background: var(--gemini-bg); border-color: var(--gemini-border); }
+    .ai-tool-card.copilot { background: var(--copilot-bg); border-color: var(--copilot-border); }
+
+    .ai-card-header { display: flex; justify-content: space-between; align-items: center; }
+    .ai-card-title { font-weight: 800; font-size: 15px; }
+    .ai-card-tag { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: #FFFFFF; }
+
+    .how-it-works-section { background: #F8FAFC; border-radius: 14px; padding: 14px 16px; border: 1px solid var(--line-color); margin-top: 15px; }
+    .how-title { font-size: 12px; font-weight: 900; color: var(--muted-text); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+    .step-list { display: grid; gap: 8px; }
+    .step-item-mini { display: flex; align-items: flex-start; gap: 10px; font-size: 12px; }
+    .step-num-badge { background: var(--bosch-dark); color: #fff; font-size: 10px; font-weight: 900; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+    .journey-header { margin-bottom: 18px; }
+    .journey-header h2 { font-size: 20px; font-weight: 900; color: var(--bosch-dark); }
+
+    .form-section-block { background: #FFFFFF; border: 1px solid var(--line-color); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; }
+    .form-section-title { font-size: 13px; font-weight: 800; color: var(--bosch-dark); margin-bottom: 8px; display: flex; justify-content: space-between; }
+    .form-section-title span.req-badge { font-size: 10px; color: var(--bosch-orange); font-weight: 700; background: var(--light-orange); padding: 1px 6px; border-radius: 4px; }
+
+    .text-input-styled { width: 100%; padding: 10px 12px; border: 1px solid var(--line-color); border-radius: 8px; font-size: 12px; background: #FAFBFD; font-family: inherit; }
+    .text-input-styled:focus { outline: none; border-color: var(--bosch-orange); background: #FFFFFF; }
+    textarea.text-input-styled { resize: vertical; min-height: 60px; }
+
+    .mode-tab-container { display: flex; background: #E2E8F0; border-radius: 12px; padding: 4px; margin-bottom: 14px; }
+    .mode-tab-btn { flex: 1; padding: 8px 12px; border: none; border-radius: 8px; font-size: 12px; font-weight: 800; cursor: pointer; background: transparent; color: var(--muted-text); }
+    .mode-tab-btn.active { background: #FFFFFF; color: var(--bosch-dark); box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+
+    .star-rating-box { display: inline-flex; align-items: center; gap: 6px; }
+    .star-rating-box .star-item { font-size: 26px; color: #CBD5E1; cursor: pointer; }
+    .star-rating-box .star-item.active { color: #F59E0B; }
+
+    .submit-stamp-btn {
+      background: #CBD5E1; color: #64748B; border: none; padding: 14px 20px;
+      border-radius: 999px; font-size: 14px; font-weight: 900; cursor: not-allowed;
+      width: 100%; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; margin-top: 8px;
+    }
+    .submit-stamp-btn.active { background: var(--bosch-orange); color: #ffffff; cursor: pointer; box-shadow: 0 8px 20px rgba(242, 106, 61, 0.28); }
+
+    .digital-stamp-container {
+      display: none; position: absolute; right: 28px; bottom: 28px;
+      width: 135px; height: 135px; border: 3.5px dashed var(--current-accent, var(--bosch-orange));
+      border-radius: 50%; color: var(--current-accent, var(--bosch-orange));
+      background: rgba(255, 240, 232, 0.95); backdrop-filter: blur(4px);
+      flex-direction: column; justify-content: center; align-items: center; font-weight: 900; text-align: center;
+    }
+    .digital-stamp-container.stamped-anim { display: flex; animation: realStampImpact 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    @keyframes realStampImpact { 0% { transform: scale(2.8) rotate(-35deg); opacity: 0; } 100% { transform: scale(1) rotate(-14deg); opacity: 1; } }
+
+    .leaderboard-section { background: #FFFFFF; border-radius: var(--radius); padding: 24px; border: 1px solid var(--line-color); box-shadow: var(--shadow); margin-top: 30px; }
+    .leader-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--line-color); font-weight: 700; }
+
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+    .modal-card { background: #ffffff; border-radius: var(--radius); max-width: 400px; width: 100%; padding: 28px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+  </style>
+</head>
+<body>
+
+  <div class="brand-strip"></div>
+
+  <div class="header-bar">
+    <div class="logo-area">
+      <div class="logo-badge">B/S/H/</div>
+      <div class="header-title">AI CULTURE WEEK 2026</div>
+    </div>
+    
+    <div class="header-right">
+      <div id="userStateArea">
+        <button class="btn-primary-sm" onclick="openLoginModal()">同仁登入 / 身分驗證</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="day-selector" id="daySelector"></div>
+
+    <div class="passport-card">
+      <div class="ticket-side" id="ticketContent"></div>
+      <div class="journey-side" id="journeyContent"></div>
+    </div>
+
+    <div class="leaderboard-section">
+      <h3 style="margin-top:0; border-bottom:2px solid var(--line-color); padding-bottom:10px; font-weight:900;">📊 全員即時英雄榜 (已脫敏)</h3>
+      <div id="leaderboardList" style="margin-top:10px;">載入中...</div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal-card">
+      <div style="text-align:center; margin-bottom:18px;">
+        <div style="font-size:20px; font-weight:900;">BSH 同仁身分驗證</div>
+        <div style="font-size:12px; color:var(--muted-text); margin-top:4px;">驗證授權名冊，自動同步跨裝置進度</div>
+      </div>
+
+      <form onsubmit="handleAccountSubmit(event)">
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px; font-weight:800; display:block; margin-bottom:4px;">員工編號 (Employee ID)</label>
+          <input type="text" id="accEmpId" required placeholder="例如：5404" class="text-input-styled" />
+        </div>
+        <div style="margin-bottom:16px;">
+          <label style="font-size:12px; font-weight:800; display:block; margin-bottom:4px;">英文姓名 (English Name)</label>
+          <input type="text" id="accName" required placeholder="例如：Sunny Peng" class="text-input-styled" />
+        </div>
+        <button type="submit" class="submit-stamp-btn active" id="btnLoginSubmit">驗證並進入 🚀</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // ⚠️ 請記得替換為您在 Apps Script 部署獲得的 Web App URL
+    const GAS_URL = "YOUR_APPS_SCRIPT_WEB_APP_URL_HERE"; 
+    const ENABLE_DATE_LIMIT = true; 
+    const EVENT_START_DATE = new Date("2026-03-02T00:00:00"); 
+
+    let currentDay = 10;
+    let d10Mode = "explorer";
+    let currentUser = JSON.parse(localStorage.getItem("bsh_passport_user")) || null;
+    let userProgressData = {};
+
+    function getUnlockedMaxDay() {
+      if (!ENABLE_DATE_LIMIT) return 10;
+      const diffDays = Math.floor((new Date() - EVENT_START_DATE) / (1000 * 60 * 60 * 24));
+      return Math.min(Math.max(diffDays + 1, 1), 10);
+    }
+
+    /* 下載模擬 ERP 資料集 (Day 09) */
+    function downloadERPDataCSV() {
+      const lastNames = ["陳", "林", "黃", "張", "李"];
+      const firstNames = ["志明", "雅婷", "嘉豪", "怡君", "建宏"];
+      let csvContent = "\uFEFFOrderID,CustomerName,CustomerAddress,StoreType,Region,ProductModel,Quantity,Amount_TWD,PurchaseDate\n";
+      for (let i = 1; i <= 800; i++) {
+        csvContent += `"ORD-2026-${String(i).padStart(4, '0')}","${lastNames[i%5]}${firstNames[i%5]}","台北市大安區敦化南路","專櫃門市","北部","BOSCH 洗碗機 SMS53E02TC",1,36900,"2026-05-10"\n`;
+      }
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "BSH_ERP_Sales_Data_800.csv";
+      link.click();
+    }
+
+    /* 下載 Day 10 官方 HTML 簡報範本 */
+    function downloadBSHTemplateHTML() {
+      const link = document.createElement("a");
+      link.href = "BSH_Template_v5 (1).html";
+      link.download = "BSH_Presentation_Template.html";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function switchD10Mode(mode) {
+      d10Mode = mode;
+      document.getElementById("btnD10Exp")?.classList.toggle("active", mode === "explorer");
+      document.getElementById("btnD10Cre")?.classList.toggle("active", mode === "creator");
+      document.getElementById("d10ExpBlock").style.display = mode === "explorer" ? "block" : "none";
+      document.getElementById("d10CreBlock").style.display = mode === "creator" ? "block" : "none";
+    }
+
+    const daysData = {
+      9: {
+        kicker: "DAY 09 | LEARNING TICKET", title: "Talk to Your Data",
+        goal: "下載模擬 800 筆 ERP 銷售數據，請 AI 分析並列出具體數據證據！",
+        cards: [{ type: "gemini", title: "DATA DETECTIVE FRAMEWORK", tag: "數據對話法", details: ["1. 摘要重點", "2. 比較差異", "3. 要求數據證據"] }],
+        steps: ["STEP 1｜下載 ERP CSV 檔案。", "STEP 2｜移除敏感欄位。", "STEP 3｜請 AI 分析並紀錄數據證據！"],
+        journeyFields: [
+          { type: "d9_download", id: "d9Data", label: "① STEP 1：下載模擬 ERP 銷售資料集", req: "下載體驗" },
+          { type: "textarea", id: "myPrompt", label: "② MY DATA PROMPT｜我丟給 AI 的提示詞", req: "必填", placeholder: "貼上你丟給 AI 的 Prompt..." },
+          { type: "textarea", id: "findings", label: "③ AI 回應之 3 個重點發現 & 洞察", req: "必填", placeholder: "1. 北部門市銷售佔比最高..." },
+          { type: "textarea", id: "evidence", label: "④ SHOW ME THE EVIDENCE (數據佐證)", req: "必填", placeholder: "貼上 AI 提供的數據佐證..." },
+          { type: "rating", id: "rating", label: "⭐ TODAY'S RATING｜任務體驗評分", req: "選填" }
+        ]
       },
+      10: {
+        kicker: "DAY 10 | FINAL MISSION", title: "Create Your AI Deliverable",
+        goal: "選擇單頁圖文報告或挑戰 BSH 官方 HTML 動畫簡報，完成最終打卡！",
+        cards: [{ type: "copilot", title: "BSH OFFICIAL HTML TEMPLATE", tag: "官方簡報範本", details: ["① 內建 BSH 品牌橘/黑經典配色", "② 支援流暢頁面切換與 KPI 動畫"] }],
+        steps: ["🌱 Explorer 路線：請 AI 製作「一頁式圖文報告/流程圖」。", "🚀 Creator 路線：下載簡報範本，請 AI 生成「HTML 動畫簡報」。"],
+        journeyFields: [
+          { type: "d10_wrapper", id: "d10Mode", label: "① 選擇挑戰路線與下載資源", req: "核心步驟" },
+          { type: "rating", id: "rating", label: "⭐ TODAY'S RATING｜任務體驗評分", req: "選填" }
+        ]
+      }
+    };
+
+    function initDaySelector() {
+      const selector = document.getElementById("daySelector");
+      selector.innerHTML = "";
+      const maxUnlocked = getUnlockedMaxDay();
+
+      for (let i = 1; i <= 10; i++) {
+        const isCompleted = userProgressData[i] && userProgressData[i].completed;
+        const isLocked = i > maxUnlocked;
+        const btn = document.createElement("button");
+        btn.className = `day-btn ${i === currentDay ? "active" : ""} ${isCompleted ? "completed-check" : ""} ${isLocked ? "locked" : ""}`;
+        btn.onclick = () => {
+          if (isLocked) { alert(`🔒 Day ${i} 尚未開放打卡！`); return; }
+          selectDay(i);
+        };
+        btn.textContent = `Day ${String(i).padStart(2, "0")}${isLocked ? " 🔒" : ""}`;
+        selector.appendChild(btn);
+      }
+    }
+
+    function selectDay(d) { currentDay = d; initDaySelector(); renderDayContent(); }
+
+    function renderDayContent() {
+      const data = daysData[currentDay] || daysData[10];
+      const isCompleted = userProgressData[currentDay] && userProgressData[currentDay].completed;
+
+      document.getElementById("ticketContent").innerHTML = `
+        <span class="kicker">${data.kicker}</span>
+        <h1 class="task-title">${data.title}</h1>
+        <div class="goal-banner"><p>${data.goal}</p></div>
+        <div class="ai-cards-grid">
+          ${data.cards.map(c => `<div class="ai-tool-card ${c.type}"><div class="ai-card-header"><strong>${c.title}</strong><span class="ai-card-tag">${c.tag}</span></div></div>`).join('')}
+        </div>
+        <div class="how-it-works-section">
+          <div class="how-title">TODAY'S MISSION｜實戰流程</div>
+          <div class="step-list">${data.steps.map((s, idx) => `<div class="step-item-mini"><span class="step-num-badge">${idx + 1}</span><strong>${s}</strong></div>`).join('')}</div>
+        </div>
+      `;
+
+      const currentStore = (userProgressData[currentDay] && userProgressData[currentDay].formData) || {};
+
+      let fieldsHTML = data.journeyFields.map(field => {
+        let inputControl = '';
+        const savedVal = currentStore[field.id] || '';
+
+        if (field.type === 'd10_wrapper') {
+          inputControl = `
+            <div class="mode-tab-container">
+              <button type="button" class="mode-tab-btn ${d10Mode === 'explorer' ? 'active' : ''}" id="btnD10Exp" onclick="switchD10Mode('explorer')">🌱 Explorer 路線 (單頁圖文)</button>
+              <button type="button" class="mode-tab-btn ${d10Mode === 'creator' ? 'active' : ''}" id="btnD10Cre" onclick="switchD10Mode('creator')">🚀 Creator 路線 (BSH HTML 簡報)</button>
+            </div>
+            <div id="d10ExpBlock" style="display:${d10Mode === 'explorer' ? 'block' : 'none'};">
+              <div style="font-size:11px; color:#166534; font-weight:700; margin-bottom:8px;">請 AI 將內容整理成「一頁式圖文報告」或「流程圖」。</div>
+            </div>
+            <div id="d10CreBlock" style="display:${d10Mode === 'creator' ? 'block' : 'none'};">
+              <button type="button" class="btn-primary-sm" style="background:#0284C7; width:100%; margin-bottom:10px;" onclick="downloadBSHTemplateHTML()">📥 下載 BSH 企業 HTML 簡報範本</button>
+            </div>
+          `;
+        } else if (field.type === 'd9_download') {
+          inputControl = `<button type="button" class="btn-primary-sm" style="background:#0284C7; width:100%;" onclick="downloadERPDataCSV()">📥 下載 ERP 銷售資料集 (BSH_ERP_Sales_Data_800.csv)</button>`;
+        } else if (field.type === 'rating') {
+          inputControl = `<div class="star-rating-box"><span class="star-item active">★</span><span class="star-item active">★</span><span class="star-item active">★</span><span class="star-item active">★</span><span class="star-item active">★</span></div>`;
+        } else if (field.type === 'textarea') {
+          inputControl = `<textarea id="${field.id}" class="text-input-styled" placeholder="${field.placeholder}" oninput="validateCurrentForm()">${savedVal}</textarea>`;
+        }
+
+        return `<div class="form-section-block"><div class="form-section-title"><span>${field.label}</span><span class="req-badge">${field.req}</span></div>${inputControl}</div>`;
+      }).join('');
+
+      document.getElementById("journeyContent").innerHTML = `
+        <div>
+          <div class="journey-header"><span class="kicker">MY AI JOURNEY</span><h2>打卡紀錄區</h2></div>
+          <form id="dayForm">${fieldsHTML}</form>
+        </div>
+        <div>
+          <button type="button" class="submit-stamp-btn" id="btnSubmitStamp" onclick="executeCurrentStamp()">
+            <span>${isCompleted ? "✓ 已完成打卡 (點擊同步)" : `完成 Day ${String(currentDay).padStart(2, "0")} 打卡 ✈️`}</span>
+          </button>
+        </div>
+        <div class="digital-stamp-container ${isCompleted ? 'stamped-anim' : ''}" id="digitalStamp">
+          <span>B/S/H/</span><span>DAY ${String(currentDay).padStart(2, "0")}</span><span>COMPLETED</span>
+        </div>
+      `;
+
+      validateCurrentForm();
+    }
+
+    function validateCurrentForm() {
+      const btn = document.getElementById("btnSubmitStamp");
+      if (!btn) return false;
+      const isCompleted = userProgressData[currentDay] && userProgressData[currentDay].completed;
+      if (isCompleted) { btn.classList.add("active"); return true; }
+
+      let isValid = true;
+      const fields = daysData[currentDay][currentLang]?.journeyFields || [];
+      for (let f of fields) {
+        if (f.type === 'textarea') {
+          const el = document.getElementById(f.id);
+          if (!el || !el.value.trim()) { isValid = false; break; }
+        }
+      }
+
+      if (isValid) btn.classList.add("active");
+      else btn.classList.remove("active");
+      return isValid;
+    }
+
+    async function handleAccountSubmit(e) {
+      e.preventDefault();
+      const empId = document.getElementById("accEmpId").value.trim().toUpperCase();
+      const name = document.getElementById("accName").value.trim();
+      const btn = document.getElementById("btnLoginSubmit");
+
+      btn.textContent = "驗證中..."; btn.style.cursor = "wait";
+
+      try {
+        const res = await fetch(GAS_URL, {
+          method: "POST",
+          body: JSON.stringify({ action: "login", empId: empId, name: name })
+        });
+        const result = await res.json();
+
+        if (result.status === "success") {
+          currentUser = { empId: result.empId, name: result.name };
+          localStorage.setItem("bsh_passport_user", JSON.stringify(currentUser));
+          userProgressData = result.history || {};
+          closeLoginModal();
+          updateUserStateUI();
+          initDaySelector();
+          renderDayContent();
+          alert(`歡迎回來，${currentUser.name}！已成功同步打卡紀錄。`);
+        } else {
+          alert(`❌ 驗證失敗：${result.message}`);
+        }
+      } catch (err) {
+        alert("連線至伺服器失敗，請檢查 GAS 部署與網路。");
+      } finally {
+        btn.textContent = "驗證並進入 🚀"; btn.style.cursor = "pointer";
+      }
+    }
+
+    async function executeCurrentStamp() {
+      if (!currentUser) { openLoginModal(); return; }
+      
+      const btn = document.getElementById("btnSubmitStamp");
+      btn.textContent = "⏳ 後端同步中..."; btn.style.cursor = "wait";
+
+      const formData = {
+        myPrompt: document.getElementById("myPrompt")?.value || '',
+        findings: document.getElementById("findings")?.value || '',
+        evidence: document.getElementById("evidence")?.value || '',
+        d10Mode: d10Mode
+      };
+
+      try {
+        const res = await fetch(GAS_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            action: "checkIn",
+            empId: currentUser.empId,
+            name: currentUser.name,
+            day: currentDay,
+            rating: "5",
+            summary: formData.findings || formData.d10Mode,
+            formData: formData
+          })
+        });
+        const result = await res.json();
+
+        if (result.status === "success") {
+          userProgressData[currentDay] = { completed: true, formData: formData };
+          renderDayContent();
+          initDaySelector();
+          fetchLeaderboard();
+        } else {
+          alert(`⚠️ 打卡失敗：${result.message}`);
+        }
+      } catch (err) {
+        alert("打卡發送失敗，請重試！");
+      }
+    }
+
+    async function fetchLeaderboard() {
+      try {
+        const res = await fetch(GAS_URL);
+        const result = await res.json();
+        if (result.status === "success") {
+          const list = document.getElementById("leaderboardList");
+          if (result.leaderboard.length === 0) {
+            list.innerHTML = `<div style="text-align:center; color:var(--muted-text);">尚無打卡紀錄</div>`;
+            return;
+          }
+          list.innerHTML = result.leaderboard.map((item, idx) => `
+            <div class="leader-row">
+              <span>No.${idx + 1} ${item.name}</span>
+              <span style="color:var(--bosch-orange);">${item.days} / 10 天</span>
+            </div>
+          `).join('');
+        }
+      } catch(e) {}
+    }
+
+    function openLoginModal() { document.getElementById("loginModal").style.display = "flex"; }
+    function closeLoginModal() { document.getElementById("loginModal").style.display = "none"; }
+    function updateUserStateUI() {
+      if (currentUser) {
+        document.getElementById("userStateArea").innerHTML = `
+          <div class="user-profile-badge">
+            <div class="user-avatar">${currentUser.name.charAt(0)}</div>
+            <span>${currentUser.name} (${currentUser.empId})</span>
+          </div>
+        `;
+      }
+    }
+
+    if (currentUser) updateUserStateUI();
+    initDaySelector();
+    renderDayContent();
+    fetchLeaderboard();
+  </script>
+</body>
+</html>
