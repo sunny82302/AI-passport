@@ -302,7 +302,6 @@
       background: var(--bosch-dark); color: #FFFFFF; border-color: var(--bosch-dark);
     }
 
-    /* 🔀 模式切換頁籤按鈕 (Mode Switcher Tabs) */
     .mode-tab-container {
       display: flex;
       background: #E2E8F0;
@@ -592,7 +591,7 @@
     let currentUser = null;
     let userProgressData = {};
     let lastCheckInDate = null; 
-    let d6Mode = "auto"; // Day 6 雙軌切換狀態 ("auto" / "custom")
+    let d6Mode = "auto"; 
 
     let mockLeaderboard = [];
 
@@ -697,8 +696,8 @@
       const personaBoxes = document.querySelectorAll('input[name="prefPersona"]:checked');
       const personaVals = Array.from(personaBoxes).map(b => b.value).join(' 與 ') || "親切可靠";
 
-      const dressBoxes = document.querySelectorAll('input[name="prefDress"]:checked');
-      const dressVals = Array.from(dressBoxes).map(b => b.value).join(', ') || "Smart Casual｜日常辦公（一般上班、內部會議）";
+      const dressBoxes = document.querySelector('input[name="prefDress"]:checked');
+      const dressVals = Array.from(document.querySelectorAll('input[name="prefDress"]:checked')).map(b => b.value).join(', ') || "Smart Casual｜日常辦公（一般上班、內部會議）";
 
       const generatedPrompt = `我想為自己打造一份專屬的職場 Professional Style Board。
 
@@ -781,7 +780,6 @@ Phrases: ${phraseVals}`;
       validateCurrentForm();
     }
 
-    // 🔀 Day 6 切換模式控制函式
     function switchD6Mode(mode) {
       d6Mode = mode;
       document.getElementById("btnD6Auto").classList.toggle("active", mode === "auto");
@@ -801,7 +799,6 @@ Phrases: ${phraseVals}`;
       validateCurrentForm();
     }
 
-    // 🔍 Day 6 自動模式：組裝工作圖文 Prompt
     function updateDay6GeneratedPrompt() {
       if (d6Mode !== "auto") return;
 
@@ -1151,9 +1148,6 @@ Phrases: ${phraseVals}`;
               label: "① 選擇體驗模式與 PROMPT 產出",
               req: "核心步驟"
             },
-            { type: "textarea", id: "options3", label: "② MY KEY GUIDELINE POINTS (貼上 AI 整理出的 3-4 個關鍵流程/要點)", req: "必填", placeholder: "1. 步驟/要點 A 說明\n2. 步驟/要點 B 說明\n3. 步驟/要點 C 說明..." },
-            { type: "input", id: "finalPick", label: "③ MY VISUAL FORMAT (最終建議的圖文呈現方式)", req: "必填", placeholder: "例如：條列對照表格 / Mermaid 流程圖程式碼 / 注意事項提示卡" },
-            { type: "input", id: "sourceChecked", label: "④ OUTPUT / SHARE LINK (貼上產出的圖文摘要或成果分享連結)", req: "必填", placeholder: "貼上 AI 回覆成果連結或簡短摘要..." },
             commonRatingFieldZh
           ]
         },
@@ -1190,9 +1184,6 @@ Phrases: ${phraseVals}`;
               label: "① Select Mode & Generate/Write Prompt",
               req: "Core Step"
             },
-            { type: "textarea", id: "options3", label: "② MY KEY GUIDELINE POINTS (3-4 Key Steps/Points)", req: "Required", placeholder: "1. Point A\n2. Point B\n3. Point C..." },
-            { type: "input", id: "finalPick", label: "③ MY VISUAL FORMAT", req: "Required", placeholder: "e.g., Comparison Table / Flowchart Code / Caution Cards" },
-            { type: "input", id: "sourceChecked", label: "④ OUTPUT / SHARE LINK", req: "Required", placeholder: "Paste AI output share link or text summary..." },
             commonRatingFieldEn
           ]
         }
@@ -1492,7 +1483,6 @@ Phrases: ${phraseVals}`;
         const isOptional = field.req && field.req.includes('Optional');
 
         if (field.type === 'd6_dual_mode_wrapper') {
-          // 🔀 Day 06 雙軌切換區塊
           inputControl = `
             <div class="mode-tab-container">
               <button type="button" class="mode-tab-btn ${d6Mode === 'auto' ? 'active' : ''}" id="btnD6Auto" onclick="switchD6Mode('auto')">⚡ 新手模式：快速組裝 PROMPT</button>
@@ -1506,7 +1496,7 @@ Phrases: ${phraseVals}`;
                 <div class="radio-pills" style="flex-direction:column; gap:6px;">
                   <div class="radio-pill-item"><input type="radio" id="d6Topic_0" name="d6Topic" value="📂 1. 新進人員公用槽導覽與資料夾目錄結構" checked onchange="updateDay6GeneratedPrompt()"><label for="d6Topic_0" class="radio-pill-label" style="width:100%; text-align:left;">📂 1. 新進人員公用槽導覽 (目錄結構與權限說明)</label></div>
                   <div class="radio-pill-item"><input type="radio" id="d6Topic_1" name="d6Topic" value="📝 2. 合約檢查要點指南與審查 Checklist" onchange="updateDay6GeneratedPrompt()"><label for="d6Topic_1" class="radio-pill-label" style="width:100%; text-align:left;">📝 2. 合約檢查要點指南 ( Check-list 與注意事項圖表)</label></div>
-                  <div class="radio-pill-item"><input type="radio" id="d6Topic_2" name="d6Topic" value="✍️ 3. 簽呈使用範例與撰寫規範說明" onchange="updateDay6GeneratedPrompt()"><label for="d6Topic_2" class="radio-pill-label" style="width:100%; text-align:left;">✍️ 3. 簽呈使用範例說明 (撰寫架構與範本參照表)</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d6Topic_2" name="d6Topic" value="✍️ 3. 簽呈使用範例與撰寫規範說明" onchange="updateDay6GeneratedPrompt()"><label for="d6Topic_2" class="radio-pill-label" style="width:100%; text-align:left;">✍️️ 3. 簽呈使用範例說明 (撰寫架構與範本參照表)</label></div>
                   <div class="radio-pill-item"><input type="radio" id="d6Topic_3" name="d6Topic" value="🌴 4. 請假流程與系統簽核步驟圖解" onchange="updateDay6GeneratedPrompt()"><label for="d6Topic_3" class="radio-pill-label" style="width:100%; text-align:left;">🌴 4. 請假流程與規則圖解 (簽核階層與系統步驟)</label></div>
                 </div>
               </div>
