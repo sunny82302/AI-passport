@@ -49,7 +49,6 @@
       z-index: 100;
     }
 
-    /* 左側懸浮按鈕 */
     .floating-leaderboard-btn {
       position: fixed;
       left: 20px;
@@ -150,7 +149,6 @@
 
     .container { max-width: 1180px; margin: 0 auto; }
 
-    /* 📢 即時戰報跑馬燈 */
     .marquee-container {
       background: linear-gradient(135deg, var(--bosch-dark), #4A5568);
       color: white;
@@ -203,7 +201,6 @@
       100% { transform: translateX(-100%); }
     }
 
-    /* Day Selector Navigation */
     .day-selector {
       display: flex; gap: 8px;
       overflow-x: auto; padding-bottom: 12px; margin-bottom: 24px;
@@ -222,7 +219,6 @@
     .day-btn.completed-check::after { content: "✓"; color: #22C55E; font-weight: 900; margin-left: 2px; }
     .day-btn.locked { background: #F1F5F9; color: #94A3B8; border-color: #E2E8F0; opacity: 0.8; }
 
-    /* Passport Card Layout (52% : 48%) */
     .passport-card {
       background: var(--gray-card); border-radius: var(--radius);
       border: 1px solid var(--line-color); box-shadow: var(--shadow);
@@ -234,7 +230,6 @@
     .ticket-side { padding: 36px 32px 36px 36px; border-right: 1px dashed var(--line-color); background: #FFFFFF; }
     .journey-side { padding: 36px 36px 36px 32px; background: #FAFBFD; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
 
-    /* 解鎖遮罩 (Lock Overlay) */
     .locked-overlay {
       position: absolute; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(6px);
@@ -257,7 +252,6 @@
     .goal-banner p { font-size: 13px; color: var(--bosch-dark); font-weight: 600; }
     .goal-banner span { display: block; font-size: 11px; color: var(--bosch-dark-orange); font-weight: 800; letter-spacing: 0.5px; margin-top: 2px; }
 
-    /* AI Cards Elements */
     .ai-cards-grid { display: grid; gap: 12px; margin-bottom: 22px; }
     .ai-tool-card { border-radius: 12px; padding: 14px 16px; border: 1px solid var(--line-color); transition: all 0.25s ease; cursor: pointer; }
     .ai-tool-card.chatgpt { background: var(--chatgpt-bg); border-color: var(--chatgpt-border); }
@@ -286,7 +280,6 @@
     .step-item-mini { display: flex; align-items: flex-start; gap: 10px; font-size: 12px; }
     .step-num-badge { background: var(--bosch-dark); color: #fff; font-size: 10px; font-weight: 900; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
 
-    /* Form & Right Side Elements */
     .journey-header { margin-bottom: 18px; }
     .journey-header h2 { font-size: 20px; font-weight: 900; color: var(--bosch-dark); }
 
@@ -309,7 +302,33 @@
       background: var(--bosch-dark); color: #FFFFFF; border-color: var(--bosch-dark);
     }
 
-    /* ⭐ 互動式空白/實心星星評分控制項樣式 */
+    /* 🔀 模式切換頁籤按鈕 (Mode Switcher Tabs) */
+    .mode-tab-container {
+      display: flex;
+      background: #E2E8F0;
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 14px;
+    }
+    .mode-tab-btn {
+      flex: 1;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      background: transparent;
+      color: var(--muted-text);
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+    .mode-tab-btn.active {
+      background: #FFFFFF;
+      color: var(--bosch-dark);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
     .star-rating-box {
       display: inline-flex;
       align-items: center;
@@ -359,7 +378,6 @@
     .validation-hint.ready { color: #16A34A; font-weight: 800; }
     .validation-hint.warn { color: #D97706; font-weight: 800; }
 
-    /* Digital Stamp Canvas Effect */
     .digital-stamp-container {
       display: none; position: absolute; right: 28px; bottom: 28px;
       width: 135px; height: 135px; border: 3.5px dashed var(--current-accent, var(--bosch-orange));
@@ -383,7 +401,6 @@
       100% { transform: scale(1) rotate(-14deg); opacity: 1; }
     }
 
-    /* 📊 競賽牆英雄榜區域 */
     .leaderboard-section {
       background: #FFFFFF;
       border-radius: var(--radius);
@@ -406,7 +423,6 @@
     .progress-bar-fill { background: linear-gradient(90deg, var(--bosch-orange), #F6AD55); height: 100%; width: 0%; transition: width 0.5s; }
     .score-badge-box { width: 130px; text-align: right; font-weight: bold; color: var(--bosch-orange); }
 
-    /* Graduation Banner Overlay */
     .grad-banner {
       display: none; background: linear-gradient(135deg, var(--bosch-dark), #1E293B);
       color: #FFFFFF; border-radius: var(--radius); padding: 28px; text-align: center;
@@ -418,7 +434,6 @@
     .grad-badges { display: flex; justify-content: center; gap: 12px; font-size: 12px; font-weight: 800; }
     .grad-badge-item { background: rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); }
 
-    /* Modal Popups */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
     .modal-card { background: #ffffff; border-radius: var(--radius); max-width: 420px; width: 100%; padding: 28px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; }
     .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--muted-text); }
@@ -441,7 +456,6 @@
 
   <div class="brand-strip"></div>
 
-  <!-- 左側懸浮捷徑按鈕 -->
   <button class="floating-leaderboard-btn" onclick="scrollToLeaderboard()">
     🏆 即時英雄榜
   </button>
@@ -453,7 +467,6 @@
     </div>
     
     <div class="header-right">
-      <!-- 🧹 測試專用一鍵重置按鈕 -->
       <button class="btn-danger-sm" onclick="resetAllTestingData()">🧹 清除測試紀錄</button>
       
       <div id="userStateArea">
@@ -465,7 +478,6 @@
 
   <div class="container">
     
-    <!-- 📢 即時戰報跑馬燈 -->
     <div class="marquee-container">
       <div class="marquee-label">⚡ 即時戰報</div>
       <div class="marquee-scroll-area">
@@ -475,7 +487,6 @@
       </div>
     </div>
 
-    <!-- Final Mission Graduation Banner -->
     <div class="grad-banner" id="gradBanner">
       <div class="grad-title">🎓 CONGRATULATIONS! AI PASSPORT COMPLETED</div>
       <div class="grad-sub">You've completed all 10 missions of B/S/H/ AI Passport 2026!</div>
@@ -486,16 +497,13 @@
       </div>
     </div>
 
-    <!-- Day Navigation Bar -->
     <div class="day-selector" id="daySelector"></div>
 
-    <!-- Dynamic Main Passport Card -->
     <div class="passport-card" id="passportCard">
       <div class="ticket-side" id="ticketContent"></div>
       <div class="journey-side" id="journeyContent"></div>
     </div>
 
-    <!-- 📊 競賽牆英雄榜區域 -->
     <div class="leaderboard-section">
       <h3 style="margin-top:0; border-bottom:2px solid var(--line-color); padding-bottom:10px; font-weight:900;" id="lblLeaderboardTitle">📊 全員即時英雄榜</h3>
       
@@ -524,7 +532,6 @@
 
   </div>
 
-  <!-- Modal: Account Login / Register -->
   <div class="modal-overlay" id="loginModal">
     <div class="modal-card">
       <button class="modal-close" onclick="closeLoginModal()">&times;</button>
@@ -549,28 +556,15 @@
   </div>
 
   <script>
-    // ====================================================
-    // ⚙️ 日期限制與測試模式控制開關 (Date Restriction Switch)
-    // ====================================================
-    // false = 關閉日期與每日限打卡一次限制 (測試模式/簡報體驗)
-    // true  = 開啟日期限制 (正式上線模式)
     const ENABLE_DATE_LIMIT = false; 
-
-    // ----------------------------------------------------
-    // 🔗 Google Apps Script 部署 URL
-    // ----------------------------------------------------
     const GAS_URL = "https://script.google.com/macros/s/AKfycbyxcZpU7hu04j7CVOVDmwrS1EOPFikCC_advL4SYFGTvO4XorFMeOIeW8MbWhL6XvtGUw/exec";
-
-    // 🗓️ 活動日期設定與解鎖計算邏輯
     const EVENT_START_DATE = new Date("2026-03-02T00:00:00"); 
 
     function getUnlockedMaxDay() {
       if (!ENABLE_DATE_LIMIT) return 10;
-
       const today = new Date();
       const diffTime = today - EVENT_START_DATE;
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      
       let unlocked = diffDays + 1;
       if (unlocked < 1) unlocked = 1;
       if (unlocked > 10) unlocked = 10;
@@ -598,14 +592,13 @@
     let currentUser = null;
     let userProgressData = {};
     let lastCheckInDate = null; 
+    let d6Mode = "auto"; // Day 6 雙軌切換狀態 ("auto" / "custom")
 
     let mockLeaderboard = [];
 
-    // ⭐ 點選式 5 星評分欄位設定
     const commonRatingFieldZh = { type: "star_rating", id: "rating", label: "⭐ TODAY'S RATING｜今天的任務體驗評分？", req: "選填 (Optional)" };
     const commonRatingFieldEn = { type: "star_rating", id: "rating", label: "⭐ TODAY'S RATING | Rate today's task experience", req: "Optional" };
 
-    // 🧹 一鍵清除測試紀錄函式
     function resetAllTestingData() {
       if (confirm("確定要重置本機所有測試紀錄嗎？（頁面將會清空並自動重新載入）")) {
         localStorage.clear();
@@ -619,6 +612,10 @@
     }
 
     function copyText(txt, btnId) {
+      if (!txt) {
+        alert(currentLang === "zh" ? "⚠️ 請先撰寫或輸入 Prompt 後再複製喔！" : "⚠️ Please write or generate a prompt first!");
+        return;
+      }
       navigator.clipboard.writeText(txt).then(() => {
         const btn = document.getElementById(btnId);
         if (btn) {
@@ -629,7 +626,6 @@
       });
     }
 
-    // 星星點擊與動態滿意度提示
     function selectStarRating(val) {
       document.getElementById("rating_value").value = val;
       const stars = document.querySelectorAll(".star-rating-box .star-item");
@@ -657,7 +653,6 @@
       if (hint) hint.textContent = cardElem.classList.contains("open") ? "▲ 預覽" : "▼ 詳情";
     }
 
-    // 🎯 讀取同仁在 Day 01 填寫的 Prompt 紀錄
     function getDay1PromptText() {
       if (userProgressData && userProgressData[1] && userProgressData[1].formData) {
         return userProgressData[1].formData.prompt || "（您尚未在 Day 01 填寫 Prompt）";
@@ -665,7 +660,6 @@
       return "請幫我寫一封會議紀錄 Email。"; 
     }
 
-    // 🎯 讀取同仁在 Day 03 設定的風格紀錄
     function getDay3StyleSummary() {
       if (userProgressData && userProgressData[3] && userProgressData[3].formData) {
         const d3 = userProgressData[3].formData;
@@ -676,7 +670,6 @@
       return "（延伸 Day 03 質感風格與專業特質）";
     }
 
-    // 🎯 讀取同仁在 Day 04 設定的角色紀錄
     function getDay4CharacterSummary() {
       if (userProgressData && userProgressData[4] && userProgressData[4].formData) {
         const d4 = userProgressData[4].formData;
@@ -687,7 +680,6 @@
       return "（沿用 Day 04 打造的 3D 專屬職場角色原型）";
     }
 
-    // 限制 Day 3 第二題選取數量最多為 2 項
     function handleDay3PersonaCheck(checkboxElem) {
       const checkedBoxes = document.querySelectorAll('input[name="prefPersona"]:checked');
       if (checkedBoxes.length > 2) {
@@ -698,7 +690,6 @@
       updateDay3GeneratedPrompt();
     }
 
-    // 🎨 Day 3 動態組裝 AI Style Board Prompt
     function updateDay3GeneratedPrompt() {
       const styleRadio = document.querySelector('input[name="prefStyle"]:checked');
       const styleVal = styleRadio ? styleRadio.value : "日系質感 Japandi";
@@ -712,107 +703,21 @@
       const generatedPrompt = `我想為自己打造一份專屬的職場 Professional Style Board。
 
 【我的選擇】
-
 ・風格調性：${styleVal}
 ・期望展現的專業形象：${personaVals}
 ・穿搭情境：${dressVals}
 
 請根據以上選擇，為我打造適合的職場專業形象與穿搭風格。
-
-請先理解我選擇的「風格調性」與「專業形象」，
-並將兩者自然融合，不要套用固定的韓系、日系或其他特定穿搭風格。
-「風格調性」應作為整體視覺與穿搭設計的主要依據。
-
-請直接以一張完整的 Professional Style Board 圖文呈現結果。
-
-Style Board 請自然整合以下內容：
-
-1. PROFESSIONAL PERSONA｜專業形象定位
-用簡短的一句名稱與 2–3 句說明，
-呈現這組選擇所代表的職場形象與給人的印象。
-
-2. BRANDING KEYWORDS｜形象關鍵字
-整理 3 個最能代表這個職場形象的關鍵字。
-
-3. COLOR PALETTE｜專屬色彩配置
-提供 5–6 個適合此風格的色彩，
-並顯示色票、色彩名稱與 Hex Code。
-色彩需適合實際職場穿搭，不要只有視覺好看。
-
-4. WORKWEAR STYLE｜職場穿搭提案
-依照我選擇的「穿搭情境」，
-提供 3 套不同但風格一致的完整職場 Look。
-
-每套請包含：
-・上身
-・下身
-・外套（若適合）
-・鞋款
-・包款
-・配件
-
-三套 Look 不需要完全不同風格，
-而是在同一個 Professional Style 下呈現不同搭配方式。
-
-5. ACCESSORIES & DETAILS｜配件與細節
-推薦適合整體形象的：
-・包款
-・鞋款
-・腕錶／飾品
-・其他能提升完成度的小細節
-
-【視覺呈現要求】
-
-請將以上內容整合成「一張完整的 Professional Style Board」，
-不要只輸出大段文字。
-
-整體應像專業 Fashion / Personal Branding Moodboard：
-
-・Clean
-・Modern
-・Professional
-・Natural
-・Refined
-・Editorial
-
-版面需清楚呈現：
-
-Professional Persona
-→ Branding Keywords
-→ Color Palette
-→ 3 Workwear Looks
-→ Accessories & Details
-
-人物請使用虛構的專業職場人物作為穿搭示意，
-不需要模仿任何真實人物。
-
-服裝需符合真實職場情境，
-避免過度時裝化、舞台化或不實用的造型。
-
-請特別注意：
-
-・不要預設為 K-Style / Korean Style
-・不要自動套用固定的韓系穿搭
-・請以我選擇的「風格調性」決定服裝輪廓、材質、配色與視覺方向
-・「期望展現的專業形象」決定整體給人的感受
-・「穿搭情境」決定正式程度與單品選擇
-・三者需要被整合，而不是各自獨立呈現
-
-最終成果應讓我可以直觀看到：
-「如果我要呈現這樣的職場形象，我實際可以怎麼穿。」`;
+請直接以一張完整的 Professional Style Board 圖文呈現結果。`;
 
       const promptBox = document.getElementById("generatedPromptBox");
       if (promptBox) promptBox.value = generatedPrompt;
-
       validateCurrentForm();
     }
 
-    // 🧸 Day 4 角色切換與萌寵輸入控制
     function handleDay4BaseChange() {
       const charBaseRadio = document.querySelector('input[name="d4CharBase"]:checked');
       const animalInputContainer = document.getElementById("d4AnimalInputContainer");
-      
-      // 判斷是否選擇第二項（萌寵）
       if (charBaseRadio && (charBaseRadio.value === "擬人化幸運萌寵" || charBaseRadio.value === "Anthropomorphic Animal Avatar")) {
         if (animalInputContainer) animalInputContainer.style.display = "block";
       } else {
@@ -821,7 +726,6 @@ Professional Persona
       updateDay4GeneratedPrompt();
     }
 
-    // 🧸 Day 4 限制招牌配件最多選 2 項
     function handleDay4AccessoryCheck(checkboxElem) {
       const checkedBoxes = document.querySelectorAll('input[name="d4Accessory"]:checked');
       if (checkedBoxes.length > 2) {
@@ -832,73 +736,97 @@ Professional Persona
       updateDay4GeneratedPrompt();
     }
 
-    // 🧸 Day 4 動態組裝 3D 公仔 Prompt
     function updateDay4GeneratedPrompt() {
       const d3Info = getDay3StyleSummary();
-      
       const charBaseRadio = document.querySelector('input[name="d4CharBase"]:checked');
-      let charBaseVal = charBaseRadio ? charBaseRadio.value : (currentLang === "zh" ? "真人職場造型" : "3D Human Avatar");
+      let charBaseVal = charBaseRadio ? charBaseRadio.value : "3D Human Avatar";
 
-      // 如果選萌寵，代入同仁自訂輸入的動物名稱
       if (charBaseRadio && (charBaseRadio.value === "擬人化幸運萌寵" || charBaseRadio.value === "Anthropomorphic Animal Avatar")) {
         const customAnimal = document.getElementById("d4CustomAnimalInput")?.value.trim();
-        const animalName = customAnimal || (currentLang === "zh" ? "水豚" : "Capybara");
-        charBaseVal = currentLang === "zh" ? `擬人化幸運萌寵 (${animalName})` : `Anthropomorphic Cute ${animalName} Avatar`;
+        const animalName = customAnimal || "Capybara";
+        charBaseVal = `Anthropomorphic Cute ${animalName} Avatar`;
       }
 
       const accessoryBoxes = document.querySelectorAll('input[name="d4Accessory"]:checked');
-      const accessoryVals = Array.from(accessoryBoxes).map(b => b.value).join(', ') || "☕ 質感咖啡杯";
+      const accessoryVals = Array.from(accessoryBoxes).map(b => b.value).join(', ') || "Coffee Cup";
 
       const generatedPrompt = `Design a 3D collectible vinyl figure toy in Pop Mart style.
 Character Style: ${charBaseVal}
 Accessories: Holding ${accessoryVals}
 Brand Color Theme: BSH Signature Orange & Dark
-Inspiration: ${d3Info}
-
-Detail Requirements:
-- Rendered in C4D, Octane Render, clean matte plastic texture, soft lighting.
-- The figure is displayed inside a sleek transparent toy window box packaging with "B/S/H/ AI Passport" logo.
-- High detailed, studio lighting, trendy designer toy style, 8k resolution.`;
+Inspiration: ${d3Info}`;
 
       const promptBox = document.getElementById("d4GeneratedPromptBox");
       if (promptBox) promptBox.value = generatedPrompt;
-
       validateCurrentForm();
     }
 
-    // 🎨 Day 5 動態組裝 LINE 貼圖 Prompt
     function updateDay5GeneratedPrompt() {
       const d4Info = getDay4CharacterSummary();
-      
       const countRadio = document.querySelector('input[name="d5Count"]:checked');
       const countVal = countRadio ? countRadio.value : "8 張";
-
       const styleRadio = document.querySelector('input[name="d5Style"]:checked');
       const styleVal = styleRadio ? styleRadio.value : "Q版可愛表情包";
-
       const phraseBoxes = document.querySelectorAll('input[name="d5Phrases"]:checked');
-      const phraseVals = Array.from(phraseBoxes).map(b => `"${b.value}"`).join(', ') || '"早安！", "收到！", "排程中...", "完成！"';
+      const phraseVals = Array.from(phraseBoxes).map(b => `"${b.value}"`).join(', ') || '"早安！", "收到！"';
 
       const generatedPrompt = `Create a LINE Sticker Sheet featuring my Day 04 character prototype.
-
-[Character Info & Style Source]
-- Reference: ${d4Info}
-- Sticker Art Style: ${styleVal}
-- Brand Color Theme: BSH Signature Orange & Dark accent
-- Total Stickers: Grid layout with ${countVal} individual emoji stickers on a clean white background.
-
-[Selected Office Phrases & Expressions]
-Please generate distinct expressions and body actions corresponding to these phrases:
-${phraseVals}
-
-[Visual & Layout Requirements]
-- Each sticker must show clear facial expressions, dynamic gestures, and bold readable text bubbles for Messaging Apps.
-- Maintain strict character consistency across all grid images.
-- Isolated stickers, vector sticker style, clean outlines, high resolution 8k.`;
+Reference: ${d4Info}
+Sticker Style: ${styleVal}
+Sticker Count: ${countVal}
+Phrases: ${phraseVals}`;
 
       const promptBox = document.getElementById("d5GeneratedPromptBox");
       if (promptBox) promptBox.value = generatedPrompt;
+      validateCurrentForm();
+    }
 
+    // 🔀 Day 6 切換模式控制函式
+    function switchD6Mode(mode) {
+      d6Mode = mode;
+      document.getElementById("btnD6Auto").classList.toggle("active", mode === "auto");
+      document.getElementById("btnD6Custom").classList.toggle("active", mode === "custom");
+
+      const blockAuto = document.getElementById("d6AutoBlock");
+      const blockCustom = document.getElementById("d6CustomBlock");
+
+      if (mode === "auto") {
+        if (blockAuto) blockAuto.style.display = "block";
+        if (blockCustom) blockCustom.style.display = "none";
+        updateDay6GeneratedPrompt();
+      } else {
+        if (blockAuto) blockAuto.style.display = "none";
+        if (blockCustom) blockCustom.style.display = "block";
+      }
+      validateCurrentForm();
+    }
+
+    // 🔍 Day 6 自動模式：組裝工作圖文 Prompt
+    function updateDay6GeneratedPrompt() {
+      if (d6Mode !== "auto") return;
+
+      const topicRadio = document.querySelector('input[name="d6Topic"]:checked');
+      const topicVal = topicRadio ? topicRadio.value : "📂 1. 新進人員公用槽導覽與資料夾目錄結構";
+
+      const outputBoxes = document.querySelectorAll('input[name="d6Output"]:checked');
+      const outputVals = Array.from(outputBoxes).map(b => b.value).join(' 與 ') || "結構化 SOP 指南表格";
+
+      const customInput = document.getElementById("d6CustomRequirement")?.value.trim();
+      const customDetail = customInput ? `\n【補充說明】：${customInput}` : "";
+
+      const generatedPrompt = `請作為 BSH 行政與 HR 工作流程專家，協助我為全同仁製作一份清晰、專業且易讀的圖文指南：
+
+【圖文製作主題】：${topicVal}
+【希望呈現場景與格式】：${outputVals}${customDetail}
+
+【執行要求】：
+1. 請以 Step-by-Step 步驟或條列方式整理出核心重點，語氣親切專業。
+2. 請提供適合直接貼在內部圖文懶人包/簡報上的標題、重要提醒卡 (Tips Box) 與流程對照。
+3. 若適合，請一併附上 Mermaid 流程圖語法或表格，協助同仁一目了然。
+4. 整理出最常被問到的 2 個 FAQ 與解決解答。`;
+
+      const promptBox = document.getElementById("d6GeneratedPromptBox");
+      if (promptBox) promptBox.value = generatedPrompt;
       validateCurrentForm();
     }
 
@@ -924,20 +852,8 @@ ${phraseVals}
           recommendedPrompt: "💡 提示：如果不知道怎麼寫，試試看『請幫我...』，例如：『請幫我寫一封請假 Mail 範本，語氣有禮貌。』",
           journeyTitle: "我的 AI 第一次對話紀錄",
           journeyFields: [
-            { 
-              type: "radios", 
-              id: "goalOption", 
-              label: "① 我今天想要請 AI 幫我什麼？", 
-              req: "必選 1 項", 
-              options: ["思考與發想專案", "製作簡報與圖文", "紀錄與整理工作"] 
-            },
-            { 
-              type: "textarea", 
-              id: "prompt", 
-              label: "② MY PROMPT｜試著用自己的話對 AI 下指令（簡單一句話就可以！）", 
-              req: "必填", 
-              placeholder: "例如：請幫我針對這個專案給 3 個點子、請幫我寫一封感謝信..." 
-            },
+            { type: "radios", id: "goalOption", label: "① 我今天想要請 AI 幫我什麼？", req: "必選 1 項", options: ["思考與發想專案", "製作簡報與圖文", "紀錄與整理工作"] },
+            { type: "textarea", id: "prompt", label: "② MY PROMPT｜試著用自己的話對 AI 下指令（簡單一句話就可以！）", req: "必填", placeholder: "例如：請幫我針對這個專案給 3 個點子、請幫我寫一封感謝信..." },
             commonRatingFieldZh
           ]
         },
@@ -959,20 +875,8 @@ ${phraseVals}
           recommendedPrompt: "💡 Hint: Try starting with 'Please help me...', e.g., 'Please help me draft a polite leave request email.'",
           journeyTitle: "My First AI Conversation Record",
           journeyFields: [
-            { 
-              type: "radios", 
-              id: "goalOption", 
-              label: "① What do you want AI to help with today?", 
-              req: "Select 1", 
-              options: ["思考與發想專案", "製作簡報與圖文", "紀錄與整理工作"] 
-            },
-            { 
-              type: "textarea", 
-              id: "prompt", 
-              label: "② MY PROMPT | Try writing a prompt in your own words (even one simple sentence counts!)", 
-              req: "Required", 
-              placeholder: "e.g., Give me 3 ideas for this project / Help me draft a thank-you email..." 
-            },
+            { type: "radios", id: "goalOption", label: "① What do you want AI to help with today?", req: "Select 1", options: ["思考與發想專案", "製作簡報與圖文", "紀錄與整理工作"] },
+            { type: "textarea", id: "prompt", label: "② MY PROMPT | Try writing a prompt in your own words (even one simple sentence counts!)", req: "Required", placeholder: "e.g., Give me 3 ideas for this project / Help me draft a thank-you email..." },
             commonRatingFieldEn
           ]
         }
@@ -1006,26 +910,9 @@ ${phraseVals}
           ],
           journeyTitle: "我的 Prompt 升級大挑戰",
           journeyFields: [
-            { 
-              type: "day1_prompt_display", 
-              id: "day1Original", 
-              label: "① 你在 DAY 01 寫的原始 PROMPT (自動帶入)", 
-              req: "對比參考" 
-            },
-            { 
-              type: "textarea", 
-              id: "prompt", 
-              label: "② UPGRADED PROMPT｜套用 4 要素改寫你的 Prompt", 
-              req: "必填", 
-              placeholder: "加入：情境 + 任務 + 要求 + 格式，讓 AI 回答更精準！" 
-            },
-            { 
-              type: "radios", 
-              id: "result", 
-              label: "③ 改寫後 AI 的回答表現如何？", 
-              req: "必選 1 項", 
-              options: ["變得很精準，可直接使用！", "比昨天好很多，稍作微調", "還需要更多訓練"] 
-            },
+            { type: "day1_prompt_display", id: "day1Original", label: "① 你在 DAY 01 寫的原始 PROMPT (自動帶入)", req: "對比參考" },
+            { type: "textarea", id: "prompt", label: "② UPGRADED PROMPT｜套用 4 要素改寫你的 Prompt", req: "必填", placeholder: "加入：情境 + 任務 + 要求 + 格式，讓 AI 回答更精準！" },
+            { type: "radios", id: "result", label: "③ 改寫後 AI 的回答表現如何？", req: "必選 1 項", options: ["變得很精準，可直接使用！", "比昨天好很多，稍作微調", "還需要更多訓練"] },
             commonRatingFieldZh
           ]
         },
@@ -1055,26 +942,9 @@ ${phraseVals}
           ],
           journeyTitle: "My Prompt Upgrade Challenge",
           journeyFields: [
-            { 
-              type: "day1_prompt_display", 
-              id: "day1Original", 
-              label: "① YOUR DAY 01 PROMPT (Auto-filled)", 
-              req: "Reference" 
-            },
-            { 
-              type: "textarea", 
-              id: "prompt", 
-              label: "② UPGRADED PROMPT | Apply the 4-Piece Formula", 
-              req: "Required", 
-              placeholder: "Add: Context + Task + Requirements + Format..." 
-            },
-            { 
-              type: "radios", 
-              id: "result", 
-              label: "③ How did AI perform after upgrading?", 
-              req: "Select 1", 
-              options: ["Much more accurate!", "Better than yesterday", "Needs more refinement"] 
-            },
+            { type: "day1_prompt_display", id: "day1Original", label: "① YOUR DAY 01 PROMPT (Auto-filled)", req: "Reference" },
+            { type: "textarea", id: "prompt", label: "② UPGRADED PROMPT | Apply the 4-Piece Formula", req: "Required", placeholder: "Add: Context + Task + Requirements + Format..." },
+            { type: "radios", id: "result", label: "③ How did AI perform after upgrading?", req: "Select 1", options: ["Much more accurate!", "Better than yesterday", "Needs more refinement"] },
             commonRatingFieldEn
           ]
         }
@@ -1085,142 +955,50 @@ ${phraseVals}
         zh: {
           kicker: "DAY 03 | LEARNING TICKET",
           title: "AI Personal Branding & Workplace Style",
-          goal: "勾選你的風格偏好與正式程度，自動生成專屬 Prompt 貼到 AI (ChatGPT / Gemini) 打造全套職場 Style Board！",
-          subGoal: "Same You. A More Confident You. 自然融合風格與形象，直觀掌握職場實用穿搭。",
+          goal: "勾選你的風格偏好與正式程度，自動生成專屬 Prompt 貼到 AI 打造全套職場 Style Board！",
+          subGoal: "Same You. A More Confident You.",
           cards: [
-            { 
-              type: "copilot", 
-              title: "AI 專業形象板架構", 
-              tag: "一鍵產出 Style Board", 
-              try: "選擇偏好 ➔ 生成專屬 Prompt ➔ 貼至 AI 產出圖文", 
-              details: [
-                "1. Professional Persona（專業形象定位）",
-                "2. Branding Keywords（3 個代表關鍵字）",
-                "3. Color Palette（5–6 個色票、名稱與 Hex Code）",
-                "4. Workwear Style（依照情境提供 3 套完整 Look）",
-                "5. Accessories & Details（鞋包、飾品與質感細節）"
-              ] 
-            }
+            { type: "copilot", title: "AI 專業形象板架構", tag: "一鍵產出 Style Board", try: "選擇偏好 ➔ 生成專屬 Prompt ➔ 貼至 AI 產出圖文", details: ["1. Professional Persona", "2. Branding Keywords", "3. Color Palette", "4. Workwear Style", "5. Accessories & Details"] }
           ],
           howTitle: "HOW IT WORKS｜輕鬆 3 步驟",
           steps: [
-            "STEP 1｜在右側勾選你喜歡的風格、期望特質與穿搭場合。",
-            "STEP 2｜點擊『📋 複製 Prompt』並貼到 ChatGPT 或 Gemini 進行生成。",
-            "STEP 3｜將 AI 為你產出的英文 Prompt 或成果摘要貼回右側完成打卡！"
+            "STEP 1｜在右側勾選你喜歡的風格與場合。",
+            "STEP 2｜點擊『📋 複製 Prompt』並貼到 ChatGPT 或 Gemini。",
+            "STEP 3｜將成果貼回右側完成打卡！"
           ],
-          recommendedPrompt: "💡 提示：複製下方產出的 Prompt 後，貼給 AI 即可獲得專屬 Style Board 指南與繪圖指令！",
+          recommendedPrompt: "💡 提示：複製下方產出的 Prompt 後貼給 AI 即可！",
           journeyTitle: "打造我的 AI 職場個人品牌",
           journeyFields: [
-            { 
-              type: "radios_d3", 
-              id: "prefStyle", 
-              label: "① 我喜歡的風格調性 (視覺與穿搭主依據)", 
-              req: "必選 1 項", 
-              options: ["日系質感 Japandi", "現代俐落 Modern Minimal", "美式率性 Smart Street", "北歐極簡 Nordic Clean", "法式優雅 French Chic"] 
-            },
-            { 
-              type: "checkboxes_persona_d3", 
-              id: "prefPersona", 
-              label: "② 我期望展現的專業形象 (給人的印象特質)", 
-              req: "最多選 2 項", 
-              options: ["親切可靠", "俐落專業", "自信有影響力", "沉穩有質感", "聰明有想法", "活力有親和力"] 
-            },
-            { 
-              type: "checkboxes_d3", 
-              id: "prefDress", 
-              label: "③ 穿搭情境 (正式程度與場合，可複選)", 
-              req: "可複選", 
-              options: [
-                "Casual｜輕鬆休閒（輕鬆活動、非正式場合）",
-                "Smart Casual｜日常辦公（一般上班、內部會議）",
-                "Business Casual｜商務會議（跨部門會議、對外交流）",
-                "Business Formal｜正式商務（高階會議、重要簡報／正式場合）"
-              ] 
-            },
-            {
-              type: "prompt_builder",
-              id: "generatedPrompt",
-              label: "④ 自動生成的專屬 PROMPT (請複製貼到 ChatGPT 或 Gemini)",
-              req: "複製使用"
-            },
-            { 
-              type: "textarea", 
-              id: "aiOutputPrompt", 
-              label: "⑤ 貼上 AI 為你生成的 Style Board 成果 (可貼上英文繪圖指令或成果摘要)", 
-              req: "必填", 
-              placeholder: "請貼上 AI 生成的內容，例如：Professional Persona: Calm & Approachable Leader... 3 Looks details..." 
-            },
+            { type: "radios_d3", id: "prefStyle", label: "① 風格調性", req: "必選 1 項", options: ["日系質感 Japandi", "現代俐落 Modern Minimal", "美式率性 Smart Street", "北歐極簡 Nordic Clean", "法式優雅 French Chic"] },
+            { type: "checkboxes_persona_d3", id: "prefPersona", label: "② 專業形象特質 (最多 2 項)", req: "最多選 2 項", options: ["親切可靠", "俐落專業", "自信有影響力", "沉穩有質感", "聰明有想法", "活力有親和力"] },
+            { type: "checkboxes_d3", id: "prefDress", label: "③ 穿搭情境", req: "可複選", options: ["Casual｜輕鬆休閒", "Smart Casual｜日常辦公", "Business Casual｜商務會議", "Business Formal｜正式商務"] },
+            { type: "prompt_builder", id: "generatedPrompt", label: "④ 自動生成的專屬 PROMPT", req: "複製使用" },
+            { type: "textarea", id: "aiOutputPrompt", label: "⑤ 貼上 AI 為你生成的 Style Board 成果", req: "必填", placeholder: "請貼上 AI 生成的內容摘要..." },
             commonRatingFieldZh
           ]
         },
         en: {
           kicker: "DAY 03 | LEARNING TICKET",
           title: "AI Personal Branding & Workplace Style",
-          goal: "Select your preferences to generate a custom Style Board Prompt for ChatGPT/Gemini!",
-          subGoal: "Same You. A More Confident You. Seamlessly blend style and persona.",
+          goal: "Select your preferences to generate a custom Style Board Prompt!",
+          subGoal: "Same You. A More Confident You.",
           cards: [
-            { 
-              type: "copilot", 
-              title: "AI Style Board Structure", 
-              tag: "Style Board Generation", 
-              try: "Select -> Generate Prompt -> Paste to AI", 
-              details: [
-                "1. Professional Persona Statement",
-                "2. 3 Branding Keywords",
-                "3. 5-6 Color Palette with Hex Codes",
-                "4. 3 Complete Workwear Looks",
-                "5. Accessories & Detail Suggestions"
-              ] 
-            }
+            { type: "copilot", title: "AI Style Board Structure", tag: "Style Board Generation", try: "Select -> Generate Prompt -> Paste to AI", details: ["1. Persona Statement", "2. 3 Keywords", "3. Color Palette", "4. Workwear Looks", "5. Accessories"] }
           ],
           howTitle: "HOW IT WORKS | 3 Steps",
           steps: [
-            "STEP 1 | Select your style tone, traits, and formality levels on the right.",
-            "STEP 2 | Click 'Copy Prompt' and paste it to ChatGPT or Gemini.",
-            "STEP 3 | Paste back the generated prompt or summary from AI to check in!"
+            "STEP 1 | Select your style tone and traits.",
+            "STEP 2 | Copy prompt and paste to ChatGPT/Gemini.",
+            "STEP 3 | Paste result to check in!"
           ],
-          recommendedPrompt: "💡 Hint: Copy the generated prompt, paste to AI, and get your personalized Style Board!",
+          recommendedPrompt: "💡 Hint: Copy the prompt below to get your Style Board!",
           journeyTitle: "My AI Personal Branding Record",
           journeyFields: [
-            { 
-              type: "radios_d3", 
-              id: "prefStyle", 
-              label: "① Preferred Style Tone", 
-              req: "Select 1", 
-              options: ["Japandi", "Modern Minimal", "Smart Street", "Nordic Clean", "French Chic"] 
-            },
-            { 
-              type: "checkboxes_persona_d3", 
-              id: "prefPersona", 
-              label: "② Desired Persona Traits (Up to 2)", 
-              req: "Max 2", 
-              options: ["Warm & Reliable", "Sleek & Professional", "Confident & Influential", "Poised & Sophisticated", "Smart & Creative", "Energetic & Approachable"] 
-            },
-            { 
-              type: "checkboxes_d3", 
-              id: "prefDress", 
-              label: "③ Dressing Contexts (Multiple)", 
-              req: "Multiple", 
-              options: [
-                "Casual | Casual Events",
-                "Smart Casual | Daily Office & Internal Meetings",
-                "Business Casual | Cross-dept Meetings",
-                "Business Formal | High-level Meetings & Presentations"
-              ] 
-            },
-            {
-              type: "prompt_builder",
-              id: "generatedPrompt",
-              label: "④ Generated Prompt (Copy to ChatGPT / Gemini)",
-              req: "Copy & Use"
-            },
-            { 
-              type: "textarea", 
-              id: "aiOutputPrompt", 
-              label: "⑤ Paste the Style Board Result generated by AI", 
-              req: "Required", 
-              placeholder: "Paste AI generated prompt or summary..." 
-            },
+            { type: "radios_d3", id: "prefStyle", label: "① Preferred Style Tone", req: "Select 1", options: ["Japandi", "Modern Minimal", "Smart Street", "Nordic Clean", "French Chic"] },
+            { type: "checkboxes_persona_d3", id: "prefPersona", label: "② Desired Persona Traits", req: "Max 2", options: ["Warm & Reliable", "Sleek & Professional", "Confident & Influential", "Poised & Sophisticated", "Smart & Creative", "Energetic & Approachable"] },
+            { type: "checkboxes_d3", id: "prefDress", label: "③ Dressing Contexts", req: "Multiple", options: ["Casual", "Smart Casual", "Business Casual", "Business Formal"] },
+            { type: "prompt_builder", id: "generatedPrompt", label: "④ Generated Prompt", req: "Copy & Use" },
+            { type: "textarea", id: "aiOutputPrompt", label: "⑤ Paste Style Board Result", req: "Required", placeholder: "Paste summary..." },
             commonRatingFieldEn
           ]
         }
@@ -1231,117 +1009,51 @@ ${phraseVals}
         zh: {
           kicker: "DAY 04 | LEARNING TICKET",
           title: "Create Your AI Character",
-          goal: "From Character → Collectible Figure! 延伸 Day 03 風格，打造你的 3D 專屬職場公仔！",
+          goal: "From Character → Collectible Figure! 打造你的 3D 專屬職場公仔！",
           subGoal: "Create → Refine → Transform into Trendy 3D Toy.",
           cards: [
-            { 
-              type: "chatgpt", 
-              title: "3D 公仔設計關鍵", 
-              tag: "潮玩盲盒風格", 
-              try: "延伸 Day 03 設定 ➔ 選擇公仔元素 ➔ 產出 3D 圖像", 
-              details: [
-                "① 自動帶入 Day 03 個人品牌風格與特質",
-                "② 可選擇『真人職場造型』或『擬人化幸運萌寵』",
-                "③ 加入招牌辦公配件與 BSH 品牌配色",
-                "④ 產出精緻 C4D 光影質感與透明盒裝展示效果"
-              ] 
-            }
+            { type: "chatgpt", title: "3D 公仔設計關鍵", tag: "潮玩盲盒風格", try: "延伸 Day 03 設定 ➔ 產出 3D 圖像", details: ["① 帶入 Day 03 個人品牌風格", "② 選擇真人造型或幸運萌寵", "③ 加入招牌辦公配件與 BSH 配色", "④ C4D 盒裝展示效果"] }
           ],
           howTitle: "HOW IT WORKS｜輕鬆 3 步驟",
           steps: [
-            "STEP 1｜選擇你的公仔角色型態（可自訂萌寵種類）與招牌配件。",
-            "STEP 2｜點擊『📋 複製 3D 公仔 PROMPT』並貼到 ChatGPT / Midjourney 生成圖片。",
-            "STEP 3｜貼上產出的 3D 公仔圖片或作品分享連結並打卡！"
+            "STEP 1｜選擇公仔型態與配件。",
+            "STEP 2｜點擊複製 3D 公仔 PROMPT 並貼到 ChatGPT / Midjourney。",
+            "STEP 3｜貼上圖片或作品網址打卡！"
           ],
-          recommendedPrompt: "💡 提示：複製下方 Prompt 貼給 AI，即可獲得盒裝潮玩公仔效果圖！",
+          recommendedPrompt: "💡 提示：複製下方 Prompt 貼給 AI 即可！",
           journeyTitle: "我的 3D 職場公仔紀錄",
           journeyFields: [
-            {
-              type: "day3_style_display",
-              id: "d3StyleDisplay",
-              label: "① 帶入 DAY 03 個人風格設定 (自動帶入)",
-              req: "風格延伸"
-            },
-            { 
-              type: "radios_d4_base", 
-              id: "d4CharBase", 
-              label: "② 公仔角色型態", 
-              req: "必選 1 項", 
-              options: ["真人職場造型", "擬人化幸運萌寵"] 
-            },
-            { 
-              type: "checkboxes_d4_acc", 
-              id: "d4Accessory", 
-              label: "③ 招牌配件", 
-              req: "最多選 2 項", 
-              options: ["☕ 質感咖啡杯", "💻 筆電與工作檔", "📱 智慧手機 / Home Connect App", "👓 經典黑框眼鏡"] 
-            },
-            {
-              type: "prompt_builder_d4",
-              id: "d4GeneratedPrompt",
-              label: "④ 自動生成的 3D 公仔 PROMPT (請複製貼至 ChatGPT / Midjourney)",
-              req: "複製使用"
-            },
-            { type: "input", id: "sheet", label: "⑤ 貼上產出的 3D 公仔圖片或作品連結", req: "必填", placeholder: "例如貼上 ChatGPT 圖檔連結或作品分享網址..." },
-            { type: "input", id: "name", label: "⑥ CHARACTER NAME (給你的公仔取個名字吧！)", req: "必填", placeholder: "例如：Bosch Buddy / Sparky" },
+            { type: "day3_style_display", id: "d3StyleDisplay", label: "① 帶入 DAY 03 個人風格設定", req: "風格延伸" },
+            { type: "radios_d4_base", id: "d4CharBase", label: "② 公仔角色型態", req: "必選 1 項", options: ["真人職場造型", "擬人化幸運萌寵"] },
+            { type: "checkboxes_d4_acc", id: "d4Accessory", label: "③ 招牌配件", req: "最多選 2 項", options: ["☕ 質感咖啡杯", "💻 筆電與工作檔", "📱 智慧手機 / App", "👓 經典黑框眼鏡"] },
+            { type: "prompt_builder_d4", id: "d4GeneratedPrompt", label: "④ 自動生成的 3D 公仔 PROMPT", req: "複製使用" },
+            { type: "input", id: "sheet", label: "⑤ 貼上產出的 3D 公仔圖片或作品連結", req: "必填", placeholder: "貼上圖片網址或分享連結..." },
+            { type: "input", id: "name", label: "⑥ CHARACTER NAME (公仔名字)", req: "必填", placeholder: "例如：Bosch Buddy" },
             commonRatingFieldZh
           ]
         },
         en: {
           kicker: "DAY 04 | LEARNING TICKET",
           title: "Create Your AI Character",
-          goal: "From Character → Collectible Figure! Transform your Day 03 brand into a 3D vinyl toy.",
+          goal: "Transform your Day 03 brand into a 3D vinyl toy.",
           subGoal: "Create → Refine → Transform into Trendy 3D Toy.",
           cards: [
-            { 
-              type: "chatgpt", 
-              title: "3D Figure Design", 
-              tag: "Trendy Vinyl Toy Style", 
-              try: "Extend Day 03 Style -> Pick Elements -> Generate 3D Image", 
-              details: [
-                "① Inherit Day 03 personal branding style & traits",
-                "② Choose Human Avatar or Anthropomorphic Animal Avatar",
-                "③ Add signature work accessories & BSH colors",
-                "④ C4D Octane render with box packaging look"
-              ] 
-            }
+            { type: "chatgpt", title: "3D Figure Design", tag: "Trendy Vinyl Toy Style", try: "Extend Day 03 -> 3D Image", details: ["① Inherit Day 03 style", "② Choose Human or Animal Avatar", "③ Add signature work accessories", "④ C4D Box packaging look"] }
           ],
           howTitle: "HOW IT WORKS | 3 Steps",
           steps: [
-            "STEP 1 | Pick character base (custom animal supported) and signature accessories.",
-            "STEP 2 | Click 'Copy 3D Toy Prompt' and paste into ChatGPT / Midjourney.",
-            "STEP 3 | Paste your 3D figure image URL or share link and stamp!"
+            "STEP 1 | Pick character base and accessories.",
+            "STEP 2 | Copy prompt to ChatGPT / Midjourney.",
+            "STEP 3 | Paste image URL to check in!"
           ],
-          recommendedPrompt: "💡 Hint: Copy the prompt below to generate a trendy boxed vinyl figure!",
+          recommendedPrompt: "💡 Hint: Copy prompt below to generate 3D figure!",
           journeyTitle: "My 3D Character Record",
           journeyFields: [
-            {
-              type: "day3_style_display",
-              id: "d3StyleDisplay",
-              label: "① DAY 03 STYLE INHERITED (Auto-filled)",
-              req: "Style Reference"
-            },
-            { 
-              type: "radios_d4_base", 
-              id: "d4CharBase", 
-              label: "② Character Base", 
-              req: "Select 1", 
-              options: ["3D Human Avatar", "Anthropomorphic Animal Avatar"] 
-            },
-            { 
-              type: "checkboxes_d4_acc", 
-              id: "d4Accessory", 
-              label: "③ Signature Accessories", 
-              req: "Max 2", 
-              options: ["Coffee Cup", "Laptop & Files", "Smartphone & App", "Classic Glasses"] 
-            },
-            {
-              type: "prompt_builder_d4",
-              id: "d4GeneratedPrompt",
-              label: "④ Generated 3D Toy Prompt (Copy to AI)",
-              req: "Copy & Use"
-            },
-            { type: "input", id: "sheet", label: "⑤ Paste 3D Figure Image / Share Link", req: "Required", placeholder: "e.g., Paste ChatGPT image URL or share link..." },
+            { type: "day3_style_display", id: "d3StyleDisplay", label: "① DAY 03 STYLE INHERITED", req: "Reference" },
+            { type: "radios_d4_base", id: "d4CharBase", label: "② Character Base", req: "Select 1", options: ["3D Human Avatar", "Anthropomorphic Animal Avatar"] },
+            { type: "checkboxes_d4_acc", id: "d4Accessory", label: "③ Signature Accessories", req: "Max 2", options: ["Coffee Cup", "Laptop & Files", "Smartphone & App", "Classic Glasses"] },
+            { type: "prompt_builder_d4", id: "d4GeneratedPrompt", label: "④ Generated 3D Toy Prompt", req: "Copy & Use" },
+            { type: "input", id: "sheet", label: "⑤ Paste 3D Figure Image Link", req: "Required", placeholder: "Paste URL..." },
             { type: "input", id: "name", label: "⑥ CHARACTER NAME", req: "Required", placeholder: "e.g., Bosch Buddy" },
             commonRatingFieldEn
           ]
@@ -1353,54 +1065,26 @@ ${phraseVals}
         zh: {
           kicker: "DAY 05 | LEARNING TICKET",
           title: "Bring Your Character to Life!",
-          goal: "Turn Your Character into a LINE Sticker Pack! 賦予角色生命！",
-          subGoal: "Same Character. More Expressions. Bigger Connections.",
+          goal: "Turn Your Character into a LINE Sticker Pack!",
+          subGoal: "Same Character. More Expressions.",
           cards: [
-            { type: "chatgpt", title: "LINE 貼圖套件生成", tag: "角色延伸", try: "沿用 Day 04 角色 + 生成日常辦公語錄貼圖", details: ["① 帶入 Day 04 專屬角色原型，保持面部與服裝一致性", "② 自由選擇貼圖張數與設計風格", "③ 勾選實用的職場辦公語錄", "④ 自動組裝 Sticker Sheet 繪圖指令！"] }
+            { type: "chatgpt", title: "LINE 貼圖套件生成", tag: "角色延伸", try: "Day 04 角色 + 日常辦公語錄", details: ["① 帶入 Day 04 角色原型", "② 自由選擇張數與風格", "③ 勾選實用職場語錄", "④ 自動組裝 Sticker Sheet 指令"] }
           ],
           howTitle: "HOW IT WORKS｜輕鬆 3 步驟",
           steps: [
-            "STEP 1｜選擇貼圖張數、視覺風格，並勾選您喜歡的日常辦公語錄。",
-            "STEP 2｜點擊『📋 複製貼圖生成 PROMPT』並貼到 ChatGPT / Midjourney。",
-            "STEP 3｜貼上產出的 LINE 貼圖組合圖網址並完成打卡！"
+            "STEP 1｜選擇張數、風格與語錄。",
+            "STEP 2｜複製 Prompt 貼至 ChatGPT / Midjourney。",
+            "STEP 3｜貼上產出的貼圖組合圖網址打卡！"
           ],
-          recommendedPrompt: "💡 提示：點擊複製下方生成的 Prompt，即可讓 AI 產出一整套包含日常對話的貼圖組合！",
+          recommendedPrompt: "💡 提示：點擊複製下方生成的 Prompt 即可！",
           journeyTitle: "我的 LINE 貼圖套件生成紀錄",
           journeyFields: [
-            {
-              type: "day4_char_display",
-              id: "d4CharDisplay",
-              label: "① 帶入 DAY 04 專屬角色原型 (自動帶入)",
-              req: "角色延伸"
-            },
-            { 
-              type: "radios_d5_count", 
-              id: "d5Count", 
-              label: "② 貼圖張數 (Sticker Count)", 
-              req: "必選 1 項", 
-              options: ["4 張", "8 張", "12 張", "16 張"] 
-            },
-            { 
-              type: "radios_d5_style", 
-              id: "d5Style", 
-              label: "③ 貼圖風格 (Visual Style)", 
-              req: "必選 1 項", 
-              options: ["Q版可愛表情包", "極簡線條風", "職場實用寫實風", "誇張搞笑表情包"] 
-            },
-            { 
-              type: "checkboxes_d5_phrases", 
-              id: "d5Phrases", 
-              label: "④ 常用辦公語錄 (可複選)", 
-              req: "可複選", 
-              options: ["早安！", "收到！", "辛苦了！", "謝謝！", "加油！", "排程中...", "馬上處理！", "完成！"] 
-            },
-            {
-              type: "prompt_builder_d5",
-              id: "d5GeneratedPrompt",
-              label: "⑤ 自動生成的 LINE 貼圖 PROMPT (請複製貼至 ChatGPT / Midjourney)",
-              req: "複製使用"
-            },
-            { type: "input", id: "stickerSheet", label: "⑥ 貼上產出的 LINE 貼圖組合圖或作品分享連結", req: "必填", placeholder: "例如貼上 ChatGPT 圖片連結或雲端分享網址..." },
+            { type: "day4_char_display", id: "d4CharDisplay", label: "① 帶入 DAY 04 專屬角色原型", req: "角色延伸" },
+            { type: "radios_d5_count", id: "d5Count", label: "② 貼圖張數", req: "必選 1 項", options: ["4 張", "8 張", "12 張", "16 張"] },
+            { type: "radios_d5_style", id: "d5Style", label: "③ 貼圖風格", req: "必選 1 項", options: ["Q版可愛表情包", "極簡線條風", "職場實用寫實風", "誇張搞笑表情包"] },
+            { type: "checkboxes_d5_phrases", id: "d5Phrases", label: "④ 常用辦公語錄", req: "可複選", options: ["早安！", "收到！", "辛苦了！", "謝謝！", "加油！", "排程中...", "馬上處理！", "完成！"] },
+            { type: "prompt_builder_d5", id: "d5GeneratedPrompt", label: "⑤ 自動生成的 LINE 貼圖 PROMPT", req: "複製使用" },
+            { type: "input", id: "stickerSheet", label: "⑥ 貼上產出的 LINE 貼圖組合圖連結", req: "必填", placeholder: "貼上圖片網址或分享連結..." },
             commonRatingFieldZh
           ]
         },
@@ -1408,53 +1092,25 @@ ${phraseVals}
           kicker: "DAY 05 | LEARNING TICKET",
           title: "Bring Your Character to Life!",
           goal: "Turn Your Character into a LINE Sticker Pack!",
-          subGoal: "Same Character. More Expressions. Bigger Connections.",
+          subGoal: "Same Character. More Expressions.",
           cards: [
-            { type: "chatgpt", title: "LINE Sticker Pack Generator", tag: "Character Extension", try: "Reuse Day 04 Avatar + Custom Phrases", details: ["① Inherit Day 04 avatar character design", "② Choose total sticker count & visual style", "③ Pick daily workplace phrases", "④ Auto-generate sticker sheet prompt!"] }
+            { type: "chatgpt", title: "LINE Sticker Pack Generator", tag: "Character Extension", try: "Day 04 Avatar + Phrases", details: ["① Inherit Day 04 design", "② Choose count & style", "③ Pick office phrases", "④ Auto-generate prompt"] }
           ],
           howTitle: "HOW IT WORKS | 3 Steps",
           steps: [
-            "STEP 1 | Select sticker count, visual style, and check daily office phrases.",
-            "STEP 2 | Click 'Copy Sticker Prompt' and paste into ChatGPT / Midjourney.",
-            "STEP 3 | Paste your generated sticker sheet image link to check in!"
+            "STEP 1 | Select count, style, and phrases.",
+            "STEP 2 | Copy prompt to AI.",
+            "STEP 3 | Paste image URL to check in!"
           ],
-          recommendedPrompt: "💡 Hint: Copy the prompt below to generate a unified sticker sheet!",
+          recommendedPrompt: "💡 Hint: Copy prompt below to generate sticker sheet!",
           journeyTitle: "My LINE Sticker Pack Record",
           journeyFields: [
-            {
-              type: "day4_char_display",
-              id: "d4CharDisplay",
-              label: "① DAY 04 CHARACTER INHERITED (Auto-filled)",
-              req: "Character Reference"
-            },
-            { 
-              type: "radios_d5_count", 
-              id: "d5Count", 
-              label: "② Sticker Count", 
-              req: "Select 1", 
-              options: ["4 Stickers", "8 Stickers", "12 Stickers", "16 Stickers"] 
-            },
-            { 
-              type: "radios_d5_style", 
-              id: "d5Style", 
-              label: "③ Visual Style", 
-              req: "Select 1", 
-              options: ["Cute Chibi Emoji", "Minimalist Outline", "Realistic Workplace", "Expressive & Funny"] 
-            },
-            { 
-              type: "checkboxes_d5_phrases", 
-              id: "d5Phrases", 
-              label: "④ Daily Office Phrases", 
-              req: "Multiple", 
-              options: ["Good Morning!", "Got it!", "Good Job!", "Thank you!", "Keep it up!", "In progress...", "On it!", "Done!"] 
-            },
-            {
-              type: "prompt_builder_d5",
-              id: "d5GeneratedPrompt",
-              label: "⑤ Generated Sticker Sheet Prompt (Copy to AI)",
-              req: "Copy & Use"
-            },
-            { type: "input", id: "stickerSheet", label: "⑥ Paste Sticker Sheet Image / Share Link", req: "Required", placeholder: "Paste URL..." },
+            { type: "day4_char_display", id: "d4CharDisplay", label: "① DAY 04 CHARACTER INHERITED", req: "Reference" },
+            { type: "radios_d5_count", id: "d5Count", label: "② Sticker Count", req: "Select 1", options: ["4 Stickers", "8 Stickers", "12 Stickers", "16 Stickers"] },
+            { type: "radios_d5_style", id: "d5Style", label: "③ Visual Style", req: "Select 1", options: ["Cute Chibi Emoji", "Minimalist Outline", "Realistic Workplace", "Expressive & Funny"] },
+            { type: "checkboxes_d5_phrases", id: "d5Phrases", label: "④ Daily Office Phrases", req: "Multiple", options: ["Good Morning!", "Got it!", "Good Job!", "Thank you!", "Keep it up!", "In progress...", "On it!", "Done!"] },
+            { type: "prompt_builder_d5", id: "d5GeneratedPrompt", label: "⑤ Generated Sticker Sheet Prompt", req: "Copy & Use" },
+            { type: "input", id: "stickerSheet", label: "⑥ Paste Sticker Sheet Image Link", req: "Required", placeholder: "Paste URL..." },
             commonRatingFieldEn
           ]
         }
@@ -1464,45 +1120,79 @@ ${phraseVals}
         accentBg: "#F0F9FF",
         zh: {
           kicker: "DAY 06 | LEARNING TICKET",
-          title: "Discover More with Perplexity",
-          goal: "Plan Your Next Long Weekend! AI 分析研究，由你做最後決策！",
-          subGoal: "Search Smarter. Explore Wider. Decide Better.",
+          title: "Workplace Visual Guidelines & SOPs",
+          goal: "打造日常工作圖文指南！選擇新手快速組裝，或親自挑戰寫 Prompt！",
+          subGoal: "Turn Complex Workflows into Clear Visual Cards.",
           cards: [
-            { type: "gemini", title: "WHY PERPLEXITY？", tag: "即時聯網與引用", try: "搜尋 → 查看來源 → 比較方案 → 決策", details: ["即時網路資料搜尋", "附帶資料來源與引用連結", "整合多方觀點比較優缺點", "結構化表格輸出"] }
+            { 
+              type: "gemini", 
+              title: "WORKPLACE VISUAL BUILDER", 
+              tag: "工作圖文與 SOP 懶人包", 
+              try: "選擇主題 ➔ 組裝/撰寫 Prompt ➔ 請 AI 整理精準圖文架構", 
+              details: [
+                "① 📂 新進人員公用槽導覽：目錄結構與存取權限說明",
+                "② 📝 合約檢查要點指南：審查 Check-list 與注意事項圖表",
+                "③ ✍️ 簽呈使用範例說明：撰寫架構與範本參照表",
+                "④ 🌴 請假流程與規則圖解：簽核階層與系統步驟"
+              ] 
+            }
           ],
-          howTitle: "MISSION｜連假行程深度比較",
+          howTitle: "HOW IT WORKS｜雙軌體驗模式",
           steps: [
-            "用自然語言輸入預算與天數需求。",
-            "讓 Perplexity 整理 3 個方案並附上來源網址。"
+            "【新手組裝】點選情境與格式，系統自動合成精準 Prompt 供您複製。",
+            "【進階挑戰】參照萬用 Prompt 結構，試著自己寫一段專屬指令！"
           ],
-          recommendedPrompt: "我的連假有 4 天，預算約 NT$20,000。我想去日本放鬆，偏好美食與文化景點。請提供 3 個適合我的方案，比較預估費用、行程亮點與優缺點，並附上參考資訊來源。",
-          journeyTitle: "我的連假規劃紀錄",
+          recommendedPrompt: "💡 提示：點擊右上角標籤可隨時切換「新手快速組裝」或「進階親自撰寫」！",
+          journeyTitle: "我的工作圖文與 SOP 指南紀錄",
           journeyFields: [
-            { type: "textarea", id: "options3", label: "① MY 3 OPTIONS (列出 AI 整理的 3 個方案)", req: "必填", placeholder: "1. 京都文化行\n2. 大阪美食之旅\n3. 福岡悠閒小旅行" },
-            { type: "input", id: "finalPick", label: "② MY FINAL PICK (最終選擇哪一個？)", req: "必填", placeholder: "例如：方案 2 大阪美食之旅" },
-            { type: "input", id: "sourceChecked", label: "③ ONE SOURCE I CHECKED (查驗的 1 個來源或 URL)", req: "必填", placeholder: "貼上你點開查驗的網址或來源名稱..." },
+            {
+              type: "d6_dual_mode_wrapper",
+              id: "d6Wrapper",
+              label: "① 選擇體驗模式與 PROMPT 產出",
+              req: "核心步驟"
+            },
+            { type: "textarea", id: "options3", label: "② MY KEY GUIDELINE POINTS (貼上 AI 整理出的 3-4 個關鍵流程/要點)", req: "必填", placeholder: "1. 步驟/要點 A 說明\n2. 步驟/要點 B 說明\n3. 步驟/要點 C 說明..." },
+            { type: "input", id: "finalPick", label: "③ MY VISUAL FORMAT (最終建議的圖文呈現方式)", req: "必填", placeholder: "例如：條列對照表格 / Mermaid 流程圖程式碼 / 注意事項提示卡" },
+            { type: "input", id: "sourceChecked", label: "④ OUTPUT / SHARE LINK (貼上產出的圖文摘要或成果分享連結)", req: "必填", placeholder: "貼上 AI 回覆成果連結或簡短摘要..." },
             commonRatingFieldZh
           ]
         },
         en: {
           kicker: "DAY 06 | LEARNING TICKET",
-          title: "Discover More with Perplexity",
-          goal: "Plan Your Next Long Weekend! AI researches, you decide.",
-          subGoal: "Search Smarter. Explore Wider. Decide Better.",
+          title: "Workplace Visual Guidelines & SOPs",
+          goal: "Turn Complex Workflows into Clear Visual Cards.",
+          subGoal: "Turn Complex Workflows into Clear Visual Cards.",
           cards: [
-            { type: "gemini", title: "WHY PERPLEXITY?", tag: "Live Web & Citations", try: "Search → Check Sources → Compare → Decide", details: ["Real-time internet information search", "Includes citations and source links", "Compares pros & cons across options", "Structured summary table output"] }
+            { 
+              type: "gemini", 
+              title: "WORKPLACE VISUAL BUILDER", 
+              tag: "Work Guides & SOP Cards", 
+              try: "Pick Topic -> Build/Write Prompt -> Get Clear Guidelines", 
+              details: [
+                "① 📂 Onboarding Public Drive Guide & Folder Structure",
+                "② 📝 Contract Checklist & Risk Reminders",
+                "③ ✍️ Official Signing Memo Template & Rules",
+                "④ 🌴 Leave Request Workflow & System Steps"
+              ] 
+            }
           ],
-          howTitle: "MISSION | Long Weekend Research",
+          howTitle: "HOW IT WORKS | Dual Mode",
           steps: [
-            "Describe your vacation requirements and budget.",
-            "Ask Perplexity to generate 3 options with source citations."
+            "【Auto Mode】Select elements and copy system-built prompt.",
+            "【Custom Mode】Follow scaffolding guide to write your own prompt!"
           ],
-          recommendedPrompt: "I have 4 days for a long weekend and a budget of NT$20,000. Recommend 3 travel options with estimated cost, highlights, pros & cons, and source citations.",
-          journeyTitle: "My Research Record",
+          recommendedPrompt: "💡 Hint: Toggle between Auto and Custom mode using tabs above!",
+          journeyTitle: "My Workplace Visual Guide Record",
           journeyFields: [
-            { type: "textarea", id: "options3", label: "① MY 3 OPTIONS (List the 3 options from AI)", req: "Required", placeholder: "1. Kyoto Culture\n2. Osaka Food Tour\n3. Fukuoka Relaxation" },
-            { type: "input", id: "finalPick", label: "② MY FINAL PICK", req: "Required", placeholder: "e.g., Option 2 Osaka Food Tour" },
-            { type: "input", id: "sourceChecked", label: "③ ONE SOURCE I CHECKED (Source Name or URL)", req: "Required", placeholder: "Paste one source URL you verified..." },
+            {
+              type: "d6_dual_mode_wrapper",
+              id: "d6Wrapper",
+              label: "① Select Mode & Generate/Write Prompt",
+              req: "Core Step"
+            },
+            { type: "textarea", id: "options3", label: "② MY KEY GUIDELINE POINTS (3-4 Key Steps/Points)", req: "Required", placeholder: "1. Point A\n2. Point B\n3. Point C..." },
+            { type: "input", id: "finalPick", label: "③ MY VISUAL FORMAT", req: "Required", placeholder: "e.g., Comparison Table / Flowchart Code / Caution Cards" },
+            { type: "input", id: "sourceChecked", label: "④ OUTPUT / SHARE LINK", req: "Required", placeholder: "Paste AI output share link or text summary..." },
             commonRatingFieldEn
           ]
         }
@@ -1516,19 +1206,19 @@ ${phraseVals}
           goal: "AI Workspace Makeover! 打造兼具風格、效率與好運的辦公桌！",
           subGoal: "Same Desk. A Smarter, Happier You.",
           cards: [
-            { type: "copilot", title: "WORKSPACE MAKEOVER", tag: "軟裝與佈置調整", try: "保持硬體結構 + 調整軟裝物件", details: ["保留：桌子、螢幕、電腦、設備與空間結構", "調整：植物、收納、桌墊、燈具、配色", "Style：Japandi, Minimal, Cozy, Executive", "Lucky Theme：財運, 事業, 靈感, 專注 (趣味設計靈感)"] }
+            { type: "copilot", title: "WORKSPACE MAKEOVER", tag: "軟裝與佈置調整", try: "保持硬體結構 + 調整軟裝物件", details: ["保留：桌子、螢幕、電腦與空間結構", "調整：植物、收納、桌墊、燈具、配色", "Style：Japandi, Minimal, Cozy, Executive", "Lucky Theme：財運, 事業, 靈感, 專注"] }
           ],
           howTitle: "PRIVACY FIRST｜安全提醒",
           steps: [
             "拍照前請確認關閉螢幕，無 Email 或機密文件內容。",
             "上傳照片並使用 Master Prompt 生成改造後效果圖。"
           ],
-          recommendedPrompt: "請以我上傳的辦公桌照片為基礎進行 AI Workspace Makeover。Style：日系 Japandi；Lucky Theme：事業運。請保留桌椅螢幕結構，僅建議桌面收納、植物與燈具軟裝改造，並產出 Before → After 效果圖。",
+          recommendedPrompt: "請以我上傳的辦公桌照片為基礎進行 AI Workspace Makeover。Style：日系 Japandi；Lucky Theme：事業運。保留桌椅螢幕結構，僅建議軟裝改造。",
           journeyTitle: "我的辦公桌改造紀錄",
           journeyFields: [
-            { type: "checkboxes", id: "planStyle", label: "① MY PLAN Style & Lucky Theme (選擇風格與好運元素)", req: "必選 1 項", options: ["Japandi 日系", "Minimal 簡約", "Cozy 溫馨", "Executive 專業", "Career 事業運", "Focus 專注運"] },
-            { type: "input", id: "beforeImg", label: "② BEFORE (貼上原始辦公桌照片分享連結)", req: "必填", placeholder: "貼上照片網址或連結..." },
-            { type: "input", id: "afterImg", label: "③ AFTER (貼上 AI 改造成果照片分享連結)", req: "必填", placeholder: "貼上 AI 成果網址或連結..." },
+            { type: "checkboxes", id: "planStyle", label: "① MY PLAN Style & Lucky Theme", req: "必選 1 項", options: ["Japandi 日系", "Minimal 簡約", "Cozy 溫馨", "Executive 專業", "Career 事業運", "Focus 專注運"] },
+            { type: "input", id: "beforeImg", label: "② BEFORE (貼上原始辦公桌照片連結)", req: "必填", placeholder: "貼上照片網址..." },
+            { type: "input", id: "afterImg", label: "③ AFTER (貼上 AI 改造成果照片連結)", req: "必填", placeholder: "貼上成果網址..." },
             commonRatingFieldZh
           ]
         },
@@ -1538,14 +1228,14 @@ ${phraseVals}
           goal: "AI Workspace Makeover! Upgrade your daily desk.",
           subGoal: "Same Desk. A Smarter, Happier You.",
           cards: [
-            { type: "copilot", title: "WORKSPACE MAKEOVER", tag: "Soft Decor & Layout", try: "Keep Structure + Upgrade Decor & Storage", details: ["KEEP: Desk, Monitor, Laptop, Structural Layout", "CHANGE: Plants, Storage, Desk Mat, Lighting, Colors", "Styles: Japandi, Minimal, Cozy, Executive", "Lucky Themes: Abundance, Career, Focus, Creativity"] }
+            { type: "copilot", title: "WORKSPACE MAKEOVER", tag: "Soft Decor & Layout", try: "Keep Structure + Upgrade Decor", details: ["KEEP: Desk, Monitor, Laptop", "CHANGE: Plants, Storage, Desk Mat, Lighting", "Styles: Japandi, Minimal, Cozy, Executive", "Lucky Themes: Abundance, Career, Focus, Creativity"] }
           ],
           howTitle: "PRIVACY FIRST | Safety Note",
           steps: [
             "Ensure no confidential docs or emails are visible before taking photo.",
-            "Upload photo and run prompt to generate Before -> After makeover."
+            "Upload photo and run prompt to generate makeover."
           ],
-          recommendedPrompt: "Based on my desk photo, propose an AI Workspace Makeover in Japandi style with Career lucky theme. Keep desk structure and suggest desktop storage and plant decor.",
+          recommendedPrompt: "Based on my desk photo, propose an AI Workspace Makeover in Japandi style with Career lucky theme.",
           journeyTitle: "My Workspace Record",
           journeyFields: [
             { type: "checkboxes", id: "planStyle", label: "① MY PLAN Style & Lucky Theme", req: "Select 1", options: ["Japandi", "Minimal", "Cozy", "Executive", "Career", "Focus"] },
@@ -1564,12 +1254,11 @@ ${phraseVals}
           goal: "Protect Before You Upload! 資料去識別化大挑戰！",
           subGoal: "WORK SMART. SHARE SAFE.",
           cards: [
-            { type: "chatgpt", title: "CAN I TELL WHO THIS IS？", tag: "去識別化 3 大招", try: "保護隱私 ➔ 才能安全使用 AI", details: ["① REMOVE 移除：直接刪除姓名、Email、電話、工號", "② REPLACE 替換：用 Alias 代替 (Amy → Employee 001)", "③ GENERALIZE 降低精細度：生日 → 年齡層 (30-39歲)"] }
+            { type: "chatgpt", title: "CAN I TELL WHO THIS IS？", tag: "去識別化 3 大招", try: "保護隱私 ➔ 才能安全使用 AI", details: ["① REMOVE 移除：直接刪除姓名、Email、電話、工號", "② REPLACE 替換：用 Alias 代替 (Amy → Employee 001)", "③ GENERALIZE 降低精細度：生日 → 年齡層"] }
           ],
           howTitle: "DATA DETECTIVE CHALLENGE",
           steps: [
-            "閱讀下方 Challenge Dataset 欄位。",
-            "將所有欄位標示為 REMOVE, REPLACE, GENERALIZE 或 KEEP。"
+            "閱讀欄位並標示為 REMOVE, REPLACE, GENERALIZE 或 KEEP。"
           ],
           recommendedPrompt: "此關卡為互動測試，不需上傳真實公司資料。",
           journeyTitle: "數據去識別化挑戰 (Data Detective)",
@@ -1577,7 +1266,7 @@ ${phraseVals}
             { type: "radios", id: "colName", label: "① 欄位『Employee Name』應如何處理？", req: "必選", options: ["REMOVE 移除", "REPLACE 替換", "KEEP 保留"] },
             { type: "radios", id: "colEmail", label: "② 欄位『Corporate Email』應如何處理？", req: "必選", options: ["REMOVE 移除", "REPLACE 替換", "KEEP 保留"] },
             { type: "radios", id: "colDept", label: "③ 欄位『Department & Drink Preference』應如何處理？", req: "必選", options: ["KEEP 保留 (有助於分析)", "REMOVE 移除"] },
-            { type: "radios", id: "colSpend", label: "④ 欄位『Exact Spend ($125.5)』應如何處理？", req: "必選", options: ["GENERALIZE 降精細度 (改區間)", "KEEP 保留"] },
+            { type: "radios", id: "colSpend", label: "④ 欄位『Exact Spend ($125.5)』應如何處理？", req: "必選", options: ["GENERALIZE 降精細度", "KEEP 保留"] },
             commonRatingFieldZh
           ]
         },
@@ -1587,11 +1276,10 @@ ${phraseVals}
           goal: "Protect Before You Upload! Data De-identification Challenge.",
           subGoal: "WORK SMART. SHARE SAFE.",
           cards: [
-            { type: "chatgpt", title: "CAN I TELL WHO THIS IS?", tag: "3 De-identification Rules", try: "Protect Privacy -> Safe AI Usage", details: ["① REMOVE: Delete Name, Email, Phone, Employee ID", "② REPLACE: Use Aliases (Amy -> Employee 001)", "③ GENERALIZE: Reduce precision (Exact Date -> Age Group)"] }
+            { type: "chatgpt", title: "CAN I TELL WHO THIS IS?", tag: "3 De-identification Rules", try: "Protect Privacy -> Safe AI Usage", details: ["① REMOVE: Delete Name, Email, Phone, Employee ID", "② REPLACE: Use Aliases", "③ GENERALIZE: Reduce precision"] }
           ],
           howTitle: "DATA DETECTIVE CHALLENGE",
           steps: [
-            "Review the challenge dataset fields below.",
             "Classify each field into REMOVE, REPLACE, GENERALIZE, or KEEP."
           ],
           recommendedPrompt: "This is an interactive detective challenge. No real data required.",
@@ -1599,7 +1287,7 @@ ${phraseVals}
           journeyFields: [
             { type: "radios", id: "colName", label: "① Field 'Employee Name' action?", req: "Required", options: ["REMOVE", "REPLACE", "KEEP"] },
             { type: "radios", id: "colEmail", label: "② Field 'Corporate Email' action?", req: "Required", options: ["REMOVE", "REPLACE", "KEEP"] },
-            { type: "radios", id: "colDept", label: "③ Field 'Department & Drink' action?", req: "Required", options: ["KEEP (Useful for analysis)", "REMOVE"] },
+            { type: "radios", id: "colDept", label: "③ Field 'Department & Drink' action?", req: "Required", options: ["KEEP", "REMOVE"] },
             { type: "radios", id: "colSpend", label: "④ Field 'Exact Spend' action?", req: "Required", options: ["GENERALIZE", "KEEP"] },
             commonRatingFieldEn
           ]
@@ -1614,19 +1302,19 @@ ${phraseVals}
           goal: "讓 AI 從資料中找出真正值得關注的事！",
           subGoal: "AI finds patterns. You verify the evidence.",
           cards: [
-            { type: "gemini", title: "DATA DETECTIVE FRAMEWORK", tag: "5 步數據對話法", try: "Gemini in BSH AIM", details: ["1. DESCRIBE 摘要重點與關鍵指標", "2. COMPARE 比較不同月份/區域差異", "3. DETECT 找出異常數值與趨勢", "4. EXPLAIN 區分『數據事實』與『推測』", "5. VERIFY 列出支持結論的具體證據"] }
+            { type: "gemini", title: "DATA DETECTIVE FRAMEWORK", tag: "5 步數據對話法", try: "Gemini in BSH AIM", details: ["1. DESCRIBE 摘要重點", "2. COMPARE 比較差異", "3. DETECT 找出異常", "4. EXPLAIN 區分事實與推測", "5. VERIFY 列出支持證據"] }
           ],
           howTitle: "TODAY'S CHALLENGE",
           steps: [
             "上傳已去識別化的 Dataset 請 Gemini 分析。",
             "找出 3 個 Key Findings，並要求 Gemini: SHOW ME THE EVIDENCE！"
           ],
-          recommendedPrompt: "請幫我摘要這份資料的主要重點，找出 3 個重要發現與 1 個異常趨勢。最後請列出支持這個結論的具體數據與計算方式。",
+          recommendedPrompt: "請摘要主要重點，找出 3 個重要發現與 1 個異常趨勢，並列出支持數據。",
           journeyTitle: "我的數據洞察紀錄",
           journeyFields: [
-            { type: "textarea", id: "findings3", label: "① MY 3 KEY FINDINGS (列出 AI 發現的 3 個重點)", req: "必填", placeholder: "1. Latte 是最受歡迎飲品\n2. 5 月份訂單下滑 15%\n3. 高雄分公司滿意度最高" },
-            { type: "input", id: "insightVer", label: "② ONE INSIGHT I VERIFIED (挑選 1 個欲驗證的洞察)", req: "必填", placeholder: "例如：5 月份訂單下滑的原因" },
-            { type: "textarea", id: "evidenceText", label: "③ SHOW ME THE EVIDENCE (AI 提供支持該結論的具體數據)", req: "必填", placeholder: "貼上 AI 提供的數據證據或計算邏輯..." },
+            { type: "textarea", id: "findings3", label: "① MY 3 KEY FINDINGS (3 個重點)", req: "必填", placeholder: "1. 發現 A\n2. 發現 B\n3. 發現 C" },
+            { type: "input", id: "insightVer", label: "② ONE INSIGHT I VERIFIED (1 個欲驗證洞察)", req: "必填", placeholder: "例如：5 月份訂單下滑原因" },
+            { type: "textarea", id: "evidenceText", label: "③ SHOW ME THE EVIDENCE (AI 提供的具體證據)", req: "必填", placeholder: "貼上數據證據..." },
             commonRatingFieldZh
           ]
         },
@@ -1636,19 +1324,19 @@ ${phraseVals}
           goal: "Let AI find what really matters in your dataset!",
           subGoal: "AI finds patterns. You verify the evidence.",
           cards: [
-            { type: "gemini", title: "DATA DETECTIVE FRAMEWORK", tag: "5-Step Data Inquiry", try: "Gemini in BSH AIM", details: ["1. DESCRIBE: Summarize key metrics", "2. COMPARE: Spot regional/monthly gaps", "3. DETECT: Flag outliers and anomalies", "4. EXPLAIN: Separate facts from hypotheses", "5. VERIFY: Request supporting evidence"] }
+            { type: "gemini", title: "DATA DETECTIVE FRAMEWORK", tag: "5-Step Data Inquiry", try: "Gemini in BSH AIM", details: ["1. DESCRIBE metrics", "2. COMPARE gaps", "3. DETECT outliers", "4. EXPLAIN facts", "5. VERIFY evidence"] }
           ],
           howTitle: "TODAY'S CHALLENGE",
           steps: [
-            "Upload your anonymized dataset and run analysis.",
+            "Upload anonymized dataset and run analysis.",
             "Identify 3 key findings and ask Gemini: SHOW ME THE EVIDENCE!"
           ],
-          recommendedPrompt: "Analyze this anonymized dataset and output 3 key findings. For the most critical insight, show me the specific supporting data evidence.",
+          recommendedPrompt: "Analyze this anonymized dataset and output 3 key findings with evidence.",
           journeyTitle: "My Data Insights Record",
           journeyFields: [
-            { type: "textarea", id: "findings3", label: "① MY 3 KEY FINDINGS", req: "Required", placeholder: "1. Latte is top seller\n2. May order drop 15%\n3. High satisfaction in Kaohsiung" },
-            { type: "input", id: "insightVer", label: "② ONE INSIGHT I VERIFIED", req: "Required", placeholder: "e.g., Reason behind May order drop" },
-            { type: "textarea", id: "evidenceText", label: "③ SHOW ME THE EVIDENCE", req: "Required", placeholder: "Paste supporting data evidence from AI..." },
+            { type: "textarea", id: "findings3", label: "① MY 3 KEY FINDINGS", req: "Required", placeholder: "1. Finding A\n2. Finding B\n3. Finding C" },
+            { type: "input", id: "insightVer", label: "② ONE INSIGHT I VERIFIED", req: "Required", placeholder: "e.g., Reason for May drop" },
+            { type: "textarea", id: "evidenceText", label: "③ SHOW ME THE EVIDENCE", req: "Required", placeholder: "Paste supporting data..." },
             commonRatingFieldEn
           ]
         }
@@ -1662,20 +1350,19 @@ ${phraseVals}
           goal: "用 AI 打造你的 HTML 互動式簡報或儀表板！不需要寫程式！",
           subGoal: "Don't start over. Improve what already works.",
           cards: [
-            { type: "copilot", title: "FINAL MISSION WORKFLOW", tag: "單頁 HTML 成果生成", try: "DEFINE ➔ PLAN ➔ BUILD ➔ REFINE", details: ["OPTION A：HTML Presentation (6-8 頁互動簡報)", "OPTION B：HTML Dashboard (單頁數據儀表板)", "關鍵：先請 Gemini 規劃架構，確認後才產出 HTML！", "優化原則：POINT → PROBLEM → CHANGE (一次只改局部)"] }
+            { type: "copilot", title: "FINAL MISSION WORKFLOW", tag: "單頁 HTML 成果生成", try: "DEFINE ➔ PLAN ➔ BUILD ➔ REFINE", details: ["OPTION A：HTML Presentation (6-8 頁簡報)", "OPTION B：HTML Dashboard (單頁儀表板)", "先請 Gemini 規劃架構，確認後才產出 HTML！"] }
           ],
           howTitle: "FINAL STEP｜終極關卡驗證",
           steps: [
-            "將報告或數據打包成單一 HTML 檔案。",
-            "完成測試與優化，貼上截圖或作品分享連結！"
+            "打包成單一 HTML 檔案，貼上截圖或作品連結！"
           ],
-          recommendedPrompt: "我想根據以下內容製作一份互動式 HTML 簡報。請先提供頁面架構與建議的視覺呈現方式，請先不要產出 HTML，等我確認後再生成完整的單一 HTML 檔案。",
+          recommendedPrompt: "我想根據以下內容製作互動式 HTML 簡報，請先提供頁面架構與建議視覺。",
           journeyTitle: "終極任務打卡 (Final Submission)",
           journeyFields: [
-            { type: "radios", id: "builtType", label: "① I BUILT (你打造的作品類型)", req: "必選", options: ["HTML Presentation (簡報)", "HTML Dashboard (儀表板)"] },
-            { type: "input", id: "topicPurpose", label: "② MY TOPIC / PURPOSE (作品主題與目的)", req: "必填", placeholder: "例如：Q3 業務成果匯報互動簡報" },
-            { type: "input", id: "finalResult", label: "③ MY FINAL RESULT (貼上截圖或作品分享連結)", req: "必填", placeholder: "貼上分享連結或網址..." },
-            { type: "checkboxes", id: "testCheck", label: "④ TEST CHECK (測試與優化確認)", req: "必選 2 項", options: ["我已測試功能正常", "我至少完成一次優化調整"] },
+            { type: "radios", id: "builtType", label: "① I BUILT (作品類型)", req: "必選", options: ["HTML Presentation (簡報)", "HTML Dashboard (儀表板)"] },
+            { type: "input", id: "topicPurpose", label: "② MY TOPIC / PURPOSE (主題與目的)", req: "必填", placeholder: "例如：Q3 業務成果匯報" },
+            { type: "input", id: "finalResult", label: "③ MY FINAL RESULT (貼上作品連結)", req: "必填", placeholder: "貼上分享連結..." },
+            { type: "checkboxes", id: "testCheck", label: "④ TEST CHECK (測試與優化)", req: "必選 2 項", options: ["我已測試功能正常", "我至少完成一次優化調整"] },
             commonRatingFieldZh
           ]
         },
@@ -1685,20 +1372,19 @@ ${phraseVals}
           goal: "Build your interactive HTML Presentation or Dashboard with AI!",
           subGoal: "Don't start over. Improve what already works.",
           cards: [
-            { type: "copilot", title: "FINAL MISSION WORKFLOW", tag: "Single-Page HTML Output", try: "DEFINE -> PLAN -> BUILD -> REFINE", details: ["OPTION A: HTML Presentation (6-8 slides)", "OPTION B: HTML Dashboard (KPI summary & charts)", "Key: Confirm structure before generating code!", "Refining: Point -> Problem -> Change"] }
+            { type: "copilot", title: "FINAL MISSION WORKFLOW", tag: "Single-Page HTML Output", try: "DEFINE -> PLAN -> BUILD -> REFINE", details: ["OPTION A: HTML Presentation", "OPTION B: HTML Dashboard", "Confirm structure before generating code!"] }
           ],
           howTitle: "FINAL STEP | Graduation Mission",
           steps: [
-            "Build a standalone single-file HTML presentation or dashboard.",
-            "Test and refine, then paste your screenshot URL or link!"
+            "Build a standalone HTML file and paste link!"
           ],
-          recommendedPrompt: "I want to build an interactive HTML presentation based on the following notes. First propose a slide architecture without outputting code.",
+          recommendedPrompt: "I want to build an interactive HTML presentation based on my notes.",
           journeyTitle: "Final Mission Submission",
           journeyFields: [
             { type: "radios", id: "builtType", label: "① I BUILT", req: "Select 1", options: ["HTML Presentation", "HTML Dashboard"] },
             { type: "input", id: "topicPurpose", label: "② MY TOPIC / PURPOSE", req: "Required", placeholder: "e.g., Q3 Business Review Deck" },
-            { type: "input", id: "finalResult", label: "③ MY FINAL RESULT (Paste Link)", req: "Required", placeholder: "Paste URL..." },
-            { type: "checkboxes", id: "testCheck", label: "④ TEST CHECK", req: "Select 2", options: ["I tested the functionality", "I completed at least 1 refinement"] },
+            { type: "input", id: "finalResult", label: "③ MY FINAL RESULT", req: "Required", placeholder: "Paste URL..." },
+            { type: "checkboxes", id: "testCheck", label: "④ TEST CHECK", req: "Select 2", options: ["I tested functionality", "I completed 1 refinement"] },
             commonRatingFieldEn
           ]
         }
@@ -1805,128 +1491,89 @@ ${phraseVals}
         const savedVal = currentDayStore[field.id];
         const isOptional = field.req && field.req.includes('Optional');
 
-        if (field.type === 'day1_prompt_display') {
-          const d1Prompt = getDay1PromptText();
+        if (field.type === 'd6_dual_mode_wrapper') {
+          // 🔀 Day 06 雙軌切換區塊
           inputControl = `
-            <div style="background:#F1F5F9; border:1px solid var(--line-color); border-radius:8px; padding:10px 12px; font-size:12px; color:var(--bosch-dark); font-weight:600;">
-              ${d1Prompt}
+            <div class="mode-tab-container">
+              <button type="button" class="mode-tab-btn ${d6Mode === 'auto' ? 'active' : ''}" id="btnD6Auto" onclick="switchD6Mode('auto')">⚡ 新手模式：快速組裝 PROMPT</button>
+              <button type="button" class="mode-tab-btn ${d6Mode === 'custom' ? 'active' : ''}" id="btnD6Custom" onclick="switchD6Mode('custom')">✍️ 進階挑戰：親自撰寫 PROMPT</button>
+            </div>
+
+            <!-- Mode A: 自動組裝 -->
+            <div id="d6AutoBlock" style="display: ${d6Mode === 'auto' ? 'block' : 'none'};">
+              <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">選擇工作圖文主題 (圖文懶人包 / SOP)</label>
+                <div class="radio-pills" style="flex-direction:column; gap:6px;">
+                  <div class="radio-pill-item"><input type="radio" id="d6Topic_0" name="d6Topic" value="📂 1. 新進人員公用槽導覽與資料夾目錄結構" checked onchange="updateDay6GeneratedPrompt()"><label for="d6Topic_0" class="radio-pill-label" style="width:100%; text-align:left;">📂 1. 新進人員公用槽導覽 (目錄結構與權限說明)</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d6Topic_1" name="d6Topic" value="📝 2. 合約檢查要點指南與審查 Checklist" onchange="updateDay6GeneratedPrompt()"><label for="d6Topic_1" class="radio-pill-label" style="width:100%; text-align:left;">📝 2. 合約檢查要點指南 ( Check-list 與注意事項圖表)</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d6Topic_2" name="d6Topic" value="✍️ 3. 簽呈使用範例與撰寫規範說明" onchange="updateDay6GeneratedPrompt()"><label for="d6Topic_2" class="radio-pill-label" style="width:100%; text-align:left;">✍️ 3. 簽呈使用範例說明 (撰寫架構與範本參照表)</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d6Topic_3" name="d6Topic" value="🌴 4. 請假流程與系統簽核步驟圖解" onchange="updateDay6GeneratedPrompt()"><label for="d6Topic_3" class="radio-pill-label" style="width:100%; text-align:left;">🌴 4. 請假流程與規則圖解 (簽核階層與系統步驟)</label></div>
+                </div>
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">希望的圖文呈現格式 (可複選)</label>
+                <div class="checkbox-pills">
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d6Output_0" name="d6Output" value="結構化 SOP 指南表格" checked onchange="updateDay6GeneratedPrompt()"><label for="d6Output_0" class="checkbox-pill-label">SOP 指南表格</label></div>
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d6Output_1" name="d6Output" value="重點注意事項提示卡 (Tips Box)" checked onchange="updateDay6GeneratedPrompt()"><label for="d6Output_1" class="checkbox-pill-label">重點提示卡 (Tips)</label></div>
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d6Output_2" name="d6Output" value="Mermaid 流程圖程式碼" onchange="updateDay6GeneratedPrompt()"><label for="d6Output_2" class="checkbox-pill-label">Mermaid 流程圖</label></div>
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d6Output_3" name="d6Output" value="常見問題 FAQ 對答" onchange="updateDay6GeneratedPrompt()"><label for="d6Output_3" class="checkbox-pill-label">常見問題 FAQ</label></div>
+                </div>
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">自訂補充細節 (選填)</label>
+                <input type="text" id="d6CustomRequirement" class="text-input-styled" placeholder="例如：特別強調權限申請步驟 / 列出前 3 大新手常犯錯誤..." oninput="updateDay6GeneratedPrompt()" />
+              </div>
+
+              <textarea id="d6GeneratedPromptBox" class="text-input-styled" style="min-height:120px;" readonly></textarea>
+              <button type="button" class="btn-primary-sm" id="btnCopyPromptD6Auto" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('d6GeneratedPromptBox').value, 'btnCopyPromptD6Auto')">📋 複製系統組裝 PROMPT 貼至 ChatGPT / Perplexity</button>
+            </div>
+
+            <!-- Mode B: 自主撰寫 -->
+            <div id="d6CustomBlock" style="display: ${d6Mode === 'custom' ? 'block' : 'none'};">
+              <div style="background:#FFF0E8; border:1px solid var(--bosch-orange); border-radius:10px; padding:10px 12px; font-size:11px; color:var(--bosch-dark-orange); font-weight:700; margin-bottom:10px;">
+                💡 <b>Prompt 撰寫萬用架構建議：</b><br/>
+                ・<b>[角色]</b> 你是 BSH 行政與 HR 工作流程專家...<br/>
+                ・<b>[任務]</b> 請幫我整理「公用槽導覽 / 合約檢查 / 簽呈範例 / 請假流程」...<br/>
+                ・<b>[要求]</b> 條列 3 個重點、標示注意事項與 FAQ...<br/>
+                ・<b>[格式]</b> 用表格與清晰的標題呈現圖文懶人包架構。
+              </div>
+
+              <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">✍️ 請在下方輸入你自己思考並撰寫的完整 Prompt：</label>
+              <textarea id="d6CustomPromptInput" class="text-input-styled" style="min-height:130px;" placeholder="試著套用上面提示，寫出屬於你的 AI 提示詞..." oninput="validateCurrentForm()">${savedVal || ''}</textarea>
+              <button type="button" class="btn-primary-sm" id="btnCopyPromptD6Custom" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('d6CustomPromptInput').value, 'btnCopyPromptD6Custom')">📋 複製我親自寫的 PROMPT 貼至 AI</button>
             </div>
           `;
+        } else if (field.type === 'day1_prompt_display') {
+          inputControl = `<div style="background:#F1F5F9; border:1px solid var(--line-color); border-radius:8px; padding:10px 12px; font-size:12px; color:var(--bosch-dark); font-weight:600;">${getDay1PromptText()}</div>`;
         } else if (field.type === 'day3_style_display') {
-          const d3Summary = getDay3StyleSummary();
-          inputControl = `
-            <div style="background:#FFF0E8; border:1px solid var(--bosch-orange); border-radius:8px; padding:10px 12px; font-size:12px; color:var(--bosch-dark-orange); font-weight:700;">
-              ✨ ${d3Summary}
-            </div>
-          `;
+          inputControl = `<div style="background:#FFF0E8; border:1px solid var(--bosch-orange); border-radius:8px; padding:10px 12px; font-size:12px; color:var(--bosch-dark-orange); font-weight:700;">✨ ${getDay3StyleSummary()}</div>`;
         } else if (field.type === 'day4_char_display') {
-          const d4Summary = getDay4CharacterSummary();
-          inputControl = `
-            <div style="background:#FFF0E8; border:1px solid var(--bosch-orange); border-radius:8px; padding:10px 12px; font-size:12px; color:var(--bosch-dark-orange); font-weight:700;">
-              🤖 ${d4Summary}
-            </div>
-          `;
+          inputControl = `<div style="background:#FFF0E8; border:1px solid var(--bosch-orange); border-radius:8px; padding:10px 12px; font-size:12px; color:var(--bosch-dark-orange); font-weight:700;">🤖 ${getDay4CharacterSummary()}</div>`;
         } else if (field.type === 'radios_d3') {
-          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => {
-            const checked = (savedVal === opt || i === 0) ? 'checked' : '';
-            return `
-              <div class="radio-pill-item">
-                <input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${checked} onchange="updateDay3GeneratedPrompt()" />
-                <label for="${field.id}_${i}" class="radio-pill-label">${opt}</label>
-              </div>`;
-          }).join('') + `</div>`;
+          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => `<div class="radio-pill-item"><input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${(savedVal === opt || i === 0) ? 'checked' : ''} onchange="updateDay3GeneratedPrompt()"><label for="${field.id}_${i}" class="radio-pill-label">${opt}</label></div>`).join('') + `</div>`;
         } else if (field.type === 'checkboxes_persona_d3') {
-          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => {
-            const checked = (savedVal && savedVal.includes(opt)) || i === 0 ? 'checked' : '';
-            return `
-              <div class="checkbox-pill-item">
-                <input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${checked} onchange="handleDay3PersonaCheck(this)" />
-                <label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label>
-              </div>`;
-          }).join('') + `</div>`;
+          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => `<div class="checkbox-pill-item"><input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${((savedVal && savedVal.includes(opt)) || i === 0) ? 'checked' : ''} onchange="handleDay3PersonaCheck(this)"><label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label></div>`).join('') + `</div>`;
         } else if (field.type === 'checkboxes_d3') {
-          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => {
-            const checked = (savedVal && savedVal.includes(opt)) || i === 1 ? 'checked' : '';
-            return `
-              <div class="checkbox-pill-item">
-                <input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${checked} onchange="updateDay3GeneratedPrompt()" />
-                <label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label>
-              </div>`;
-          }).join('') + `</div>`;
+          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => `<div class="checkbox-pill-item"><input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${((savedVal && savedVal.includes(opt)) || i === 1) ? 'checked' : ''} onchange="updateDay3GeneratedPrompt()"><label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label></div>`).join('') + `</div>`;
         } else if (field.type === 'prompt_builder') {
-          inputControl = `
-            <textarea id="generatedPromptBox" class="text-input-styled" style="min-height:180px;" readonly></textarea>
-            <button type="button" class="btn-primary-sm" id="btnCopyPrompt" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('generatedPromptBox').value, 'btnCopyPrompt')">📋 複製 STYLE BOARD PROMPT 貼至 ChatGPT / Gemini</button>
-          `;
+          inputControl = `<textarea id="generatedPromptBox" class="text-input-styled" style="min-height:140px;" readonly></textarea><button type="button" class="btn-primary-sm" id="btnCopyPrompt" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('generatedPromptBox').value, 'btnCopyPrompt')">📋 複製 STYLE BOARD PROMPT</button>`;
         } else if (field.type === 'radios_d4_base') {
           const savedAnimalName = currentDayStore.d4CustomAnimalInput || '';
-          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => {
-            const checked = (savedVal === opt || i === 0) ? 'checked' : '';
-            return `
-              <div class="radio-pill-item">
-                <input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${checked} onchange="handleDay4BaseChange()" />
-                <label for="${field.id}_${i}" class="radio-pill-label">${opt}</label>
-              </div>`;
-          }).join('') + `</div>
-          <div id="d4AnimalInputContainer" style="margin-top:10px; display:${savedVal === field.options[1] ? 'block' : 'none'};">
-            <label style="font-size:11px; font-weight:800; color:var(--bosch-orange); display:block; margin-bottom:4px;">🐾 ${currentLang === 'zh' ? '請輸入您喜歡的萌寵動物名稱' : 'Enter your favorite animal name'}</label>
-            <input type="text" id="d4CustomAnimalInput" class="text-input-styled" placeholder="${currentLang === 'zh' ? '例如：水豚、柴犬、貓咪、水獺...' : 'e.g., Capybara, Shiba Inu, Otter...'}" value="${savedAnimalName}" oninput="updateDay4GeneratedPrompt()" />
-          </div>`;
-        } else if (field.type === 'radios_d4') {
-          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => {
-            const checked = (savedVal === opt || i === 0) ? 'checked' : '';
-            return `
-              <div class="radio-pill-item">
-                <input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${checked} onchange="updateDay4GeneratedPrompt()" />
-                <label for="${field.id}_${i}" class="radio-pill-label">${opt}</label>
-              </div>`;
-          }).join('') + `</div>`;
+          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => `<div class="radio-pill-item"><input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${(savedVal === opt || i === 0) ? 'checked' : ''} onchange="handleDay4BaseChange()"><label for="${field.id}_${i}" class="radio-pill-label">${opt}</label></div>`).join('') + `</div><div id="d4AnimalInputContainer" style="margin-top:10px; display:${savedVal === field.options[1] ? 'block' : 'none'};"><input type="text" id="d4CustomAnimalInput" class="text-input-styled" placeholder="例如：水豚、柴犬..." value="${savedAnimalName}" oninput="updateDay4GeneratedPrompt()" /></div>`;
         } else if (field.type === 'checkboxes_d4_acc') {
-          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => {
-            const checked = (savedVal && savedVal.includes(opt)) || i === 0 ? 'checked' : '';
-            return `
-              <div class="checkbox-pill-item">
-                <input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${checked} onchange="handleDay4AccessoryCheck(this)" />
-                <label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label>
-              </div>`;
-          }).join('') + `</div>`;
+          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => `<div class="checkbox-pill-item"><input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${((savedVal && savedVal.includes(opt)) || i === 0) ? 'checked' : ''} onchange="handleDay4AccessoryCheck(this)"><label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label></div>`).join('') + `</div>`;
         } else if (field.type === 'prompt_builder_d4') {
-          inputControl = `
-            <textarea id="d4GeneratedPromptBox" class="text-input-styled" style="min-height:120px;" readonly></textarea>
-            <button type="button" class="btn-primary-sm" id="btnCopyPromptD4" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('d4GeneratedPromptBox').value, 'btnCopyPromptD4')">📋 複製 3D 公仔 PROMPT 貼至 ChatGPT / Midjourney</button>
-          `;
+          inputControl = `<textarea id="d4GeneratedPromptBox" class="text-input-styled" style="min-height:110px;" readonly></textarea><button type="button" class="btn-primary-sm" id="btnCopyPromptD4" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('d4GeneratedPromptBox').value, 'btnCopyPromptD4')">📋 複製 3D 公仔 PROMPT</button>`;
         } else if (field.type === 'radios_d5_count') {
-          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => {
-            const checked = (savedVal === opt || i === 1) ? 'checked' : '';
-            return `
-              <div class="radio-pill-item">
-                <input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${checked} onchange="updateDay5GeneratedPrompt()" />
-                <label for="${field.id}_${i}" class="radio-pill-label">${opt}</label>
-              </div>`;
-          }).join('') + `</div>`;
+          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => `<div class="radio-pill-item"><input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${(savedVal === opt || i === 1) ? 'checked' : ''} onchange="updateDay5GeneratedPrompt()"><label for="${field.id}_${i}" class="radio-pill-label">${opt}</label></div>`).join('') + `</div>`;
         } else if (field.type === 'radios_d5_style') {
-          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => {
-            const checked = (savedVal === opt || i === 0) ? 'checked' : '';
-            return `
-              <div class="radio-pill-item">
-                <input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${checked} onchange="updateDay5GeneratedPrompt()" />
-                <label for="${field.id}_${i}" class="radio-pill-label">${opt}</label>
-              </div>`;
-          }).join('') + `</div>`;
+          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => `<div class="radio-pill-item"><input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${(savedVal === opt || i === 0) ? 'checked' : ''} onchange="updateDay5GeneratedPrompt()"><label for="${field.id}_${i}" class="radio-pill-label">${opt}</label></div>`).join('') + `</div>`;
         } else if (field.type === 'checkboxes_d5_phrases') {
-          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => {
-            const checked = (savedVal && savedVal.includes(opt)) || i < 4 ? 'checked' : '';
-            return `
-              <div class="checkbox-pill-item">
-                <input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${checked} onchange="updateDay5GeneratedPrompt()" />
-                <label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label>
-              </div>`;
-          }).join('') + `</div>`;
+          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => `<div class="checkbox-pill-item"><input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${((savedVal && savedVal.includes(opt)) || i < 4) ? 'checked' : ''} onchange="updateDay5GeneratedPrompt()"><label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label></div>`).join('') + `</div>`;
         } else if (field.type === 'prompt_builder_d5') {
-          inputControl = `
-            <textarea id="d5GeneratedPromptBox" class="text-input-styled" style="min-height:140px;" readonly></textarea>
-            <button type="button" class="btn-primary-sm" id="btnCopyPromptD5" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('d5GeneratedPromptBox').value, 'btnCopyPromptD5')">📋 複製貼圖生成 PROMPT 貼至 ChatGPT / Midjourney</button>
-          `;
+          inputControl = `<textarea id="d5GeneratedPromptBox" class="text-input-styled" style="min-height:110px;" readonly></textarea><button type="button" class="btn-primary-sm" id="btnCopyPromptD5" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('d5GeneratedPromptBox').value, 'btnCopyPromptD5')">📋 複製貼圖生成 PROMPT</button>`;
         } else if (field.type === 'star_rating') {
           const currentStar = savedVal || 0;
           let starsHTML = '';
@@ -1934,31 +1581,11 @@ ${phraseVals}
             const isActive = i <= currentStar;
             starsHTML += `<span class="star-item ${isActive ? 'active' : ''}" onclick="selectStarRating(${i})">${isActive ? '★' : '☆'}</span>`;
           }
-          inputControl = `
-            <div class="star-rating-box">
-              <input type="hidden" id="rating_value" value="${currentStar}" />
-              ${starsHTML}
-              <span class="star-rating-hint" id="starHintText">${currentStar ? `${currentStar} 星` : ''}</span>
-            </div>
-          `;
+          inputControl = `<div class="star-rating-box"><input type="hidden" id="rating_value" value="${currentStar}" />${starsHTML}<span class="star-rating-hint" id="starHintText">${currentStar ? `${currentStar} 星` : ''}</span></div>`;
         } else if (field.type === 'checkboxes') {
-          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => {
-            const checked = savedVal && savedVal.includes(opt) ? 'checked' : '';
-            return `
-              <div class="checkbox-pill-item">
-                <input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${checked} onchange="validateCurrentForm()" />
-                <label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label>
-              </div>`;
-          }).join('') + `</div>`;
+          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => `<div class="checkbox-pill-item"><input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${(savedVal && savedVal.includes(opt)) ? 'checked' : ''} onchange="validateCurrentForm()"><label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label></div>`).join('') + `</div>`;
         } else if (field.type === 'radios') {
-          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => {
-            const checked = savedVal === opt ? 'checked' : '';
-            return `
-              <div class="radio-pill-item">
-                <input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${checked} onchange="validateCurrentForm()" />
-                <label for="${field.id}_${i}" class="radio-pill-label">${opt}</label>
-              </div>`;
-          }).join('') + `</div>`;
+          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => `<div class="radio-pill-item"><input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${(savedVal === opt) ? 'checked' : ''} onchange="validateCurrentForm()"><label for="${field.id}_${i}" class="radio-pill-label">${opt}</label></div>`).join('') + `</div>`;
         } else if (field.type === 'textarea') {
           const val = savedVal !== undefined ? savedVal : (field.default || '');
           inputControl = `<textarea id="${field.id}" class="text-input-styled" placeholder="${field.placeholder || ''}" oninput="validateCurrentForm()">${val}</textarea>`;
@@ -2018,6 +1645,7 @@ ${phraseVals}
       if (currentDay === 3) updateDay3GeneratedPrompt();
       if (currentDay === 4) handleDay4BaseChange();
       if (currentDay === 5) updateDay5GeneratedPrompt();
+      if (currentDay === 6) updateDay6GeneratedPrompt();
       if (!isLockedDay) validateCurrentForm();
     }
 
@@ -2050,9 +1678,16 @@ ${phraseVals}
       let errorMsg = "";
 
       for (let field of fields) {
-        if (field.type === 'star_rating' || field.type === 'day1_prompt_display' || field.type === 'day3_style_display' || field.type === 'day4_char_display' || field.type === 'prompt_builder' || field.type === 'prompt_builder_d4' || field.type === 'prompt_builder_d5' || field.type === 'radios_d3' || field.type === 'checkboxes_d3' || field.type === 'checkboxes_persona_d3' || field.type === 'radios_d4' || field.type === 'radios_d4_base' || field.type === 'checkboxes_d4_acc' || field.type === 'radios_d5_count' || field.type === 'radios_d5_style' || field.type === 'checkboxes_d5_phrases') continue;
+        if (field.type === 'star_rating' || field.type === 'day1_prompt_display' || field.type === 'day3_style_display' || field.type === 'day4_char_display' || field.type === 'prompt_builder' || field.type === 'prompt_builder_d4' || field.type === 'prompt_builder_d5' || field.type === 'radios_d3' || field.type === 'checkboxes_d3' || field.type === 'checkboxes_persona_d3' || field.type === 'radios_d4_base' || field.type === 'checkboxes_d4_acc' || field.type === 'radios_d5_count' || field.type === 'radios_d5_style' || field.type === 'checkboxes_d5_phrases') continue;
 
-        if (field.type === 'checkboxes') {
+        if (field.type === 'd6_dual_mode_wrapper') {
+          if (d6Mode === 'custom') {
+            const customVal = document.getElementById("d6CustomPromptInput")?.value.trim();
+            if (!customVal) {
+              isValid = false; errorMsg = currentLang === "zh" ? "💡 請輸入您親自撰寫的 Prompt。" : "💡 Please write your prompt."; break;
+            }
+          }
+        } else if (field.type === 'checkboxes') {
           const checked = document.querySelectorAll(`input[name="${field.id}"]:checked`).length;
           if (checked < 1) {
             isValid = false; errorMsg = currentLang === "zh" ? "💡 請至少勾選 1 項。" : "💡 Please check at least 1 option."; break;
@@ -2083,7 +1718,6 @@ ${phraseVals}
       return isValid;
     }
 
-    // 🚀 向 Google Apps Script 後端傳送打卡資料
     async function syncToGoogleSheet(payload) {
       try {
         const formData = new URLSearchParams();
@@ -2095,9 +1729,7 @@ ${phraseVals}
 
         await fetch(GAS_URL, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: formData.toString()
         });
         console.log("Data successfully submitted to Google Sheet");
@@ -2106,7 +1738,6 @@ ${phraseVals}
       }
     }
 
-    // 📥 向 Google Apps Script 獲取即時英雄榜
     async function fetchLeaderboardFromSheet() {
       try {
         const response = await fetch(GAS_URL);
@@ -2124,7 +1755,7 @@ ${phraseVals}
       const todayStr = getTodayString();
 
       if (ENABLE_DATE_LIMIT && lastCheckInDate === todayStr && !(userProgressData[currentDay] && userProgressData[currentDay].completed)) {
-        alert(currentLang === "zh" ? "今日您已經完成過打卡！一天僅限打卡一次，每天 00:00 刷新。" : "You have already checked in today! Limited to once per day, resets at 00:00.");
+        alert(currentLang === "zh" ? "今日您已經完成過打卡！一天僅限打卡一次，每天 00:00 刷新。" : "You have already checked in today! Limited to once per day.");
         return;
       }
 
@@ -2140,7 +1771,17 @@ ${phraseVals}
       const formData = {};
 
       fields.forEach(field => {
-        if (field.type === 'day1_prompt_display') {
+        if (field.type === 'd6_dual_mode_wrapper') {
+          formData.d6Mode = d6Mode;
+          if (d6Mode === 'auto') {
+            formData.d6Topic = document.querySelector('input[name="d6Topic"]:checked')?.value;
+            formData.d6Output = Array.from(document.querySelectorAll('input[name="d6Output"]:checked')).map(c => c.value);
+            formData.d6CustomRequirement = document.getElementById("d6CustomRequirement")?.value || '';
+            formData.finalPromptUsed = document.getElementById("d6GeneratedPromptBox")?.value;
+          } else {
+            formData.finalPromptUsed = document.getElementById("d6CustomPromptInput")?.value;
+          }
+        } else if (field.type === 'day1_prompt_display') {
           formData[field.id] = getDay1PromptText();
         } else if (field.type === 'day3_style_display') {
           formData[field.id] = getDay3StyleSummary();
@@ -2160,7 +1801,7 @@ ${phraseVals}
           formData[field.id] = val && val !== '0' ? `${val} 星` : '未評分';
         } else if (field.type === 'checkboxes' || field.type === 'checkboxes_d3' || field.type === 'checkboxes_persona_d3' || field.type === 'checkboxes_d4_acc' || field.type === 'checkboxes_d5_phrases') {
           formData[field.id] = Array.from(document.querySelectorAll(`input[name="${field.id}"]:checked`)).map(c => c.value);
-        } else if (field.type === 'radios' || field.type === 'radios_d3' || field.type === 'radios_d4' || field.type === 'radios_d5_count' || field.type === 'radios_d5_style') {
+        } else if (field.type === 'radios' || field.type === 'radios_d3' || field.type === 'radios_d5_count' || field.type === 'radios_d5_style') {
           formData[field.id] = document.querySelector(`input[name="${field.id}"]:checked`)?.value;
         } else {
           const elem = document.getElementById(field.id);
@@ -2185,7 +1826,6 @@ ${phraseVals}
 
       const currentCompletedDays = Object.keys(userProgressData).filter(k => userProgressData[k].completed).length;
 
-      // 精準傳送打卡資料至 Google Sheet
       syncToGoogleSheet({
         empId: currentUser.empId,
         name: currentUser.name,
@@ -2351,7 +1991,6 @@ ${phraseVals}
       updateUserStateUI();
     }
 
-    // App Initialization
     initDaySelector();
     renderDayContent();
     renderLeaderboard();
