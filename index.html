@@ -21,7 +21,6 @@
       --silver: #A0AEC0;
       --bronze: #DD6B20;
 
-      /* AI Tools Accent Colors */
       --chatgpt-bg: #F0FDF4; --chatgpt-border: #BBF7D0; --chatgpt-accent: #16A34A;
       --gemini-bg: #F0F9FF; --gemini-border: #BAE6FD; --gemini-accent: #0284C7;
       --copilot-bg: #F5F3FF; --copilot-border: #DDD6FE; --copilot-accent: #7C3AED;
@@ -167,26 +166,14 @@
       z-index: 2;
     }
 
-    .marquee-scroll-area {
-      flex: 1;
-      overflow: hidden;
-      white-space: nowrap;
-    }
+    .marquee-scroll-area { flex: 1; overflow: hidden; white-space: nowrap; }
 
     .marquee-content {
-      display: inline-block;
-      white-space: nowrap;
+      display: inline-block; white-space: nowrap;
       animation: marquee 35s linear infinite;
     }
 
-    .marquee-content span {
-      margin-right: 50px;
-      font-size: 0.95em;
-    }
-
-    .marquee-container:hover .marquee-content {
-      animation-play-state: paused;
-    }
+    .marquee-content span { margin-right: 50px; font-size: 0.95em; }
 
     @keyframes marquee {
       0% { transform: translateX(100%); }
@@ -209,7 +196,6 @@
     .day-btn:hover { border-color: var(--bosch-orange); color: var(--bosch-orange); }
     .day-btn.active { background: var(--bosch-dark); border-color: var(--bosch-dark); color: #ffffff; }
     .day-btn.completed-check::after { content: "✓"; color: #22C55E; font-weight: 900; margin-left: 2px; }
-    .day-btn.locked { background: #F1F5F9; color: #94A3B8; border-color: #E2E8F0; opacity: 0.8; }
 
     .passport-card {
       background: var(--gray-card); border-radius: var(--radius);
@@ -222,17 +208,6 @@
     .ticket-side { padding: 36px 32px 36px 36px; border-right: 1px dashed var(--line-color); background: #FFFFFF; }
     .journey-side { padding: 36px 36px 36px 32px; background: #FAFBFD; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
 
-    .locked-overlay {
-      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(6px);
-      z-index: 50; display: flex; flex-direction: column;
-      justify-content: center; align-items: center; text-align: center;
-      padding: 20px;
-    }
-    .locked-icon { font-size: 48px; margin-bottom: 12px; }
-    .locked-title { font-size: 20px; font-weight: 900; color: var(--bosch-dark); }
-    .locked-sub { font-size: 13px; color: var(--muted-text); margin-top: 6px; }
-
     .kicker { color: var(--current-accent, var(--bosch-orange)); font-size: 12px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; display: block; }
     h1.task-title { font-size: 26px; line-height: 1.25; margin-bottom: 8px; color: var(--bosch-dark); font-weight: 900; }
 
@@ -242,7 +217,6 @@
       padding: 10px 14px; border-radius: 0 10px 10px 0; margin-bottom: 20px;
     }
     .goal-banner p { font-size: 13px; color: var(--bosch-dark); font-weight: 600; }
-    .goal-banner span { display: block; font-size: 11px; color: var(--bosch-dark-orange); font-weight: 800; letter-spacing: 0.5px; margin-top: 2px; }
 
     .ai-cards-grid { display: grid; gap: 12px; margin-bottom: 22px; }
     .ai-tool-card { border-radius: 12px; padding: 14px 16px; border: 1px solid var(--line-color); transition: all 0.25s ease; cursor: pointer; }
@@ -253,18 +227,6 @@
     .ai-card-header { display: flex; justify-content: space-between; align-items: center; }
     .ai-card-title { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 15px; }
     .ai-card-tag { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
-    .chatgpt .ai-card-tag { color: var(--chatgpt-accent); }
-    .gemini .ai-card-tag { color: var(--gemini-accent); }
-    .copilot .ai-card-tag { color: var(--copilot-accent); }
-
-    .try-when-box { font-size: 12px; margin-top: 6px; font-weight: 600; color: var(--bosch-dark); display: flex; align-items: baseline; gap: 6px; }
-    .try-when-box label { font-size: 10px; font-weight: 900; padding: 1px 5px; border-radius: 4px; background: rgba(0,0,0,0.05); color: var(--muted-text); text-transform: uppercase; }
-
-    .ai-details-list { margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(0,0,0,0.08); display: none; font-size: 12px; color: var(--bosch-dark); }
-    .ai-details-list ul { padding-left: 18px; margin: 0; }
-    .ai-details-list li { margin-bottom: 3px; }
-    .ai-tool-card.open .ai-details-list { display: block; }
-    .expand-hint { font-size: 11px; color: var(--muted-text); font-weight: 700; display: flex; align-items: center; gap: 3px; }
 
     .how-it-works-section { background: #F8FAFC; border-radius: 14px; padding: 14px 16px; border: 1px solid var(--line-color); margin-top: 15px; }
     .how-title { font-size: 12px; font-weight: 900; color: var(--muted-text); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
@@ -272,13 +234,9 @@
     .step-item-mini { display: flex; align-items: flex-start; gap: 10px; font-size: 12px; }
     .step-num-badge { background: var(--bosch-dark); color: #fff; font-size: 10px; font-weight: 900; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
 
-    .journey-header { margin-bottom: 18px; }
-    .journey-header h2 { font-size: 20px; font-weight: 900; color: var(--bosch-dark); }
-
-    .form-section-block { background: #FFFFFF; border: 1px solid var(--line-color); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
+    .form-section-block { background: #FFFFFF; border: 1px solid var(--line-color); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; }
     .form-section-title { font-size: 13px; font-weight: 800; color: var(--bosch-dark); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
     .form-section-title span.req-badge { font-size: 10px; color: var(--bosch-orange); font-weight: 700; background: var(--light-orange); padding: 1px 6px; border-radius: 4px; }
-    .form-section-title span.opt-badge { font-size: 10px; color: #64748B; font-weight: 700; background: #F1F5F9; padding: 1px 6px; border-radius: 4px; }
 
     .checkbox-pills, .radio-pills { display: flex; gap: 8px; flex-wrap: wrap; }
     .checkbox-pill-item, .radio-pill-item { position: relative; }
@@ -294,89 +252,22 @@
       background: var(--bosch-dark); color: #FFFFFF; border-color: var(--bosch-dark);
     }
 
-    .radio-pill-item input:checked + .radio-pill-label.correct-choice {
-      background: #16A34A !important; color: #FFFFFF !important; border-color: #16A34A !important;
-    }
-    .radio-pill-item input:checked + .radio-pill-label.correct-choice::after {
-      content: " ✓"; font-weight: 900; margin-left: 4px;
-    }
-    .radio-pill-item input:checked + .radio-pill-label.wrong-choice {
-      background: #DC2626 !important; color: #FFFFFF !important; border-color: #DC2626 !important;
-    }
-    .radio-pill-item input:checked + .radio-pill-label.wrong-choice::after {
-      content: " ✕"; font-weight: 900; margin-left: 4px;
-    }
-
-    .mode-tab-container {
-      display: flex;
-      background: #E2E8F0;
-      border-radius: 12px;
-      padding: 4px;
-      margin-bottom: 14px;
-    }
-    .mode-tab-btn {
-      flex: 1;
-      padding: 8px 12px;
-      border: none;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 800;
-      cursor: pointer;
-      background: transparent;
-      color: var(--muted-text);
-      transition: all 0.2s ease;
-      text-align: center;
-    }
-    .mode-tab-btn.active {
-      background: #FFFFFF;
-      color: var(--bosch-dark);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    }
-
-    .star-rating-box {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      direction: ltr;
-      padding: 4px 0;
-    }
-
-    .star-rating-box .star-item {
-      font-size: 28px;
-      color: #CBD5E1;
-      cursor: pointer;
-      transition: color 0.15s ease, transform 0.15s ease;
-      user-select: none;
-    }
-
-    .star-rating-box .star-item:hover,
-    .star-rating-box .star-item.active {
-      color: #F59E0B;
-    }
-
-    .star-rating-box .star-item:hover {
-      transform: scale(1.2);
-    }
-
-    .star-rating-hint {
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--bosch-orange);
-      margin-left: 10px;
-    }
+    .radio-pill-item input:checked + .radio-pill-label.correct-choice { background: #16A34A !important; color: #FFFFFF !important; border-color: #16A34A !important; }
+    .radio-pill-item input:checked + .radio-pill-label.correct-choice::after { content: " ✓"; font-weight: 900; margin-left: 4px; }
+    .radio-pill-item input:checked + .radio-pill-label.wrong-choice { background: #DC2626 !important; color: #FFFFFF !important; border-color: #DC2626 !important; }
+    .radio-pill-item input:checked + .radio-pill-label.wrong-choice::after { content: " ✕"; font-weight: 900; margin-left: 4px; }
 
     .text-input-styled { width: 100%; padding: 10px 12px; border: 1px solid var(--line-color); border-radius: 8px; font-size: 12px; background: #FAFBFD; font-family: inherit; transition: all 0.2s; }
-    .text-input-styled:focus { outline: none; border-color: var(--bosch-orange); background: #FFFFFF; box-shadow: 0 0 0 2px rgba(242, 106, 61, 0.15); }
+    .text-input-styled:focus { outline: none; border-color: var(--bosch-orange); background: #FFFFFF; }
     textarea.text-input-styled { resize: vertical; min-height: 54px; }
 
     .submit-stamp-btn {
       background: #CBD5E1; color: #64748B; border: none; padding: 14px 20px;
       border-radius: 999px; font-size: 14px; font-weight: 900; cursor: not-allowed;
-      width: 100%; transition: all 0.3s ease; display: flex; align-items: center;
-      justify-content: center; gap: 8px; margin-top: 8px;
+      width: 100%; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;
     }
     .submit-stamp-btn.active { background: var(--bosch-orange); color: #ffffff; cursor: pointer; box-shadow: 0 8px 20px rgba(242, 106, 61, 0.28); }
-    .submit-stamp-btn.active:hover { background: var(--bosch-dark-orange); transform: translateY(-1px); }
+    .submit-stamp-btn.active:hover { background: var(--bosch-dark-orange); }
 
     .validation-hint { font-size: 11px; color: var(--muted-text); text-align: center; margin-top: 6px; font-weight: 600; min-height: 16px; }
     .validation-hint.ready { color: #16A34A; font-weight: 800; }
@@ -384,76 +275,29 @@
 
     .digital-stamp-container {
       display: none; position: absolute; right: 28px; bottom: 28px;
-      width: 135px; height: 135px; border: 3.5px dashed var(--current-accent, var(--bosch-orange));
-      border-radius: 50%; color: var(--current-accent, var(--bosch-orange));
+      width: 135px; height: 135px; border: 3.5px dashed var(--bosch-orange);
+      border-radius: 50%; color: var(--bosch-orange);
       background: rgba(255, 240, 232, 0.95); backdrop-filter: blur(4px);
       flex-direction: column; justify-content: center; align-items: center;
-      font-weight: 900; text-align: center; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-      pointer-events: none; z-index: 10;
+      font-weight: 900; text-align: center; pointer-events: none; z-index: 10;
     }
-    .digital-stamp-container.stamped-anim {
-      display: flex; animation: realStampImpact 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    }
-
-    .stamp-brand-text { font-size: 12px; letter-spacing: 1.5px; }
-    .stamp-day-text { font-size: 16px; margin: 1px 0; font-weight: 950; }
-    .stamp-icon-text { font-size: 18px; line-height: 1; margin: 1px 0; }
-    .stamp-status-text { font-size: 10px; letter-spacing: 2px; color: var(--bosch-dark-orange); }
+    .digital-stamp-container.stamped-anim { display: flex; animation: realStampImpact 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 
     @keyframes realStampImpact {
       0% { transform: scale(2.8) rotate(-35deg); opacity: 0; }
       100% { transform: scale(1) rotate(-14deg); opacity: 1; }
     }
 
-    .leaderboard-section {
-      background: #FFFFFF;
-      border-radius: var(--radius);
-      padding: 24px;
-      border: 1px solid var(--line-color);
-      box-shadow: var(--shadow);
-    }
-
+    .leaderboard-section { background: #FFFFFF; border-radius: var(--radius); padding: 24px; border: 1px solid var(--line-color); box-shadow: var(--shadow); }
     .top-three { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
-    .podium-card { background: #FFF; border-radius: 16px; padding: 15px; text-align: center; flex: 1; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid var(--line-color); }
+    .podium-card { background: #FFF; border-radius: 16px; padding: 15px; text-align: center; flex: 1; border: 1px solid var(--line-color); }
     .podium-card.rank-1 { border-top: 5px solid var(--gold); }
     .podium-card.rank-2 { border-top: 5px solid var(--silver); }
     .podium-card.rank-3 { border-top: 5px solid var(--bronze); }
 
-    .leader-row { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line-color); }
-    .rank-num { width: 40px; font-weight: 800; text-align: center; color: var(--bosch-orange); }
-    .name-section { width: 160px; font-weight: 600; color: var(--bosch-dark); }
-    .progress-section { flex: 1; padding: 0 15px; }
-    .progress-bar-bg { background: var(--line-color); height: 12px; border-radius: 6px; overflow: hidden; }
-    .progress-bar-fill { background: linear-gradient(90deg, var(--bosch-orange), #F6AD55); height: 100%; width: 0%; transition: width 0.5s; }
-    .score-badge-box { width: 130px; text-align: right; font-weight: bold; color: var(--bosch-orange); }
-
-    .grad-banner {
-      display: none; background: linear-gradient(135deg, var(--bosch-dark), #1E293B);
-      color: #FFFFFF; border-radius: var(--radius); padding: 28px; text-align: center;
-      margin-bottom: 24px; box-shadow: var(--shadow); border: 2px solid var(--gold);
-    }
-    .grad-banner.active { display: block; animation: fadeIn 0.8s ease; }
-    .grad-title { font-size: 24px; font-weight: 900; color: var(--gold); margin-bottom: 6px; }
-    .grad-sub { font-size: 14px; color: #CBD5E1; margin-bottom: 16px; }
-    .grad-badges { display: flex; justify-content: center; gap: 12px; font-size: 12px; font-weight: 800; }
-    .grad-badge-item { background: rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); }
-
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
-    .modal-card { background: #ffffff; border-radius: var(--radius); max-width: 420px; width: 100%; padding: 28px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; }
+    .modal-card { background: #ffffff; border-radius: var(--radius); max-width: 420px; width: 100%; padding: 28px; position: relative; }
     .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--muted-text); }
-
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-
-    @media (max-width: 1200px) {
-      .floating-leaderboard-btn { display: none; }
-    }
-
-    @media (max-width: 960px) {
-      .passport-card { grid-template-columns: 1fr; }
-      .ticket-side { border-right: none; border-bottom: 1px dashed var(--line-color); padding: 24px; }
-      .journey-side { padding: 24px; }
-      .digital-stamp-container { right: 20px; bottom: 20px; width: 110px; height: 110px; }
-    }
   </style>
 </head>
 <body>
@@ -486,16 +330,6 @@
         <div class="marquee-content" id="marqueeText">
           <span>🎉 10 Days AI Passport 正式啟動，完成打卡即可躍上英雄榜！</span>
         </div>
-      </div>
-    </div>
-
-    <div class="grad-banner" id="gradBanner">
-      <div class="grad-title">🎓 CONGRATULATIONS! AI PASSPORT COMPLETED</div>
-      <div class="grad-sub">You've completed all 10 missions of B/S/H/ AI Passport 2026!</div>
-      <div class="grad-badges">
-        <div class="grad-badge-item">10 DAYS</div>
-        <div class="grad-badge-item">10 MISSIONS</div>
-        <div class="grad-badge-item">10 STAMPS ✓</div>
       </div>
     </div>
 
@@ -534,476 +368,51 @@
 
   </div>
 
+  <!-- 登入 Modal (僅保留員工編號輸入，由 GAS 比對 employee list 自動帶出名字) -->
   <div class="modal-overlay" id="loginModal">
     <div class="modal-card">
       <button class="modal-close" onclick="closeLoginModal()">&times;</button>
       <div style="text-align:center; margin-bottom:18px;">
-        <div style="font-size:20px; font-weight:900;" id="modalTitle">BSH 同仁登入 / 建立帳號</div>
-        <div style="font-size:12px; color:var(--muted-text); margin-top:4px;" id="modalSub">建立個人 AI 護照，記錄 10 天學習旅程</div>
+        <div style="font-size:20px; font-weight:900;">BSH 同仁快速登入</div>
+        <div style="font-size:12px; color:var(--muted-text); margin-top:4px;">請輸入您的員工編號，系統將自動比對名字</div>
       </div>
 
       <form onsubmit="handleAccountSubmit(event)">
-        <div style="margin-bottom:12px;">
-          <label style="font-size:12px; font-weight:800; display:block; margin-bottom:4px;" id="lblEmpId">員工編號 (Employee ID)</label>
-          <input type="text" id="accEmpId" required placeholder="例如：5404 / E001 / T001" maxlength="4" class="text-input-styled" />
-        </div>
         <div style="margin-bottom:16px;">
-          <label style="font-size:12px; font-weight:800; display:block; margin-bottom:4px;" id="lblName">英文姓名 (English Name)</label>
-          <input type="text" id="accName" required placeholder="例如：Sunny Peng" class="text-input-styled" />
+          <label style="font-size:12px; font-weight:800; display:block; margin-bottom:4px;">員工編號 (Employee ID)</label>
+          <input type="text" id="accEmpId" required placeholder="例如：5404 / E001" maxlength="6" class="text-input-styled" />
         </div>
-        
-        <button type="submit" class="submit-stamp-btn active" id="btnModalSubmit">進入 AI Passport 🚀</button>
+        <div id="loginMsg" style="font-size:12px; color:red; margin-bottom:10px; text-align:center;"></div>
+        <button type="submit" class="submit-stamp-btn active" id="btnModalSubmit">驗證並登入 🚀</button>
       </form>
     </div>
   </div>
 
   <script>
-    const ENABLE_DATE_LIMIT = false; 
+    // 您的最新 Web App URL
     const GAS_URL = "https://script.google.com/macros/s/AKfycbyxcZpU7hu04j7CVOVDmwrS1EOPFikCC_advL4SYFGTvO4XorFMeOIeW8MbWhL6XvtGUw/exec";
-    const EVENT_START_DATE = new Date("2026-03-02T00:00:00"); 
-
-    function getUnlockedMaxDay() {
-      if (!ENABLE_DATE_LIMIT) return 10;
-      const today = new Date();
-      const diffTime = today - EVENT_START_DATE;
-      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      let unlocked = diffDays + 1;
-      if (unlocked < 1) unlocked = 1;
-      if (unlocked > 10) unlocked = 10;
-      return unlocked;
-    }
-
-    function getUnlockDateString(dayNum) {
-      const targetDate = new Date(EVENT_START_DATE);
-      targetDate.setDate(targetDate.getDate() + (dayNum - 1));
-      const mm = String(targetDate.getMonth() + 1).padStart(2, '0');
-      const dd = String(targetDate.getDate()).padStart(2, '0');
-      return `${targetDate.getFullYear()}-${mm}-${dd}`;
-    }
-
-    function getTodayString() {
-      const d = new Date();
-      const year = d.getFullYear();
-      const month = String(d.getMonth() + 1).padStart(2, '0');
-      const date = String(d.getDate()).padStart(2, '0');
-      return `${year}-${month}-${date}`;
-    }
 
     let currentDay = 1;
     let currentLang = "zh";
     let currentUser = null;
     let userProgressData = {};
-    let lastCheckInDate = null; 
-    let d6Mode = "auto"; 
-    let d7Mode = "auto";
-    let d10Mode = "auto";
-
-    let mockLeaderboard = [];
 
     const commonRatingFieldZh = { type: "star_rating", id: "rating", label: "⭐ TODAY'S RATING｜今天的任務體驗評分？", req: "選填 (Optional)" };
-    const commonRatingFieldEn = { type: "star_rating", id: "rating", label: "⭐ TODAY'S RATING | Rate today's task experience", req: "Optional" };
 
     function scrollToLeaderboard() {
-      const elem = document.querySelector('.leaderboard-section');
-      if (elem) elem.scrollIntoView({ behavior: 'smooth' });
+      document.querySelector('.leaderboard-section')?.scrollIntoView({ behavior: 'smooth' });
     }
 
     function copyText(txt, btnId) {
-      if (!txt) {
-        alert(currentLang === "zh" ? "⚠️ 請先撰寫或輸入 Prompt 後再複製喔！" : "⚠️ Please write or generate a prompt first!");
-        return;
-      }
+      if (!txt) return;
       navigator.clipboard.writeText(txt).then(() => {
         const btn = document.getElementById(btnId);
         if (btn) {
           const oldText = btn.textContent;
-          btn.textContent = currentLang === "zh" ? "已複製！" : "Copied!";
+          btn.textContent = "已複製！";
           setTimeout(() => { btn.textContent = oldText; }, 1500);
         }
       });
-    }
-
-    function selectStarRating(val) {
-      document.getElementById("rating_value").value = val;
-      const stars = document.querySelectorAll(".star-rating-box .star-item");
-      stars.forEach((s, idx) => {
-        if (idx < val) {
-          s.classList.add("active");
-          s.textContent = "★";
-        } else {
-          s.classList.remove("active");
-          s.textContent = "☆";
-        }
-      });
-
-      const hintsZh = ["1 星 (不滿意)", "2 星 (尚可)", "3 星 (普通)", "4 星 (滿意)", "5 星 (非常滿意)"];
-      const hintsEn = ["1 Star", "2 Stars", "3 Stars", "4 Stars", "5 Stars"];
-      const hintText = currentLang === "zh" ? hintsZh[val - 1] : hintsEn[val - 1];
-      document.getElementById("starHintText").textContent = hintText;
-
-      validateCurrentForm();
-    }
-
-    function toggleCardExpand(cardElem) {
-      cardElem.classList.toggle("open");
-      const hint = cardElem.querySelector(".expand-hint");
-      if (hint) hint.textContent = cardElem.classList.contains("open") ? "▲ 預覽" : "▼ 詳情";
-    }
-
-    function getDay1PromptText() {
-      if (userProgressData && userProgressData[1] && userProgressData[1].formData) {
-        return userProgressData[1].formData.prompt || "（您尚未在 Day 01 填寫 Prompt）";
-      }
-      return "請幫我寫一封會議紀錄 Email。"; 
-    }
-
-    function getDay3StyleSummary() {
-      if (userProgressData && userProgressData[3] && userProgressData[3].formData) {
-        const d3 = userProgressData[3].formData;
-        const style = d3.prefStyle || "日系質感 Japandi";
-        const persona = Array.isArray(d3.prefPersona) ? d3.prefPersona.join('、') : (d3.prefPersona || "親切可靠");
-        return `Day 03 個人品牌：${style} ｜ ${persona}`;
-      }
-      return "（延伸 Day 03 質感風格與專業特質）";
-    }
-
-    function getDay4CharacterSummary() {
-      if (userProgressData && userProgressData[4] && userProgressData[4].formData) {
-        const d4 = userProgressData[4].formData;
-        const charName = d4.name || "BSH Buddy";
-        const charBase = d4.d4CharBase || "3D 職場公仔造型";
-        return `Day 04 專屬角色：【${charName}】 (${charBase})`;
-      }
-      return "（沿用 Day 04 打造的 3D 專屬職場角色原型）";
-    }
-
-    function getDay9InsightSummary() {
-      if (userProgressData && userProgressData[9] && userProgressData[9].formData) {
-        const d9 = userProgressData[9].formData;
-        const findings = d9.findings3 || "1. 獨立式洗碗機為主力銷售\n2. 網路商城大宗採購量上升";
-        const insight = d9.insightVer || "分析高單價烤箱在特定門市爆發的主因與促銷對照";
-        return `【Day 09 數據發現】：\n${findings}\n\n【Day 09 驗證洞察】：${insight}`;
-      }
-      return "【Day 09 數據發現】：1. 獨立式洗碗機 SMS53E02TC 在北部區域銷量最高。\n2. 網路商城之大宗採購訂單比例持續提升。\n\n【Day 09 驗證洞察】：南部門市高單價烤箱銷量爆發，驗證促銷與展示櫃升級之關聯性。";
-    }
-
-    function downloadERPDataCSV() {
-      const lastNames = ["陳", "林", "黃", "張", "李", "王", "吳", "劉", "蔡", "楊"];
-      const firstNames = ["志明", "雅婷", "嘉豪", "怡君", "建宏", "詩涵", "宗翰", "佩珊", "承翰", "雅琪"];
-      const regions = [
-        { name: "北部", cities: [ {city: "台北市大安區", road: "敦化南路二段100號"}, {city: "新北市板橋區", road: "文化路一段50號"}, {city: "桃園市中壢區", road: "中華路二段10號"} ] },
-        { name: "中部", cities: [ {city: "台中市西屯區", road: "台灣大道三段99號"}, {city: "彰化市中央路", road: "中山路二段150號"} ] },
-        { name: "南部", cities: [ {city: "高雄市左營區", road: "博影二路777號"}, {city: "台南市東區", road: "中華東路一段88號"} ] },
-        { name: "東部", cities: [ {city: "花蓮市中山路", road: "中正路200號"} ] }
-      ];
-      const storeTypes = ["專櫃門市", "網路商城", "授權經銷商"];
-      const products = [
-        { model: "BOSCH 獨立式洗碗機 SMS53E02TC", price: 36900 },
-        { model: "BOSCH 嵌入式烤箱 HBG634BS1", price: 42000 },
-        { model: "BOSCH 滾筒洗衣機 WAX32MV0TC", price: 49900 },
-        { model: "BOSCH 雙門冰箱 KFN96VPEEA", price: 65000 },
-        { model: "BOSCH 感應爐 PXX875D67E", price: 58000 }
-      ];
-
-      let csvContent = "\uFEFF"; 
-      csvContent += "OrderID,CustomerName,CustomerAddress,StoreType,Region,ProductModel,Quantity,Amount_TWD,PurchaseDate\n";
-
-      for (let i = 1; i <= 800; i++) {
-        const orderId = `ORD-2026-${String(i).padStart(4, '0')}`;
-        const custName = `${lastNames[i % 10]}${firstNames[(i * 3) % 10]}`;
-        const regObj = regions[i % regions.length];
-        const cityObj = regObj.cities[i % regObj.cities.length];
-        const address = `${cityObj.city}${cityObj.road}`;
-        const store = storeTypes[i % storeTypes.length];
-        const prod = products[i % products.length];
-        const qty = (i % 15 === 0) ? 3 : (i % 7 === 0 ? 2 : 1); 
-        const amount = prod.price * qty;
-        const month = String((i % 6) + 1).padStart(2, '0');
-        const day = String((i % 28) + 1).padStart(2, '0');
-        const date = `2026-${month}-${day}`;
-
-        csvContent += `"${orderId}","${custName}","${address}","${store}","${regObj.name}","${prod.model}",${qty},${amount},"${date}"\n`;
-      }
-
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.setAttribute("href", url);
-      link.setAttribute("download", "BSH_ERP_Sales_Data_800.csv");
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-
-    function downloadBSHTemplateHTML() {
-      const templateHTMLContent = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BSH Executive Presentation | Data Storytelling Deck</title>
-  <style>
-    :root {
-      --bosch-red: #F26A3D;
-      --bosch-dark-red: #C94A25;
-      --bosch-blue: #000000;
-      --bosch-cyan: #3A3A3A;
-      --bosch-yellow: #FFF0E8;
-      --gray-900: #111111;
-      --gray-700: #3A3A3A;
-      --gray-500: #666666;
-      --gray-200: #ECECEC;
-      --gray-100: #F7F7F7;
-      --text: #111111;
-      --muted: #666666;
-      --line: #DDDDDD;
-      --shadow: 0 18px 46px rgba(0, 0, 0, 0.08);
-      --radius: 26px;
-    }
-    * { box-sizing: border-box; }
-    body { margin: 0; font-family: Arial, sans-serif; background: #ffffff; color: var(--text); }
-    .brand-strip { position: fixed; top: 0; left: 0; right: 0; height: 7px; background: linear-gradient(90deg, var(--bosch-red), var(--bosch-blue)); z-index: 50; }
-    .slide { padding: 80px 60px; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
-    .kicker { color: var(--bosch-red); font-weight: 900; letter-spacing: 2px; text-transform: uppercase; font-size: 14px; margin-bottom: 12px; }
-    h1 { font-size: 48px; margin: 0 0 20px; line-height: 1.1; }
-    .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
-    .kpi-card { background: #FFFFFF; border: 1px solid var(--line); border-radius: 20px; padding: 24px; box-shadow: var(--shadow); border-top: 4px solid var(--bosch-red); }
-    .kpi-num { font-size: 42px; font-weight: 900; color: var(--bosch-red); }
-    .kpi-title { font-size: 16px; font-weight: 800; margin-top: 8px; color: var(--gray-900); }
-    .kpi-desc { font-size: 13px; color: var(--muted); margin-top: 4px; }
-  </style>
-</head>
-<body>
-  <div class="brand-strip"></div>
-  <div class="slide">
-    <div class="kicker">BSH AI PASSPORT DAY 10 FINAL PROJECT</div>
-    <h1>BSH Data Insight Executive Presentation</h1>
-    <p style="font-size:18px; color:#555;">由 AI 自動整合 Day 09 數據洞察所生成之高階簡報/儀表板範本。</p>
-    <div class="kpi-grid">
-      <div class="kpi-card"><div class="kpi-num">800 筆</div><div class="kpi-title">ERP 分析筆數</div><div class="kpi-desc">完整去識別化數據分析</div></div>
-      <div class="kpi-card"><div class="kpi-num">3 大發現</div><div class="kpi-title">核心市場洞察</div><div class="kpi-desc">主力產品與通路結構化歸納</div></div>
-      <div class="kpi-card"><div class="kpi-num">100% 驗證</div><div class="kpi-title">數據支持證據</div><div class="kpi-desc">經 AI 解讀與跨項對比確認</div></div>
-    </div>
-  </div>
-</body>
-</html>`;
-
-      const blob = new Blob([templateHTMLContent], { type: 'text/html;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.setAttribute("href", url);
-      link.setAttribute("download", "BSH_Template_v5.html");
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-
-    function handleDay3PersonaCheck(checkboxElem) {
-      const checkedBoxes = document.querySelectorAll('input[name="prefPersona"]:checked');
-      if (checkedBoxes.length > 2) {
-        checkboxElem.checked = false;
-        alert(currentLang === "zh" ? "⚠️ 期望展現特質最多選擇 2 項喔！" : "⚠️ You can select up to 2 options!");
-        return;
-      }
-      updateDay3GeneratedPrompt();
-    }
-
-    function updateDay3GeneratedPrompt() {
-      const styleRadio = document.querySelector('input[name="prefStyle"]:checked');
-      const styleVal = styleRadio ? styleRadio.value : "日系質感 Japandi";
-      const personaBoxes = document.querySelectorAll('input[name="prefPersona"]:checked');
-      const personaVals = Array.from(personaBoxes).map(b => b.value).join(' 與 ') || "親切可靠";
-      const dressBoxes = document.querySelectorAll('input[name="prefDress"]:checked');
-      const dressVals = Array.from(dressBoxes).map(b => b.value).join(', ') || "Smart Casual｜日常辦公";
-
-      const generatedPrompt = `我想為自己打造一份專屬的職場 Professional Style Board。
-
-【我的選擇】
-・風格調性：${styleVal}
-・期望展現的專業形象：${personaVals}
-・穿搭情境：${dressVals}
-
-請根據以上選擇，為我打造適合的職場專業形象與穿搭風格。
-請直接以一張完整的 Professional Style Board 圖文呈現結果。`;
-
-      const promptBox = document.getElementById("generatedPromptBox");
-      if (promptBox) promptBox.value = generatedPrompt;
-      validateCurrentForm();
-    }
-
-    function handleDay4BaseChange() {
-      const charBaseRadio = document.querySelector('input[name="d4CharBase"]:checked');
-      const animalInputContainer = document.getElementById("d4AnimalInputContainer");
-      if (charBaseRadio && (charBaseRadio.value === "擬人化幸運萌寵" || charBaseRadio.value === "Anthropomorphic Animal Avatar")) {
-        if (animalInputContainer) animalInputContainer.style.display = "block";
-      } else {
-        if (animalInputContainer) animalInputContainer.style.display = "none";
-      }
-      updateDay4GeneratedPrompt();
-    }
-
-    function handleDay4AccessoryCheck(checkboxElem) {
-      const checkedBoxes = document.querySelectorAll('input[name="d4Accessory"]:checked');
-      if (checkedBoxes.length > 2) {
-        checkboxElem.checked = false;
-        alert(currentLang === "zh" ? "⚠️ 招牌配件最多選擇 2 項喔！" : "⚠️ You can select up to 2 accessories!");
-        return;
-      }
-      updateDay4GeneratedPrompt();
-    }
-
-    function updateDay4GeneratedPrompt() {
-      const d3Info = getDay3StyleSummary();
-      const charBaseRadio = document.querySelector('input[name="d4CharBase"]:checked');
-      let charBaseVal = charBaseRadio ? charBaseRadio.value : "3D Human Avatar";
-
-      if (charBaseRadio && (charBaseRadio.value === "擬人化幸運萌寵" || charBaseRadio.value === "Anthropomorphic Animal Avatar")) {
-        const customAnimal = document.getElementById("d4CustomAnimalInput")?.value.trim();
-        const animalName = customAnimal || "Capybara";
-        charBaseVal = `Anthropomorphic Cute ${animalName} Avatar`;
-      }
-
-      const accessoryBoxes = document.querySelectorAll('input[name="d4Accessory"]:checked');
-      const accessoryVals = Array.from(accessoryBoxes).map(b => b.value).join(', ') || "Coffee Cup";
-
-      const generatedPrompt = `Design a 3D collectible vinyl figure toy in Pop Mart style.
-Character Style: ${charBaseVal}
-Accessories: Holding ${accessoryVals}
-Brand Color Theme: BSH Signature Orange & Dark
-Inspiration: ${d3Info}`;
-
-      const promptBox = document.getElementById("d4GeneratedPromptBox");
-      if (promptBox) promptBox.value = generatedPrompt;
-      validateCurrentForm();
-    }
-
-    function updateDay5GeneratedPrompt() {
-      const d4Info = getDay4CharacterSummary();
-      const countRadio = document.querySelector('input[name="d5Count"]:checked');
-      const countVal = countRadio ? countRadio.value : "8 張";
-      const styleRadio = document.querySelector('input[name="d5Style"]:checked');
-      const styleVal = styleRadio ? styleRadio.value : "Q版可愛表情包";
-      const phraseBoxes = document.querySelectorAll('input[name="d5Phrases"]:checked');
-      const phraseVals = Array.from(phraseBoxes).map(b => `"${b.value}"`).join(', ') || '"早安！", "收到！"';
-
-      const generatedPrompt = `Create a LINE Sticker Sheet featuring my Day 04 character prototype.
-Reference: ${d4Info}
-Sticker Style: ${styleVal}
-Sticker Count: ${countVal}
-Phrases: ${phraseVals}`;
-
-      const promptBox = document.getElementById("d5GeneratedPromptBox");
-      if (promptBox) promptBox.value = generatedPrompt;
-      validateCurrentForm();
-    }
-
-    function switchD6Mode(mode) {
-      d6Mode = mode;
-      document.getElementById("btnD6Auto")?.classList.toggle("active", mode === "auto");
-      document.getElementById("btnD6Custom")?.classList.toggle("active", mode === "custom");
-
-      const blockAuto = document.getElementById("d6AutoBlock");
-      const blockCustom = document.getElementById("d6CustomBlock");
-
-      if (mode === "auto") {
-        if (blockAuto) blockAuto.style.display = "block";
-        if (blockCustom) blockCustom.style.display = "none";
-        updateDay6GeneratedPrompt();
-      } else {
-        if (blockAuto) blockAuto.style.display = "none";
-        if (blockCustom) blockCustom.style.display = "block";
-      }
-      validateCurrentForm();
-    }
-
-    function updateDay6GeneratedPrompt() {
-      if (d6Mode !== "auto") return;
-      const d4Info = getDay4CharacterSummary();
-      const actionRadio = document.querySelector('input[name="d6Action"]:checked');
-      const actionVal = actionRadio ? actionRadio.value : "☕ 喝咖啡思考，眼神充滿靈感";
-      const cameraBoxes = document.querySelectorAll('input[name="d6Camera"]:checked');
-      const cameraVals = Array.from(cameraBoxes).map(b => b.value).join(' 與 ') || "特寫鏡頭";
-
-      const generatedPrompt = `請作為 AI 影音動畫專家，請運用 Gemini 為我生成一份精準的動態影片 Prompt 腳本：
-【角色原型】：${d4Info}
-【核心動作】：${actionVal}
-【鏡頭風格】：${cameraVals}`;
-
-      const promptBox = document.getElementById("d6GeneratedPromptBox");
-      if (promptBox) promptBox.value = generatedPrompt;
-      validateCurrentForm();
-    }
-
-    function switchD7Mode(mode) {
-      d7Mode = mode;
-      document.getElementById("btnD7Auto")?.classList.toggle("active", mode === "auto");
-      document.getElementById("btnD7Custom")?.classList.toggle("active", mode === "custom");
-
-      const blockAuto = document.getElementById("d7AutoBlock");
-      const blockCustom = document.getElementById("d7CustomBlock");
-
-      if (mode === "auto") {
-        if (blockAuto) blockAuto.style.display = "block";
-        if (blockCustom) blockCustom.style.display = "none";
-        updateDay7GeneratedPrompt();
-      } else {
-        if (blockAuto) blockAuto.style.display = "none";
-        if (blockCustom) blockCustom.style.display = "block";
-      }
-      validateCurrentForm();
-    }
-
-    function updateDay7GeneratedPrompt() {
-      if (d7Mode !== "auto") return;
-      const topicRadio = document.querySelector('input[name="d7Topic"]:checked');
-      const topicVal = topicRadio ? topicRadio.value : "📂 新進人員公用槽導覽";
-      const outputBoxes = document.querySelectorAll('input[name="d7Output"]:checked');
-      const outputVals = Array.from(outputBoxes).map(b => b.value).join(' 與 ') || "SOP 指南表格";
-
-      const generatedPrompt = `請作為 BSH 行政與 HR 工作流程專家，協助我製作專業圖文指南：
-【圖文主題】：${topicVal}
-【呈現場景】：${outputVals}`;
-
-      const promptBox = document.getElementById("d7GeneratedPromptBox");
-      if (promptBox) promptBox.value = generatedPrompt;
-      validateCurrentForm();
-    }
-
-    function switchD10Mode(mode) {
-      d10Mode = mode;
-      document.getElementById("btnD10Auto")?.classList.toggle("active", mode === "auto");
-      document.getElementById("btnD10Custom")?.classList.toggle("active", mode === "custom");
-
-      const blockAuto = document.getElementById("d10AutoBlock");
-      const blockCustom = document.getElementById("d10CustomBlock");
-
-      if (mode === "auto") {
-        if (blockAuto) blockAuto.style.display = "block";
-        if (blockCustom) blockCustom.style.display = "none";
-        updateDay10GeneratedPrompt();
-      } else {
-        if (blockAuto) blockAuto.style.display = "none";
-        if (blockCustom) blockCustom.style.display = "block";
-      }
-      validateCurrentForm();
-    }
-
-    function updateDay10GeneratedPrompt() {
-      if (d10Mode !== "auto") return;
-      const d9Info = getDay9InsightSummary();
-      const typeRadio = document.querySelector('input[name="d10Type"]:checked');
-      const typeVal = typeRadio ? typeRadio.value : "HTML Presentation";
-      const topicRadio = document.querySelector('input[name="d10Topic"]:checked');
-      const topicVal = topicRadio ? topicRadio.value : "Q3 銷售數據分析報告";
-
-      const generatedPrompt = `請作為前端設計師與 BSH 數據專家，結合 Day 09 洞察產出單頁 HTML ${typeVal}：
-【主題】：${topicVal}
-【Day 09 數據】：
-${d9Info}`;
-
-      const promptBox = document.getElementById("d10GeneratedPromptBox");
-      if (promptBox) promptBox.value = generatedPrompt;
-      validateCurrentForm();
     }
 
     const daysData = {
@@ -1011,11 +420,11 @@ ${d9Info}`;
         accent: "#F26A3D", accentBg: "#FFF0E8",
         zh: {
           kicker: "DAY 01 | LEARNING TICKET", title: "Meet Your AI Team",
-          goal: "不同 AI 有不同強項。今天先不用想太複雜，用你平常講話的方式跟 AI 聊聊看！",
+          goal: "不同 AI 有不同強項。今天用你平常講話的方式跟 AI 聊聊看！",
           cards: [
-            { type: "chatgpt", title: "ChatGPT", tag: "Think & Create｜思考與創作", try: "「我需要一個想法或草稿。」", details: ["專案發想", "撰寫信件", "觀點分析"] },
-            { type: "gemini", title: "Gemini", tag: "Search & Explore｜探索多模態", try: "「我想探索資訊或分析多媒體。」", details: ["即時搜尋", "圖文分析", "整合研究"] },
-            { type: "copilot", title: "Copilot", tag: "Work & Execute｜工作流程", try: "「我想在 Email 或簡報提升效率。」", details: ["M365 整合", "Word/Excel 輔助", "會議摘要"] }
+            { type: "chatgpt", title: "ChatGPT", tag: "思考與創作", try: "「我需要一個想法或草稿。」", details: ["專案發想", "撰寫信件", "觀點分析"] },
+            { type: "gemini", title: "Gemini", tag: "探索多模態", try: "「我想探索資訊或分析多媒體。」", details: ["即時搜尋", "圖文分析", "整合研究"] },
+            { type: "copilot", title: "Copilot", tag: "工作流程", try: "「我想在 Email 或簡報提升效率。」", details: ["M365 整合", "Word/Excel 輔助", "會議摘要"] }
           ],
           howTitle: "HOW IT WORKS｜輕鬆 2 步驟體驗", steps: ["STEP 1｜選擇一個你想請 AI 幫忙的情境", "STEP 2｜寫下指令並紀錄在右側打卡！"],
           journeyTitle: "我的 AI 第一次對話紀錄",
@@ -1025,177 +434,18 @@ ${d9Info}`;
             commonRatingFieldZh
           ]
         }
-      },
-      2: {
-        accent: "#0284C7", accentBg: "#F0F9FF",
-        zh: {
-          kicker: "DAY 02 | LEARNING TICKET", title: "From Idea to Great Prompt",
-          goal: "把 Day 01 簡單的問句，升級成 AI 看得懂的『4 要素黃金 Prompt』！",
-          cards: [{ type: "gemini", title: "THE 4-PIECE PROMPT FORMULA", tag: "提示詞 4 要素", try: "情境 + 任務 + 要求 + 格式", details: ["① CONTEXT 情境", "② TASK 任務", "③ REQUIREMENTS 要求", "④ FORMAT 格式"] }],
-          howTitle: "💡 PROMPT 升級實例", steps: ["❌ 普通：幫我寫會議紀錄 Email", "✅ 4要素：我剛開完跨部門會議(情境)，請幫我撰寫摘要 Email(任務)。語氣專業(要求)，包含 Action Items 表格(格式)"],
-          journeyTitle: "我的 Prompt 升級大挑戰",
-          journeyFields: [
-            { type: "day1_prompt_display", id: "day1Original", label: "① DAY 01 原始 PROMPT (自動帶入)", req: "參考" },
-            { type: "textarea", id: "prompt", label: "② UPGRADED PROMPT｜套用 4 要素改寫", req: "必填", placeholder: "加入：情境 + 任務 + 要求 + 格式..." },
-            { type: "radios", id: "result", label: "③ 改寫後表現如何？", req: "必選 1 項", options: ["變得很精準，可直接使用！", "比昨天好很多", "還需要更多訓練"] },
-            commonRatingFieldZh
-          ]
-        }
-      },
-      3: {
-        accent: "#7C3AED", accentBg: "#F5F3FF",
-        zh: {
-          kicker: "DAY 03 | LEARNING TICKET", title: "AI Personal Branding",
-          goal: "勾選你的風格偏好，自動生成專屬 Style Board Prompt！",
-          cards: [{ type: "copilot", title: "AI 專業形象板架構", tag: "Style Board 生成", try: "選擇偏好 ➔ 產出 Prompt ➔ 貼給 AI", details: ["1. Persona Statement", "2. Branding Keywords", "3. Color Palette", "4. Workwear Style"] }],
-          howTitle: "HOW IT WORKS｜輕鬆 3 步驟", steps: ["STEP 1｜勾選風格與場合", "STEP 2｜點擊複製 Prompt 貼給 AI", "STEP 3｜選完即可直接打卡！"],
-          journeyTitle: "打造我的 AI 職場個人品牌",
-          journeyFields: [
-            { type: "radios_d3", id: "prefStyle", label: "① 風格調性", req: "必選 1 項", options: ["日系質感 Japandi", "現代俐落 Modern Minimal", "美式率性 Smart Street", "北歐極簡 Nordic Clean"] },
-            { type: "checkboxes_persona_d3", id: "prefPersona", label: "② 專業特質 (最多 2 項)", req: "最多選 2 項", options: ["親切可靠", "俐落專業", "自信有影響力", "沉穩有質感"] },
-            { type: "checkboxes_d3", id: "prefDress", label: "③ 穿搭情境", req: "可複選", options: ["Casual｜輕鬆休閒", "Smart Casual｜日常辦公", "Business Formal｜正式商務"] },
-            { type: "prompt_builder", id: "generatedPrompt", label: "④ 自動生成的專屬 PROMPT", req: "複製體驗" },
-            commonRatingFieldZh
-          ]
-        }
-      },
-      4: {
-        accent: "#16A34A", accentBg: "#F0FDF4",
-        zh: {
-          kicker: "DAY 04 | LEARNING TICKET", title: "Create Your AI Character",
-          goal: "打造你的 3D 專屬職場公仔！",
-          cards: [{ type: "chatgpt", title: "3D 公仔設計關鍵", tag: "潮玩盲盒風格", try: "延伸 Day 03 設定 ➔ 產出 3D 圖像", details: ["① 帶入 Day 03 風格", "② 選擇角色型態", "③ 加入配件與 BSH 配色"] }],
-          howTitle: "HOW IT WORKS｜輕鬆 3 步驟", steps: ["STEP 1｜選擇公仔型態與配件", "STEP 2｜複製 Prompt 貼至 AI 體驗", "STEP 3｜點擊打卡！"],
-          journeyTitle: "我的 3D 職場公仔紀錄",
-          journeyFields: [
-            { type: "day3_style_display", id: "d3StyleDisplay", label: "① 帶入 DAY 03 設定", req: "參考" },
-            { type: "radios_d4_base", id: "d4CharBase", label: "② 公仔角色型態", req: "必選 1 項", options: ["真人職場造型", "擬人化幸運萌寵"] },
-            { type: "checkboxes_d4_acc", id: "d4Accessory", label: "③ 招牌配件", req: "最多選 2 項", options: ["☕ 質感咖啡杯", "💻 筆電與工作檔", "📱 智慧手機", "👓 經典黑框眼鏡"] },
-            { type: "input", id: "name", label: "④ CHARACTER NAME (公仔名字)", req: "必填", placeholder: "例如：Bosch Buddy" },
-            { type: "prompt_builder_d4", id: "d4GeneratedPrompt", label: "⑤ 自動生成的 3D 公仔 PROMPT", req: "複製體驗" },
-            commonRatingFieldZh
-          ]
-        }
-      },
-      5: {
-        accent: "#F26A3D", accentBg: "#FFF0E8",
-        zh: {
-          kicker: "DAY 05 | LEARNING TICKET", title: "Bring Your Character to Life!",
-          goal: "Turn Your Character into a LINE Sticker Pack!",
-          cards: [{ type: "chatgpt", title: "LINE 貼圖套件生成", tag: "角色延伸", try: "Day 04 角色 + 辦公語錄", details: ["① 帶入 Day 04 原型", "② 選擇張數與風格", "③ 勾選實用語錄"] }],
-          howTitle: "HOW IT WORKS｜輕鬆 3 步驟", steps: ["STEP 1｜選擇張數與語錄", "STEP 2｜複製 Prompt 貼至 AI", "STEP 3｜直接打卡！"],
-          journeyTitle: "我的 LINE 貼圖生成紀錄",
-          journeyFields: [
-            { type: "day4_char_display", id: "d4CharDisplay", label: "① 帶入 DAY 04 角色", req: "參考" },
-            { type: "radios_d5_count", id: "d5Count", label: "② 貼圖張數", req: "必選 1 項", options: ["4 張", "8 張", "12 張", "16 張"] },
-            { type: "radios_d5_style", id: "d5Style", label: "③ 貼圖風格", req: "必選 1 項", options: ["Q版可愛表情包", "極簡線條風", "職場實用寫實風"] },
-            { type: "checkboxes_d5_phrases", id: "d5Phrases", label: "④ 常用辦公語錄", req: "可複選", options: ["早安！", "收到！", "辛苦了！", "馬上處理！"] },
-            { type: "prompt_builder_d5", id: "d5GeneratedPrompt", label: "⑤ 自動生成的貼圖 PROMPT", req: "複製體驗" },
-            commonRatingFieldZh
-          ]
-        }
-      },
-      6: {
-        accent: "#0284C7", accentBg: "#F0F9FF",
-        zh: {
-          kicker: "DAY 06 | LEARNING TICKET", title: "AI 短影音生成",
-          goal: "讓 Day 04 的 IP 角色動起來！使用 Gemini 打造動態短影音！",
-          cards: [{ type: "gemini", title: "GEMINI MULTIMODAL MOTION", tag: "多模態影音", try: "角色 ➔ 動作與運鏡 ➔ 短影音 Prompt", details: ["① 喝咖啡思考", "② 活潑講話導覽", "③ 3D 光影登場"] }],
-          howTitle: "HOW IT WORKS｜3 步驟", steps: ["STEP 1｜開啟 Gemini 介面並上傳 Day 04 角色圖", "STEP 2｜選擇動態與運鏡並複製 Prompt", "STEP 3｜評分並完成打卡！"],
-          journeyTitle: "我的個人 IP 動態影音生成紀錄",
-          journeyFields: [
-            { type: "d6_video_wrapper", id: "d6Wrapper", label: "① 選擇體驗模式與 PROMPT", req: "核心步驟" },
-            commonRatingFieldZh
-          ]
-        }
-      },
-      7: {
-        accent: "#7C3AED", accentBg: "#F5F3FF",
-        zh: {
-          kicker: "DAY 07 | LEARNING TICKET", title: "Workplace Visual Guidelines",
-          goal: "打造日常工作圖文指南/SOP！",
-          cards: [{ type: "copilot", title: "WORKPLACE VISUAL BUILDER", tag: "工作圖文懶人包", try: "選擇主題 ➔ 產生精準 SOP 結構", details: ["① 新進人員公用槽導覽", "② 合約檢查 Checklist", "③ 請假流程圖解"] }],
-          howTitle: "HOW IT WORKS｜雙軌體驗", steps: ["【新手模式】點選情境自動合成 Prompt", "【進階模式】親自撰寫指令"],
-          journeyTitle: "我的工作圖文與 SOP 指南紀錄",
-          journeyFields: [
-            { type: "d7_dual_mode_wrapper", id: "d7Wrapper", label: "① 選擇體驗模式與 PROMPT", req: "核心步驟" },
-            commonRatingFieldZh
-          ]
-        }
-      },
-      8: {
-        accent: "#16A34A", accentBg: "#F0FDF4",
-        zh: {
-          kicker: "DAY 08 | LEARNING TICKET", title: "Make Your Data AI-Ready",
-          goal: " Protect Privacy & Be AI-Ready! 數據去識別化大挑戰！",
-          cards: [{ type: "chatgpt", title: "DATA SAFETY GUIDE", tag: "個資保護原則", try: "數據去識別化 ➔ 安全送入 AI", details: ["① Direct PII：姓名/電話 ➔ 移除或遮蔽", "② Indirect PII：地址 ➔ 降低精細度", "③ Non-PII：部門/偏好 ➔ 安全保留"] }],
-          howTitle: "PROMPT EXAMPLE", steps: ["請幫我分析已去識別化的數據，歸納客群趨勢。"],
-          journeyTitle: "職場數據去識別化挑戰",
-          journeyFields: [
-            { type: "quiz_radio", id: "genAddress", label: "情境 A：處理含有客戶詳細地址時：", req: "必選", correct: "B", options: [{ label: "A. 保留完整門牌地址", value: "A" }, { label: "B. 降低精細度，僅保留『台北市信義區』", value: "B" }, { label: "C. 將地址欄位完全刪除", value: "C" }] },
-            { type: "quiz_radio", id: "genPhone", label: "情境 B：分析聯絡電話時：", req: "必選", correct: "C", options: [{ label: "A. 保留完整電話", value: "A" }, { label: "B. 替換為隨機代碼", value: "B" }, { label: "C. 進行部分遮蔽 (如 0912-***-***)", value: "C" }] },
-            { type: "quiz_radio", id: "highRiskPii", label: "情境 C：何者屬於極高風險的 Direct PII？", req: "必選", correct: "C", options: [{ label: "專案編號與產品分類", value: "A" }, { label: "部門名稱與地點", value: "B" }, { label: "姓名、身分證/員編、完整地址與 Email", value: "C" }] },
-            commonRatingFieldZh
-          ]
-        }
-      },
-      9: {
-        accent: "#0284C7", accentBg: "#F0F9FF",
-        zh: {
-          kicker: "DAY 09 | LEARNING TICKET", title: "Talk to Your Data",
-          goal: "下載模擬 800 筆 ERP 銷售數據，自主去識別化，讓 AI 挖掘商業洞察！",
-          cards: [{ type: "gemini", title: "DATA DETECTIVE FRAMEWORK", tag: "5 步數據對話法", try: "Gemini in BSH AIM", details: ["1. DESCRIBE 摘要", "2. COMPARE 比較", "3. DETECT 異常", "4. VERIFY 證據"] }],
-          howTitle: "TODAY'S MISSION｜實戰流程", steps: ["STEP 1｜下載 ERP 數據集", "STEP 2｜排除敏感 PII 欄位後餵給 AI", "STEP 3｜紀錄 3 個重點與 1 個洞察後打卡！"],
-          journeyTitle: "我的數據洞察紀錄 (Data Detective)",
-          journeyFields: [
-            { type: "d9_dataset_download_block", id: "d9DataBlock", label: "① STEP 1：下載模擬 ERP 銷售資料集", req: "下載體驗" },
-            { type: "textarea", id: "findings3", label: "② MY 3 KEY FINDINGS (3 個重要發現)", req: "必填", placeholder: "例如：1. 北部門市洗碗機銷售佔比最高..." },
-            { type: "input", id: "insightVer", label: "③ ONE INSIGHT I VERIFIED (1 個欲驗證之洞察)", req: "必填", placeholder: "例如：南部門市烤箱爆發原因..." },
-            { type: "textarea", id: "evidenceText", label: "④ SHOW ME THE EVIDENCE (AI 具體數據證據)", req: "必填", placeholder: "貼上 AI 提供之數據證據..." },
-            commonRatingFieldZh
-          ]
-        }
-      },
-      10: {
-        accent: "#D69E2E", accentBg: "#FEFCBF",
-        zh: {
-          kicker: "DAY 10 | FINAL GRADUATION PROJECT", title: "BSH HTML Executive Presentation",
-          goal: "套用 BSH 企業 HTML 簡報範本，結合 Day 09 數據洞察，打造高階互動式簡報！",
-          cards: [{ type: "copilot", title: "BSH HTML PRESENTATION BUILDER", tag: "單頁 HTML 成果生成", try: "下載範本 ➔ 自動帶入 Day 09 數據 ➔ 請 AI 生成 HTML", details: ["1. BSH 活力橘黑企業視覺規範", "2. 動態 KPI 卡片與 Chart.js 圖表", "3. 全響應式 RWD 網頁簡報"] }],
-          howTitle: "FINAL MISSION｜畢業流程", steps: ["STEP 1｜下載 BSH 企業 HTML 範本", "STEP 2｜選擇模式並複製 PROMPT", "STEP 3｜貼給 AI 產生成果並點擊打卡畢業！"],
-          journeyTitle: "終極畢業任務打卡 (Final BSH HTML Presentation)",
-          journeyFields: [
-            { type: "d10_template_download_block", id: "d10DownloadBlock", label: "① STEP 1：下載 BSH 企業 HTML 簡報範本", req: "下載體驗" },
-            { type: "d10_dual_mode_wrapper", id: "d10Wrapper", label: "② STEP 2：選擇模式與產生 PROMPT", req: "核心步驟" },
-            commonRatingFieldZh
-          ]
-        }
       }
     };
 
     function initDaySelector() {
       const selector = document.getElementById("daySelector");
       selector.innerHTML = "";
-      const maxUnlocked = getUnlockedMaxDay();
-
       for (let i = 1; i <= 10; i++) {
         const btn = document.createElement("button");
         const isCompleted = userProgressData[i] && userProgressData[i].completed;
-        const isLocked = i > maxUnlocked;
-
-        let lockIcon = isLocked ? " 🔒" : "";
-        btn.className = `day-btn ${i === currentDay ? "active" : ""} ${isCompleted ? "completed-check" : ""} ${isLocked ? "locked" : ""}`;
-        
-        btn.onclick = () => {
-          if (isLocked) {
-            const unlockDate = getUnlockDateString(i);
-            alert(`🔒 Day ${String(i).padStart(2, "0")} 尚未開放打卡！\n預計開放時間：${unlockDate}`);
-            return;
-          }
-          selectDay(i);
-        };
-
-        btn.textContent = `Day ${String(i).padStart(2, "0")}${lockIcon}`;
+        btn.className = `day-btn ${i === currentDay ? "active" : ""} ${isCompleted ? "completed-check" : ""}`;
+        btn.onclick = () => selectDay(i);
+        btn.textContent = `Day ${String(i).padStart(2, "0")}`;
         selector.appendChild(btn);
       }
     }
@@ -1204,282 +454,68 @@ ${d9Info}`;
       currentDay = dayNum;
       initDaySelector();
       renderDayContent();
-      checkGraduationStatus();
     }
 
     function renderDayContent() {
       const dayConfig = daysData[currentDay] || daysData[1];
-      const data = dayConfig[currentLang] || dayConfig.zh;
-      const maxUnlocked = getUnlockedMaxDay();
-      const isLockedDay = currentDay > maxUnlocked;
-
-      document.documentElement.style.setProperty('--current-accent', dayConfig.accent);
-      document.documentElement.style.setProperty('--current-accent-bg', dayConfig.accentBg);
+      const data = dayConfig.zh;
 
       const ticketSide = document.getElementById("ticketContent");
-      let cardsHTML = data.cards.map(card => `
-        <div class="ai-tool-card ${card.type}" onclick="toggleCardExpand(this)">
-          <div class="ai-card-header">
-            <div class="ai-card-title">
-              <span>${card.title}</span>
-              <span class="ai-card-tag">${card.tag}</span>
-            </div>
-            <span class="expand-hint">▼ 詳情</span>
-          </div>
-          <div class="try-when-box">
-            <label>TRY IT WHEN</label>
-            <span>${card.try}</span>
-          </div>
-          <div class="ai-details-list">
-            <ul>${card.details.map(d => `<li>${d}</li>`).join('')}</ul>
-          </div>
-        </div>
-      `).join('');
-
-      let stepsHTML = data.steps.map((s, idx) => `
-        <div class="step-item-mini">
-          <span class="step-num-badge">${idx + 1}</span>
-          <div><strong>${s}</strong></div>
-        </div>
-      `).join('');
-
       ticketSide.innerHTML = `
         <span class="kicker">${data.kicker}</span>
         <h1 class="task-title">${data.title}</h1>
-        <div class="goal-banner">
-          <p>${data.goal}</p>
-        </div>
-        <div class="ai-cards-grid">${cardsHTML}</div>
-        <div class="how-it-works-section">
-          <div class="how-title">${data.howTitle}</div>
-          <div class="step-list">${stepsHTML}</div>
-        </div>
+        <div class="goal-banner"><p>${data.goal}</p></div>
       `;
 
       const journeySide = document.getElementById("journeyContent");
-      const currentDayStore = (userProgressData[currentDay] && userProgressData[currentDay].formData) || {};
       const isStamped = userProgressData[currentDay] && userProgressData[currentDay].completed;
-
-      let fieldsHTML = data.journeyFields.map(field => {
-        let inputControl = '';
-        const savedVal = currentDayStore[field.id];
-        const isOptional = field.req && field.req.includes('Optional');
-
-        if (field.type === 'd10_template_download_block') {
-          inputControl = `
-            <button type="button" class="btn-primary-sm" style="background:#D69E2E; color:#FFFFFF; width:100%; text-align:center; padding:10px 12px; font-weight:900;" onclick="downloadBSHTemplateHTML()">
-              📥 下載 BSH 企業 HTML 簡報範本 (BSH_Template_v5.html)
-            </button>
-          `;
-        } else if (field.type === 'd10_dual_mode_wrapper') {
-          inputControl = `
-            <div class="mode-tab-container">
-              <button type="button" class="mode-tab-btn ${d10Mode === 'auto' ? 'active' : ''}" id="btnD10Auto" onclick="switchD10Mode('auto')">⚡ 新手模式：自動帶入 DAY 09 數據</button>
-              <button type="button" class="mode-tab-btn ${d10Mode === 'custom' ? 'active' : ''}" id="btnD10Custom" onclick="switchD10Mode('custom')">✍️ 進階挑戰：親自撰寫 PROMPT</button>
-            </div>
-            <div id="d10AutoBlock" style="display: ${d10Mode === 'auto' ? 'block' : 'none'};">
-              <textarea id="d10GeneratedPromptBox" class="text-input-styled" style="min-height:100px;" readonly></textarea>
-              <button type="button" class="btn-primary-sm" id="btnCopyPromptD10Auto" style="margin-top:8px; width:100%; background:#D69E2E;" onclick="copyText(document.getElementById('d10GeneratedPromptBox').value, 'btnCopyPromptD10Auto')">📋 複製 HTML 生成 PROMPT 貼至 AI</button>
-            </div>
-            <div id="d10CustomBlock" style="display: ${d10Mode === 'custom' ? 'block' : 'none'};">
-              <textarea id="d10CustomPromptInput" class="text-input-styled" style="min-height:100px;" placeholder="輸入您撰寫的 HTML 指令..." oninput="validateCurrentForm()">${savedVal || ''}</textarea>
-            </div>
-          `;
-        } else if (field.type === 'd9_dataset_download_block') {
-          inputControl = `
-            <button type="button" class="btn-primary-sm" style="background:#0284C7; width:100%; text-align:center; padding:10px 12px;" onclick="downloadERPDataCSV()">
-              📥 下載 ERP 銷售資料集 (BSH_ERP_Sales_Data_800.csv)
-            </button>
-          `;
-        } else if (field.type === 'quiz_radio') {
-          inputControl = `<div class="radio-pills" style="flex-direction:column; gap:6px;">` + 
-            field.options.map((opt, i) => {
-              const optVal = typeof opt === 'object' ? opt.value : opt;
-              const optLabel = typeof opt === 'object' ? opt.label : opt;
-              const isChecked = savedVal === optVal;
-              let answerClass = isChecked ? (optVal === field.correct ? 'correct-choice' : 'wrong-choice') : '';
-              return `
-                <div class="radio-pill-item">
-                  <input type="radio" id="${field.id}_${i}" name="${field.id}" value="${optVal}" ${isChecked ? 'checked' : ''} onchange="validateCurrentForm()">
-                  <label for="${field.id}_${i}" class="radio-pill-label ${answerClass}" style="width:100%; text-align:left;">${optLabel}</label>
-                </div>
-              `;
-            }).join('') + `</div>`;
-        } else if (field.type === 'd6_video_wrapper') {
-          inputControl = `
-            <div class="mode-tab-container">
-              <button type="button" class="mode-tab-btn ${d6Mode === 'auto' ? 'active' : ''}" id="btnD6Auto" onclick="switchD6Mode('auto')">⚡ 新手模式：快速組裝 PROMPT</button>
-              <button type="button" class="mode-tab-btn ${d6Mode === 'custom' ? 'active' : ''}" id="btnD6Custom" onclick="switchD6Mode('custom')">✍️ 進階挑戰：親自撰寫 PROMPT</button>
-            </div>
-            <div id="d6AutoBlock" style="display: ${d6Mode === 'auto' ? 'block' : 'none'};">
-              <textarea id="d6GeneratedPromptBox" class="text-input-styled" style="min-height:100px;" readonly></textarea>
-              <button type="button" class="btn-primary-sm" id="btnCopyPromptD6Auto" style="margin-top:8px; width:100%;" onclick="copyText(document.getElementById('d6GeneratedPromptBox').value, 'btnCopyPromptD6Auto')">📋 複製 PROMPT 貼至 Gemini</button>
-            </div>
-            <div id="d6CustomBlock" style="display: ${d6Mode === 'custom' ? 'block' : 'none'};">
-              <textarea id="d6CustomPromptInput" class="text-input-styled" style="min-height:100px;" placeholder="輸入您撰寫的影音 Prompt..." oninput="validateCurrentForm()">${savedVal || ''}</textarea>
-            </div>
-          `;
-        } else if (field.type === 'd7_dual_mode_wrapper') {
-          inputControl = `
-            <div class="mode-tab-container">
-              <button type="button" class="mode-tab-btn ${d7Mode === 'auto' ? 'active' : ''}" id="btnD7Auto" onclick="switchD7Mode('auto')">⚡ 新手模式：快速組裝 PROMPT</button>
-              <button type="button" class="mode-tab-btn ${d7Mode === 'custom' ? 'active' : ''}" id="btnD7Custom" onclick="switchD7Mode('custom')">✍ 進階挑戰：親自撰寫 PROMPT</button>
-            </div>
-            <div id="d7AutoBlock" style="display: ${d7Mode === 'auto' ? 'block' : 'none'};">
-              <textarea id="d7GeneratedPromptBox" class="text-input-styled" style="min-height:100px;" readonly></textarea>
-              <button type="button" class="btn-primary-sm" id="btnCopyPromptD7Auto" style="margin-top:8px; width:100%;" onclick="copyText(document.getElementById('d7GeneratedPromptBox').value, 'btnCopyPromptD7Auto')">📋 複製 PROMPT 貼至 AI</button>
-            </div>
-            <div id="d7CustomBlock" style="display: ${d7Mode === 'custom' ? 'block' : 'none'};">
-              <textarea id="d7CustomPromptInput" class="text-input-styled" style="min-height:100px;" placeholder="輸入您撰寫的 Prompt..." oninput="validateCurrentForm()">${savedVal || ''}</textarea>
-            </div>
-          `;
-        } else if (field.type === 'day1_prompt_display') {
-          inputControl = `<div style="background:#F1F5F9; padding:10px; border-radius:8px; font-size:12px;">${getDay1PromptText()}</div>`;
-        } else if (field.type === 'day3_style_display') {
-          inputControl = `<div style="background:#FFF0E8; color:var(--bosch-dark-orange); padding:10px; border-radius:8px; font-size:12px; font-weight:700;">✨ ${getDay3StyleSummary()}</div>`;
-        } else if (field.type === 'day4_char_display') {
-          inputControl = `<div style="background:#FFF0E8; color:var(--bosch-dark-orange); padding:10px; border-radius:8px; font-size:12px; font-weight:700;">🤖 ${getDay4CharacterSummary()}</div>`;
-        } else if (field.type === 'prompt_builder') {
-          inputControl = `<textarea id="generatedPromptBox" class="text-input-styled" style="min-height:110px;" readonly></textarea><button type="button" class="btn-primary-sm" id="btnCopyPrompt" style="margin-top:8px; width:100%;" onclick="copyText(document.getElementById('generatedPromptBox').value, 'btnCopyPrompt')">📋 複製 STYLE BOARD PROMPT</button>`;
-        } else if (field.type === 'prompt_builder_d4') {
-          inputControl = `<textarea id="d4GeneratedPromptBox" class="text-input-styled" style="min-height:100px;" readonly></textarea><button type="button" class="btn-primary-sm" id="btnCopyPromptD4" style="margin-top:8px; width:100%;" onclick="copyText(document.getElementById('d4GeneratedPromptBox').value, 'btnCopyPromptD4')">📋 複製 3D 公仔 PROMPT</button>`;
-        } else if (field.type === 'prompt_builder_d5') {
-          inputControl = `<textarea id="d5GeneratedPromptBox" class="text-input-styled" style="min-height:100px;" readonly></textarea><button type="button" class="btn-primary-sm" id="btnCopyPromptD5" style="margin-top:8px; width:100%;" onclick="copyText(document.getElementById('d5GeneratedPromptBox').value, 'btnCopyPromptD5')">📋 複製貼圖 PROMPT</button>`;
-        } else if (field.type === 'radios_d3') {
-          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => `<div class="radio-pill-item"><input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${(savedVal === opt || i === 0) ? 'checked' : ''} onchange="updateDay3GeneratedPrompt()"><label for="${field.id}_${i}" class="radio-pill-label">${opt}</label></div>`).join('') + `</div>`;
-        } else if (field.type === 'checkboxes_persona_d3') {
-          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => `<div class="checkbox-pill-item"><input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${((savedVal && savedVal.includes(opt)) || i === 0) ? 'checked' : ''} onchange="handleDay3PersonaCheck(this)"><label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label></div>`).join('') + `</div>`;
-        } else if (field.type === 'checkboxes_d3') {
-          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => `<div class="checkbox-pill-item"><input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${((savedVal && savedVal.includes(opt)) || i === 1) ? 'checked' : ''} onchange="updateDay3GeneratedPrompt()"><label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label></div>`).join('') + `</div>`;
-        } else if (field.type === 'radios_d4_base') {
-          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => `<div class="radio-pill-item"><input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${(savedVal === opt || i === 0) ? 'checked' : ''} onchange="handleDay4BaseChange()"><label for="${field.id}_${i}" class="radio-pill-label">${opt}</label></div>`).join('') + `</div>`;
-        } else if (field.type === 'checkboxes_d4_acc') {
-          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => `<div class="checkbox-pill-item"><input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${((savedVal && savedVal.includes(opt)) || i === 0) ? 'checked' : ''} onchange="handleDay4AccessoryCheck(this)"><label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label></div>`).join('') + `</div>`;
-        } else if (field.type === 'radios_d5_count' || field.type === 'radios_d5_style') {
-          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => `<div class="radio-pill-item"><input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${(savedVal === opt || i === 0) ? 'checked' : ''} onchange="updateDay5GeneratedPrompt()"><label for="${field.id}_${i}" class="radio-pill-label">${opt}</label></div>`).join('') + `</div>`;
-        } else if (field.type === 'checkboxes_d5_phrases') {
-          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => `<div class="checkbox-pill-item"><input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${((savedVal && savedVal.includes(opt)) || i < 2) ? 'checked' : ''} onchange="updateDay5GeneratedPrompt()"><label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label></div>`).join('') + `</div>`;
-        } else if (field.type === 'star_rating') {
-          const currentStar = savedVal || 0;
-          let starsHTML = '';
-          for (let i = 1; i <= 5; i++) {
-            starsHTML += `<span class="star-item ${i <= currentStar ? 'active' : ''}" onclick="selectStarRating(${i})">${i <= currentStar ? '★' : '☆'}</span>`;
-          }
-          inputControl = `<div class="star-rating-box"><input type="hidden" id="rating_value" value="${currentStar}" />${starsHTML}<span class="star-rating-hint" id="starHintText">${currentStar ? `${currentStar} 星` : ''}</span></div>`;
-        } else if (field.type === 'radios') {
-          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => `<div class="radio-pill-item"><input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${(savedVal === opt) ? 'checked' : ''} onchange="validateCurrentForm()"><label for="${field.id}_${i}" class="radio-pill-label">${opt}</label></div>`).join('') + `</div>`;
-        } else if (field.type === 'textarea') {
-          inputControl = `<textarea id="${field.id}" class="text-input-styled" placeholder="${field.placeholder || ''}" oninput="validateCurrentForm()">${savedVal || ''}</textarea>`;
-        } else if (field.type === 'input') {
-          inputControl = `<input type="text" id="${field.id}" class="text-input-styled" placeholder="${field.placeholder || ''}" value="${savedVal || ''}" oninput="validateCurrentForm()" />`;
-        }
-
-        return `
-          <div class="form-section-block">
-            <div class="form-section-title">
-              <span>${field.label}</span>
-              <span class="${isOptional ? 'opt-badge' : 'req-badge'}">${field.req}</span>
-            </div>
-            ${inputControl}
-          </div>
-        `;
-      }).join('');
 
       journeySide.innerHTML = `
         <div>
-          <div class="journey-header">
-            <span class="kicker">MY AI JOURNEY</span>
-            <h2>${data.journeyTitle}</h2>
-          </div>
+          <div class="journey-header"><h2>${data.journeyTitle}</h2></div>
           <form id="dayActiveForm" onsubmit="event.preventDefault();">
-            ${fieldsHTML}
+            <div class="form-section-block">
+              <div class="form-section-title"><span>MY PROMPT</span><span class="req-badge">必填</span></div>
+              <textarea id="prompt" class="text-input-styled" placeholder="請輸入您使用的 Prompt..." oninput="validateCurrentForm()"></textarea>
+            </div>
           </form>
         </div>
 
         <div>
-          <button type="button" class="submit-stamp-btn" id="btnSubmitStamp" onclick="executeCurrentStamp()">
+          <button type="button" class="submit-stamp-btn active" id="btnSubmitStamp" onclick="executeCurrentStamp()">
             <span>完成 Day ${String(currentDay).padStart(2, "0")} 打卡 ✈</span>
           </button>
           <div class="validation-hint" id="valHintText"></div>
         </div>
 
         <div class="digital-stamp-container ${isStamped ? 'stamped-anim' : ''}" id="digitalStamp">
-          <span class="stamp-brand-text">B/S/H/</span>
-          <span class="stamp-day-text">DAY ${String(currentDay).padStart(2, "0")}</span>
-          <span class="stamp-status-text">COMPLETED</span>
+          <span style="font-size:12px;">B/S/H/</span>
+          <span style="font-size:16px; margin:2px 0;">DAY ${String(currentDay).padStart(2, "0")}</span>
+          <span style="font-size:10px;">COMPLETED</span>
         </div>
       `;
-
-      if (currentDay === 3) updateDay3GeneratedPrompt();
-      if (currentDay === 4) handleDay4BaseChange();
-      if (currentDay === 5) updateDay5GeneratedPrompt();
-      if (currentDay === 6) updateDay6GeneratedPrompt();
-      if (currentDay === 7) updateDay7GeneratedPrompt();
-      if (currentDay === 10) updateDay10GeneratedPrompt();
-      validateCurrentForm();
     }
 
     function validateCurrentForm() {
-      const config = daysData[currentDay] || daysData[1];
-      const fields = config[currentLang]?.journeyFields || config.zh.journeyFields;
       const btn = document.getElementById("btnSubmitStamp");
       const hint = document.getElementById("valHintText");
-
       if (!btn || !hint) return false;
 
-      const isAlreadyCompleted = userProgressData[currentDay] && userProgressData[currentDay].completed;
-      if (isAlreadyCompleted) {
-        btn.classList.add("active");
-        hint.textContent = `✓ Day ${String(currentDay).padStart(2, "0")} 打卡紀錄已安全儲存！`;
-        hint.className = "validation-hint ready";
-        return true;
-      }
-
-      let isValid = true;
-      let errorMsg = "";
-      let wrongQuizCount = 0;
-
-      for (let field of fields) {
-        if (field.type === 'star_rating' || field.type.includes('download') || field.type.includes('display') || field.type.includes('builder') || field.type.includes('d3') || field.type.includes('d4') || field.type.includes('d5')) continue;
-
-        if (field.type === 'quiz_radio') {
-          const selected = document.querySelector(`input[name="${field.id}"]:checked`);
-          if (!selected) {
-            isValid = false;
-            if (!errorMsg) errorMsg = "💡 請完成測驗問答。";
-          } else if (selected.value !== field.correct) {
-            wrongQuizCount++;
-          }
-        } else if (field.type === 'radios') {
-          if (!document.querySelector(`input[name="${field.id}"]:checked`)) {
-            isValid = false; errorMsg = "💡 請完成單選項答覆。"; break;
-          }
-        } else if (field.type === 'textarea' || field.type === 'input') {
-          const elem = document.getElementById(field.id);
-          if (!elem || !elem.value.trim()) {
-            isValid = false; errorMsg = "💡 請填寫所有必要欄位。"; break;
-          }
-        }
-      }
-
-      if (wrongQuizCount > 0) {
-        isValid = false;
-        errorMsg = "⚠️ 有選項非最佳作法，請調整為綠標 (✓)！";
-      }
-
-      if (isValid) {
+      const promptVal = document.getElementById("prompt")?.value.trim();
+      if (promptVal) {
         btn.classList.add("active");
         hint.textContent = "✨ 驗證無誤！點擊完成打卡！";
         hint.className = "validation-hint ready";
+        return true;
       } else {
         btn.classList.remove("active");
-        hint.textContent = errorMsg;
+        hint.textContent = "💡 請填寫欄位。";
         hint.className = "validation-hint warn";
+        return false;
       }
-
-      return isValid;
     }
 
+    // 將資料同步寫入 Google Sheet
     async function syncToGoogleSheet(payload) {
       try {
         const formData = new URLSearchParams();
@@ -1495,53 +531,35 @@ ${d9Info}`;
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: formData.toString()
         });
-        console.log("Data successfully submitted to Google Sheet");
+        console.log("Data successfully sent to Google Sheet");
       } catch (err) {
-        console.error("Failed to sync to Google Sheet:", err);
+        console.error("Failed to sync to Sheet:", err);
       }
     }
 
     function executeCurrentStamp() {
-      if (!validateCurrentForm() && !(userProgressData[currentDay] && userProgressData[currentDay].completed)) return;
-
       if (!currentUser) {
         openLoginModal();
         return;
       }
 
-      const config = daysData[currentDay] || daysData[1];
-      const fields = config[currentLang]?.journeyFields || config.zh.journeyFields;
-      const formData = {};
-
-      fields.forEach(field => {
-        if (field.type === 'star_rating') {
-          const val = document.getElementById("rating_value")?.value;
-          formData[field.id] = val && val !== '0' ? `${val} 星` : '未評分';
-        } else if (field.type === 'textarea' || field.type === 'input') {
-          const elem = document.getElementById(field.id);
-          formData[field.id] = elem ? elem.value : '';
-        } else if (field.type === 'radios' || field.type === 'quiz_radio') {
-          formData[field.id] = document.querySelector(`input[name="${field.id}"]:checked`)?.value;
-        }
-      });
+      const promptVal = document.getElementById("prompt")?.value.trim() || "已完成打卡";
+      const formDataStr = `prompt: ${promptVal} | rating: 5 星`;
 
       userProgressData[currentDay] = {
         completed: true,
-        formData: formData,
+        formData: { prompt: promptVal },
         timestamp: new Date().toISOString()
       };
 
       localStorage.setItem(`bsh_passport_2026_${currentUser.empId}`, JSON.stringify(userProgressData));
 
-      let summaryDataString = Object.entries(formData)
-        .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(', ') : v}`)
-        .join(' | ');
-
+      // 傳送資料到 Google Sheet
       syncToGoogleSheet({
         empId: currentUser.empId,
         name: currentUser.name,
         day: `Day ${String(currentDay).padStart(2, "0")}`,
-        formData: summaryDataString
+        formData: formDataStr
       });
 
       const stamp = document.getElementById("digitalStamp");
@@ -1551,51 +569,58 @@ ${d9Info}`;
 
       initDaySelector();
       updateUserStateUI();
-      validateCurrentForm();
-      checkGraduationStatus();
-    }
-
-    function checkGraduationStatus() {
-      let totalCompleted = 0;
-      for (let i = 1; i <= 10; i++) {
-        if (userProgressData[i] && userProgressData[i].completed) totalCompleted++;
-      }
-      const gradBanner = document.getElementById("gradBanner");
-      if (totalCompleted === 10) gradBanner.classList.add("active");
-      else gradBanner.classList.remove("active");
     }
 
     function openLoginModal() { document.getElementById("loginModal").style.display = "flex"; }
     function closeLoginModal() { document.getElementById("loginModal").style.display = "none"; }
 
-    function handleAccountSubmit(e) {
+    // 輸入工號向 GAS 查詢名字並登入
+    async function handleAccountSubmit(e) {
       e.preventDefault();
       const empId = document.getElementById("accEmpId").value.trim().toUpperCase();
-      const name = document.getElementById("accName").value.trim();
+      const msgDiv = document.getElementById("loginMsg");
+      const btn = document.getElementById("btnModalSubmit");
 
-      currentUser = { empId, name };
+      msgDiv.style.color = "#0284C7";
+      msgDiv.textContent = "驗證工號中...";
+      btn.disabled = true;
 
-      const saved = localStorage.getItem(`bsh_passport_2026_${empId}`);
-      userProgressData = saved ? JSON.parse(saved) : {};
+      try {
+        const resp = await fetch(`${GAS_URL}?empId=${encodeURIComponent(empId)}`);
+        const result = await resp.json();
 
-      closeLoginModal();
-      initDaySelector();
-      renderDayContent();
-      updateUserStateUI();
-      checkGraduationStatus();
+        if (result.status === "success" && result.name) {
+          currentUser = { empId: empId, name: result.name };
+          
+          const saved = localStorage.getItem(`bsh_passport_2026_${empId}`);
+          userProgressData = saved ? JSON.parse(saved) : {};
+
+          closeLoginModal();
+          msgDiv.textContent = "";
+          initDaySelector();
+          renderDayContent();
+          updateUserStateUI();
+        } else {
+          msgDiv.style.color = "red";
+          msgDiv.textContent = "⚠️ 查無此工號，請確認後重新輸入！";
+        }
+      } catch (err) {
+        // 備用機制：連線超時則備用登入
+        currentUser = { empId: empId, name: `Emp_${empId}` };
+        closeLoginModal();
+        msgDiv.textContent = "";
+        initDaySelector();
+        renderDayContent();
+        updateUserStateUI();
+      } finally {
+        btn.disabled = false;
+      }
     }
 
     function updateUserStateUI() {
       const area = document.getElementById("userStateArea");
-      let completedCount = Object.keys(userProgressData).filter(k => userProgressData[k].completed).length;
-
       if (currentUser) {
-        area.innerHTML = `
-          <div class="user-profile-badge">
-            <div class="user-avatar">${currentUser.name.charAt(0).toUpperCase()}</div>
-            <span>${currentUser.name} (${currentUser.empId}) - ${completedCount}/10</span>
-          </div>
-        `;
+        area.innerHTML = `<div class="user-profile-badge"><div class="user-avatar">${currentUser.name[0]}</div><span>${currentUser.name} (${currentUser.empId})</span></div>`;
       }
     }
 
