@@ -302,7 +302,6 @@
       background: var(--bosch-dark); color: #FFFFFF; border-color: var(--bosch-dark);
     }
 
-    /* 正確與錯誤標籤樣式 (Day 08 專用) */
     .radio-pill-item input:checked + .radio-pill-label.correct-choice {
       background: #16A34A !important; color: #FFFFFF !important; border-color: #16A34A !important;
     }
@@ -607,6 +606,7 @@
     let lastCheckInDate = null; 
     let d6Mode = "auto"; 
     let d7Mode = "auto";
+    let d10Mode = "auto";
 
     let mockLeaderboard = [];
 
@@ -694,7 +694,17 @@
       return "（沿用 Day 04 打造的 3D 專屬職場角色原型）";
     }
 
-    /* Day 09 數據集匯出 (單一純真實 ERP CSV，不包含對比或自動遮蔽) */
+    function getDay9InsightSummary() {
+      if (userProgressData && userProgressData[9] && userProgressData[9].formData) {
+        const d9 = userProgressData[9].formData;
+        const findings = d9.findings3 || "1. 獨立式洗碗機為主力銷售\n2. 網路商城大宗採購量上升";
+        const insight = d9.insightVer || "分析高單價烤箱在特定門市爆發的主因與促銷對照";
+        return `【Day 09 數據發現】：\n${findings}\n\n【Day 09 驗證洞察】：${insight}`;
+      }
+      return "【Day 09 數據發現】：1. 獨立式洗碗機 SMS53E02TC 在北部區域銷量最高。\n2. 網路商城之大宗採購訂單比例持續提升。\n\n【Day 09 驗證洞察】：南部門市高單價烤箱銷量爆發，驗證促銷與展示櫃升級之關聯性。";
+    }
+
+    /* Day 09 數據集匯出 */
     function downloadERPDataCSV() {
       const lastNames = ["陳", "林", "黃", "張", "李", "王", "吳", "劉", "蔡", "楊"];
       const firstNames = ["志明", "雅婷", "嘉豪", "怡君", "建宏", "詩涵", "宗翰", "佩珊", "承翰", "雅琪"];
@@ -713,7 +723,7 @@
         { model: "BOSCH 感應爐 PXX875D67E", price: 58000 }
       ];
 
-      let csvContent = "\uFEFF"; // UTF-8 BOM，防止 Excel 開啟亂碼
+      let csvContent = "\uFEFF"; 
       csvContent += "OrderID,CustomerName,CustomerAddress,StoreType,Region,ProductModel,Quantity,Amount_TWD,PurchaseDate\n";
 
       for (let i = 1; i <= 800; i++) {
@@ -742,6 +752,70 @@
       
       link.setAttribute("href", url);
       link.setAttribute("download", "BSH_ERP_Sales_Data_800.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    /* Day 10 BSH_Template_v5.html 範本動態下載功能 */
+    function downloadBSHTemplateHTML() {
+      const templateHTMLContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BSH Executive Presentation | Data Storytelling Deck</title>
+  <style>
+    :root {
+      --bosch-red: #F26A3D;
+      --bosch-dark-red: #C94A25;
+      --bosch-blue: #000000;
+      --bosch-cyan: #3A3A3A;
+      --bosch-yellow: #FFF0E8;
+      --gray-900: #111111;
+      --gray-700: #3A3A3A;
+      --gray-500: #666666;
+      --gray-200: #ECECEC;
+      --gray-100: #F7F7F7;
+      --text: #111111;
+      --muted: #666666;
+      --line: #DDDDDD;
+      --shadow: 0 18px 46px rgba(0, 0, 0, 0.08);
+      --radius: 26px;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; background: #ffffff; color: var(--text); }
+    .brand-strip { position: fixed; top: 0; left: 0; right: 0; height: 7px; background: linear-gradient(90deg, var(--bosch-red), var(--bosch-blue)); z-index: 50; }
+    .slide { padding: 80px 60px; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+    .kicker { color: var(--bosch-red); font-weight: 900; letter-spacing: 2px; text-transform: uppercase; font-size: 14px; margin-bottom: 12px; }
+    h1 { font-size: 48px; margin: 0 0 20px; line-height: 1.1; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
+    .kpi-card { background: #FFFFFF; border: 1px solid var(--line); border-radius: 20px; padding: 24px; box-shadow: var(--shadow); border-top: 4px solid var(--bosch-red); }
+    .kpi-num { font-size: 42px; font-weight: 900; color: var(--bosch-red); }
+    .kpi-title { font-size: 16px; font-weight: 800; margin-top: 8px; color: var(--gray-900); }
+    .kpi-desc { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <div class="brand-strip"></div>
+  <div class="slide">
+    <div class="kicker">BSH AI PASSPORT DAY 10 FINAL PROJECT</div>
+    <h1>BSH Data Insight Executive Presentation</h1>
+    <p style="font-size:18px; color:#555;">由 AI 自動整合 Day 09 數據洞察所生成之高階簡報/儀表板範本。</p>
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-num">800 筆</div><div class="kpi-title">ERP 分析筆數</div><div class="kpi-desc">完整去識別化數據分析</div></div>
+      <div class="kpi-card"><div class="kpi-num">3 大發現</div><div class="kpi-title">核心市場洞察</div><div class="kpi-desc">主力產品與通路結構化歸納</div></div>
+      <div class="kpi-card"><div class="kpi-num">100% 驗證</div><div class="kpi-title">數據支持證據</div><div class="kpi-desc">經 AI 解讀與跨項對比確認</div></div>
+    </div>
+  </div>
+</body>
+</html>`;
+
+      const blob = new Blob([templateHTMLContent], { type: 'text/html;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", "BSH_Template_v5.html");
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -939,6 +1013,57 @@ Phrases: ${phraseVals}`;
 4. 整理出最常被問到的 2 個 FAQ 與解決解答。`;
 
       const promptBox = document.getElementById("d7GeneratedPromptBox");
+      if (promptBox) promptBox.value = generatedPrompt;
+      validateCurrentForm();
+    }
+
+    /* Day 10 專用 Prompt 更新與切換機制 */
+    function switchD10Mode(mode) {
+      d10Mode = mode;
+      document.getElementById("btnD10Auto")?.classList.toggle("active", mode === "auto");
+      document.getElementById("btnD10Custom")?.classList.toggle("active", mode === "custom");
+
+      const blockAuto = document.getElementById("d10AutoBlock");
+      const blockCustom = document.getElementById("d10CustomBlock");
+
+      if (mode === "auto") {
+        if (blockAuto) blockAuto.style.display = "block";
+        if (blockCustom) blockCustom.style.display = "none";
+        updateDay10GeneratedPrompt();
+      } else {
+        if (blockAuto) blockAuto.style.display = "none";
+        if (blockCustom) blockCustom.style.display = "block";
+      }
+      validateCurrentForm();
+    }
+
+    function updateDay10GeneratedPrompt() {
+      if (d10Mode !== "auto") return;
+
+      const d9Info = getDay9InsightSummary();
+      const typeRadio = document.querySelector('input[name="d10Type"]:checked');
+      const typeVal = typeRadio ? typeRadio.value : "HTML Presentation (高階互動簡報)";
+
+      const topicRadio = document.querySelector('input[name="d10Topic"]:checked');
+      const topicVal = topicRadio ? topicRadio.value : "Q3 銷售數據分析報告 (ERP Sales Analytics)";
+
+      const featureBoxes = document.querySelectorAll('input[name="d10Features"]:checked');
+      const featureVals = Array.from(featureBoxes).map(b => b.value).join('、') || "動態 KPI 卡片數字累加、Chart.js 動態銷售圖表";
+
+      const generatedPrompt = `請作為專業前端體驗設計師與 BSH 企業數據分析專家，請幫我將【Day 09 的數據洞察】結合【BSH 企業 HTML 簡報範本 (BSH_Template_v5.html)】的樣式與動畫架構，產出一套完整且可直接運行的單頁 HTML ${typeVal}：
+
+【簡報主題】：${topicVal}
+【自動帶入之 Day 09 數據洞察與證據】：
+${d9Info}
+
+【希望包含之互動元素】：${featureVals}
+
+【HTML 產出規範與要求】：
+1. 請遵循 BSH 品牌視覺規範（純白背景、BSH 活力橘 #F26A3D、深灰 #3A3A3A 與黑色 #000000  accent 色調）。
+2. 請將上述 Day 09 的【3 個重要發現】與【1 個驗證洞察與證據】轉化為專業的 KPI 數據卡片與 HTML 圖表頁面。
+3. 請輸出完整、可單獨在瀏覽器運行的單一 HTML 檔案程式碼（包含 <style> 與 <script>），不使用外部未授權依賴。`;
+
+      const promptBox = document.getElementById("d10GeneratedPromptBox");
       if (promptBox) promptBox.value = generatedPrompt;
       validateCurrentForm();
     }
@@ -1244,7 +1369,7 @@ Phrases: ${phraseVals}`;
               try: "角色設定 ➔ 選擇動作與運鏡 ➔ 產出流暢短影音 Prompt", 
               details: [
                 "① 🎬 職場日常動態：喝咖啡思考、忙碌打字、歡呼讚許",
-                "② 🗣️️ 開口講話導覽：擔任專案大使，做出活潑嘴型與肢体動作",
+                "② 🗣 開口講話導覽：擔任專案大使，做出活潑嘴型與肢体動作",
                 "③ 🚀 炫酷登場特效：3D 鏡頭環繞、霓虹光影變身效果",
                 "④ 🎥 多模態相容：支援短影片、GIF 動畫與動態腳本產生"
               ] 
@@ -1323,7 +1448,7 @@ Phrases: ${phraseVals}`;
               details: [
                 "① 📂 新進人員公用槽導覽：目錄結構與存取權限說明",
                 "② 📝 合約檢查要點指南：審查 Check-list 與注意事項圖表",
-                "③ ✍️ 簽呈使用範例說明：撰寫架構與範本參照表",
+                "③ ✍️️ 簽呈使用範例說明：撰寫架構與範本參照表",
                 "④ 🌴 請假流程與規則圖解：簽核階層與系統步驟"
               ] 
             }
@@ -1607,7 +1732,7 @@ Phrases: ${phraseVals}`;
           journeyTitle: "我的數據洞察紀錄 (Data Detective)",
           journeyFields: [
             { type: "d9_dataset_download_block", id: "d9DataBlock", label: "① STEP 1：下載模擬 ERP 銷售資料集", req: "下載體驗" },
-            { type: "textarea", id: "findings3", label: "② MY 3 KEY FINDINGS (3 個數據重要發現)", req: "必填", placeholder: "例如：1. 北部門市洗碗機銷售佔比最高 45%&#10;2. 網路商城大宗購買比例提升..." },
+            { type: "textarea", id: "findings3", label: "② MY 3 KEY FINDINGS (3 個數據重要發現)", req: "必填", placeholder: "例如：1. 北部門市洗碗機銷售佔比最高 45%\n2. 網路商城大宗購買比例提升..." },
             { type: "input", id: "insightVer", label: "③ ONE INSIGHT I VERIFIED (1 個欲驗證之洞察)", req: "必填", placeholder: "例如：南部特定門市高單價烤箱爆發，是否受特定促銷影響？" },
             { type: "textarea", id: "evidenceText", label: "④ SHOW ME THE EVIDENCE (AI 提供的具體支持證據)", req: "必填", placeholder: "貼上 AI 列出的數據證據（如：南部 6 月烤箱銷售量比前季成長 120%...）" },
             commonRatingFieldZh
@@ -1642,46 +1767,48 @@ Phrases: ${phraseVals}`;
         accent: "#D69E2E",
         accentBg: "#FEFCBF",
         zh: {
-          kicker: "DAY 10 | FINAL MISSION",
-          title: "Create with HTML",
-          goal: "用 AI 打造你的 HTML 互動式簡報或儀表板！不需要寫程式！",
-          subGoal: "Don't start over. Improve what already works.",
+          kicker: "DAY 10 | FINAL GRADUATION PROJECT",
+          title: "BSH HTML Executive Presentation",
+          goal: "套用 BSH 企業 HTML 簡報範本，結合 Day 09 的數據洞察與證據，由 AI 打造高階主管互動式簡報與數據儀表板！",
+          subGoal: "Data Insight → BSH Interactive HTML Presentation.",
           cards: [
-            { type: "copilot", title: "FINAL MISSION WORKFLOW", tag: "單頁 HTML 成果生成", try: "DEFINE ➔ PLAN ➔ BUILD ➔ REFINE", details: ["OPTION A：HTML Presentation (6-8 頁簡報)", "OPTION B：HTML Dashboard (單頁儀表板)", "先請 Gemini 規劃架構，確認後才產出 HTML！"] }
+            { type: "copilot", title: "BSH HTML PRESENTATION BUILDER", tag: "企業級單頁 HTML 成果生成", try: "下載範本 ➔ 自動帶入 Day 09 數據 ➔ 請 AI 生成 HTML", details: ["1. 支援 BSH 橘黑高質感企業視覺規範", "2. 自動嵌入動態 KPI 卡片與數據圖表", "3. 全響應式 RWD 單頁 HTML，不需寫程式", "4. 帶入 Day 09 實戰洞察，具備完整說服力"] }
           ],
-          howTitle: "FINAL STEP｜終極關卡驗證",
+          howTitle: "FINAL MISSION｜畢業實戰流程",
           steps: [
-            "打包成單一 HTML 檔案，貼上截圖或作品連結！"
+            "STEP 1｜下載 BSH 企業 HTML 範本：點擊右側按鈕取得原始結構檔 (BSH_Template_v5.html)。",
+            "STEP 2｜選擇模式並複製 PROMPT：系統將自動結合 Day 09 輸入的 3 大數據發現與洞察，合成精準 HTML 生成指令。",
+            "STEP 3｜貼至 ChatGPT / Gemini 生成 HTML 成果，並貼上代碼或預覽連結完成打卡畢業！"
           ],
-          recommendedPrompt: "我想根據以下內容製作互動式 HTML 簡報，請先提供頁面架構與建議視覺。",
-          journeyTitle: "終極任務打卡 (Final Submission)",
+          recommendedPrompt: "💡 提示：點擊右上角可切換「新手模式」或「進階模式」，複製 Prompt 貼給 AI 即可生成高階 HTML 簡報！",
+          journeyTitle: "終極畢業任務打卡 (Final BSH HTML Presentation)",
           journeyFields: [
-            { type: "radios", id: "builtType", label: "① I BUILT (作品類型)", req: "必選", options: ["HTML Presentation (簡報)", "HTML Dashboard (儀表板)"] },
-            { type: "input", id: "topicPurpose", label: "② MY TOPIC / PURPOSE (主題與目的)", req: "必填", placeholder: "例如：Q3 業務成果匯報" },
-            { type: "input", id: "finalResult", label: "③ MY FINAL RESULT (貼上作品連結)", req: "必填", placeholder: "貼上分享連結..." },
-            { type: "checkboxes", id: "testCheck", label: "④ TEST CHECK (測試與優化)", req: "必選 2 項", options: ["我已測試功能正常", "我至少完成一次優化調整"] },
+            { type: "d10_template_download_block", id: "d10DownloadBlock", label: "① STEP 1：下載 BSH 企業 HTML 簡報範本", req: "下載體驗" },
+            { type: "d10_dual_mode_wrapper", id: "d10Wrapper", label: "② STEP 2：選擇模式並生成專屬 HTML PROMPT", req: "核心步驟" },
+            { type: "textarea", id: "finalHtmlCode", label: "③ MY HTML RESULT｜貼上 AI 生成的 HTML 程式碼或作品連結", req: "必填", placeholder: "貼上完整的 HTML 代碼或分享網址..." },
             commonRatingFieldZh
           ]
         },
         en: {
-          kicker: "DAY 10 | FINAL MISSION",
-          title: "Create with HTML",
-          goal: "Build your interactive HTML Presentation or Dashboard with AI!",
-          subGoal: "Don't start over. Improve what already works.",
+          kicker: "DAY 10 | FINAL GRADUATION PROJECT",
+          title: "BSH HTML Executive Presentation",
+          goal: "Apply BSH HTML Presentation Template, combine Day 09 insights, and build interactive HTML decks with AI!",
+          subGoal: "Data Insight → BSH Interactive HTML Presentation.",
           cards: [
-            { type: "copilot", title: "FINAL MISSION WORKFLOW", tag: "Single-Page HTML Output", try: "DEFINE -> PLAN -> BUILD -> REFINE", details: ["OPTION A: HTML Presentation", "OPTION B: HTML Dashboard", "Confirm structure before generating code!"] }
+            { type: "copilot", title: "BSH HTML PRESENTATION BUILDER", tag: "Single-Page HTML Output", try: "Download Template -> Inject Day 09 Data -> Generate HTML", details: ["1. Follows BSH signature Orange & Dark branding", "2. Auto-embeds animated KPI cards and charts", "3. Responsive HTML layout without coding", "4. Direct integration of Day 09 verified insights"] }
           ],
-          howTitle: "FINAL STEP | Graduation Mission",
+          howTitle: "FINAL MISSION | Graduation Workflow",
           steps: [
-            "Build a standalone HTML file and paste link!"
+            "STEP 1 | Download BSH Presentation Template (BSH_Template_v5.html) on the right.",
+            "STEP 2 | Auto-inject Day 09 findings and copy system-built HTML prompt.",
+            "STEP 3 | Paste code or URL to complete your graduation check-in!"
           ],
-          recommendedPrompt: "I want to build an interactive HTML presentation based on my notes.",
-          journeyTitle: "Final Mission Submission",
+          recommendedPrompt: "💡 Hint: Toggle between Auto and Custom mode using tabs above!",
+          journeyTitle: "Final Mission Check-in (BSH HTML Presentation)",
           journeyFields: [
-            { type: "radios", id: "builtType", label: "① I BUILT", req: "Select 1", options: ["HTML Presentation", "HTML Dashboard"] },
-            { type: "input", id: "topicPurpose", label: "② MY TOPIC / PURPOSE", req: "Required", placeholder: "e.g., Q3 Business Review Deck" },
-            { type: "input", id: "finalResult", label: "③ MY FINAL RESULT", req: "Required", placeholder: "Paste URL..." },
-            { type: "checkboxes", id: "testCheck", label: "④ TEST CHECK", req: "Select 2", options: ["I tested functionality", "I completed 1 refinement"] },
+            { type: "d10_template_download_block", id: "d10DownloadBlock", label: "① STEP 1: Download BSH Presentation Template", req: "Download" },
+            { type: "d10_dual_mode_wrapper", id: "d10Wrapper", label: "② STEP 2: Select Mode & Generate HTML Prompt", req: "Core Step" },
+            { type: "textarea", id: "finalHtmlCode", label: "③ MY HTML RESULT | Paste HTML Code or Share Link", req: "Required", placeholder: "Paste HTML code or URL..." },
             commonRatingFieldEn
           ]
         }
@@ -1788,8 +1915,74 @@ Phrases: ${phraseVals}`;
         const savedVal = currentDayStore[field.id];
         const isOptional = field.req && field.req.includes('Optional');
 
-        if (field.type === 'd9_dataset_download_block') {
-          /* Day 09 數據集下載區塊（簡化型、單一 CSV 下載按鈕） */
+        if (field.type === 'd10_template_download_block') {
+          inputControl = `
+            <div style="font-size:12px; color:var(--bosch-dark); margin-bottom:10px; line-height:1.5;">
+              內含 BSH 官方企業視覺規範、動態專案矩陣、KPI 卡片與 Chart.js 動態圖表展示架構。
+            </div>
+
+            <button type="button" class="btn-primary-sm" style="background:#D69E2E; color:#FFFFFF; width:100%; text-align:center; padding:10px 12px; font-weight:900;" onclick="downloadBSHTemplateHTML()">
+              📥 下載 BSH 企業 HTML 簡報範本 (BSH_Template_v5.html)
+            </button>
+          `;
+        } else if (field.type === 'd10_dual_mode_wrapper') {
+          inputControl = `
+            <div class="mode-tab-container">
+              <button type="button" class="mode-tab-btn ${d10Mode === 'auto' ? 'active' : ''}" id="btnD10Auto" onclick="switchD10Mode('auto')">⚡ 新手模式：自動帶入 DAY 09 數據洞察</button>
+              <button type="button" class="mode-tab-btn ${d10Mode === 'custom' ? 'active' : ''}" id="btnD10Custom" onclick="switchD10Mode('custom')">✍️ 進階挑戰：親自撰寫 PROMPT</button>
+            </div>
+
+            <!-- Mode A: 自動組裝 -->
+            <div id="d10AutoBlock" style="display: ${d10Mode === 'auto' ? 'block' : 'none'};">
+              <div style="margin-bottom:10px; background:#FFF0E8; border:1px solid var(--bosch-orange); padding:8px 10px; border-radius:8px; font-size:11px; color:var(--bosch-dark-orange);">
+                <b>帶入 Day 09 數據洞察：</b><br/>${getDay9InsightSummary().replace(/\n/g, '<br/>')}
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">選擇成果類型</label>
+                <div class="radio-pills" style="flex-direction:column; gap:6px;">
+                  <div class="radio-pill-item"><input type="radio" id="d10Type_0" name="d10Type" value="HTML Presentation (高階互動簡報)" checked onchange="updateDay10GeneratedPrompt()"><label for="d10Type_0" class="radio-pill-label" style="width:100%; text-align:left;">📊 HTML Presentation (多頁高階簡報)</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d10Type_1" name="d10Type" value="HTML Dashboard (數據視覺化儀表板)" onchange="updateDay10GeneratedPrompt()"><label for="d10Type_1" class="radio-pill-label" style="width:100%; text-align:left;">📈 HTML Dashboard (單頁數據儀表板)</label></div>
+                </div>
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">選擇簡報/儀表板主題</label>
+                <div class="radio-pills" style="flex-direction:column; gap:6px;">
+                  <div class="radio-pill-item"><input type="radio" id="d10Topic_0" name="d10Topic" value="Q3 銷售數據分析報告 (ERP Sales Analytics)" checked onchange="updateDay10GeneratedPrompt()"><label for="d10Topic_0" class="radio-pill-label" style="width:100%; text-align:left;">💼 Q3 銷售數據分析報告 (ERP Sales Analytics)</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d10Topic_1" name="d10Topic" value="洗碗機與烤箱主力產品線銷售趨勢報告" onchange="updateDay10GeneratedPrompt()"><label for="d10Topic_1" class="radio-pill-label" style="width:100%; text-align:left;">🍽️ 洗碗機與烤箱主力產品線銷售趨勢報告</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d10Topic_2" name="d10Topic" value="BSH AI Passport 10 天學習成果總結展示" onchange="updateDay10GeneratedPrompt()"><label for="d10Topic_2" class="radio-pill-label" style="width:100%; text-align:left;">🚀 BSH AI Passport 10 天學習成果總結展示</label></div>
+                </div>
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">希望包含之互動元素 (可複選)</label>
+                <div class="checkbox-pills">
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d10Features_0" name="d10Features" value="動態 KPI 卡片數字累加" checked onchange="updateDay10GeneratedPrompt()"><label for="d10Features_0" class="checkbox-pill-label">動態 KPI 卡片</label></div>
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d10Features_1" name="d10Features" value="Chart.js 動態銷售圖表" checked onchange="updateDay10GeneratedPrompt()"><label for="d10Features_1" class="checkbox-pill-label">Chart.js 圖表</label></div>
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d10Features_2" name="d10Features" value="投影片分頁切換按鈕" onchange="updateDay10GeneratedPrompt()"><label for="d10Features_2" class="checkbox-pill-label">分頁切換按鈕</label></div>
+                </div>
+              </div>
+
+              <textarea id="d10GeneratedPromptBox" class="text-input-styled" style="min-height:130px;" readonly></textarea>
+              <button type="button" class="btn-primary-sm" id="btnCopyPromptD10Auto" style="margin-top:8px; width:100%; border-radius:8px; background:#D69E2E; color:#FFF;" onclick="copyText(document.getElementById('d10GeneratedPromptBox').value, 'btnCopyPromptD10Auto')">📋 複製 HTML 生成 PROMPT 貼至 AI</button>
+            </div>
+
+            <!-- Mode B: 自主撰寫 -->
+            <div id="d10CustomBlock" style="display: ${d10Mode === 'custom' ? 'block' : 'none'};">
+              <div style="background:#FFF0E8; border:1px solid var(--bosch-orange); border-radius:10px; padding:10px 12px; font-size:11px; color:var(--bosch-dark-orange); font-weight:700; margin-bottom:10px;">
+                💡 <b>HTML Presentation 撰寫萬用架構建議：</b><br/>
+                ・<b>[風格定義]</b> BSH 白灰底橘黑文字、單頁響應式 RWD...<br/>
+                ・<b>[資料帶入]</b> 請嵌入我在 Day 09 分析的洞察與支持數據...<br/>
+                ・<b>[組件要求]</b> 包含 3 個 KPI 卡片、1 個柱狀圖表與結論卡片。
+              </div>
+
+              <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">✍️ 請在下方輸入你自己思考並撰寫的 HTML 生成 Prompt：</label>
+              <textarea id="d10CustomPromptInput" class="text-input-styled" style="min-height:130px;" placeholder="試著套用上面提示，寫出屬於你的指令..." oninput="validateCurrentForm()">${savedVal || ''}</textarea>
+              <button type="button" class="btn-primary-sm" id="btnCopyPromptD10Custom" style="margin-top:8px; width:100%; border-radius:8px; background:#D69E2E; color:#FFF;" onclick="copyText(document.getElementById('d10CustomPromptInput').value, 'btnCopyPromptD10Custom')">📋 複製我親自寫的 PROMPT 貼至 AI</button>
+            </div>
+          `;
+        } else if (field.type === 'd9_dataset_download_block') {
           inputControl = `
             <div style="font-size:12px; color:var(--bosch-dark); margin-bottom:10px; line-height:1.5;">
               內含真實 ERP 常見欄位（訂單編號、客戶姓名、購買門市/網路商城、型號、數量、金額、地址、區域）。請同仁自主判斷去識別化範圍後，再將安全欄位輸入 AI 進行分析與對話！
@@ -1935,14 +2128,14 @@ Phrases: ${phraseVals}`;
           inputControl = `<div style="background:#FFF0E8; border:1px solid var(--bosch-orange); border-radius:8px; padding:10px 12px; font-size:12px; color:var(--bosch-dark-orange); font-weight:700;">✨ ${getDay3StyleSummary()}</div>`;
         } else if (field.type === 'day4_char_display') {
           inputControl = `<div style="background:#FFF0E8; border:1px solid var(--bosch-orange); border-radius:8px; padding:10px 12px; font-size:12px; color:var(--bosch-dark-orange); font-weight:700;">🤖 ${getDay4CharacterSummary()}</div>`;
+        } else if (field.type === 'prompt_builder') {
+          inputControl = `<textarea id="generatedPromptBox" class="text-input-styled" style="min-height:140px;" readonly></textarea><button type="button" class="btn-primary-sm" id="btnCopyPrompt" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('generatedPromptBox').value, 'btnCopyPrompt')">📋 複製 STYLE BOARD PROMPT</button>`;
         } else if (field.type === 'radios_d3') {
           inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => `<div class="radio-pill-item"><input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${(savedVal === opt || i === 0) ? 'checked' : ''} onchange="updateDay3GeneratedPrompt()"><label for="${field.id}_${i}" class="radio-pill-label">${opt}</label></div>`).join('') + `</div>`;
         } else if (field.type === 'checkboxes_persona_d3') {
           inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => `<div class="checkbox-pill-item"><input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${((savedVal && savedVal.includes(opt)) || i === 0) ? 'checked' : ''} onchange="handleDay3PersonaCheck(this)"><label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label></div>`).join('') + `</div>`;
         } else if (field.type === 'checkboxes_d3') {
           inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => `<div class="checkbox-pill-item"><input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${((savedVal && savedVal.includes(opt)) || i === 1) ? 'checked' : ''} onchange="updateDay3GeneratedPrompt()"><label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label></div>`).join('') + `</div>`;
-        } else if (field.type === 'prompt_builder') {
-          inputControl = `<textarea id="generatedPromptBox" class="text-input-styled" style="min-height:140px;" readonly></textarea><button type="button" class="btn-primary-sm" id="btnCopyPrompt" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('generatedPromptBox').value, 'btnCopyPrompt')">📋 複製 STYLE BOARD PROMPT</button>`;
         } else if (field.type === 'radios_d4_base') {
           const savedAnimalName = currentDayStore.d4CustomAnimalInput || '';
           inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => `<div class="radio-pill-item"><input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${(savedVal === opt || i === 0) ? 'checked' : ''} onchange="handleDay4BaseChange()"><label for="${field.id}_${i}" class="radio-pill-label">${opt}</label></div>`).join('') + `</div><div id="d4AnimalInputContainer" style="margin-top:10px; display:${savedVal === field.options[1] ? 'block' : 'none'};"><input type="text" id="d4CustomAnimalInput" class="text-input-styled" placeholder="例如：水豚、柴犬..." value="${savedAnimalName}" oninput="updateDay4GeneratedPrompt()" /></div>`;
@@ -2031,6 +2224,7 @@ Phrases: ${phraseVals}`;
       if (currentDay === 5) updateDay5GeneratedPrompt();
       if (currentDay === 6) updateDay6GeneratedPrompt();
       if (currentDay === 7) updateDay7GeneratedPrompt();
+      if (currentDay === 10) updateDay10GeneratedPrompt();
       if (!isLockedDay) validateCurrentForm();
     }
 
@@ -2064,7 +2258,7 @@ Phrases: ${phraseVals}`;
       let wrongQuizCount = 0;
 
       for (let field of fields) {
-        if (field.type === 'star_rating' || field.type === 'd9_dataset_download_block' || field.type === 'day1_prompt_display' || field.type === 'day3_style_display' || field.type === 'day4_char_display' || field.type === 'prompt_builder' || field.type === 'prompt_builder_d4' || field.type === 'prompt_builder_d5' || field.type === 'radios_d3' || field.type === 'checkboxes_d3' || field.type === 'checkboxes_persona_d3' || field.type === 'radios_d4_base' || field.type === 'checkboxes_d4_acc' || field.type === 'radios_d5_count' || field.type === 'radios_d5_style' || field.type === 'checkboxes_d5_phrases') continue;
+        if (field.type === 'star_rating' || field.type === 'd9_dataset_download_block' || field.type === 'd10_template_download_block' || field.type === 'day1_prompt_display' || field.type === 'day3_style_display' || field.type === 'day4_char_display' || field.type === 'prompt_builder' || field.type === 'prompt_builder_d4' || field.type === 'prompt_builder_d5' || field.type === 'radios_d3' || field.type === 'checkboxes_d3' || field.type === 'checkboxes_persona_d3' || field.type === 'radios_d4_base' || field.type === 'checkboxes_d4_acc' || field.type === 'radios_d5_count' || field.type === 'radios_d5_style' || field.type === 'checkboxes_d5_phrases') continue;
 
         if (field.type === 'quiz_radio') {
           const selected = document.querySelector(`input[name="${field.id}"]:checked`);
@@ -2098,6 +2292,13 @@ Phrases: ${phraseVals}`;
         } else if (field.type === 'd7_dual_mode_wrapper') {
           if (d7Mode === 'custom') {
             const customVal = document.getElementById("d7CustomPromptInput")?.value.trim();
+            if (!customVal) {
+              isValid = false; errorMsg = currentLang === "zh" ? "💡 請輸入您親自撰寫的 Prompt。" : "💡 Please write your prompt."; break;
+            }
+          }
+        } else if (field.type === 'd10_dual_mode_wrapper') {
+          if (d10Mode === 'custom') {
+            const customVal = document.getElementById("d10CustomPromptInput")?.value.trim();
             if (!customVal) {
               isValid = false; errorMsg = currentLang === "zh" ? "💡 請輸入您親自撰寫的 Prompt。" : "💡 Please write your prompt."; break;
             }
@@ -2211,6 +2412,16 @@ Phrases: ${phraseVals}`;
           } else {
             formData.finalPromptUsed = document.getElementById("d7CustomPromptInput")?.value;
           }
+        } else if (field.type === 'd10_dual_mode_wrapper') {
+          formData.d10Mode = d10Mode;
+          if (d10Mode === 'auto') {
+            formData.d10Type = document.querySelector('input[name="d10Type"]:checked')?.value;
+            formData.d10Topic = document.querySelector('input[name="d10Topic"]:checked')?.value;
+            formData.d10Features = Array.from(document.querySelectorAll('input[name="d10Features"]:checked')).map(c => c.value);
+            formData.finalPromptUsed = document.getElementById("d10GeneratedPromptBox")?.value;
+          } else {
+            formData.finalPromptUsed = document.getElementById("d10CustomPromptInput")?.value;
+          }
         } else if (field.type === 'day1_prompt_display') {
           formData[field.id] = getDay1PromptText();
         } else if (field.type === 'day3_style_display') {
@@ -2235,6 +2446,8 @@ Phrases: ${phraseVals}`;
           formData[field.id] = document.querySelector(`input[name="${field.id}"]:checked`)?.value;
         } else if (field.type === 'd9_dataset_download_block') {
           formData[field.id] = "已下載模擬 800 筆 ERP 銷售數據集 (BSH_ERP_Sales_Data_800.csv)";
+        } else if (field.type === 'd10_template_download_block') {
+          formData[field.id] = "已下載 BSH 企業 HTML 簡報範本 (BSH_Template_v5.html)";
         } else {
           const elem = document.getElementById(field.id);
           formData[field.id] = elem ? elem.value : '';
