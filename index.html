@@ -81,9 +81,6 @@
     .btn-secondary { background: #ffffff; border: 1px solid var(--line-color); color: var(--bosch-dark); padding: 8px 18px; border-radius: 999px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.03); transition: all 0.2s ease; font-size: 13px; }
     .btn-secondary:hover { border-color: var(--bosch-orange); color: var(--bosch-orange); }
 
-    .btn-danger-sm { background: #FFF1F2; border: 1px solid #FECDD3; color: #E11D48; padding: 8px 14px; border-radius: 999px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; font-size: 12px; }
-    .btn-danger-sm:hover { background: #E11D48; color: #FFFFFF; }
-
     .btn-primary-sm { background: var(--bosch-orange); border: none; color: #ffffff; padding: 8px 18px; border-radius: 999px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 12px rgba(242, 106, 61, 0.2); transition: all 0.2s ease; font-size: 13px; }
     .btn-primary-sm:hover { background: var(--bosch-dark-orange); }
 
@@ -159,6 +156,20 @@
     .form-section-block { background: #FFFFFF; border: 1px solid var(--line-color); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
     .form-section-title { font-size: 13px; font-weight: 800; color: var(--bosch-dark); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
     .form-section-title span.req-badge { font-size: 10px; color: var(--bosch-orange); font-weight: 700; background: var(--light-orange); padding: 1px 6px; border-radius: 4px; }
+
+    .checkbox-pills, .radio-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    .checkbox-pill-item, .radio-pill-item { position: relative; }
+    .checkbox-pill-item input, .radio-pill-item input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
+    
+    .checkbox-pill-label, .radio-pill-label {
+      display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px;
+      border-radius: 999px; border: 1px solid var(--line-color); background: #FAFBFD;
+      font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; user-select: none;
+    }
+    .checkbox-pill-item input:checked + .checkbox-pill-label,
+    .radio-pill-item input:checked + .radio-pill-label {
+      background: var(--bosch-dark); color: #FFFFFF; border-color: var(--bosch-dark);
+    }
 
     .mode-tab-container { display: flex; background: #E2E8F0; border-radius: 12px; padding: 4px; margin-bottom: 14px; }
     .mode-tab-btn { flex: 1; padding: 8px 12px; border: none; border-radius: 8px; font-size: 12px; font-weight: 800; cursor: pointer; background: transparent; color: var(--muted-text); transition: all 0.2s ease; text-align: center; }
@@ -255,7 +266,6 @@
     </div>
     
     <div class="header-right">
-      <button class="btn-danger-sm" onclick="resetAllTestingData()">🧹 清除測試紀錄</button>
       <div id="userStateArea">
         <button class="btn-primary-sm" onclick="openLoginModal()" id="btnLoginNav">同仁登入 / 建立帳號</button>
       </div>
@@ -356,7 +366,7 @@
       return unlocked;
     }
 
-    let currentDay = 1;
+    let currentDay = 10;
     let currentLang = "zh";
     let currentUser = null;
     let userProgressData = {};
@@ -366,7 +376,6 @@
 
     const commonRatingFieldZh = { type: "star_rating", id: "rating", label: "⭐ TODAY'S RATING｜今天的任務體驗評分？", req: "選填 (Optional)" };
 
-    // 頁面初次載入：檢查是否有登入快照
     window.addEventListener("DOMContentLoaded", () => {
       const savedUserStr = localStorage.getItem("bsh_passport_current_user");
       if (savedUserStr) {
@@ -394,13 +403,6 @@
         }
       } else {
         userProgressData = {};
-      }
-    }
-
-    function resetAllTestingData() {
-      if (confirm("確定要重置本機所有測試紀錄嗎？")) {
-        localStorage.clear();
-        location.reload();
       }
     }
 
@@ -528,144 +530,7 @@
       validateCurrentForm();
     }
 
-    /* 完整 Day 1 ~ 10 關卡資料庫 */
     const daysData = {
-      1: {
-        accent: "#16A34A", accentBg: "#F0FDF4",
-        zh: {
-          kicker: "DAY 01 | LEARNING TICKET", title: "AI Prompt 基礎與角色設定",
-          goal: "學習如何為 AI 設定明確的角色身份 (System Role) 與背景脈絡，讓 AI 給予貼近 workplace 需求的精準回答。",
-          subGoal: "Give AI a persona, get professional response.",
-          cards: [{ type: "chatgpt", title: "PROMPT FRAMEWORK", tag: "角色 + 任務 + 限制", try: "ChatGPT in BSH AIM", details: ["1. Role: 你是經驗豐富的 BSH 專案經理", "2. Task: 協助我撰寫會議記錄", "3. Constraint: 條列 3 個 Action Items"] }],
-          howTitle: "TODAY'S MISSION｜實戰流程",
-          steps: ["STEP 1｜開啟 ChatGPT：輸入包含角色與任務的提示詞。", "STEP 2｜觀察 AI 回應：確認語氣與格式是否符合預期。", "STEP 3｜填寫打卡紀錄：將你的提示詞與心得貼回下方。"],
-          journeyTitle: "我的 Day 01 打卡紀錄",
-          journeyFields: [
-            { type: "textarea", id: "prompt", label: "① 我的 Prompt 指令", req: "必填", placeholder: "例如：請扮演 BSH 專案經理，幫我整理這份開會重點..." },
-            { type: "textarea", id: "result", label: "② AI 回覆成果與學習心得", req: "必填", placeholder: "分享 AI 回覆的重點或你的發現..." },
-            commonRatingFieldZh
-          ]
-        }
-      },
-      2: {
-        accent: "#16A34A", accentBg: "#F0FDF4",
-        zh: {
-          kicker: "DAY 02 | LEARNING TICKET", title: "商業 Email 撰寫與語氣潤飾",
-          goal: "運用 AI 撰寫或潤飾跨國英文商業郵件，調整語氣 (Tone) 以應對不同的職級收件者。",
-          subGoal: "Elevate your business communication with AI.",
-          cards: [{ type: "chatgpt", title: "EMAIL REFINEMENT", tag: "商業郵件潤飾", try: "ChatGPT", details: ["1. 輸入信件草稿", "2. 要求調整語氣 (Formal / Polite)", "3. 檢查專有名詞正確度"] }],
-          howTitle: "TODAY'S MISSION｜實戰流程",
-          steps: ["STEP 1｜準備草稿：準備一封需要撰寫或修改的 Email。", "STEP 2｜讓 AI 潤飾：指示 AI 調整為專業商業英文。", "STEP 3｜完成打卡：貼上 Prompt 與 AI 修改前後的差異。"],
-          journeyTitle: "我的 Day 02 打卡紀錄",
-          journeyFields: [
-            { type: "textarea", id: "prompt", label: "① Email 需求與 Prompt", req: "必填", placeholder: "請幫我潤飾以下給德國總部的 Email..." },
-            { type: "textarea", id: "result", label: "② AI 生成的最佳化 Email", req: "必填", placeholder: "貼上 AI 輸出的 Email 內文..." },
-            commonRatingFieldZh
-          ]
-        }
-      },
-      3: {
-        accent: "#0284C7", accentBg: "#F0F9FF",
-        zh: {
-          kicker: "DAY 03 | LEARNING TICKET", title: "長篇文件摘要與觀點提取",
-          goal: "利用 Gemini 解析長篇報告或 PDF，快速生成 Executive Summary 與重點條列。",
-          subGoal: "Digest complex articles in seconds.",
-          cards: [{ type: "gemini", title: "LONG-DOC DIGEST", tag: "快速摘要", try: "Gemini in BSH AIM", details: ["1. 貼入文章或報告內容", "2. 指示：「請摘要 3 個核心觀點」", "3. 輸出包含數據與結論的表單"] }],
-          howTitle: "TODAY'S MISSION｜實戰流程",
-          steps: ["STEP 1｜找出一篇文章或報告長文。", "STEP 2｜使用 Gemini 提取 3 個 Executive Key Takeaways。", "STEP 3｜記錄摘要成果並提交打卡。"],
-          journeyTitle: "我的 Day 03 打卡紀錄",
-          journeyFields: [
-            { type: "textarea", id: "prompt", label: "① 摘要 Prompt 與輸入內容", req: "必填", placeholder: "請摘要這份市場報告的 3 個重點..." },
-            { type: "textarea", id: "result", label: "② AI 提取的核心 Key Takeaways", req: "必填", placeholder: "1. 2026 智慧家電市場成長 15%..." },
-            commonRatingFieldZh
-          ]
-        }
-      },
-      4: {
-        accent: "#16A34A", accentBg: "#F0FDF4",
-        zh: {
-          kicker: "DAY 04 | LEARNING TICKET", title: "數據分析與 Excel 公式生成",
-          goal: "向 AI 描述數據情境，自動生成複雜的 Excel 公式 (VLOOKUP, INDEX/MATCH) 或數據處理邏輯。",
-          subGoal: "Master Excel formulas without memorizing them.",
-          cards: [{ type: "chatgpt", title: "EXCEL HELPER", tag: "公式解法器", try: "ChatGPT", details: ["1. 說明資料表欄位 (Column A, B...)", "2. 描述目標：「找出對應價格」", "3. 複製 AI 給予的公式進行實測"] }],
-          howTitle: "TODAY'S MISSION｜實戰流程",
-          steps: ["STEP 1｜提出試算表問題與欄位說明。", "STEP 2｜讓 AI 產出公式並解釋運作原理。", "STEP 3｜填寫打卡回報公式應用經驗。"],
-          journeyTitle: "我的 Day 04 打卡紀錄",
-          journeyFields: [
-            { type: "textarea", id: "prompt", label: "① 試算表問題與 Prompt", req: "必填", placeholder: "我有兩張表，需要比對 A 欄產品代碼與 B 欄價格..." },
-            { type: "textarea", id: "result", label: "② AI 給予的公式與實測結果", req: "必填", placeholder: "=XLOOKUP(A2, Sheet2!A:A, Sheet2!B:B)..." },
-            commonRatingFieldZh
-          ]
-        }
-      },
-      5: {
-        accent: "#0284C7", accentBg: "#F0F9FF",
-        zh: {
-          kicker: "DAY 05 | LEARNING TICKET", title: "跨語言翻譯與在地化調整",
-          goal: "超越傳統單字翻譯，要求 AI 保留專有名詞 (Glossary) 並將語脈進行在地化文化調整。",
-          subGoal: "Translate context, not just words.",
-          cards: [{ type: "gemini", title: "LOCALIZATION", tag: "在地化翻譯", try: "Gemini", details: ["1. 提供原文與術語對照表", "2. 要求符合台灣/亞太區商業口吻", "3. 檢視潤飾後流暢度"] }],
-          howTitle: "TODAY'S MISSION｜實戰流程",
-          steps: ["STEP 1｜挑選外文新聞或產品規格文本。", "STEP 2｜指導 AI 進行專業領域在地化翻譯。", "STEP 3｜將對比與優化心得紀錄打卡。"],
-          journeyTitle: "我的 Day 05 打卡紀錄",
-          journeyFields: [
-            { type: "textarea", id: "prompt", label: "① 翻譯指令與原文", req: "必填", placeholder: "請將這段德文/英文產品說明翻譯成繁體中文，保持家電專有名詞正確..." },
-            { type: "textarea", id: "result", label: "② 在地化翻譯結果", req: "必填", placeholder: "貼上翻譯後的流暢中文成果..." },
-            commonRatingFieldZh
-          ]
-        }
-      },
-      6: {
-        accent: "#7C3AED", accentBg: "#F5F3FF",
-        zh: {
-          kicker: "DAY 06 | LEARNING TICKET", title: "程式碼與自動化邏輯檢視",
-          goal: "使用 AI 進行 Code Review、邏輯除錯或找出腳本/VBA 錯誤原因並獲取修復建議。",
-          subGoal: "Your 24/7 Code Review Assistant.",
-          cards: [{ type: "copilot", title: "CODE DEBUGGER", tag: "邏輯除錯", try: "Copilot / ChatGPT", details: ["1. 貼上出錯的片段", "2. 詢問：「為什麼這段會報錯？」", "3. 取得重構後的最佳化代碼"] }],
-          howTitle: "TODAY'S MISSION｜實戰流程",
-          steps: ["STEP 1｜準備一段 VBA, Python 或邏輯指令腳本。", "STEP 2｜讓 AI 分析錯誤原因並提供修正版本。", "STEP 3｜記錄修復過程並提交。"],
-          journeyTitle: "我的 Day 06 打卡紀錄",
-          journeyFields: [
-            { type: "textarea", id: "prompt", label: "① 錯誤腳本/邏輯與 Prompt", req: "必填", placeholder: "幫我檢查這段 Excel VBA 為什麼執行到這行會出錯..." },
-            { type: "textarea", id: "result", label: "② AI 提供的 Bug 原因與修正建議", req: "必填", placeholder: "原因為變數未定義，修復代碼如下..." },
-            commonRatingFieldZh
-          ]
-        }
-      },
-      7: {
-        accent: "#16A34A", accentBg: "#F0FDF4",
-        zh: {
-          kicker: "DAY 07 | LEARNING TICKET", title: "會議記錄轉化行動方案",
-          goal: "將雜亂的會議記錄或逐字稿交給 AI，自動提煉出 Decisions (決議) 與 Action Items (責任分工)。",
-          subGoal: "Turn messy notes into clear action items.",
-          cards: [{ type: "chatgpt", title: "MEETING TRANSFORMER", tag: "會議轉行動點", try: "ChatGPT", details: ["1. 貼上會議筆記草稿", "2. 要求輸出 Markdown 表格", "3. 列出 Owner 與 Deadline"] }],
-          howTitle: "TODAY'S MISSION｜實戰流程",
-          steps: ["STEP 1｜準備一份隨手紀錄的會議雜記。", "STEP 2｜指示 AI 整理成結構化的決議與行動表。", "STEP 3｜填寫打卡紀錄。"],
-          journeyTitle: "我的 Day 07 打卡紀錄",
-          journeyFields: [
-            { type: "textarea", id: "prompt", label: "① 會議雜記與 Prompt", req: "必填", placeholder: "請整理以下討論筆記，輸出為 [決議項] 與 [待辦事項]..." },
-            { type: "textarea", id: "result", label: "② AI 整理出的 Action Items 表格", req: "必填", placeholder: "| 項目 | 負責人 | 期限 |..." },
-            commonRatingFieldZh
-          ]
-        }
-      },
-      8: {
-        accent: "#0284C7", accentBg: "#F0F9FF",
-        zh: {
-          kicker: "DAY 08 | LEARNING TICKET", title: "創意腦力激盪與企劃發想",
-          goal: "運用 SCAMPER 或六頂思考帽框架，引導 AI 一起發想活動方案或產品行銷創意。",
-          subGoal: "Brainstorm faster with structured frameworks.",
-          cards: [{ type: "gemini", title: "BRAINSTORMING", tag: "創意發想", try: "Gemini", details: ["1. 設定主題：「BSH 永續週活動」", "2. 套用 SCAMPER 思考架構", "3. 要求產生 5 個不落俗套的提案"] }],
-          howTitle: "TODAY'S MISSION｜實戰流程",
-          steps: ["STEP 1｜設定一個工作上的腦力激盪主題。", "STEP 2｜讓 AI 給予 5 個創意切入點與亮點。", "STEP 3｜將最具吸引力的企劃構想貼回打卡。"],
-          journeyTitle: "我的 Day 08 打卡紀錄",
-          journeyFields: [
-            { type: "textarea", id: "prompt", label: "① 激盪主題與 Prompt", req: "必填", placeholder: "請用 SCAMPER 思考法，幫我發想 3 個推廣產品的創新活動..." },
-            { type: "textarea", id: "result", label: "② 最具潛力的 3 個創意方案", req: "必填", placeholder: "方案 1：結合 AR 體驗的無紙化展示..." },
-            commonRatingFieldZh
-          ]
-        }
-      },
       9: {
         accent: "#0284C7", accentBg: "#F0F9FF",
         zh: {
@@ -928,7 +793,6 @@
       const name = document.getElementById("accName").value.trim();
       currentUser = { empId: empIdInput, name: name };
       
-      // 快照儲存目前登入者
       localStorage.setItem("bsh_passport_current_user", JSON.stringify(currentUser));
       loadUserData();
 
