@@ -2447,33 +2447,37 @@ async function handleAccountSubmit(e) {
   // 關閉視窗，並線上向 Google Sheet 確認最新打卡進度（如試算表已被刪除/清空，會自動連動歸零）
   closeLoginModal();
   await syncUserProgressWithSheet(empIdInput);
-  fetchLeaderboardFromSheet();
+ async function fetchLeaderboardFromSheet() {
+  try {
+    const response = await fetch(`${GAS_URL}?action=getLeaderboard`);
+    const data = await response.json();
+    if (data && Array.isArray(data.leaderboard)) {
+      // 完全以 Google Sheet 算出來的清單為主，不再混合本機舊資料
+      mockLeaderboard = data.leaderboard;
+      renderLeaderboard();
+      updateMarqueeText();
+    }
+  } catch (err) {
+    console.warn("無法取得線上英雄榜資料:", err);
+  }
 }
 
-// 3. 穩定將打卡資料發送至 Google Sheet
-async function syncToGoogleSheet(payload) {
-  try {
-    const formData = new URLSearchParams();
-    formData.append("empId", payload.empId || "");
-    formData.append("employeeId", payload.empId || "");
-    formData.append("name", payload.name || "");
-    formData.append("day", payload.day || "");
-    formData.append("formData", payload.formData || "");
+// 2. 更新走馬燈文字 (只純粹更新文字，不做資料回填)
+function updateMarqueeText() {
+  const marqueeText = document.getElementById("marqueeText");
+  const daysUnit = currentLang === "zh" ? "天" : "Days";
 
-    // 使用 POST 發送打卡資料
-    await fetch(GAS_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: formData.toString()
-    });
-    
-    console.log("Data successfully submitted to Google Sheet");
-    // 打卡完後重新同步線上最新英雄榜
-    setTimeout(fetchLeaderboardFromSheet, 1000);
-
-  } catch (err) {
-    console.error("Failed to sync to Google Sheet:", err);
+  if (mockLeaderboard && mockLeaderboard.length > 0) {
+    const topUser = mockLeaderboard[0];
+    marqueeText.innerHTML = `<span>👑 <b>No.1</b> ${topUser.name} (${topUser.days}/10 ${daysUnit})</span> <span>🎉 完成打卡即可躍上英雄榜！</span>`;
+  } else {
+    marqueeText.innerHTML = `<span>🎉 10 Days AI Passport 正式啟動，完成打卡即可躍上英雄榜！</span>`;
   }
+}
+
+// 3. 打卡完後直接向後端重新整理英雄榜
+function updateMarqueeAndLeaderboard() {
+  fetchLeaderboardFromSheet();
 }
 
     function executeCurrentStamp() {
