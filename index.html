@@ -366,6 +366,37 @@
 
     const commonRatingFieldZh = { type: "star_rating", id: "rating", label: "⭐ TODAY'S RATING｜今天的任務體驗評分？", req: "選填 (Optional)" };
 
+    // 頁面初次載入：檢查是否有登入快照
+    window.addEventListener("DOMContentLoaded", () => {
+      const savedUserStr = localStorage.getItem("bsh_passport_current_user");
+      if (savedUserStr) {
+        try {
+          currentUser = JSON.parse(savedUserStr);
+          loadUserData();
+        } catch(e) {
+          currentUser = null;
+        }
+      }
+      updateUserStateUI();
+      initDaySelector();
+      renderDayContent();
+      renderLeaderboard();
+    });
+
+    function loadUserData() {
+      if (!currentUser) return;
+      const localData = localStorage.getItem(`bsh_passport_2026_${currentUser.empId}`);
+      if (localData) {
+        try {
+          userProgressData = JSON.parse(localData);
+        } catch(e) {
+          userProgressData = {};
+        }
+      } else {
+        userProgressData = {};
+      }
+    }
+
     function resetAllTestingData() {
       if (confirm("確定要重置本機所有測試紀錄嗎？")) {
         localStorage.clear();
@@ -897,24 +928,41 @@
       const name = document.getElementById("accName").value.trim();
       currentUser = { empId: empIdInput, name: name };
       
-      const localData = localStorage.getItem(`bsh_passport_2026_${currentUser.empId}`);
-      if (localData) {
-        userProgressData = JSON.parse(localData);
-      } else {
-        userProgressData = {};
-      }
+      // 快照儲存目前登入者
+      localStorage.setItem("bsh_passport_current_user", JSON.stringify(currentUser));
+      loadUserData();
 
-      closeLoginModal(); initDaySelector(); renderDayContent(); updateUserStateUI(); checkGraduationStatus();
+      closeLoginModal(); 
+      initDaySelector(); 
+      renderDayContent(); 
+      updateUserStateUI(); 
+      checkGraduationStatus();
+    }
+
+    function logoutUser() {
+      localStorage.removeItem("bsh_passport_current_user");
+      currentUser = null;
+      userProgressData = {};
+      updateUserStateUI();
+      initDaySelector();
+      renderDayContent();
+      checkGraduationStatus();
     }
 
     function updateUserStateUI() {
       const area = document.getElementById("userStateArea");
       if (currentUser) {
-        area.innerHTML = `<div class="user-profile-badge"><div class="user-avatar">${currentUser.name.charAt(0)}</div><span>${currentUser.name} (${currentUser.empId})</span></div>`;
+        area.innerHTML = `
+          <div class="user-profile-badge">
+            <div class="user-avatar">${currentUser.name.charAt(0)}</div>
+            <span>${currentUser.name} (${currentUser.empId})</span>
+            <button onclick="logoutUser()" style="border:none; background:none; color:var(--muted-text); cursor:pointer; font-size:11px; margin-left:6px; font-weight:800;">登出</button>
+          </div>
+        `;
+      } else {
+        area.innerHTML = `<button class="btn-primary-sm" onclick="openLoginModal()" id="btnLoginNav">同仁登入 / 建立帳號</button>`;
       }
     }
-
-    initDaySelector(); renderDayContent(); renderLeaderboard();
   </script>
 </body>
 </html>
