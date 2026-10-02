@@ -2399,8 +2399,40 @@ async function verifyEmpIdOnline() {
   }
 }
 
-// 2. 登入表單提交處理
-function handleAccountSubmit(e) {
+// 新增：向 Google Sheet 線上同步該同仁「真實存在」的打卡紀錄（當試算表被清空時，網頁也會自動歸零）
+async function syncUserProgressWithSheet(empId) {
+  try {
+    const response = await fetch(`${GAS_URL}?empId=${encodeURIComponent(empId)}&action=getUserProgress`);
+    const data = await response.json();
+
+    if (data.status === "success") {
+      const validDays = data.completedDays || []; // 例如 ["Day 01", "Day 02"]
+      
+      // 1. 清空本地舊紀錄
+      userProgressData = {};
+
+      // 2. 僅載入 Google Sheet 內還留著的天數
+      validDays.forEach(dayStr => {
+        const dayNum = parseInt(dayStr.replace("Day ", ""), 10);
+        if (!isNaN(dayNum)) {
+          userProgressData[dayNum] = { completed: true, formData: {} };
+        }
+      });
+
+      // 3. 儲存至本地並更新介面
+      localStorage.setItem(`bsh_passport_2026_${empId}`, JSON.stringify(userProgressData));
+      initDaySelector();
+      renderDayContent();
+      updateUserStateUI();
+      checkGraduationStatus();
+    }
+  } catch (err) {
+    console.warn("無法同步個人打卡紀錄:", err);
+  }
+}
+
+// 2. 登入表單提交處理（第 2403 列改為 async 函式）
+async function handleAccountSubmit(e) {
   e.preventDefault();
   const empIdInput = document.getElementById("accEmpId").value.trim().toUpperCase();
   const name = document.getElementById("accName").value.trim();
@@ -2412,21 +2444,10 @@ function handleAccountSubmit(e) {
 
   currentUser = { empId: empIdInput, name: name };
 
-  const saved = localStorage.getItem(`bsh_passport_2026_${empIdInput}`);
-  if (saved) {
-    try { userProgressData = JSON.parse(saved); } catch (err) { userProgressData = {}; }
-  } else {
-    userProgressData = {};
-  }
-
-  lastCheckInDate = localStorage.getItem(`bsh_passport_last_date_${empIdInput}`) || null;
-
+  // 關閉視窗，並線上向 Google Sheet 確認最新打卡進度（如試算表已被刪除/清空，會自動連動歸零）
   closeLoginModal();
-  initDaySelector();
-  renderDayContent();
-  updateUserStateUI();
-  checkGraduationStatus();
-  updateMarqueeAndLeaderboard();
+  await syncUserProgressWithSheet(empIdInput);
+  fetchLeaderboardFromSheet();
 }
 
 // 3. 穩定將打卡資料發送至 Google Sheet
