@@ -21,6 +21,7 @@
       --silver: #A0AEC0;
       --bronze: #DD6B20;
 
+      /* AI Tools Accent Colors */
       --chatgpt-bg: #F0FDF4; --chatgpt-border: #BBF7D0; --chatgpt-accent: #16A34A;
       --gemini-bg: #F0F9FF; --gemini-border: #BAE6FD; --gemini-accent: #0284C7;
       --copilot-bg: #F5F3FF; --copilot-border: #DDD6FE; --copilot-accent: #7C3AED;
@@ -166,14 +167,26 @@
       z-index: 2;
     }
 
-    .marquee-scroll-area { flex: 1; overflow: hidden; white-space: nowrap; }
+    .marquee-scroll-area {
+      flex: 1;
+      overflow: hidden;
+      white-space: nowrap;
+    }
 
     .marquee-content {
-      display: inline-block; white-space: nowrap;
+      display: inline-block;
+      white-space: nowrap;
       animation: marquee 35s linear infinite;
     }
 
-    .marquee-content span { margin-right: 50px; font-size: 0.95em; }
+    .marquee-content span {
+      margin-right: 50px;
+      font-size: 0.95em;
+    }
+
+    .marquee-container:hover .marquee-content {
+      animation-play-state: paused;
+    }
 
     @keyframes marquee {
       0% { transform: translateX(100%); }
@@ -196,6 +209,7 @@
     .day-btn:hover { border-color: var(--bosch-orange); color: var(--bosch-orange); }
     .day-btn.active { background: var(--bosch-dark); border-color: var(--bosch-dark); color: #ffffff; }
     .day-btn.completed-check::after { content: "✓"; color: #22C55E; font-weight: 900; margin-left: 2px; }
+    .day-btn.locked { background: #F1F5F9; color: #94A3B8; border-color: #E2E8F0; opacity: 0.8; }
 
     .passport-card {
       background: var(--gray-card); border-radius: var(--radius);
@@ -208,6 +222,17 @@
     .ticket-side { padding: 36px 32px 36px 36px; border-right: 1px dashed var(--line-color); background: #FFFFFF; }
     .journey-side { padding: 36px 36px 36px 32px; background: #FAFBFD; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
 
+    .locked-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(6px);
+      z-index: 50; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
+      padding: 20px;
+    }
+    .locked-icon { font-size: 48px; margin-bottom: 12px; }
+    .locked-title { font-size: 20px; font-weight: 900; color: var(--bosch-dark); }
+    .locked-sub { font-size: 13px; color: var(--muted-text); margin-top: 6px; }
+
     .kicker { color: var(--current-accent, var(--bosch-orange)); font-size: 12px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; display: block; }
     h1.task-title { font-size: 26px; line-height: 1.25; margin-bottom: 8px; color: var(--bosch-dark); font-weight: 900; }
 
@@ -217,6 +242,7 @@
       padding: 10px 14px; border-radius: 0 10px 10px 0; margin-bottom: 20px;
     }
     .goal-banner p { font-size: 13px; color: var(--bosch-dark); font-weight: 600; }
+    .goal-banner span { display: block; font-size: 11px; color: var(--bosch-dark-orange); font-weight: 800; letter-spacing: 0.5px; margin-top: 2px; }
 
     .ai-cards-grid { display: grid; gap: 12px; margin-bottom: 22px; }
     .ai-tool-card { border-radius: 12px; padding: 14px 16px; border: 1px solid var(--line-color); transition: all 0.25s ease; cursor: pointer; }
@@ -227,6 +253,18 @@
     .ai-card-header { display: flex; justify-content: space-between; align-items: center; }
     .ai-card-title { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 15px; }
     .ai-card-tag { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
+    .chatgpt .ai-card-tag { color: var(--chatgpt-accent); }
+    .gemini .ai-card-tag { color: var(--gemini-accent); }
+    .copilot .ai-card-tag { color: var(--copilot-accent); }
+
+    .try-when-box { font-size: 12px; margin-top: 6px; font-weight: 600; color: var(--bosch-dark); display: flex; align-items: baseline; gap: 6px; }
+    .try-when-box label { font-size: 10px; font-weight: 900; padding: 1px 5px; border-radius: 4px; background: rgba(0,0,0,0.05); color: var(--muted-text); text-transform: uppercase; }
+
+    .ai-details-list { margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(0,0,0,0.08); display: none; font-size: 12px; color: var(--bosch-dark); }
+    .ai-details-list ul { padding-left: 18px; margin: 0; }
+    .ai-details-list li { margin-bottom: 3px; }
+    .ai-tool-card.open .ai-details-list { display: block; }
+    .expand-hint { font-size: 11px; color: var(--muted-text); font-weight: 700; display: flex; align-items: center; gap: 3px; }
 
     .how-it-works-section { background: #F8FAFC; border-radius: 14px; padding: 14px 16px; border: 1px solid var(--line-color); margin-top: 15px; }
     .how-title { font-size: 12px; font-weight: 900; color: var(--muted-text); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
@@ -234,9 +272,13 @@
     .step-item-mini { display: flex; align-items: flex-start; gap: 10px; font-size: 12px; }
     .step-num-badge { background: var(--bosch-dark); color: #fff; font-size: 10px; font-weight: 900; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
 
-    .form-section-block { background: #FFFFFF; border: 1px solid var(--line-color); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; }
+    .journey-header { margin-bottom: 18px; }
+    .journey-header h2 { font-size: 20px; font-weight: 900; color: var(--bosch-dark); }
+
+    .form-section-block { background: #FFFFFF; border: 1px solid var(--line-color); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
     .form-section-title { font-size: 13px; font-weight: 800; color: var(--bosch-dark); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
     .form-section-title span.req-badge { font-size: 10px; color: var(--bosch-orange); font-weight: 700; background: var(--light-orange); padding: 1px 6px; border-radius: 4px; }
+    .form-section-title span.opt-badge { font-size: 10px; color: #64748B; font-weight: 700; background: #F1F5F9; padding: 1px 6px; border-radius: 4px; }
 
     .checkbox-pills, .radio-pills { display: flex; gap: 8px; flex-wrap: wrap; }
     .checkbox-pill-item, .radio-pill-item { position: relative; }
@@ -252,22 +294,89 @@
       background: var(--bosch-dark); color: #FFFFFF; border-color: var(--bosch-dark);
     }
 
-    .radio-pill-item input:checked + .radio-pill-label.correct-choice { background: #16A34A !important; color: #FFFFFF !important; border-color: #16A34A !important; }
-    .radio-pill-item input:checked + .radio-pill-label.correct-choice::after { content: " ✓"; font-weight: 900; margin-left: 4px; }
-    .radio-pill-item input:checked + .radio-pill-label.wrong-choice { background: #DC2626 !important; color: #FFFFFF !important; border-color: #DC2626 !important; }
-    .radio-pill-item input:checked + .radio-pill-label.wrong-choice::after { content: " ✕"; font-weight: 900; margin-left: 4px; }
+    .radio-pill-item input:checked + .radio-pill-label.correct-choice {
+      background: #16A34A !important; color: #FFFFFF !important; border-color: #16A34A !important;
+    }
+    .radio-pill-item input:checked + .radio-pill-label.correct-choice::after {
+      content: " ✓"; font-weight: 900; margin-left: 4px;
+    }
+    .radio-pill-item input:checked + .radio-pill-label.wrong-choice {
+      background: #DC2626 !important; color: #FFFFFF !important; border-color: #DC2626 !important;
+    }
+    .radio-pill-item input:checked + .radio-pill-label.wrong-choice::after {
+      content: " ✕"; font-weight: 900; margin-left: 4px;
+    }
+
+    .mode-tab-container {
+      display: flex;
+      background: #E2E8F0;
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 14px;
+    }
+    .mode-tab-btn {
+      flex: 1;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      background: transparent;
+      color: var(--muted-text);
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+    .mode-tab-btn.active {
+      background: #FFFFFF;
+      color: var(--bosch-dark);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .star-rating-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      direction: ltr;
+      padding: 4px 0;
+    }
+
+    .star-rating-box .star-item {
+      font-size: 28px;
+      color: #CBD5E1;
+      cursor: pointer;
+      transition: color 0.15s ease, transform 0.15s ease;
+      user-select: none;
+    }
+
+    .star-rating-box .star-item:hover,
+    .star-rating-box .star-item.active {
+      color: #F59E0B;
+    }
+
+    .star-rating-box .star-item:hover {
+      transform: scale(1.2);
+    }
+
+    .star-rating-hint {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--bosch-orange);
+      margin-left: 10px;
+    }
 
     .text-input-styled { width: 100%; padding: 10px 12px; border: 1px solid var(--line-color); border-radius: 8px; font-size: 12px; background: #FAFBFD; font-family: inherit; transition: all 0.2s; }
-    .text-input-styled:focus { outline: none; border-color: var(--bosch-orange); background: #FFFFFF; }
+    .text-input-styled:focus { outline: none; border-color: var(--bosch-orange); background: #FFFFFF; box-shadow: 0 0 0 2px rgba(242, 106, 61, 0.15); }
     textarea.text-input-styled { resize: vertical; min-height: 54px; }
 
     .submit-stamp-btn {
       background: #CBD5E1; color: #64748B; border: none; padding: 14px 20px;
       border-radius: 999px; font-size: 14px; font-weight: 900; cursor: not-allowed;
-      width: 100%; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;
+      width: 100%; transition: all 0.3s ease; display: flex; align-items: center;
+      justify-content: center; gap: 8px; margin-top: 8px;
     }
     .submit-stamp-btn.active { background: var(--bosch-orange); color: #ffffff; cursor: pointer; box-shadow: 0 8px 20px rgba(242, 106, 61, 0.28); }
-    .submit-stamp-btn.active:hover { background: var(--bosch-dark-orange); }
+    .submit-stamp-btn.active:hover { background: var(--bosch-dark-orange); transform: translateY(-1px); }
 
     .validation-hint { font-size: 11px; color: var(--muted-text); text-align: center; margin-top: 6px; font-weight: 600; min-height: 16px; }
     .validation-hint.ready { color: #16A34A; font-weight: 800; }
@@ -275,36 +384,83 @@
 
     .digital-stamp-container {
       display: none; position: absolute; right: 28px; bottom: 28px;
-      width: 135px; height: 135px; border: 3.5px dashed var(--bosch-orange);
-      border-radius: 50%; color: var(--bosch-orange);
+      width: 135px; height: 135px; border: 3.5px dashed var(--current-accent, var(--bosch-orange));
+      border-radius: 50%; color: var(--current-accent, var(--bosch-orange));
       background: rgba(255, 240, 232, 0.95); backdrop-filter: blur(4px);
       flex-direction: column; justify-content: center; align-items: center;
-      font-weight: 900; text-align: center; pointer-events: none; z-index: 10;
+      font-weight: 900; text-align: center; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+      pointer-events: none; z-index: 10;
     }
-    .digital-stamp-container.stamped-anim { display: flex; animation: realStampImpact 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    .digital-stamp-container.stamped-anim {
+      display: flex; animation: realStampImpact 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .stamp-brand-text { font-size: 12px; letter-spacing: 1.5px; }
+    .stamp-day-text { font-size: 16px; margin: 1px 0; font-weight: 950; }
+    .stamp-icon-text { font-size: 18px; line-height: 1; margin: 1px 0; }
+    .stamp-status-text { font-size: 10px; letter-spacing: 2px; color: var(--bosch-dark-orange); }
 
     @keyframes realStampImpact {
       0% { transform: scale(2.8) rotate(-35deg); opacity: 0; }
       100% { transform: scale(1) rotate(-14deg); opacity: 1; }
     }
 
-    .leaderboard-section { background: #FFFFFF; border-radius: var(--radius); padding: 24px; border: 1px solid var(--line-color); box-shadow: var(--shadow); }
+    .leaderboard-section {
+      background: #FFFFFF;
+      border-radius: var(--radius);
+      padding: 24px;
+      border: 1px solid var(--line-color);
+      box-shadow: var(--shadow);
+    }
+
     .top-three { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
-    .podium-card { background: #FFF; border-radius: 16px; padding: 15px; text-align: center; flex: 1; border: 1px solid var(--line-color); }
+    .podium-card { background: #FFF; border-radius: 16px; padding: 15px; text-align: center; flex: 1; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid var(--line-color); }
     .podium-card.rank-1 { border-top: 5px solid var(--gold); }
     .podium-card.rank-2 { border-top: 5px solid var(--silver); }
     .podium-card.rank-3 { border-top: 5px solid var(--bronze); }
 
+    .leader-row { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line-color); }
+    .rank-num { width: 40px; font-weight: 800; text-align: center; color: var(--bosch-orange); }
+    .name-section { width: 160px; font-weight: 600; color: var(--bosch-dark); }
+    .progress-section { flex: 1; padding: 0 15px; }
+    .progress-bar-bg { background: var(--line-color); height: 12px; border-radius: 6px; overflow: hidden; }
+    .progress-bar-fill { background: linear-gradient(90deg, var(--bosch-orange), #F6AD55); height: 100%; width: 0%; transition: width 0.5s; }
+    .score-badge-box { width: 130px; text-align: right; font-weight: bold; color: var(--bosch-orange); }
+
+    .grad-banner {
+      display: none; background: linear-gradient(135deg, var(--bosch-dark), #1E293B);
+      color: #FFFFFF; border-radius: var(--radius); padding: 28px; text-align: center;
+      margin-bottom: 24px; box-shadow: var(--shadow); border: 2px solid var(--gold);
+    }
+    .grad-banner.active { display: block; animation: fadeIn 0.8s ease; }
+    .grad-title { font-size: 24px; font-weight: 900; color: var(--gold); margin-bottom: 6px; }
+    .grad-sub { font-size: 14px; color: #CBD5E1; margin-bottom: 16px; }
+    .grad-badges { display: flex; justify-content: center; gap: 12px; font-size: 12px; font-weight: 800; }
+    .grad-badge-item { background: rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); }
+
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
-    .modal-card { background: #ffffff; border-radius: var(--radius); max-width: 420px; width: 100%; padding: 28px; position: relative; }
+    .modal-card { background: #ffffff; border-radius: var(--radius); max-width: 420px; width: 100%; padding: 28px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; }
     .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--muted-text); }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 1200px) {
+      .floating-leaderboard-btn { display: none; }
+    }
+
+    @media (max-width: 960px) {
+      .passport-card { grid-template-columns: 1fr; }
+      .ticket-side { border-right: none; border-bottom: 1px dashed var(--line-color); padding: 24px; }
+      .journey-side { padding: 24px; }
+      .digital-stamp-container { right: 20px; bottom: 20px; width: 110px; height: 110px; }
+    }
   </style>
 </head>
 <body>
 
   <div class="brand-strip"></div>
 
-  <button class="floating-leaderboard-btn" onclick="scrollToLeaderboard()">
+  <button class="floating-leaderboard-btn" onclick="scrollToLeaderboard()" id="btnFloatLeaderboard">
     🏆 即時英雄榜
   </button>
 
@@ -325,11 +481,21 @@
   <div class="container">
     
     <div class="marquee-container">
-      <div class="marquee-label">⚡ 即時戰報</div>
+      <div class="marquee-label" id="lblMarqueeLabel">⚡ 即時戰報</div>
       <div class="marquee-scroll-area">
         <div class="marquee-content" id="marqueeText">
           <span>🎉 10 Days AI Passport 正式啟動，完成打卡即可躍上英雄榜！</span>
         </div>
+      </div>
+    </div>
+
+    <div class="grad-banner" id="gradBanner">
+      <div class="grad-title">🎓 CONGRATULATIONS! AI PASSPORT COMPLETED</div>
+      <div class="grad-sub" id="gradSub">You've completed all 10 missions of B/S/H/ AI Passport 2026!</div>
+      <div class="grad-badges">
+        <div class="grad-badge-item">10 DAYS</div>
+        <div class="grad-badge-item">10 MISSIONS</div>
+        <div class="grad-badge-item">10 STAMPS ✓</div>
       </div>
     </div>
 
@@ -362,76 +528,1285 @@
       </div>
 
       <div id="leaderboardList">
-        <div style="color:var(--muted-text); text-align:center; padding:20px;">排行榜同步中...</div>
+        <div style="color:var(--muted-text); text-align:center; padding:20px;" id="lblLeaderboardLoading">排行榜同步中...</div>
       </div>
     </div>
 
   </div>
 
-  <!-- 登入 Modal (僅保留員工編號輸入，由 GAS 比對 employee list 自動帶出名字) -->
   <div class="modal-overlay" id="loginModal">
     <div class="modal-card">
       <button class="modal-close" onclick="closeLoginModal()">&times;</button>
       <div style="text-align:center; margin-bottom:18px;">
-        <div style="font-size:20px; font-weight:900;">BSH 同仁快速登入</div>
-        <div style="font-size:12px; color:var(--muted-text); margin-top:4px;">請輸入您的員工編號，系統將自動比對名字</div>
+        <div style="font-size:20px; font-weight:900;" id="modalTitle">BSH 同仁登入 / 建立帳號</div>
+        <div style="font-size:12px; color:var(--muted-text); margin-top:4px;" id="modalSub">建立個人 AI 護照，記錄 10 天學習旅程</div>
       </div>
 
       <form onsubmit="handleAccountSubmit(event)">
-        <div style="margin-bottom:16px;">
-          <label style="font-size:12px; font-weight:800; display:block; margin-bottom:4px;">員工編號 (Employee ID)</label>
-          <input type="text" id="accEmpId" required placeholder="例如：5404 / E001" maxlength="6" class="text-input-styled" />
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px; font-weight:800; display:block; margin-bottom:4px;" id="lblEmpId">員工編號 (Employee ID)</label>
+          <input type="text" id="accEmpId" required placeholder="例如：5404 / E001 / T001" maxlength="4" class="text-input-styled" />
         </div>
-        <div id="loginMsg" style="font-size:12px; color:red; margin-bottom:10px; text-align:center;"></div>
-        <button type="submit" class="submit-stamp-btn active" id="btnModalSubmit">驗證並登入 🚀</button>
+        <div style="margin-bottom:16px;">
+          <label style="font-size:12px; font-weight:800; display:block; margin-bottom:4px;" id="lblName">英文姓名 (English Name)</label>
+          <input type="text" id="accName" required placeholder="例如：Sunny Peng" class="text-input-styled" />
+        </div>
+        
+        <button type="submit" class="submit-stamp-btn active" id="btnModalSubmit">進入 AI Passport 🚀</button>
       </form>
     </div>
   </div>
 
   <script>
-    // 您的最新 Web App URL
+    const ENABLE_DATE_LIMIT = false; 
     const GAS_URL = "https://script.google.com/macros/s/AKfycbyxcZpU7hu04j7CVOVDmwrS1EOPFikCC_advL4SYFGTvO4XorFMeOIeW8MbWhL6XvtGUw/exec";
+    const EVENT_START_DATE = new Date("2026-03-02T00:00:00"); 
+
+    function getUnlockedMaxDay() {
+      if (!ENABLE_DATE_LIMIT) return 10;
+      const today = new Date();
+      const diffTime = today - EVENT_START_DATE;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      let unlocked = diffDays + 1;
+      if (unlocked < 1) unlocked = 1;
+      if (unlocked > 10) unlocked = 10;
+      return unlocked;
+    }
+
+    function getUnlockDateString(dayNum) {
+      const targetDate = new Date(EVENT_START_DATE);
+      targetDate.setDate(targetDate.getDate() + (dayNum - 1));
+      const mm = String(targetDate.getMonth() + 1).padStart(2, '0');
+      const dd = String(targetDate.getDate()).padStart(2, '0');
+      return `${targetDate.getFullYear()}-${mm}-${dd}`;
+    }
+
+    function getTodayString() {
+      const d = new Date();
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const date = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${date}`;
+    }
 
     let currentDay = 1;
     let currentLang = "zh";
     let currentUser = null;
     let userProgressData = {};
+    let lastCheckInDate = null; 
+    let d6Mode = "auto"; 
+    let d7Mode = "auto";
+    let d10Mode = "auto";
+
+    let mockLeaderboard = [];
 
     const commonRatingFieldZh = { type: "star_rating", id: "rating", label: "⭐ TODAY'S RATING｜今天的任務體驗評分？", req: "選填 (Optional)" };
+    const commonRatingFieldEn = { type: "star_rating", id: "rating", label: "⭐ TODAY'S RATING | Rate today's task experience", req: "Optional" };
 
     function scrollToLeaderboard() {
-      document.querySelector('.leaderboard-section')?.scrollIntoView({ behavior: 'smooth' });
+      const elem = document.querySelector('.leaderboard-section');
+      if (elem) elem.scrollIntoView({ behavior: 'smooth' });
     }
 
     function copyText(txt, btnId) {
-      if (!txt) return;
+      if (!txt) {
+        alert(currentLang === "zh" ? "⚠️ 請先撰寫或輸入 Prompt 後再複製喔！" : "⚠️ Please write or generate a prompt first!");
+        return;
+      }
       navigator.clipboard.writeText(txt).then(() => {
         const btn = document.getElementById(btnId);
         if (btn) {
           const oldText = btn.textContent;
-          btn.textContent = "已複製！";
+          btn.textContent = currentLang === "zh" ? "已複製！" : "Copied!";
           setTimeout(() => { btn.textContent = oldText; }, 1500);
         }
       });
     }
 
+    function selectStarRating(val) {
+      document.getElementById("rating_value").value = val;
+      const stars = document.querySelectorAll(".star-rating-box .star-item");
+      stars.forEach((s, idx) => {
+        if (idx < val) {
+          s.classList.add("active");
+          s.textContent = "★";
+        } else {
+          s.classList.remove("active");
+          s.textContent = "☆";
+        }
+      });
+
+      const hintsZh = ["1 星 (不滿意)", "2 星 (尚可)", "3 星 (普通)", "4 星 (滿意)", "5 星 (非常滿意)"];
+      const hintsEn = ["1 Star", "2 Stars", "3 Stars", "4 Stars", "5 Stars"];
+      const hintText = currentLang === "zh" ? hintsZh[val - 1] : hintsEn[val - 1];
+      document.getElementById("starHintText").textContent = hintText;
+
+      validateCurrentForm();
+    }
+
+    function toggleCardExpand(cardElem) {
+      cardElem.classList.toggle("open");
+      const hint = cardElem.querySelector(".expand-hint");
+      if (hint) {
+        const isOpen = cardElem.classList.contains("open");
+        if (currentLang === "zh") {
+          hint.textContent = isOpen ? "▲ 預覽" : "▼ 詳情";
+        } else {
+          hint.textContent = isOpen ? "▲ Preview" : "▼ Details";
+        }
+      }
+    }
+
+    function getDay1PromptText() {
+      if (userProgressData && userProgressData[1] && userProgressData[1].formData) {
+        return userProgressData[1].formData.prompt || (currentLang === "zh" ? "（您尚未在 Day 01 填寫 Prompt）" : "(No Day 01 prompt written)");
+      }
+      return currentLang === "zh" ? "請幫我寫一封會議紀錄 Email。" : "Please help me draft a meeting summary email."; 
+    }
+
+    function getDay3StyleSummary() {
+      if (userProgressData && userProgressData[3] && userProgressData[3].formData) {
+        const d3 = userProgressData[3].formData;
+        const style = d3.prefStyle || "日系質感 Japandi";
+        const persona = Array.isArray(d3.prefPersona) ? d3.prefPersona.join('、') : (d3.prefPersona || "親切可靠");
+        return `Day 03 Personal Branding: ${style} ｜ ${persona}`;
+      }
+      return currentLang === "zh" ? "（延伸 Day 03 質感風格與專業特質）" : "(Inheriting Day 03 style & traits)";
+    }
+
+    function getDay4CharacterSummary() {
+      if (userProgressData && userProgressData[4] && userProgressData[4].formData) {
+        const d4 = userProgressData[4].formData;
+        const charName = d4.name || "BSH Buddy";
+        const charBase = d4.d4CharBase || "3D 職場公仔造型";
+        return `Day 04 Avatar: 【${charName}】 (${charBase})`;
+      }
+      return currentLang === "zh" ? "（沿用 Day 04 打造的 3D 專屬職場角色原型）" : "(Inheriting Day 04 3D Avatar prototype)";
+    }
+
+    function getDay9InsightSummary() {
+      if (userProgressData && userProgressData[9] && userProgressData[9].formData) {
+        const d9 = userProgressData[9].formData;
+        const findings = d9.findings3 || "1. 獨立式洗碗機為主力銷售\n2. 網路商城大宗採購量上升";
+        const insight = d9.insightVer || "分析高單價烤箱在特定門市爆發的主因與促銷對照";
+        return `【Day 09 Findings】:\n${findings}\n\n【Day 09 Verified Insight】: ${insight}`;
+      }
+      return "【Day 09 Findings】: 1. SMS53E02TC Dishwasher top sales in North.\n2. Online bulk purchase ratio increased.\n\n【Day 09 Verified Insight】: South store oven sales spike verified via promo correlation.";
+    }
+
+    /* Day 09 數據集匯出 */
+    function downloadERPDataCSV() {
+      const lastNames = ["陳", "林", "黃", "張", "李", "王", "吳", "劉", "蔡", "楊"];
+      const firstNames = ["志明", "雅婷", "嘉豪", "怡君", "建宏", "詩涵", "宗翰", "佩珊", "承翰", "雅琪"];
+      const regions = [
+        { name: "北部", cities: [ {city: "台北市大安區", road: "敦化南路二段100號"}, {city: "新北市板橋區", road: "文化路一段50號"}, {city: "桃園市中壢區", road: "中華路二段10號"} ] },
+        { name: "中部", cities: [ {city: "台中市西屯區", road: "台灣大道三段99號"}, {city: "彰化市中央路", road: "中山路二段150號"} ] },
+        { name: "南部", cities: [ {city: "高雄市左營區", road: "博愛二路777號"}, {city: "台南市東區", road: "中華東路一段88號"} ] },
+        { name: "東部", cities: [ {city: "花蓮市中山路", road: "中正路200號"} ] }
+      ];
+      const storeTypes = ["專櫃門市", "網路商城", "授權經銷商"];
+      const products = [
+        { model: "BOSCH 獨立式洗碗機 SMS53E02TC", price: 36900 },
+        { model: "BOSCH 嵌入式烤箱 HBG634BS1", price: 42000 },
+        { model: "BOSCH 滾筒洗衣機 WAX32MV0TC", price: 49900 },
+        { model: "BOSCH 雙門冰箱 KFN96VPEEA", price: 65000 },
+        { model: "BOSCH 感應爐 PXX875D67E", price: 58000 }
+      ];
+
+      let csvContent = "\uFEFF"; 
+      csvContent += "OrderID,CustomerName,CustomerAddress,StoreType,Region,ProductModel,Quantity,Amount_TWD,PurchaseDate\n";
+
+      for (let i = 1; i <= 800; i++) {
+        const orderId = `ORD-2026-${String(i).padStart(4, '0')}`;
+        const custName = `${lastNames[i % 10]}${firstNames[(i * 3) % 10]}`;
+        
+        const regObj = regions[i % regions.length];
+        const cityObj = regObj.cities[i % regObj.cities.length];
+        const address = `${cityObj.city}${cityObj.road}`;
+        
+        const store = storeTypes[i % storeTypes.length];
+        const prod = products[i % products.length];
+        const qty = (i % 15 === 0) ? 3 : (i % 7 === 0 ? 2 : 1); 
+        const amount = prod.price * qty;
+        
+        const month = String((i % 6) + 1).padStart(2, '0');
+        const day = String((i % 28) + 1).padStart(2, '0');
+        const date = `2026-${month}-${day}`;
+
+        csvContent += `"${orderId}","${custName}","${address}","${store}","${regObj.name}","${prod.model}",${qty},${amount},"${date}"\n`;
+      }
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      
+      link.setAttribute("href", url);
+      link.setAttribute("download", "BSH_ERP_Sales_Data_800.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    /* Day 10 BSH_Template_v5.html 範本動態下載功能 */
+    function downloadBSHTemplateHTML() {
+      const templateHTMLContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BSH Executive Presentation | Data Storytelling Deck</title>
+  <style>
+    :root {
+      --bosch-red: #F26A3D;
+      --bosch-dark-red: #C94A25;
+      --bosch-blue: #000000;
+      --bosch-cyan: #3A3A3A;
+      --bosch-yellow: #FFF0E8;
+      --gray-900: #111111;
+      --gray-700: #3A3A3A;
+      --gray-500: #666666;
+      --gray-200: #ECECEC;
+      --gray-100: #F7F7F7;
+      --text: #111111;
+      --muted: #666666;
+      --line: #DDDDDD;
+      --shadow: 0 18px 46px rgba(0, 0, 0, 0.08);
+      --radius: 26px;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; background: #ffffff; color: var(--text); }
+    .brand-strip { position: fixed; top: 0; left: 0; right: 0; height: 7px; background: linear-gradient(90deg, var(--bosch-red), var(--bosch-blue)); z-index: 50; }
+    .slide { padding: 80px 60px; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+    .kicker { color: var(--bosch-red); font-weight: 900; letter-spacing: 2px; text-transform: uppercase; font-size: 14px; margin-bottom: 12px; }
+    h1 { font-size: 48px; margin: 0 0 20px; line-height: 1.1; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
+    .kpi-card { background: #FFFFFF; border: 1px solid var(--line); border-radius: 20px; padding: 24px; box-shadow: var(--shadow); border-top: 4px solid var(--bosch-red); }
+    .kpi-num { font-size: 42px; font-weight: 900; color: var(--bosch-red); }
+    .kpi-title { font-size: 16px; font-weight: 800; margin-top: 8px; color: var(--gray-900); }
+    .kpi-desc { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <div class="brand-strip"></div>
+  <div class="slide">
+    <div class="kicker">BSH AI PASSPORT DAY 10 FINAL PROJECT</div>
+    <h1>BSH Data Insight Executive Presentation</h1>
+    <p style="font-size:18px; color:#555;">由 AI 自動整合 Day 09 數據洞察所生成之高階簡報/儀表板範本。</p>
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-num">800 筆</div><div class="kpi-title">ERP 分析筆數</div><div class="kpi-desc">完整去識別化數據分析</div></div>
+      <div class="kpi-card"><div class="kpi-num">3 大發現</div><div class="kpi-title">核心市場洞察</div><div class="kpi-desc">主力產品與通路結構化歸納</div></div>
+      <div class="kpi-card"><div class="kpi-num">100% 驗證</div><div class="kpi-title">數據支持證據</div><div class="kpi-desc">經 AI 解讀與跨項對比確認</div></div>
+    </div>
+  </div>
+</body>
+</html>`;
+
+      const blob = new Blob([templateHTMLContent], { type: 'text/html;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", "BSH_Template_v5.html");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function handleDay3PersonaCheck(checkboxElem) {
+      const checkedBoxes = document.querySelectorAll('input[name="prefPersona"]:checked');
+      if (checkedBoxes.length > 2) {
+        checkboxElem.checked = false;
+        alert(currentLang === "zh" ? "⚠️ 期望展現特質最多選擇 2 項喔！" : "⚠️ You can select up to 2 options!");
+        return;
+      }
+      updateDay3GeneratedPrompt();
+    }
+
+    function updateDay3GeneratedPrompt() {
+      const styleRadio = document.querySelector('input[name="prefStyle"]:checked');
+      const styleVal = styleRadio ? styleRadio.value : "日系質感 Japandi";
+
+      const personaBoxes = document.querySelectorAll('input[name="prefPersona"]:checked');
+      const personaVals = Array.from(personaBoxes).map(b => b.value).join(' 與 ') || "親切可靠";
+
+      const dressBoxes = document.querySelectorAll('input[name="prefDress"]:checked');
+      const dressVals = Array.from(dressBoxes).map(b => b.value).join(', ') || "Smart Casual｜日常辦公";
+
+      const generatedPrompt = currentLang === "zh" ? 
+`我想為自己打造一份專屬的職場 Professional Style Board。
+
+【我的選擇】
+・風格調性：${styleVal}
+・期望展現的專業形象：${personaVals}
+・穿搭情境：${dressVals}
+
+請根據以上選擇，為我打造適合的職場專業形象與穿搭風格。
+請直接以一張完整的 Professional Style Board 圖文呈現結果。` :
+`Please build a custom workplace Professional Style Board for me.
+
+[MY PREFERENCES]
+- Style Tone: ${styleVal}
+- Desired Persona: ${personaVals}
+- Dressing Context: ${dressVals}
+
+Create a complete visual Style Board based on these traits.`;
+
+      const promptBox = document.getElementById("generatedPromptBox");
+      if (promptBox) promptBox.value = generatedPrompt;
+      validateCurrentForm();
+    }
+
+    function handleDay4BaseChange() {
+      const charBaseRadio = document.querySelector('input[name="d4CharBase"]:checked');
+      const animalInputContainer = document.getElementById("d4AnimalInputContainer");
+      if (charBaseRadio && (charBaseRadio.value === "擬人化幸運萌寵" || charBaseRadio.value === "Anthropomorphic Animal Avatar")) {
+        if (animalInputContainer) animalInputContainer.style.display = "block";
+      } else {
+        if (animalInputContainer) animalInputContainer.style.display = "none";
+      }
+      updateDay4GeneratedPrompt();
+    }
+
+    function handleDay4AccessoryCheck(checkboxElem) {
+      const checkedBoxes = document.querySelectorAll('input[name="d4Accessory"]:checked');
+      if (checkedBoxes.length > 2) {
+        checkboxElem.checked = false;
+        alert(currentLang === "zh" ? "⚠️ 招牌配件最多選擇 2 項喔！" : "⚠️ You can select up to 2 accessories!");
+        return;
+      }
+      updateDay4GeneratedPrompt();
+    }
+
+    function updateDay4GeneratedPrompt() {
+      const d3Info = getDay3StyleSummary();
+      const charBaseRadio = document.querySelector('input[name="d4CharBase"]:checked');
+      let charBaseVal = charBaseRadio ? charBaseRadio.value : "3D Human Avatar";
+
+      if (charBaseRadio && (charBaseRadio.value === "擬人化幸運萌寵" || charBaseRadio.value === "Anthropomorphic Animal Avatar")) {
+        const customAnimal = document.getElementById("d4CustomAnimalInput")?.value.trim();
+        const animalName = customAnimal || "Capybara";
+        charBaseVal = `Anthropomorphic Cute ${animalName} Avatar`;
+      }
+
+      const accessoryBoxes = document.querySelectorAll('input[name="d4Accessory"]:checked');
+      const accessoryVals = Array.from(accessoryBoxes).map(b => b.value).join(', ') || "Coffee Cup";
+
+      const generatedPrompt = `Design a 3D collectible vinyl figure toy in Pop Mart style.
+Character Style: ${charBaseVal}
+Accessories: Holding ${accessoryVals}
+Brand Color Theme: BSH Signature Orange & Dark
+Inspiration: ${d3Info}`;
+
+      const promptBox = document.getElementById("d4GeneratedPromptBox");
+      if (promptBox) promptBox.value = generatedPrompt;
+      validateCurrentForm();
+    }
+
+    function updateDay5GeneratedPrompt() {
+      const d4Info = getDay4CharacterSummary();
+      const countRadio = document.querySelector('input[name="d5Count"]:checked');
+      const countVal = countRadio ? countRadio.value : "8 張";
+      const styleRadio = document.querySelector('input[name="d5Style"]:checked');
+      const styleVal = styleRadio ? styleRadio.value : "Q版可愛表情包";
+      const phraseBoxes = document.querySelectorAll('input[name="d5Phrases"]:checked');
+      const phraseVals = Array.from(phraseBoxes).map(b => `"${b.value}"`).join(', ') || '"早安！", "收到！"';
+
+      const generatedPrompt = `Create a LINE Sticker Sheet featuring my Day 04 character prototype.
+Reference: ${d4Info}
+Sticker Style: ${styleVal}
+Sticker Count: ${countVal}
+Phrases: ${phraseVals}`;
+
+      const promptBox = document.getElementById("d5GeneratedPromptBox");
+      if (promptBox) promptBox.value = generatedPrompt;
+      validateCurrentForm();
+    }
+
+    function switchD6Mode(mode) {
+      d6Mode = mode;
+      const btnAuto = document.getElementById("btnD6Auto");
+      const btnCustom = document.getElementById("btnD6Custom");
+      if (btnAuto) btnAuto.classList.toggle("active", mode === "auto");
+      if (btnCustom) btnCustom.classList.toggle("active", mode === "custom");
+
+      const blockAuto = document.getElementById("d6AutoBlock");
+      const blockCustom = document.getElementById("d6CustomBlock");
+
+      if (mode === "auto") {
+        if (blockAuto) blockAuto.style.display = "block";
+        if (blockCustom) blockCustom.style.display = "none";
+        updateDay6GeneratedPrompt();
+      } else {
+        if (blockAuto) blockAuto.style.display = "none";
+        if (blockCustom) blockCustom.style.display = "block";
+      }
+      validateCurrentForm();
+    }
+
+    function updateDay6GeneratedPrompt() {
+      if (d6Mode !== "auto") return;
+
+      const d4Info = getDay4CharacterSummary();
+      const actionRadio = document.querySelector('input[name="d6Action"]:checked');
+      const actionVal = actionRadio ? actionRadio.value : "☕ 喝咖啡思考，眼神充滿靈感";
+
+      const cameraBoxes = document.querySelectorAll('input[name="d6Camera"]:checked');
+      const cameraVals = Array.from(cameraBoxes).map(b => b.value).join(' 與 ') || "特寫鏡頭 (Close-up)";
+
+      const customInput = document.getElementById("d6VideoRequirement")?.value.trim();
+      const customDetail = customInput ? `\n【情緒與背景氛圍】：${customInput}` : "";
+
+      const generatedPrompt = `請作為 AI 影音動畫專家，請運用 Gemini 為我生成一份精準的動態影片 Prompt 腳本：
+
+【角色原型】：${d4Info}
+【核心動作/動態】：${actionVal}
+【鏡頭運鏡風格】：${cameraVals}${customDetail}
+
+【執行要求】：
+1. 請產出一段適用於 Gemini / Veo 的英文影片提示詞 (Video Generation Prompt)。
+2. 請標明 Lighting (光影)、Motion (動態流暢度) 與 Camera Angle (鏡頭角度)。
+3. 請維持角色風格與 3D 質感連貫度，長度規劃為 5 秒短影片。`;
+
+      const promptBox = document.getElementById("d6GeneratedPromptBox");
+      if (promptBox) promptBox.value = generatedPrompt;
+      validateCurrentForm();
+    }
+
+    function switchD7Mode(mode) {
+      d7Mode = mode;
+      const btnAuto = document.getElementById("btnD7Auto");
+      const btnCustom = document.getElementById("btnD7Custom");
+      if (btnAuto) btnAuto.classList.toggle("active", mode === "auto");
+      if (btnCustom) btnCustom.classList.toggle("active", mode === "custom");
+
+      const blockAuto = document.getElementById("d7AutoBlock");
+      const blockCustom = document.getElementById("d7CustomBlock");
+
+      if (mode === "auto") {
+        if (blockAuto) blockAuto.style.display = "block";
+        if (blockCustom) blockCustom.style.display = "none";
+        updateDay7GeneratedPrompt();
+      } else {
+        if (blockAuto) blockAuto.style.display = "none";
+        if (blockCustom) blockCustom.style.display = "block";
+      }
+      validateCurrentForm();
+    }
+
+    function updateDay7GeneratedPrompt() {
+      if (d7Mode !== "auto") return;
+
+      const topicRadio = document.querySelector('input[name="d7Topic"]:checked');
+      const topicVal = topicRadio ? topicRadio.value : "📂 1. 新進人員公用槽導覽與資料夾目錄結構";
+
+      const outputBoxes = document.querySelectorAll('input[name="d7Output"]:checked');
+      const outputVals = Array.from(outputBoxes).map(b => b.value).join(' 與 ') || "結構化 SOP 指南表格";
+
+      const customInput = document.getElementById("d7CustomRequirement")?.value.trim();
+      const customDetail = customInput ? `\n【補充說明】：${customInput}` : "";
+
+      const generatedPrompt = `請作為 BSH 行政與 HR 工作流程專家，協助我為全同仁製作一份清晰、專業且易讀的圖文指南：
+
+【圖文製作主題】：${topicVal}
+【希望呈現場景與格式】：${outputVals}${customDetail}
+
+【執行要求】：
+1. 請以 Step-by-Step 步驟或條列方式整理出核心重點，語氣親切專業。
+2. 請提供適合直接貼在內部圖文懶人包/簡報上的標題、重要提醒卡 (Tips Box) 與流程對照。
+3. 若適合，請一併附上 Mermaid 流程圖語法或表格，協助同仁一目了然。
+4. 整理出最常被問到的 2 個 FAQ 與解決解答。`;
+
+      const promptBox = document.getElementById("d7GeneratedPromptBox");
+      if (promptBox) promptBox.value = generatedPrompt;
+      validateCurrentForm();
+    }
+
+    /* Day 10 專用 Prompt 更新與切換機制 */
+    function switchD10Mode(mode) {
+      d10Mode = mode;
+      const btnAuto = document.getElementById("btnD10Auto");
+      const btnCustom = document.getElementById("btnD10Custom");
+      if (btnAuto) btnAuto.classList.toggle("active", mode === "auto");
+      if (btnCustom) btnCustom.classList.toggle("active", mode === "custom");
+
+      const blockAuto = document.getElementById("d10AutoBlock");
+      const blockCustom = document.getElementById("d10CustomBlock");
+
+      if (mode === "auto") {
+        if (blockAuto) blockAuto.style.display = "block";
+        if (blockCustom) blockCustom.style.display = "none";
+        updateDay10GeneratedPrompt();
+      } else {
+        if (blockAuto) blockAuto.style.display = "none";
+        if (blockCustom) blockCustom.style.display = "block";
+      }
+      validateCurrentForm();
+    }
+
+    function updateDay10GeneratedPrompt() {
+      if (d10Mode !== "auto") return;
+
+      const d9Info = getDay9InsightSummary();
+      const typeRadio = document.querySelector('input[name="d10Type"]:checked');
+      const typeVal = typeRadio ? typeRadio.value : "HTML Presentation (高階互動簡報)";
+
+      const topicRadio = document.querySelector('input[name="d10Topic"]:checked');
+      const topicVal = topicRadio ? topicRadio.value : "Q3 銷售數據分析報告 (ERP Sales Analytics)";
+
+      const featureBoxes = document.querySelectorAll('input[name="d10Features"]:checked');
+      const featureVals = Array.from(featureBoxes).map(b => b.value).join('、') || "動態 KPI 卡片數字累加、Chart.js 動態銷售圖表";
+
+      const generatedPrompt = `請作為專業前端體驗設計師與 BSH 企業數據分析專家，請幫我將【Day 09 的數據洞察】結合【BSH 企業 HTML 簡報範本 (BSH_Template_v5.html)】的樣式與動畫架構，產出一套完整且可直接運行的單頁 HTML ${typeVal}：
+
+【簡報主題】：${topicVal}
+【自動帶入之 Day 09 數據洞察與證據】：
+${d9Info}
+
+【希望包含之互動元素】：${featureVals}
+
+【HTML 產出規範與要求】：
+1. 請遵循 BSH 品牌視覺規範（純白背景、BSH 活力橘 #F26A3D、深灰 #3A3A3A 與黑色 #000000 accent 色調）。
+2. 請將上述 Day 09 的【3 個重要發現】與【1 個驗證洞察與證據】轉化為專業的 KPI 數據卡片與 HTML 圖表頁面。
+3. 請輸出完整、可單獨在瀏覽器運行的單一 HTML 檔案程式碼（包含 <style> 與 <script>），不使用外部未授權依賴。`;
+
+      const promptBox = document.getElementById("d10GeneratedPromptBox");
+      if (promptBox) promptBox.value = generatedPrompt;
+      validateCurrentForm();
+    }
+
     const daysData = {
       1: {
-        accent: "#F26A3D", accentBg: "#FFF0E8",
+        accent: "#F26A3D",
+        accentBg: "#FFF0E8",
         zh: {
-          kicker: "DAY 01 | LEARNING TICKET", title: "Meet Your AI Team",
-          goal: "不同 AI 有不同強項。今天用你平常講話的方式跟 AI 聊聊看！",
+          kicker: "DAY 01 | LEARNING TICKET",
+          title: "Meet Your AI Team",
+          goal: "不同 AI 有不同強項。今天先不用想太複雜，用你平常講話的方式跟 AI 聊聊看！",
+          subGoal: "Different strengths. One goal — a smarter you.",
           cards: [
-            { type: "chatgpt", title: "ChatGPT", tag: "思考與創作", try: "「我需要一個想法或草稿。」", details: ["專案發想", "撰寫信件", "觀點分析"] },
-            { type: "gemini", title: "Gemini", tag: "探索多模態", try: "「我想探索資訊或分析多媒體。」", details: ["即時搜尋", "圖文分析", "整合研究"] },
-            { type: "copilot", title: "Copilot", tag: "工作流程", try: "「我想在 Email 或簡報提升效率。」", details: ["M365 整合", "Word/Excel 輔助", "會議摘要"] }
+            { type: "chatgpt", title: "ChatGPT", tag: "Think & Create｜思考與創作夥伴", try: "「我需要一個想法、草稿或更好的做法。」", details: ["想法發想與 Brainstorming", "寫作、翻譯、摘要與內容整理", "分析資料與解釋複雜概念", "圖像生成與修改及深度創意討論"] },
+            { type: "gemini", title: "Gemini", tag: "Search & Explore｜探索與多模態夥伴", try: "「我想探索資訊、比較不同來源或分析多媒體。」", details: ["即時搜尋與多方資料整理", "處理圖片、文件、影片等多模態內容", "深入研究與比較分析", "Google 生態系相關工作情境整合"] },
+            { type: "copilot", title: "Copilot", tag: "Work & Execute｜工作流程夥伴", try: "「我想在 Email、文件、數據或會議中提升效率。」", details: ["Outlook Email 撰寫與摘要", "Word 寫作與編輯 / Excel 資料分析", "PowerPoint 簡報製作 / Teams 會議整理", "Microsoft 365 日務與團隊高效協作"] }
           ],
-          howTitle: "HOW IT WORKS｜輕鬆 2 步驟體驗", steps: ["STEP 1｜選擇一個你想請 AI 幫忙的情境", "STEP 2｜寫下指令並紀錄在右側打卡！"],
+          howTitle: "HOW IT WORKS｜輕鬆 2 步驟體驗",
+          steps: [
+            "STEP 1｜選擇一個你今天想請 AI 幫忙的情境",
+            "STEP 2｜用自己的話寫下指令發問，並把你的 Prompt 紀錄在右側打卡！"
+          ],
+          recommendedPrompt: "💡 提示：如果不知道怎麼寫，試試看『請幫我...』，例如：『請幫我寫一封請假 Mail 範本，語氣有禮貌。』",
           journeyTitle: "我的 AI 第一次對話紀錄",
           journeyFields: [
             { type: "radios", id: "goalOption", label: "① 我今天想要請 AI 幫我什麼？", req: "必選 1 項", options: ["思考與發想專案", "製作簡報與圖文", "紀錄與整理工作"] },
-            { type: "textarea", id: "prompt", label: "② MY PROMPT｜試著用自己的話對 AI 下指令", req: "必填", placeholder: "例如：請幫我寫一封請假 Mail 範本..." },
+            { type: "textarea", id: "prompt", label: "② MY PROMPT｜試著用自己的話對 AI 下指令（簡單一句話就可以！）", req: "必填", placeholder: "例如：請幫我針對這個專案給 3 個點子、請幫我寫一封感謝信..." },
             commonRatingFieldZh
+          ]
+        },
+        en: {
+          kicker: "DAY 01 | LEARNING TICKET",
+          title: "Meet Your AI Team",
+          goal: "Different strengths. Don't worry about complex prompts today—just start a conversation!",
+          subGoal: "Different strengths. One goal — a smarter you.",
+          cards: [
+            { type: "chatgpt", title: "ChatGPT", tag: "Think & Create | Ideation Partner", try: '"I need an idea, a draft, or a better approach."', details: ["Brainstorming & Idea Generation", "Writing, Translation & Summarization", "Data Analysis & Concept Explanation"] },
+            { type: "gemini", title: "Gemini", tag: "Search & Explore | Multimodal Partner", try: '"I want to explore data, compare sources, or analyze media."', details: ["Real-time Search & Information Synthesis", "Multimodal Analysis (Image, Video, Doc)", "In-depth Research & Comparison"] },
+            { type: "copilot", title: "Copilot", tag: "Work & Execute | Workflow Partner", try: '"I want to boost efficiency in Emails, Docs, or Meetings."', details: ["Outlook Drafts & Email Summaries", "Word Writing & Excel Analysis", "PowerPoint Decks & Teams Summaries"] }
+          ],
+          howTitle: "HOW IT WORKS | 2 Simple Steps",
+          steps: [
+            "STEP 1 | Choose a work scenario you'd like AI to help with today.",
+            "STEP 2 | Type your prompt in your own words, ask AI, and check in!"
+          ],
+          recommendedPrompt: "💡 Hint: Try starting with 'Please help me...', e.g., 'Please help me draft a polite leave request email.'",
+          journeyTitle: "My First AI Conversation Record",
+          journeyFields: [
+            { type: "radios", id: "goalOption", label: "① What do you want AI to help with today?", req: "Select 1", options: ["Ideate Project Concepts", "Create Decks & Visuals", "Organize Work Notes"] },
+            { type: "textarea", id: "prompt", label: "② MY PROMPT | Try writing a prompt in your own words (even one simple sentence counts!)", req: "Required", placeholder: "e.g., Give me 3 ideas for this project / Help me draft a thank-you email..." },
+            commonRatingFieldEn
+          ]
+        }
+      },
+      2: {
+        accent: "#0284C7",
+        accentBg: "#F0F9FF",
+        zh: {
+          kicker: "DAY 02 | LEARNING TICKET",
+          title: "From Idea to Great Prompt",
+          goal: "把 Day 01 簡單的問句，升級成 AI 看得懂的『4 要素黃金 Prompt』！",
+          subGoal: "Give AI the information it needs to succeed.",
+          cards: [
+            { 
+              type: "gemini", 
+              title: "THE 4-PIECE PROMPT FORMULA", 
+              tag: "高質感提示詞 4 要素", 
+              try: "情境 + 任務 + 要求 + 格式", 
+              details: [
+                "① CONTEXT 情境：告訴 AI 背景與對象 (例：跨部門專案會議)",
+                "② TASK 任務：明確說出要 AI 做什麼 (例：撰寫 Email)",
+                "③ REQUIREMENTS 要求：具體限制 (例：語氣專業、標示負責人)",
+                "④ FORMAT 格式：輸出的呈現方式 (例：主旨 + 重點列點 + 行動表格)"
+              ] 
+            }
+          ],
+          howTitle: "💡 PROMPT 升級對比實例",
+          steps: [
+            "❌ 普通提示詞：『幫我寫一封會議紀錄 Email。』",
+            "✅ 4 要素提示詞：『我剛開完跨部門會議(情境)，請幫我撰寫會議摘要 Email(任務)。語氣專業且標示負責人(要求)，包含主旨與 Action Items 表格(格式)。』"
+          ],
+          journeyTitle: "我的 Prompt 升級大挑戰",
+          journeyFields: [
+            { type: "day1_prompt_display", id: "day1Original", label: "① 你在 DAY 01 寫的原始 PROMPT (自動帶入)", req: "對比參考" },
+            { type: "textarea", id: "prompt", label: "② UPGRADED PROMPT｜套用 4 要素改寫你的 Prompt", req: "必填", placeholder: "加入：情境 + 任務 + 要求 + 格式，讓 AI 回答更精準！" },
+            { type: "radios", id: "result", label: "③ 改寫後 AI 的回答表現如何？", req: "必選 1 項", options: ["變得很精準，可直接使用！", "比昨天好很多，稍作微調", "還需要更多訓練"] },
+            commonRatingFieldZh
+          ]
+        },
+        en: {
+          kicker: "DAY 02 | LEARNING TICKET",
+          title: "From Idea to Great Prompt",
+          goal: "Upgrade your Day 01 prompt into a 4-Piece Formula Prompt!",
+          subGoal: "Give AI the information it needs to succeed.",
+          cards: [
+            { 
+              type: "gemini", 
+              title: "THE 4-PIECE PROMPT FORMULA", 
+              tag: "4 Core Elements", 
+              try: "Context + Task + Requirements + Format", 
+              details: [
+                "① CONTEXT: Background & audience",
+                "② TASK: Specific action for AI",
+                "③ REQUIREMENTS: Constraints & preferences",
+                "④ FORMAT: Desired output structure"
+              ] 
+            }
+          ],
+          howTitle: "💡 PROMPT COMPARISON EXAMPLE",
+          steps: [
+            "❌ Basic Prompt: 'Write a meeting summary email.'",
+            "✅ 4-Piece Prompt: 'I just wrapped up a project meeting (Context). Draft a summary email for absent members (Task). Keep tone professional and assignees clear (Requirements). Include Subject Line and Action Items Table (Format).'"
+          ],
+          journeyTitle: "My Prompt Upgrade Challenge",
+          journeyFields: [
+            { type: "day1_prompt_display", id: "day1Original", label: "① YOUR DAY 01 PROMPT (Auto-filled)", req: "Reference" },
+            { type: "textarea", id: "prompt", label: "② UPGRADED PROMPT | Apply the 4-Piece Formula", req: "Required", placeholder: "Add: Context + Task + Requirements + Format..." },
+            { type: "radios", id: "result", label: "③ How did AI perform after upgrading?", req: "Select 1", options: ["Much more accurate!", "Better than yesterday", "Needs more refinement"] },
+            commonRatingFieldEn
+          ]
+        }
+      },
+      3: {
+        accent: "#7C3AED",
+        accentBg: "#F5F3FF",
+        zh: {
+          kicker: "DAY 03 | LEARNING TICKET",
+          title: "AI Personal Branding & Workplace Style",
+          goal: "勾選你的風格偏好與正式程度，自動生成專屬 Prompt 貼到 AI 打造全套職場 Style Board！",
+          subGoal: "Same You. A More Confident You.",
+          cards: [
+            { type: "copilot", title: "AI 專業形象板架構", tag: "一鍵產出 Style Board", try: "選擇偏好 ➔ 生成專屬 Prompt ➔ 貼至 AI 產出圖文", details: ["1. Professional Persona", "2. Branding Keywords", "3. Color Palette", "4. Workwear Style", "5. Accessories & Details"] }
+          ],
+          howTitle: "HOW IT WORKS｜輕鬆 3 步驟",
+          steps: [
+            "STEP 1｜在右側勾選你喜歡的風格與場合。",
+            "STEP 2｜點擊『📋 複製 Prompt』並貼到 ChatGPT 或 Gemini 體驗。",
+            "STEP 3｜選擇完成後即可直接點擊下方按鈕打卡！"
+          ],
+          recommendedPrompt: "💡 提示：複製下方產出的 Prompt 後貼給 AI 即可！",
+          journeyTitle: "打造我的 AI 職場個人品牌",
+          journeyFields: [
+            { type: "radios_d3", id: "prefStyle", label: "① 風格調性", req: "必選 1 項", options: ["日系質感 Japandi", "現代俐落 Modern Minimal", "美式率性 Smart Street", "北歐極簡 Nordic Clean", "法式優雅 French Chic"] },
+            { type: "checkboxes_persona_d3", id: "prefPersona", label: "② 專業形象特質 (最多 2 項)", req: "最多選 2 項", options: ["親切可靠", "俐落專業", "自信有影響力", "沉穩有質感", "聰明有想法", "活力有親和力"] },
+            { type: "checkboxes_d3", id: "prefDress", label: "③ 穿搭情境", req: "可複選", options: ["Casual｜輕鬆休閒", "Smart Casual｜日常辦公", "Business Casual｜商務會議", "Business Formal｜正式商務"] },
+            { type: "prompt_builder", id: "generatedPrompt", label: "④ 自動生成的專屬 PROMPT", req: "複製體驗" },
+            commonRatingFieldZh
+          ]
+        },
+        en: {
+          kicker: "DAY 03 | LEARNING TICKET",
+          title: "AI Personal Branding & Workplace Style",
+          goal: "Select your preferences to generate a custom Style Board Prompt!",
+          subGoal: "Same You. A More Confident You.",
+          cards: [
+            { type: "copilot", title: "AI Style Board Structure", tag: "Style Board Generation", try: "Select -> Generate Prompt -> Paste to AI", details: ["1. Persona Statement", "2. 3 Keywords", "3. Color Palette", "4. Workwear Looks", "5. Accessories"] }
+          ],
+          howTitle: "HOW IT WORKS | 3 Steps",
+          steps: [
+            "STEP 1 | Select your style tone and traits.",
+            "STEP 2 | Copy prompt and paste to ChatGPT/Gemini.",
+            "STEP 3 | Click submit below to check in!"
+          ],
+          recommendedPrompt: "💡 Hint: Copy the prompt below to get your Style Board!",
+          journeyTitle: "My AI Personal Branding Record",
+          journeyFields: [
+            { type: "radios_d3", id: "prefStyle", label: "① Preferred Style Tone", req: "Select 1", options: ["Japandi", "Modern Minimal", "Smart Street", "Nordic Clean", "French Chic"] },
+            { type: "checkboxes_persona_d3", id: "prefPersona", label: "② Desired Persona Traits", req: "Max 2", options: ["Warm & Reliable", "Sleek & Professional", "Confident & Influential", "Poised & Sophisticated", "Smart & Creative", "Energetic & Approachable"] },
+            { type: "checkboxes_d3", id: "prefDress", label: "③ Dressing Contexts", req: "Multiple", options: ["Casual", "Smart Casual", "Business Casual", "Business Formal"] },
+            { type: "prompt_builder", id: "generatedPrompt", label: "④ Generated Prompt", req: "Copy & Use" },
+            commonRatingFieldEn
+          ]
+        }
+      },
+      4: {
+        accent: "#16A34A",
+        accentBg: "#F0FDF4",
+        zh: {
+          kicker: "DAY 04 | LEARNING TICKET",
+          title: "Create Your AI Character",
+          goal: "From Character → Collectible Figure! 打造你的 3D 專屬職場公仔！",
+          subGoal: "Create → Refine → Transform into Trendy 3D Toy.",
+          cards: [
+            { type: "chatgpt", title: "3D 公仔設計關鍵", tag: "潮玩盲盒風格", try: "延伸 Day 03 設定 ➔ 產出 3D 圖像", details: ["① 帶入 Day 03 個人品牌風格", "② 選擇真人造型或幸運萌寵", "③ 加入招牌辦公配件與 BSH 配色", "④ C4D 盒裝展示效果"] }
+          ],
+          howTitle: "HOW IT WORKS｜輕鬆 3 步驟",
+          steps: [
+            "STEP 1｜選擇公仔型態、名稱與配件。",
+            "STEP 2｜點擊複製 3D 公仔 PROMPT 並貼到 ChatGPT / Midjourney 體驗。",
+            "STEP 3｜填寫完畢直接點擊打卡！"
+          ],
+          recommendedPrompt: "💡 提示：複製下方 Prompt 貼給 AI 即可！",
+          journeyTitle: "我的 3D 職場公仔紀錄",
+          journeyFields: [
+            { type: "day3_style_display", id: "d3StyleDisplay", label: "① 帶入 DAY 03 個人風格設定", req: "風格延伸" },
+            { type: "radios_d4_base", id: "d4CharBase", label: "② 公仔角色型態", req: "必選 1 項", options: ["真人職場造型", "擬人化幸運萌寵"] },
+            { type: "checkboxes_d4_acc", id: "d4Accessory", label: "③ 招牌配件", req: "最多選 2 項", options: ["☕ 質感咖啡杯", "💻 筆電與工作檔", "📱 智慧手機 / App", "👓 經典黑框眼鏡"] },
+            { type: "input", id: "name", label: "④ CHARACTER NAME (公仔名字)", req: "必填", placeholder: "例如：Bosch Buddy" },
+            { type: "prompt_builder_d4", id: "d4GeneratedPrompt", label: "⑤ 自動生成的 3D 公仔 PROMPT", req: "複製體驗" },
+            commonRatingFieldZh
+          ]
+        },
+        en: {
+          kicker: "DAY 04 | LEARNING TICKET",
+          title: "Create Your AI Character",
+          goal: "Transform your Day 03 brand into a 3D vinyl toy.",
+          subGoal: "Create → Refine → Transform into Trendy 3D Toy.",
+          cards: [
+            { type: "chatgpt", title: "3D Figure Design", tag: "Trendy Vinyl Toy Style", try: "Extend Day 03 -> 3D Image", details: ["① Inherit Day 03 style", "② Choose Human or Animal Avatar", "③ Add signature work accessories", "④ C4D Box packaging look"] }
+          ],
+          howTitle: "HOW IT WORKS | 3 Steps",
+          steps: [
+            "STEP 1 | Pick character base, name, and accessories.",
+            "STEP 2 | Copy prompt to ChatGPT / Midjourney.",
+            "STEP 3 | Click submit below to check in!"
+          ],
+          recommendedPrompt: "💡 Hint: Copy prompt below to generate 3D figure!",
+          journeyTitle: "My 3D Character Record",
+          journeyFields: [
+            { type: "day3_style_display", id: "d3StyleDisplay", label: "① DAY 03 STYLE INHERITED", req: "Reference" },
+            { type: "radios_d4_base", id: "d4CharBase", label: "② Character Base", req: "Select 1", options: ["3D Human Avatar", "Anthropomorphic Animal Avatar"] },
+            { type: "checkboxes_d4_acc", id: "d4Accessory", label: "③ Signature Accessories", req: "Max 2", options: ["Coffee Cup", "Laptop & Files", "Smartphone & App", "Classic Glasses"] },
+            { type: "input", id: "name", label: "④ CHARACTER NAME", req: "Required", placeholder: "e.g., Bosch Buddy" },
+            { type: "prompt_builder_d4", id: "d4GeneratedPrompt", label: "⑤ Generated 3D Toy Prompt", req: "Copy & Use" },
+            commonRatingFieldEn
+          ]
+        }
+      },
+      5: {
+        accent: "#F26A3D",
+        accentBg: "#FFF0E8",
+        zh: {
+          kicker: "DAY 05 | LEARNING TICKET",
+          title: "Bring Your Character to Life!",
+          goal: "Turn Your Character into a LINE Sticker Pack!",
+          subGoal: "Same Character. More Expressions.",
+          cards: [
+            { type: "chatgpt", title: "LINE 貼圖套件生成", tag: "角色延伸", try: "Day 04 角色 + 日常辦公語錄", details: ["① 帶入 Day 04 角色原型", "② 自由選擇張數與風格", "③ 勾選實用職場語錄", "④ 自動組裝 Sticker Sheet 指令"] }
+          ],
+          howTitle: "HOW IT WORKS｜輕鬆 3 步驟",
+          steps: [
+            "STEP 1｜選擇張數、風格與語錄。",
+            "STEP 2｜複製 Prompt 貼至 ChatGPT / Midjourney 體驗。",
+            "STEP 3｜選取完成即可直接打卡！"
+          ],
+          recommendedPrompt: "💡 提示：點擊複製下方生成的 Prompt 即可！",
+          journeyTitle: "我的 LINE 貼圖套件生成紀錄",
+          journeyFields: [
+            { type: "day4_char_display", id: "d4CharDisplay", label: "① 帶入 DAY 04 專屬角色原型", req: "角色延伸" },
+            { type: "radios_d5_count", id: "d5Count", label: "② 貼圖張數", req: "必選 1 項", options: ["4 張", "8 張", "12 張", "16 張"] },
+            { type: "radios_d5_style", id: "d5Style", label: "③ 貼圖風格", req: "必選 1 項", options: ["Q版可愛表情包", "極簡線條風", "職場實用寫實風", "誇張搞笑表情包"] },
+            { type: "checkboxes_d5_phrases", id: "d5Phrases", label: "④ 常用辦公語錄", req: "可複選", options: ["早安！", "收到！", "辛苦了！", "謝謝！", "加油！", "排程中...", "馬上處理！", "完成！"] },
+            { type: "prompt_builder_d5", id: "d5GeneratedPrompt", label: "⑤ 自動生成的 LINE 貼圖 PROMPT", req: "複製體驗" },
+            commonRatingFieldZh
+          ]
+        },
+        en: {
+          kicker: "DAY 05 | LEARNING TICKET",
+          title: "Bring Your Character to Life!",
+          goal: "Turn Your Character into a LINE Sticker Pack!",
+          subGoal: "Same Character. More Expressions.",
+          cards: [
+            { type: "chatgpt", title: "LINE Sticker Pack Generator", tag: "Character Extension", try: "Day 04 Avatar + Phrases", details: ["① Inherit Day 04 design", "② Choose count & style", "③ Pick office phrases", "④ Auto-generate prompt"] }
+          ],
+          howTitle: "HOW IT WORKS | 3 Steps",
+          steps: [
+            "STEP 1 | Select count, style, and phrases.",
+            "STEP 2 | Copy prompt to AI.",
+            "STEP 3 | Click submit below to check in!"
+          ],
+          recommendedPrompt: "💡 Hint: Copy prompt below to generate sticker sheet!",
+          journeyTitle: "My LINE Sticker Pack Record",
+          journeyFields: [
+            { type: "day4_char_display", id: "d4CharDisplay", label: "① DAY 04 CHARACTER INHERITED", req: "Reference" },
+            { type: "radios_d5_count", id: "d5Count", label: "② Sticker Count", req: "Select 1", options: ["4 Stickers", "8 Stickers", "12 Stickers", "16 Stickers"] },
+            { type: "radios_d5_style", id: "d5Style", label: "③ Visual Style", req: "Select 1", options: ["Cute Chibi Emoji", "Minimalist Outline", "Realistic Workplace", "Expressive & Funny"] },
+            { type: "checkboxes_d5_phrases", id: "d5Phrases", label: "④ Daily Office Phrases", req: "Multiple", options: ["Good Morning!", "Got it!", "Good Job!", "Thank you!", "Keep it up!", "In progress...", "On it!", "Done!"] },
+            { type: "prompt_builder_d5", id: "d5GeneratedPrompt", label: "⑤ Generated Sticker Sheet Prompt", req: "Copy & Use" },
+            commonRatingFieldEn
+          ]
+        }
+      },
+      6: {
+        accent: "#0284C7",
+        accentBg: "#F0F9FF",
+        zh: {
+          kicker: "DAY 06 | LEARNING TICKET",
+          title: "Bring Your IP to Life! AI 短影音生成",
+          goal: "讓 Day 04/05 的專屬 IP 角色動起來！使用 Gemini 打造動態短影音！",
+          subGoal: "Animate Your Character with AI Motion Prompts.",
+          cards: [
+            { 
+              type: "gemini", 
+              title: "GEMINI MULTIMODAL MOTION", 
+              tag: "多模態影音動態夥伴", 
+              try: "角色設定 ➔ 選擇動作與運鏡 ➔ 產出流暢短影音 Prompt", 
+              details: [
+                "① 🎬 職場日常動態：喝咖啡思考、忙碌打字、歡呼讚許",
+                "② 🗣 開口講話導覽：擔任專案大使，做出活潑嘴型與肢体動作",
+                "③ 🚀 炫酷登場特效：3D 鏡頭環繞、霓虹光影變身效果",
+                "④ 🎥 多模態相容：支援短影片、GIF 動畫與動態腳本產生"
+              ] 
+            }
+          ],
+          howTitle: "HOW IT WORKS｜GEMINI 操作 3 步驟",
+          steps: [
+            "STEP 1｜開啟 Gemini 介面：若想直接對圖生成，請點選『多模態/視覺分析模式』並上傳 Day 04 角色圖。",
+            "STEP 2｜在右側選擇您想要的動態與運鏡，複製自動合成的影音 Prompt 貼給 Gemini。",
+            "STEP 3｜體驗完成後，在右側下方進行『五星體驗評分』並完成打卡！"
+          ],
+          recommendedPrompt: "💡 模式指引：Gemini 標準模式可產出影片腳本；圖像/多模態模式可上傳 Day 04 圖進行動態分析與生成！",
+          journeyTitle: "我的個人 IP 動態影音生成紀錄",
+          journeyFields: [
+            {
+              type: "d6_video_wrapper",
+              id: "d6Wrapper",
+              label: "① 選擇體驗模式與動態 PROMPT 產出",
+              req: "核心步驟"
+            },
+            commonRatingFieldZh
+          ]
+        },
+        en: {
+          kicker: "DAY 06 | LEARNING TICKET",
+          title: "Bring Your IP to Life! AI Video Generation",
+          goal: "Animate your Day 04/05 IP character with Gemini!",
+          subGoal: "Animate Your Character with AI Motion Prompts.",
+          cards: [
+            { 
+              type: "gemini", 
+              title: "GEMINI MULTIMODAL MOTION", 
+              tag: "Multimodal Motion Partner", 
+              try: "Character -> Action & Camera -> Motion Prompt", 
+              details: [
+                "① 🎬 Workplace Daily Motion: Coffee drinking, typing, cheering",
+                "② 🗣 Speaking Avatar: Project ambassador with lively gestures",
+                "③ 🚀 Cool Entrance: 3D orbiting camera & lighting FX",
+                "④ 🎥 Multimodal Support: Generates Video/GIF motion scripts"
+              ] 
+            }
+          ],
+          howTitle: "HOW IT WORKS | GEMINI 3 STEPS",
+          steps: [
+            "STEP 1 | Open Gemini: Switch to Multimodal/Vision mode and upload your Day 04 IP image.",
+            "STEP 2 | Select motion and camera settings on the right, then copy the prompt into Gemini.",
+            "STEP 3 | Rate your experience with 5 stars below and check in!"
+          ],
+          recommendedPrompt: "💡 Mode Guide: Standard Chat generates scripts; Vision mode generates image-to-motion prompts!",
+          journeyTitle: "My IP Video Generation Record",
+          journeyFields: [
+            {
+              type: "d6_video_wrapper",
+              id: "d6Wrapper",
+              label: "① Select Mode & Generate Motion Prompt",
+              req: "Core Step"
+            },
+            commonRatingFieldEn
+          ]
+        }
+      },
+      7: {
+        accent: "#7C3AED",
+        accentBg: "#F5F3FF",
+        zh: {
+          kicker: "DAY 07 | LEARNING TICKET",
+          title: "Workplace Visual Guidelines & SOPs",
+          goal: "打造日常工作圖文指南！選擇新手快速組裝，或親自挑戰寫 Prompt！",
+          subGoal: "Turn Complex Workflows into Clear Visual Cards.",
+          cards: [
+            { 
+              type: "copilot", 
+              title: "WORKPLACE VISUAL BUILDER", 
+              tag: "工作圖文與 SOP 懶人包", 
+              try: "選擇主題 ➔ 組裝/撰寫 Prompt ➔ 請 AI 整理精準圖文架構", 
+              details: [
+                "① 📂 新進人員公用槽導覽：目錄結構與存取權限說明",
+                "② 📝 合約檢查要點指南：審查 Check-list 與注意事項圖表",
+                "③ ✍ 簽呈使用範例說明：撰寫架構與範本參照表",
+                "④ 🌴 請假流程與規則圖解：簽核階層與系統步驟"
+              ] 
+            }
+          ],
+          howTitle: "HOW IT WORKS｜雙軌體驗模式",
+          steps: [
+            "【新手組裝】點選情境與格式，系統自動合成精準 Prompt 供您複製。",
+            "【進階挑戰】參照萬用 Prompt 結構，試著自己寫一段專屬指令！"
+          ],
+          recommendedPrompt: "💡 提示：點擊右上角標籤可隨時切換「新手快速組裝」或「進階親自撰寫」！",
+          journeyTitle: "我的工作圖文與 SOP 指南紀錄",
+          journeyFields: [
+            {
+              type: "d7_dual_mode_wrapper",
+              id: "d7Wrapper",
+              label: "① 選擇體驗模式與 PROMPT 產出",
+              req: "核心步驟"
+            },
+            commonRatingFieldZh
+          ]
+        },
+        en: {
+          kicker: "DAY 07 | LEARNING TICKET",
+          title: "Workplace Visual Guidelines & SOPs",
+          goal: "Turn Complex Workflows into Clear Visual Cards.",
+          subGoal: "Turn Complex Workflows into Clear Visual Cards.",
+          cards: [
+            { 
+              type: "copilot", 
+              title: "WORKPLACE VISUAL BUILDER", 
+              tag: "Work Guides & SOP Cards", 
+              try: "Pick Topic -> Build/Write Prompt -> Get Clear Guidelines", 
+              details: [
+                "① 📂 Onboarding Public Drive Guide & Folder Structure",
+                "② 📝 Contract Checklist & Risk Reminders",
+                "③ ✍️ Official Signing Memo Template & Rules",
+                "④ 🌴 Leave Request Workflow & System Steps"
+              ] 
+            }
+          ],
+          howTitle: "HOW IT WORKS | Dual Mode",
+          steps: [
+            "【Auto Mode】Select elements and copy system-built prompt.",
+            "【Custom Mode】Follow scaffolding guide to write your own prompt!"
+          ],
+          recommendedPrompt: "💡 Hint: Toggle between Auto and Custom mode using tabs above!",
+          journeyTitle: "My Workplace Visual Guide Record",
+          journeyFields: [
+            {
+              type: "d7_dual_mode_wrapper",
+              id: "d7Wrapper",
+              label: "① Select Mode & Generate/Write Prompt",
+              req: "Core Step"
+            },
+            commonRatingFieldEn
+          ]
+        }
+      },
+      8: {
+        accent: "#16A34A",
+        accentBg: "#F0FDF4",
+        zh: {
+          kicker: "DAY 08 | LEARNING TICKET",
+          title: "Make Your Data AI-Ready",
+          goal: "Protect Privacy & Be AI-Ready! 跨部門通用數據去識別化大挑戰！",
+          subGoal: "WORK SMART. SHARE SAFE.",
+          cards: [
+            { 
+              type: "chatgpt", 
+              title: "DATA SAFETY GUIDE (PII & PRIVACY)", 
+              tag: "通用個資保護 3 大原則", 
+              try: "數據去識別化 ➔ 安全送入 AI 分析處理", 
+              details: [
+                "① 直接識別資訊 (Direct PII)：姓名、手機號碼、個人 Email ➔ 必須移除 (Remove) 或 遮蔽 (Mask)",
+                "② 間接/精細資訊 (Indirect PII)：完整住址、精確生日/年齡 ➔ 降低精細度 (Generalize) 至縣市區或年齡區間",
+                "③ 統計與偏好特徵 (Aggregated / Non-PII)：部門類別、興趣偏好、受訓意願 ➔ 可安全保留 (Keep) 以利歸納分析"
+              ] 
+            }
+          ],
+          howTitle: "PROMPT EXAMPLE 範例提示詞",
+          steps: [
+            "「請幫我分析這份已去識別化的商業數據（已遮蔽直接識別個人資訊，僅保留縣市區域與喜好類別），歸納出最主要的客群/行為趨勢。」"
+          ],
+          recommendedPrompt: "💡 提示：請完成下列通用職場情境問答，選擇後會顯示即時正確性標籤，全對即可完成打卡！",
+          journeyTitle: "職場數據去識別化挑戰 (Data Detective - General Privacy)",
+          journeyFields: [
+            { 
+              type: "quiz_radio", 
+              id: "genAddress", 
+              label: "情境 A：處理含有客戶或員工『詳細通訊地址』（例：台北市信義區信義路五段10號5樓）資料時：", 
+              req: "必選", 
+              correct: "B",
+              options: [
+                { label: "A. 保留完整門牌地址直接餵給 AI 處理", value: "A" },
+                { label: "B. 降低精細度，僅保留『台北市信義區』", value: "B" },
+                { label: "C. 將地址欄位完全刪除", value: "C" }
+              ] 
+            },
+            { 
+              type: "quiz_radio", 
+              id: "genPhone", 
+              label: "情境 B：分析聯絡電話或公務手機（例：0912-345-678）以進行數據統計與效益分析時：", 
+              req: "必選", 
+              correct: "C",
+              options: [
+                { label: "A. 保留完整 10 碼電話號碼", value: "A" },
+                { label: "B. 替換為隨機無意義代碼", value: "B" },
+                { label: "C. 進行部分遮蔽 (如：0912-***-***)", value: "C" }
+              ] 
+            },
+            { 
+              type: "quiz_radio", 
+              id: "genPreferences", 
+              label: "情境 C：利用數據進行『偏好與興趣』（例：偏好產品線、受訓意願）分析與畫像歸納時：", 
+              req: "必選", 
+              correct: "A",
+              options: [
+                { label: "A. 在去識別化前提下，保留偏好標籤進行 AI 歸納分析", value: "A" },
+                { label: "B. 隨意刪除所有偏好欄位", value: "B" },
+                { label: "C. 將所有偏好替換為通用預設值", value: "C" }
+              ] 
+            },
+            { 
+              type: "quiz_radio", 
+              id: "highRiskPii", 
+              label: "1. 下列何者屬於『極高風險的直接個人識別資訊 (Direct PII)』？", 
+              req: "必選", 
+              correct: "C",
+              options: [
+                { label: "專案編號與產品分類", value: "A" },
+                { label: "部門名稱與工作地點", value: "B" },
+                { label: "姓名、身分證/員工編號、完整地址與個人 Email", value: "C" }
+              ] 
+            },
+            { 
+              type: "quiz_radio", 
+              id: "empAnonymize", 
+              label: "2. 若要將資料 (例: '5404 / sunny.peng@bshg.com') 放入 AI 分析，最佳做法是？", 
+              req: "必選", 
+              correct: "B",
+              options: [
+                { label: "原封不動保留完整資訊", value: "A" },
+                { label: "遮蔽/替換識別碼與 Email 姓名 (例: Member 01 / s***@bshg.com)", value: "B" },
+                { label: "只刪除 Email，保留完整姓名", value: "C" }
+              ] 
+            },
+            { 
+              type: "quiz_radio", 
+              id: "bestPractice", 
+              label: "3. 準備資料給 AI 進行分析與報表生成時的最佳安全原則 (Best Practice)？", 
+              req: "必選", 
+              correct: "A",
+              options: [
+                { label: "僅分享已去除/遮蔽敏感欄位的去識別化數據集", value: "A" },
+                { label: "直接分享含有個人細節的原始資料", value: "B" },
+                { label: "隨意抽樣幾筆未去識別化的資料", value: "C" }
+              ] 
+            },
+            commonRatingFieldZh
+          ]
+        },
+        en: {
+          kicker: "DAY 08 | LEARNING TICKET",
+          title: "Make Your Data AI-Ready",
+          goal: "Protect Privacy & Be AI-Ready!",
+          subGoal: "WORK SMART. SHARE SAFE.",
+          cards: [
+            { 
+              type: "chatgpt", 
+              title: "DATA SAFETY GUIDE (PII & PRIVACY)", 
+              tag: "General Data Anonymization", 
+              try: "Protect Privacy -> Safe AI Processing", 
+              details: [
+                "① Direct PII (Name, Phone, Email): Must REMOVE or MASK",
+                "② Indirect PII (Full Address, Exact DOB): GENERALIZE to city/district or age groups",
+                "③ Non-PII (Department, Hobbies, Preferences): KEEP for group pattern analysis"
+              ] 
+            }
+          ],
+          howTitle: "PROMPT EXAMPLE",
+          steps: [
+            "Analyze this anonymized dataset (direct identifiers removed, addresses generalized) and summarize top user behavior trends."
+          ],
+          recommendedPrompt: "💡 Hint: Instant validation feedback is displayed upon selection!",
+          journeyTitle: "Data Detective - General Privacy",
+          journeyFields: [
+            { 
+              type: "quiz_radio", 
+              id: "genAddress", 
+              label: "Scenario A: Handling detailed contact/shipping address:", 
+              req: "Required", 
+              correct: "B",
+              options: [
+                { label: "A. Keep detailed full address", value: "A" },
+                { label: "B. Generalize to city/district level", value: "B" },
+                { label: "C. Remove address field entirely", value: "C" }
+              ] 
+            },
+            { 
+              type: "quiz_radio", 
+              id: "genPhone", 
+              label: "Scenario B: Analyzing contact phone numbers:", 
+              req: "Required", 
+              correct: "C",
+              options: [
+                { label: "A. Keep full 10-digit number", value: "A" },
+                { label: "B. Replace with random meaningless code", value: "B" },
+                { label: "C. Mask partially (e.g., 0912-***-***)", value: "C" }
+              ] 
+            },
+            { 
+              type: "quiz_radio", 
+              id: "genPreferences", 
+              label: "Scenario C: Utilizing preferences & interest tags for analysis:", 
+              req: "Required", 
+              correct: "A",
+              options: [
+                { label: "A. Keep preference tags as is for AI grouping", value: "A" },
+                { label: "B. Delete all preference fields", value: "B" },
+                { label: "C. Replace with generic default values", value: "C" }
+              ] 
+            },
+            { 
+              type: "quiz_radio", 
+              id: "highRiskPii", 
+              label: "1. Which is considered highest risk Direct PII?", 
+              req: "Required", 
+              correct: "C",
+              options: [
+                { label: "Project ID & Product Category", value: "A" },
+                { label: "Department Name & Work Location", value: "B" },
+                { label: "Name, ID/Emp No., Full Address & Email", value: "C" }
+              ] 
+            },
+            { 
+              type: "quiz_radio", 
+              id: "empAnonymize", 
+              label: "2. Best way to anonymize '5404 / sunny.peng@bshg.com'?", 
+              req: "Required", 
+              correct: "B",
+              options: [
+                { label: "Keep all as is", value: "A" },
+                { label: "Mask ID & Email name (e.g., Member 01 / s***@bshg.com)", value: "B" },
+                { label: "Delete Email only, keep full name", value: "C" }
+              ] 
+            },
+            { 
+              type: "quiz_radio", 
+              id: "bestPractice", 
+              label: "3. Best safety practice before sharing data with AI?", 
+              req: "Required", 
+              correct: "A",
+              options: [
+                { label: "Share anonymized dataset with sensitive fields masked", value: "A" },
+                { label: "Share raw dataset containing personal details", value: "B" },
+                { label: "Share random unmasked data samples", value: "C" }
+              ] 
+            },
+            commonRatingFieldEn
+          ]
+        }
+      },
+      9: {
+        accent: "#0284C7",
+        accentBg: "#F0F9FF",
+        zh: {
+          kicker: "DAY 09 | LEARNING TICKET",
+          title: "Talk to Your Data",
+          goal: "下載模擬 800 筆 ERP 銷售數據，由同仁自主進行敏感欄位判斷與去識別化，讓 AI 解讀數據、挖掘商業洞察與證據驗證！",
+          subGoal: "AI finds patterns. You verify the evidence.",
+          cards: [
+            { type: "gemini", title: "DATA DETECTIVE FRAMEWORK", tag: "5 步數據對話法", try: "Gemini in BSH AIM", details: ["1. DESCRIBE 摘要重點", "2. COMPARE 比較差異", "3. DETECT 找出異常", "4. EXPLAIN 區分事實與推測", "5. VERIFY 列出支持證據"] }
+          ],
+          howTitle: "TODAY'S MISSION｜實戰流程",
+          steps: [
+            "STEP 1｜下載 ERP 數據：點擊右側下載 800 筆模擬銷售 CSV 檔案。",
+            "STEP 2｜資安自我審查：自主辨識並排除敏感 PII 欄位（如客戶姓名、完整地址），僅將安全的數據欄位放入 AI 工具。",
+            "STEP 3｜數據對話與驗證：請 AI 分析數據，並將發現的 3 個重點、1 個驗證洞察與支持證據紀錄在右側完成打卡！"
+          ],
+          recommendedPrompt: "請摘要主要重點，找出 3 個重要發現與 1 個異常趨勢，並列出支持數據。",
+          journeyTitle: "我的數據洞察紀錄 (Data Detective)",
+          journeyFields: [
+            { type: "d9_dataset_download_block", id: "d9DataBlock", label: "① STEP 1：下載模擬 ERP 銷售資料集", req: "下載體驗" },
+            { type: "textarea", id: "findings3", label: "② MY 3 KEY FINDINGS (3 個數據重要發現)", req: "必填", placeholder: "例如：1. 北部門市洗碗機銷售佔比最高 45%\n2. 網路商城大宗購買比例提升..." },
+            { type: "input", id: "insightVer", label: "③ ONE INSIGHT I VERIFIED (1 個欲驗證之洞察)", req: "必填", placeholder: "例如：南部特定門市高單價烤箱爆發，是否受特定促銷影響？" },
+            { type: "textarea", id: "evidenceText", label: "④ SHOW ME THE EVIDENCE (AI 提供的具體支持證據)", req: "必填", placeholder: "貼上 AI 列出的數據證據（如：南部 6 月烤箱銷售量比前季成長 120%...）" },
+            commonRatingFieldZh
+          ]
+        },
+        en: {
+          kicker: "DAY 09 | LEARNING TICKET",
+          title: "Talk to Your Data",
+          goal: "Download simulated 800-row ERP dataset, analyze safe fields with AI, and verify evidence!",
+          subGoal: "AI finds patterns. You verify the evidence.",
+          cards: [
+            { type: "gemini", title: "DATA DETECTIVE FRAMEWORK", tag: "5-Step Data Inquiry", try: "Gemini in BSH AIM", details: ["1. DESCRIBE metrics", "2. COMPARE gaps", "3. DETECT outliers", "4. EXPLAIN facts", "5. VERIFY evidence"] }
+          ],
+          howTitle: "TODAY'S MISSION | Workflow",
+          steps: [
+            "STEP 1 | Download 800-row ERP dataset CSV on the right.",
+            "STEP 2 | Review PII fields and input safe columns to AI tool.",
+            "STEP 3 | Get 3 findings, 1 verified insight, and evidence from AI!"
+          ],
+          recommendedPrompt: "Analyze this dataset and output 3 key findings with evidence.",
+          journeyTitle: "My Data Insights Record",
+          journeyFields: [
+            { type: "d9_dataset_download_block", id: "d9DataBlock", label: "① STEP 1: Download Simulated ERP Dataset", req: "Download" },
+            { type: "textarea", id: "findings3", label: "② MY 3 KEY FINDINGS", req: "Required", placeholder: "1. Finding A\n2. Finding B\n3. Finding C" },
+            { type: "input", id: "insightVer", label: "③ ONE INSIGHT I VERIFIED", req: "Required", placeholder: "e.g., Reason for May drop" },
+            { type: "textarea", id: "evidenceText", label: "④ SHOW ME THE EVIDENCE", req: "Required", placeholder: "Paste supporting data..." },
+            commonRatingFieldEn
+          ]
+        }
+      },
+      10: {
+        accent: "#D69E2E",
+        accentBg: "#FEFCBF",
+        zh: {
+          kicker: "DAY 10 | FINAL GRADUATION PROJECT",
+          title: "BSH HTML Executive Presentation",
+          goal: "套用 BSH 企業 HTML 簡報範本，結合 Day 09 的數據洞察與證據，由 AI 打造高階主管互動式簡報與數據儀表板！",
+          subGoal: "Data Insight → BSH Interactive HTML Presentation.",
+          cards: [
+            { type: "copilot", title: "BSH HTML PRESENTATION BUILDER", tag: "企業級單頁 HTML 成果生成", try: "下載範本 ➔ 自動帶入 Day 09 數據 ➔ 請 AI 生成 HTML", details: ["1. 支援 BSH 橘黑高質感企業視覺規範", "2. 自動嵌入動態 KPI 卡片與數據圖表", "3. 全響應式 RWD 單頁 HTML，不需寫程式", "4. 帶入 Day 09 實戰洞察，具備完整說服力"] }
+          ],
+          howTitle: "FINAL MISSION｜畢業實戰流程",
+          steps: [
+            "STEP 1｜下載 BSH 企業 HTML 範本：點擊右側按鈕取得原始結構檔 (BSH_Template_v5.html)。",
+            "STEP 2｜選擇模式並複製 PROMPT：系統將自動結合 Day 09 輸入的 3 大數據發現與洞察，合成精準 HTML 生成指令。",
+            "STEP 3｜貼至 ChatGPT / Gemini 體驗，確認無誤後即可點擊下方按鈕打卡畢業！"
+          ],
+          recommendedPrompt: "💡 提示：點擊右上角可切換「新手模式」或「進階模式」，複製 Prompt 貼給 AI 即可生成高階 HTML 簡報！",
+          journeyTitle: "終極畢業任務打卡 (Final BSH HTML Presentation)",
+          journeyFields: [
+            { type: "d10_template_download_block", id: "d10DownloadBlock", label: "① STEP 1：下載 BSH 企業 HTML 簡報範本", req: "下載體驗" },
+            { type: "d10_dual_mode_wrapper", id: "d10Wrapper", label: "② STEP 2：選擇模式並生成專屬 HTML PROMPT", req: "核心步驟" },
+            commonRatingFieldZh
+          ]
+        },
+        en: {
+          kicker: "DAY 10 | FINAL GRADUATION PROJECT",
+          title: "BSH HTML Executive Presentation",
+          goal: "Apply BSH HTML Presentation Template, combine Day 09 insights, and build interactive HTML decks with AI!",
+          subGoal: "Data Insight → BSH Interactive HTML Presentation.",
+          cards: [
+            { type: "copilot", title: "BSH HTML PRESENTATION BUILDER", tag: "Single-Page HTML Output", try: "Download Template -> Inject Day 09 Data -> Generate HTML", details: ["1. Follows BSH signature Orange & Dark branding", "2. Auto-embeds animated KPI cards and charts", "3. Responsive HTML layout without coding", "4. Direct integration of Day 09 verified insights"] }
+          ],
+          howTitle: "FINAL MISSION | Graduation Workflow",
+          steps: [
+            "STEP 1 | Download BSH Presentation Template (BSH_Template_v5.html) on the right.",
+            "STEP 2 | Auto-inject Day 09 findings and copy system-built HTML prompt.",
+            "STEP 3 | Paste code or generate deck, then click to complete your graduation check-in!"
+          ],
+          recommendedPrompt: "💡 Hint: Toggle between Auto and Custom mode using tabs above!",
+          journeyTitle: "Final Mission Check-in (BSH HTML Presentation)",
+          journeyFields: [
+            { type: "d10_template_download_block", id: "d10DownloadBlock", label: "① STEP 1: Download BSH Presentation Template", req: "Download" },
+            { type: "d10_dual_mode_wrapper", id: "d10Wrapper", label: "② STEP 2: Select Mode & Generate HTML Prompt", req: "Core Step" },
+            commonRatingFieldEn
           ]
         }
       }
@@ -440,12 +1815,26 @@
     function initDaySelector() {
       const selector = document.getElementById("daySelector");
       selector.innerHTML = "";
+      const maxUnlocked = getUnlockedMaxDay();
+
       for (let i = 1; i <= 10; i++) {
         const btn = document.createElement("button");
         const isCompleted = userProgressData[i] && userProgressData[i].completed;
-        btn.className = `day-btn ${i === currentDay ? "active" : ""} ${isCompleted ? "completed-check" : ""}`;
-        btn.onclick = () => selectDay(i);
-        btn.textContent = `Day ${String(i).padStart(2, "0")}`;
+        const isLocked = i > maxUnlocked;
+
+        let lockIcon = isLocked ? " 🔒" : "";
+        btn.className = `day-btn ${i === currentDay ? "active" : ""} ${isCompleted ? "completed-check" : ""} ${isLocked ? "locked" : ""}`;
+        
+        btn.onclick = () => {
+          if (isLocked) {
+            const unlockDate = getUnlockDateString(i);
+            alert(currentLang === "zh" ? `🔒 Day ${String(i).padStart(2, "0")} 尚未開放打卡！\n預計開放時間：${unlockDate}` : `🔒 Day ${String(i).padStart(2, "0")} is locked until ${unlockDate}`);
+            return;
+          }
+          selectDay(i);
+        };
+
+        btn.textContent = `Day ${String(i).padStart(2, "0")}${lockIcon}`;
         selector.appendChild(btn);
       }
     }
@@ -454,68 +1843,500 @@
       currentDay = dayNum;
       initDaySelector();
       renderDayContent();
+      checkGraduationStatus();
     }
 
     function renderDayContent() {
-      const dayConfig = daysData[currentDay] || daysData[1];
-      const data = dayConfig.zh;
+      const dayConfig = daysData[currentDay];
+      const data = dayConfig[currentLang];
+      const maxUnlocked = getUnlockedMaxDay();
+      const isLockedDay = currentDay > maxUnlocked;
+
+      document.documentElement.style.setProperty('--current-accent', dayConfig.accent);
+      document.documentElement.style.setProperty('--current-accent-bg', dayConfig.accentBg);
 
       const ticketSide = document.getElementById("ticketContent");
+      let cardsHTML = data.cards.map(card => `
+        <div class="ai-tool-card ${card.type}" onclick="toggleCardExpand(this)">
+          <div class="ai-card-header">
+            <div class="ai-card-title">
+              <span>${card.title}</span>
+              <span class="ai-card-tag">${card.tag}</span>
+            </div>
+            <span class="expand-hint">${currentLang === "zh" ? "▼ 詳情" : "▼ Details"}</span>
+          </div>
+          <div class="try-when-box">
+            <label>TRY IT WHEN</label>
+            <span>${card.try}</span>
+          </div>
+          <div class="ai-details-list">
+            <ul>${card.details.map(d => `<li>${d}</li>`).join('')}</ul>
+          </div>
+        </div>
+      `).join('');
+
+      let stepsHTML = data.steps.map((s, idx) => `
+        <div class="step-item-mini">
+          <span class="step-num-badge">${idx + 1}</span>
+          <div><strong>${s}</strong></div>
+        </div>
+      `).join('');
+
       ticketSide.innerHTML = `
         <span class="kicker">${data.kicker}</span>
         <h1 class="task-title">${data.title}</h1>
-        <div class="goal-banner"><p>${data.goal}</p></div>
+        <div class="goal-banner">
+          <p>${data.goal}</p>
+          <span>${data.subGoal}</span>
+        </div>
+        <div class="ai-cards-grid">${cardsHTML}</div>
+        <div class="how-it-works-section">
+          <div class="how-title">${data.howTitle}</div>
+          <div class="step-list">
+            ${stepsHTML}
+            ${data.recommendedPrompt ? `
+              <div style="font-size:11px; color:var(--bosch-dark-orange); font-weight:700; margin-top:8px; background:#FFFFFF; padding:8px 10px; border-radius:8px; border:1px solid var(--line-color);">
+                ${data.recommendedPrompt}
+              </div>
+            ` : ''}
+          </div>
+        </div>
       `;
 
       const journeySide = document.getElementById("journeyContent");
+      const currentDayStore = (userProgressData[currentDay] && userProgressData[currentDay].formData) || {};
       const isStamped = userProgressData[currentDay] && userProgressData[currentDay].completed;
 
-      journeySide.innerHTML = `
-        <div>
-          <div class="journey-header"><h2>${data.journeyTitle}</h2></div>
-          <form id="dayActiveForm" onsubmit="event.preventDefault();">
-            <div class="form-section-block">
-              <div class="form-section-title"><span>MY PROMPT</span><span class="req-badge">必填</span></div>
-              <textarea id="prompt" class="text-input-styled" placeholder="請輸入您使用的 Prompt..." oninput="validateCurrentForm()"></textarea>
+      let fieldsHTML = data.journeyFields.map(field => {
+        let inputControl = '';
+        const savedVal = currentDayStore[field.id];
+        const isOptional = field.req && field.req.includes('Optional');
+
+        if (field.type === 'd10_template_download_block') {
+          inputControl = `
+            <div style="font-size:12px; color:var(--bosch-dark); margin-bottom:10px; line-height:1.5;">
+              ${currentLang === "zh" ? "內含 BSH 官方企業視覺規範、動態專案矩陣、KPI 卡片與 Chart.js 動態圖表展示架構。" : "Includes BSH official design specs, KPI cards, and Chart.js dynamic dashboard layout."}
             </div>
+
+            <button type="button" class="btn-primary-sm" style="background:#D69E2E; color:#FFFFFF; width:100%; text-align:center; padding:10px 12px; font-weight:900;" onclick="downloadBSHTemplateHTML()">
+              📥 ${currentLang === "zh" ? "下載 BSH 企業 HTML 簡報範本 (BSH_Template_v5.html)" : "Download BSH Presentation Template (BSH_Template_v5.html)"}
+            </button>
+          `;
+        } else if (field.type === 'd10_dual_mode_wrapper') {
+          inputControl = `
+            <div class="mode-tab-container">
+              <button type="button" class="mode-tab-btn ${d10Mode === 'auto' ? 'active' : ''}" id="btnD10Auto" onclick="switchD10Mode('auto')">${currentLang === "zh" ? "⚡ 新手模式：自動帶入 DAY 09 數據洞察" : "⚡ Auto Mode: Inject Day 09 Data"}</button>
+              <button type="button" class="mode-tab-btn ${d10Mode === 'custom' ? 'active' : ''}" id="btnD10Custom" onclick="switchD10Mode('custom')">${currentLang === "zh" ? "✍️ 進階挑戰：親自撰寫 PROMPT" : "✍️ Custom Mode: Write Prompt"}</button>
+            </div>
+
+            <!-- Mode A: 自動組裝 -->
+            <div id="d10AutoBlock" style="display: ${d10Mode === 'auto' ? 'block' : 'none'};">
+              <div style="margin-bottom:10px; background:#FFF0E8; border:1px solid var(--bosch-orange); padding:8px 10px; border-radius:8px; font-size:11px; color:var(--bosch-dark-orange);">
+                <b>${currentLang === "zh" ? "帶入 Day 09 數據洞察：" : "Inherited Day 09 Insights:"}</b><br/>${getDay9InsightSummary().replace(/\n/g, '<br/>')}
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">${currentLang === "zh" ? "選擇成果類型" : "Select Output Type"}</label>
+                <div class="radio-pills" style="flex-direction:column; gap:6px;">
+                  <div class="radio-pill-item"><input type="radio" id="d10Type_0" name="d10Type" value="HTML Presentation (高階互動簡報)" checked onchange="updateDay10GeneratedPrompt()"><label for="d10Type_0" class="radio-pill-label" style="width:100%; text-align:left;">📊 HTML Presentation (多頁高階簡報)</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d10Type_1" name="d10Type" value="HTML Dashboard (數據視覺化儀表板)" onchange="updateDay10GeneratedPrompt()"><label for="d10Type_1" class="radio-pill-label" style="width:100%; text-align:left;">📈 HTML Dashboard (單頁數據儀表板)</label></div>
+                </div>
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">${currentLang === "zh" ? "選擇簡報/儀表板主題" : "Select Presentation Topic"}</label>
+                <div class="radio-pills" style="flex-direction:column; gap:6px;">
+                  <div class="radio-pill-item"><input type="radio" id="d10Topic_0" name="d10Topic" value="Q3 銷售數據分析報告 (ERP Sales Analytics)" checked onchange="updateDay10GeneratedPrompt()"><label for="d10Topic_0" class="radio-pill-label" style="width:100%; text-align:left;">💼 Q3 銷售數據分析報告 (ERP Sales Analytics)</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d10Topic_1" name="d10Topic" value="洗碗機與烤箱主力產品線銷售趨勢報告" onchange="updateDay10GeneratedPrompt()"><label for="d10Topic_1" class="radio-pill-label" style="width:100%; text-align:left;">🍽️ 洗碗機與烤箱主力產品線銷售趨勢報告</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d10Topic_2" name="d10Topic" value="BSH AI Passport 10 天學習成果總結展示" onchange="updateDay10GeneratedPrompt()"><label for="d10Topic_2" class="radio-pill-label" style="width:100%; text-align:left;">🚀 BSH AI Passport 10 天學習成果總結展示</label></div>
+                </div>
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">${currentLang === "zh" ? "希望包含之互動元素 (可複選)" : "Interactive Features (Multiple)"}</label>
+                <div class="checkbox-pills">
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d10Features_0" name="d10Features" value="動態 KPI 卡片數字累加" checked onchange="updateDay10GeneratedPrompt()"><label for="d10Features_0" class="checkbox-pill-label">動態 KPI 卡片</label></div>
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d10Features_1" name="d10Features" value="Chart.js 動態銷售圖表" checked onchange="updateDay10GeneratedPrompt()"><label for="d10Features_1" class="checkbox-pill-label">Chart.js 圖表</label></div>
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d10Features_2" name="d10Features" value="投影片分頁切換按鈕" onchange="updateDay10GeneratedPrompt()"><label for="d10Features_2" class="checkbox-pill-label">分頁切換按鈕</label></div>
+                </div>
+              </div>
+
+              <textarea id="d10GeneratedPromptBox" class="text-input-styled" style="min-height:130px;" readonly></textarea>
+              <button type="button" class="btn-primary-sm" id="btnCopyPromptD10Auto" style="margin-top:8px; width:100%; border-radius:8px; background:#D69E2E; color:#FFF;" onclick="copyText(document.getElementById('d10GeneratedPromptBox').value, 'btnCopyPromptD10Auto')">📋 ${currentLang === "zh" ? "複製 HTML 生成 PROMPT 貼至 AI" : "Copy HTML Generation Prompt"}</button>
+            </div>
+
+            <!-- Mode B: 自主撰寫 -->
+            <div id="d10CustomBlock" style="display: ${d10Mode === 'custom' ? 'block' : 'none'};">
+              <div style="background:#FFF0E8; border:1px solid var(--bosch-orange); border-radius:10px; padding:10px 12px; font-size:11px; color:var(--bosch-dark-orange); font-weight:700; margin-bottom:10px;">
+                💡 <b>HTML Presentation ${currentLang === "zh" ? "撰寫萬用架構建議：" : "Writing Scaffolding:"}</b><br/>
+                ・<b>[${currentLang === "zh" ? "風格定義" : "Style"}]</b> BSH 白灰底橘黑文字、單頁響應式 RWD...<br/>
+                ・<b>[${currentLang === "zh" ? "資料帶入" : "Data"}]</b> 請嵌入我在 Day 09 分析的洞察與支持數據...<br/>
+                ・<b>[${currentLang === "zh" ? "組件要求" : "Components"}]</b> 包含 3 個 KPI 卡片、1 個柱狀圖表與結論卡片。
+              </div>
+
+              <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">✍️ ${currentLang === "zh" ? "請在下方輸入你自己思考並撰寫的 HTML 生成 Prompt：" : "Write your own HTML Generation Prompt below:"}</label>
+              <textarea id="d10CustomPromptInput" class="text-input-styled" style="min-height:130px;" placeholder="${currentLang === "zh" ? "試著套用上面提示，寫出屬於你的指令..." : "Try writing your own prompt based on the tips above..."}" oninput="validateCurrentForm()">${savedVal || ''}</textarea>
+              <button type="button" class="btn-primary-sm" id="btnCopyPromptD10Custom" style="margin-top:8px; width:100%; border-radius:8px; background:#D69E2E; color:#FFF;" onclick="copyText(document.getElementById('d10CustomPromptInput').value, 'btnCopyPromptD10Custom')">📋 ${currentLang === "zh" ? "複製我親自寫的 PROMPT 貼至 AI" : "Copy Custom Prompt"}</button>
+            </div>
+          `;
+        } else if (field.type === 'd9_dataset_download_block') {
+          inputControl = `
+            <div style="font-size:12px; color:var(--bosch-dark); margin-bottom:10px; line-height:1.5;">
+              ${currentLang === "zh" ? "內含真實 ERP 常見欄位（訂單編號、客戶姓名、購買門市/網路商城、型號、數量、金額、地址、區域）。請同仁自主判斷去識別化範圍後，再將安全欄位輸入 AI 進行分析與對話！" : "Contains realistic ERP sales data. Please anonymize sensitive PII fields before feeding safe columns into AI tools."}
+            </div>
+
+            <div style="background:#FFFBEB; border-left:4px solid #F59E0B; padding:8px 12px; border-radius:6px; font-size:11px; color:#78350F; margin-bottom:12px;">
+              <b>⚠️ ${currentLang === "zh" ? "合規提示 (Compliance Rule)：" : "Compliance Rule:"}</b><br/>
+              ${currentLang === "zh" ? "資料上傳前請遵守公司資安規範，切勿直接將含有客戶個人識別 (PII) 的原始資料餵給未授權的外部工具。" : "Comply with corporate data security guidelines. Do not upload raw PII data into unauthorized public tools."}
+            </div>
+
+            <button type="button" class="btn-primary-sm" style="background:#0284C7; width:100%; text-align:center; padding:10px 12px;" onclick="downloadERPDataCSV()">
+              📥 ${currentLang === "zh" ? "下載 ERP 銷售資料集 (BSH_ERP_Sales_Data_800.csv)" : "Download ERP Dataset (BSH_ERP_Sales_Data_800.csv)"}
+            </button>
+          `;
+        } else if (field.type === 'quiz_radio') {
+          inputControl = `<div class="radio-pills" style="flex-direction:column; gap:6px;">` + 
+            field.options.map((opt, i) => {
+              const optVal = typeof opt === 'object' ? opt.value : opt;
+              const optLabel = typeof opt === 'object' ? opt.label : opt;
+              const isChecked = savedVal === optVal;
+              let answerClass = '';
+              if (isChecked) {
+                answerClass = (optVal === field.correct) ? 'correct-choice' : 'wrong-choice';
+              }
+              return `
+                <div class="radio-pill-item">
+                  <input type="radio" id="${field.id}_${i}" name="${field.id}" value="${optVal}" ${isChecked ? 'checked' : ''} onchange="validateCurrentForm()">
+                  <label for="${field.id}_${i}" class="radio-pill-label ${answerClass}" style="width:100%; text-align:left;">${optLabel}</label>
+                </div>
+              `;
+            }).join('') + `</div>`;
+        } else if (field.type === 'd6_video_wrapper') {
+          inputControl = `
+            <div class="mode-tab-container">
+              <button type="button" class="mode-tab-btn ${d6Mode === 'auto' ? 'active' : ''}" id="btnD6Auto" onclick="switchD6Mode('auto')">${currentLang === "zh" ? "⚡ 新手模式：快速組裝 PROMPT" : "⚡ Auto Mode: Quick Assembly"}</button>
+              <button type="button" class="mode-tab-btn ${d6Mode === 'custom' ? 'active' : ''}" id="btnD6Custom" onclick="switchD6Mode('custom')">${currentLang === "zh" ? "✍️️ 進階挑戰：親自撰寫 PROMPT" : "✍️ Custom Mode: Write Prompt"}</button>
+            </div>
+
+            <!-- Mode A: 自動組裝 -->
+            <div id="d6AutoBlock" style="display: ${d6Mode === 'auto' ? 'block' : 'none'};">
+              <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">${currentLang === "zh" ? "帶入 Day 04 角色：" : "Inherited Day 04 Avatar: "}${getDay4CharacterSummary()}</label>
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">${currentLang === "zh" ? "選擇角色動作與動態情境" : "Select Character Action"}</label>
+                <div class="radio-pills" style="flex-direction:column; gap:6px;">
+                  <div class="radio-pill-item"><input type="radio" id="d6Action_0" name="d6Action" value="☕ 喝咖啡思考，眼神充滿靈感" checked onchange="updateDay6GeneratedPrompt()"><label for="d6Action_0" class="radio-pill-label" style="width:100%; text-align:left;">☕ 職場日常：喝咖啡思考，眼神充滿靈感</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d6Action_1" name="d6Action" value="🗣️ 活潑講話與手勢，親切進行簡報導覽" onchange="updateDay6GeneratedPrompt()"><label for="d6Action_1" class="radio-pill-label" style="width:100%; text-align:left;">🗣️ 開口講話：擔任大使活潑介紹，附帶肢體手勢</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d6Action_2" name="d6Action" value="🚀 炫酷登場，3D 光影轉身並向鏡頭揮手" onchange="updateDay6GeneratedPrompt()"><label for="d6Action_2" class="radio-pill-label" style="width:100%; text-align:left;">🚀 炫酷登場：3D 光影轉身並向鏡頭開心揮手</label></div>
+                </div>
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">${currentLang === "zh" ? "選擇運鏡風格 (可複選)" : "Select Camera Movements (Multiple)"}</label>
+                <div class="checkbox-pills">
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d6Camera_0" name="d6Camera" value="特寫鏡頭 (Close-up)" checked onchange="updateDay6GeneratedPrompt()"><label for="d6Camera_0" class="checkbox-pill-label">特寫鏡頭</label></div>
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d6Camera_1" name="d6Camera" value="鏡頭緩慢推近 (Slow Zoom In)" checked onchange="updateDay6GeneratedPrompt()"><label for="d6Camera_1" class="checkbox-pill-label">緩慢推近</label></div>
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d6Camera_2" name="d6Camera" value="環繞運鏡 (360 Orbit)" onchange="updateDay6GeneratedPrompt()"><label for="d6Camera_2" class="checkbox-pill-label">環繞運鏡</label></div>
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d6Camera_3" name="d6Camera" value="電影感光影 (Cinematic Lighting)" onchange="updateDay6GeneratedPrompt()"><label for="d6Camera_3" class="checkbox-pill-label">電影感光影</label></div>
+                </div>
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">${currentLang === "zh" ? "補充動態細節 (選填)" : "Additional Motion Details (Optional)"}</label>
+                <input type="text" id="d6VideoRequirement" class="text-input-styled" placeholder="${currentLang === "zh" ? "例如：背景有微弱粒子光斑 / 角色微笑點頭..." : "e.g., Subtle particle lights / character smiles..."}" oninput="updateDay6GeneratedPrompt()" />
+              </div>
+
+              <textarea id="d6GeneratedPromptBox" class="text-input-styled" style="min-height:120px;" readonly></textarea>
+              <button type="button" class="btn-primary-sm" id="btnCopyPromptD6Auto" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('d6GeneratedPromptBox').value, 'btnCopyPromptD6Auto')">📋 ${currentLang === "zh" ? "複製系統組裝 PROMPT 貼至 Gemini" : "Copy Generated Motion Prompt"}</button>
+            </div>
+
+            <!-- Mode B: 自主撰寫 -->
+            <div id="d6CustomBlock" style="display: ${d6Mode === 'custom' ? 'block' : 'none'};">
+              <div style="background:#FFF0E8; border:1px solid var(--bosch-orange); border-radius:10px; padding:10px 12px; font-size:11px; color:var(--bosch-dark-orange); font-weight:700; margin-bottom:10px;">
+                💡 <b>影音 Prompt ${currentLang === "zh" ? "撰寫萬用架構建議：" : "Writing Scaffolding:"}</b><br/>
+                ・<b>[${currentLang === "zh" ? "角色與動作" : "Character & Action"}]</b> A 3D character in Pop Mart style doing...<br/>
+                ・<b>[${currentLang === "zh" ? "運鏡語言" : "Camera"}]</b> Smooth slow zoom-in close-up shot...<br/>
+                ・<b>[${currentLang === "zh" ? "光影氛圍" : "Lighting"}]</b> Soft studio lighting, 5-second video loop.<br/>
+              </div>
+
+              <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">✍️ ${currentLang === "zh" ? "請在下方輸入你自己思考並撰寫的動態影音 Prompt：" : "Write your custom video prompt below:"}</label>
+              <textarea id="d6CustomPromptInput" class="text-input-styled" style="min-height:130px;" placeholder="${currentLang === "zh" ? "試著套用上面提示，寫出屬於你的動態 Prompt..." : "Try writing your prompt based on tips above..."}" oninput="validateCurrentForm()">${savedVal || ''}</textarea>
+              <button type="button" class="btn-primary-sm" id="btnCopyPromptD6Custom" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('d6CustomPromptInput').value, 'btnCopyPromptD6Custom')">📋 ${currentLang === "zh" ? "複製我親自寫的 PROMPT 貼至 Gemini" : "Copy Custom Prompt"}</button>
+            </div>
+          `;
+        } else if (field.type === 'd7_dual_mode_wrapper') {
+          inputControl = `
+            <div class="mode-tab-container">
+              <button type="button" class="mode-tab-btn ${d7Mode === 'auto' ? 'active' : ''}" id="btnD7Auto" onclick="switchD7Mode('auto')">${currentLang === "zh" ? "⚡ 新手模式：快速組裝 PROMPT" : "⚡ Auto Mode: Quick Assembly"}</button>
+              <button type="button" class="mode-tab-btn ${d7Mode === 'custom' ? 'active' : ''}" id="btnD7Custom" onclick="switchD7Mode('custom')">${currentLang === "zh" ? "✍ 進階挑戰：親自撰寫 PROMPT" : "✍ Custom Mode: Write Prompt"}</button>
+            </div>
+
+            <!-- Mode A: 自動組裝 -->
+            <div id="d7AutoBlock" style="display: ${d7Mode === 'auto' ? 'block' : 'none'};">
+              <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">${currentLang === "zh" ? "選擇工作圖文主題 (圖文懶人包 / SOP)" : "Select Workplace Topic"}</label>
+                <div class="radio-pills" style="flex-direction:column; gap:6px;">
+                  <div class="radio-pill-item"><input type="radio" id="d7Topic_0" name="d7Topic" value="📂 1. 新進人員公用槽導覽與資料夾目錄結構" checked onchange="updateDay7GeneratedPrompt()"><label for="d7Topic_0" class="radio-pill-label" style="width:100%; text-align:left;">📂 1. 新進人員公用槽導覽 (目錄結構與權限說明)</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d7Topic_1" name="d7Topic" value="📝 2. 合約檢查要點指南與審查 Checklist" onchange="updateDay7GeneratedPrompt()"><label for="d7Topic_1" class="radio-pill-label" style="width:100%; text-align:left;">📝 2. 合約檢查要點指南 ( Check-list 與注意事項圖表)</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d7Topic_2" name="d7Topic" value="✍️ 3. 簽呈使用範例與撰寫規範說明" onchange="updateDay7GeneratedPrompt()"><label for="d7Topic_2" class="radio-pill-label" style="width:100%; text-align:left;">✍ 3. 簽呈使用範例說明 (撰寫架構與範本參照表)</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d7Topic_3" name="d7Topic" value="🌴 4. 請假流程與系統簽核步驟圖解" onchange="updateDay7GeneratedPrompt()"><label for="d7Topic_3" class="radio-pill-label" style="width:100%; text-align:left;">🌴 4. 請假流程與規則圖解 (簽核階層與系統步驟)</label></div>
+                </div>
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">${currentLang === "zh" ? "希望的圖文呈現格式 (可複選)" : "Select Output Format (Multiple)"}</label>
+                <div class="checkbox-pills">
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d7Output_0" name="d7Output" value="結構化 SOP 指南表格" checked onchange="updateDay7GeneratedPrompt()"><label for="d7Output_0" class="checkbox-pill-label">SOP 指南表格</label></div>
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d7Output_1" name="d7Output" value="重點注意事項提示卡 (Tips Box)" checked onchange="updateDay7GeneratedPrompt()"><label for="d7Output_1" class="checkbox-pill-label">重點提示卡 (Tips)</label></div>
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d7Output_2" name="d7Output" value="Mermaid 流程圖程式碼" onchange="updateDay7GeneratedPrompt()"><label for="d7Output_2" class="checkbox-pill-label">Mermaid 流程圖</label></div>
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d7Output_3" name="d7Output" value="常見問題 FAQ 對答" onchange="updateDay7GeneratedPrompt()"><label for="d7Output_3" class="checkbox-pill-label">常見問題 FAQ</label></div>
+                </div>
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">${currentLang === "zh" ? "自訂補充細節 (選填)" : "Custom Details (Optional)"}</label>
+                <input type="text" id="d7CustomRequirement" class="text-input-styled" placeholder="${currentLang === "zh" ? "例如：特別強調權限申請步驟 / 列出前 3 大新手常犯錯誤..." : "e.g., Highlight approval steps / top 3 mistakes..."}" oninput="updateDay7GeneratedPrompt()" />
+              </div>
+
+              <textarea id="d7GeneratedPromptBox" class="text-input-styled" style="min-height:120px;" readonly></textarea>
+              <button type="button" class="btn-primary-sm" id="btnCopyPromptD7Auto" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('d7GeneratedPromptBox').value, 'btnCopyPromptD7Auto')">📋 ${currentLang === "zh" ? "複製系統組裝 PROMPT 貼至 AI" : "Copy Generated Prompt"}</button>
+            </div>
+
+            <!-- Mode B: 自主撰寫 -->
+            <div id="d7CustomBlock" style="display: ${d7Mode === 'custom' ? 'block' : 'none'};">
+              <div style="background:#FFF0E8; border:1px solid var(--bosch-orange); border-radius:10px; padding:10px 12px; font-size:11px; color:var(--bosch-dark-orange); font-weight:700; margin-bottom:10px;">
+                💡 <b>Prompt ${currentLang === "zh" ? "撰寫萬用架構建議：" : "Writing Scaffolding:"}</b><br/>
+                ・<b>[${currentLang === "zh" ? "角色" : "Role"}]</b> 你是 BSH 行政與 HR 工作流程專家...<br/>
+                ・<b>[${currentLang === "zh" ? "任務" : "Task"}]</b> 請幫我整理「公用槽導覽 / 合約檢查 / 簽呈範例 / 請假流程」...<br/>
+                ・<b>[${currentLang === "zh" ? "要求" : "Requirements"}]</b> 條列 3 個重點、標示注意事項與 FAQ...<br/>
+                ・<b>[${currentLang === "zh" ? "格式" : "Format"}]</b> 用表格與清晰的標題呈現圖文懶人包架構。
+              </div>
+
+              <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">✍️ ${currentLang === "zh" ? "請在下方輸入你自己思考並撰寫的完整 Prompt：" : "Write your custom prompt below:"}</label>
+              <textarea id="d7CustomPromptInput" class="text-input-styled" style="min-height:130px;" placeholder="${currentLang === "zh" ? "試著套用上面提示，寫出屬於你的 AI 提示詞..." : "Try writing your prompt based on tips above..."}" oninput="validateCurrentForm()">${savedVal || ''}</textarea>
+              <button type="button" class="btn-primary-sm" id="btnCopyPromptD7Custom" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('d7CustomPromptInput').value, 'btnCopyPromptD7Custom')">📋 ${currentLang === "zh" ? "複製我親自寫的 PROMPT 貼至 AI" : "Copy Custom Prompt"}</button>
+            </div>
+          `;
+        } else if (field.type === 'day1_prompt_display') {
+          inputControl = `<div style="background:#F1F5F9; border:1px solid var(--line-color); border-radius:8px; padding:10px 12px; font-size:12px; color:var(--bosch-dark); font-weight:600;">${getDay1PromptText()}</div>`;
+        } else if (field.type === 'day3_style_display') {
+          inputControl = `<div style="background:#FFF0E8; border:1px solid var(--bosch-orange); border-radius:8px; padding:10px 12px; font-size:12px; color:var(--bosch-dark-orange); font-weight:700;">✨ ${getDay3StyleSummary()}</div>`;
+        } else if (field.type === 'day4_char_display') {
+          inputControl = `<div style="background:#FFF0E8; border:1px solid var(--bosch-orange); border-radius:8px; padding:10px 12px; font-size:12px; color:var(--bosch-dark-orange); font-weight:700;">🤖 ${getDay4CharacterSummary()}</div>`;
+        } else if (field.type === 'prompt_builder') {
+          inputControl = `<textarea id="generatedPromptBox" class="text-input-styled" style="min-height:140px;" readonly></textarea><button type="button" class="btn-primary-sm" id="btnCopyPrompt" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('generatedPromptBox').value, 'btnCopyPrompt')">📋 ${currentLang === "zh" ? "複製 STYLE BOARD PROMPT" : "COPY STYLE BOARD PROMPT"}</button>`;
+        } else if (field.type === 'radios_d3') {
+          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => `<div class="radio-pill-item"><input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${(savedVal === opt || i === 0) ? 'checked' : ''} onchange="updateDay3GeneratedPrompt()"><label for="${field.id}_${i}" class="radio-pill-label">${opt}</label></div>`).join('') + `</div>`;
+        } else if (field.type === 'checkboxes_persona_d3') {
+          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => `<div class="checkbox-pill-item"><input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${((savedVal && savedVal.includes(opt)) || i === 0) ? 'checked' : ''} onchange="handleDay3PersonaCheck(this)"><label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label></div>`).join('') + `</div>`;
+        } else if (field.type === 'checkboxes_d3') {
+          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => `<div class="checkbox-pill-item"><input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${((savedVal && savedVal.includes(opt)) || i === 1) ? 'checked' : ''} onchange="updateDay3GeneratedPrompt()"><label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label></div>`).join('') + `</div>`;
+        } else if (field.type === 'radios_d4_base') {
+          const savedAnimalName = currentDayStore.d4CustomAnimalInput || '';
+          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => `<div class="radio-pill-item"><input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${(savedVal === opt || i === 0) ? 'checked' : ''} onchange="handleDay4BaseChange()"><label for="${field.id}_${i}" class="radio-pill-label">${opt}</label></div>`).join('') + `</div><div id="d4AnimalInputContainer" style="margin-top:10px; display:${savedVal === field.options[1] ? 'block' : 'none'};"><input type="text" id="d4CustomAnimalInput" class="text-input-styled" placeholder="${currentLang === "zh" ? "例如：水豚、柴犬..." : "e.g., Capybara, Shiba Inu..."}" value="${savedAnimalName}" oninput="updateDay4GeneratedPrompt()" /></div>`;
+        } else if (field.type === 'checkboxes_d4_acc') {
+          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => `<div class="checkbox-pill-item"><input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${((savedVal && savedVal.includes(opt)) || i === 0) ? 'checked' : ''} onchange="handleDay4AccessoryCheck(this)"><label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label></div>`).join('') + `</div>`;
+        } else if (field.type === 'prompt_builder_d4') {
+          inputControl = `<textarea id="d4GeneratedPromptBox" class="text-input-styled" style="min-height:110px;" readonly></textarea><button type="button" class="btn-primary-sm" id="btnCopyPromptD4" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('d4GeneratedPromptBox').value, 'btnCopyPromptD4')">📋 ${currentLang === "zh" ? "複製 3D 公仔 PROMPT" : "COPY 3D FIGURE PROMPT"}</button>`;
+        } else if (field.type === 'radios_d5_count') {
+          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => `<div class="radio-pill-item"><input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${(savedVal === opt || i === 1) ? 'checked' : ''} onchange="updateDay5GeneratedPrompt()"><label for="${field.id}_${i}" class="radio-pill-label">${opt}</label></div>`).join('') + `</div>`;
+        } else if (field.type === 'radios_d5_style') {
+          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => `<div class="radio-pill-item"><input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${(savedVal === opt || i === 0) ? 'checked' : ''} onchange="updateDay5GeneratedPrompt()"><label for="${field.id}_${i}" class="radio-pill-label">${opt}</label></div>`).join('') + `</div>`;
+        } else if (field.type === 'checkboxes_d5_phrases') {
+          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => `<div class="checkbox-pill-item"><input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${((savedVal && savedVal.includes(opt)) || i < 4) ? 'checked' : ''} onchange="updateDay5GeneratedPrompt()"><label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label></div>`).join('') + `</div>`;
+        } else if (field.type === 'prompt_builder_d5') {
+          inputControl = `<textarea id="d5GeneratedPromptBox" class="text-input-styled" style="min-height:110px;" readonly></textarea><button type="button" class="btn-primary-sm" id="btnCopyPromptD5" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('d5GeneratedPromptBox').value, 'btnCopyPromptD5')">📋 ${currentLang === "zh" ? "複製貼圖生成 PROMPT" : "COPY STICKER PROMPT"}</button>`;
+        } else if (field.type === 'star_rating') {
+          const currentStar = savedVal || 0;
+          let starsHTML = '';
+          for (let i = 1; i <= 5; i++) {
+            const isActive = i <= currentStar;
+            starsHTML += `<span class="star-item ${isActive ? 'active' : ''}" onclick="selectStarRating(${i})">${isActive ? '★' : '☆'}</span>`;
+          }
+          const starLabelText = currentLang === "zh" ? "星" : "Stars";
+          inputControl = `<div class="star-rating-box"><input type="hidden" id="rating_value" value="${currentStar}" />${starsHTML}<span class="star-rating-hint" id="starHintText">${currentStar ? `${currentStar} ${starLabelText}` : ''}</span></div>`;
+        } else if (field.type === 'checkboxes') {
+          inputControl = `<div class="checkbox-pills">` + field.options.map((opt, i) => `<div class="checkbox-pill-item"><input type="checkbox" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${(savedVal && savedVal.includes(opt)) ? 'checked' : ''} onchange="validateCurrentForm()"><label for="${field.id}_${i}" class="checkbox-pill-label">${opt}</label></div>`).join('') + `</div>`;
+        } else if (field.type === 'radios') {
+          inputControl = `<div class="radio-pills">` + field.options.map((opt, i) => `<div class="radio-pill-item"><input type="radio" id="${field.id}_${i}" name="${field.id}" value="${opt}" ${(savedVal === opt) ? 'checked' : ''} onchange="validateCurrentForm()"><label for="${field.id}_${i}" class="radio-pill-label">${opt}</label></div>`).join('') + `</div>`;
+        } else if (field.type === 'textarea') {
+          const val = savedVal !== undefined ? savedVal : (field.default || '');
+          inputControl = `<textarea id="${field.id}" class="text-input-styled" placeholder="${field.placeholder || ''}" oninput="validateCurrentForm()">${val}</textarea>`;
+        } else if (field.type === 'input') {
+          const val = savedVal || '';
+          inputControl = `<input type="text" id="${field.id}" class="text-input-styled" placeholder="${field.placeholder || ''}" value="${val}" oninput="validateCurrentForm()" />`;
+        }
+
+        return `
+          <div class="form-section-block">
+            <div class="form-section-title">
+              <span>${field.label}</span>
+              <span class="${isOptional ? 'opt-badge' : 'req-badge'}">${field.req}</span>
+            </div>
+            ${inputControl}
+          </div>
+        `;
+      }).join('');
+
+      const stampLabelDay = currentDay === 10 ? "10 / 10" : `DAY ${String(currentDay).padStart(2, "0")}`;
+      const unlockDateStr = getUnlockDateString(currentDay);
+
+      journeySide.innerHTML = `
+        ${isLockedDay ? `
+          <div class="locked-overlay">
+            <div class="locked-icon">🔒</div>
+            <div class="locked-title">Day ${String(currentDay).padStart(2, "0")} ${currentLang === "zh" ? "尚未開放" : "Locked"}</div>
+            <div class="locked-sub">${currentLang === "zh" ? `將於 ${unlockDateStr} 正式解鎖，敬請期待！` : `Unlocks on ${unlockDateStr}. Stay tuned!`}</div>
+          </div>
+        ` : ''}
+
+        <div>
+          <div class="journey-header">
+            <span class="kicker">MY AI JOURNEY</span>
+            <h2>${data.journeyTitle}</h2>
+          </div>
+          <form id="dayActiveForm" onsubmit="event.preventDefault();">
+            ${fieldsHTML}
           </form>
         </div>
 
         <div>
-          <button type="button" class="submit-stamp-btn active" id="btnSubmitStamp" onclick="executeCurrentStamp()">
-            <span>完成 Day ${String(currentDay).padStart(2, "0")} 打卡 ✈</span>
+          <button type="button" class="submit-stamp-btn" id="btnSubmitStamp" onclick="executeCurrentStamp()">
+            <span>${currentLang === 'zh' ? `完成 Day ${String(currentDay).padStart(2, "0")} 打卡 ✈` : `Complete Day ${String(currentDay).padStart(2, "0")} Check-in ✈️`}</span>
           </button>
           <div class="validation-hint" id="valHintText"></div>
         </div>
 
         <div class="digital-stamp-container ${isStamped ? 'stamped-anim' : ''}" id="digitalStamp">
-          <span style="font-size:12px;">B/S/H/</span>
-          <span style="font-size:16px; margin:2px 0;">DAY ${String(currentDay).padStart(2, "0")}</span>
-          <span style="font-size:10px;">COMPLETED</span>
+          <span class="stamp-brand-text">B/S/H/</span>
+          <span class="stamp-day-text">${stampLabelDay}</span>
+          <span class="stamp-icon-text">✈</span>
+          <span class="stamp-status-text">COMPLETED</span>
         </div>
       `;
+
+      if (currentDay === 3) updateDay3GeneratedPrompt();
+      if (currentDay === 4) handleDay4BaseChange();
+      if (currentDay === 5) updateDay5GeneratedPrompt();
+      if (currentDay === 6) updateDay6GeneratedPrompt();
+      if (currentDay === 7) updateDay7GeneratedPrompt();
+      if (currentDay === 10) updateDay10GeneratedPrompt();
+      if (!isLockedDay) validateCurrentForm();
     }
 
     function validateCurrentForm() {
+      const config = daysData[currentDay];
+      const fields = config[currentLang].journeyFields;
       const btn = document.getElementById("btnSubmitStamp");
       const hint = document.getElementById("valHintText");
+
       if (!btn || !hint) return false;
 
-      const promptVal = document.getElementById("prompt")?.value.trim();
-      if (promptVal) {
-        btn.classList.add("active");
-        hint.textContent = "✨ 驗證無誤！點擊完成打卡！";
-        hint.className = "validation-hint ready";
-        return true;
-      } else {
+      const isAlreadyCompleted = userProgressData[currentDay] && userProgressData[currentDay].completed;
+      const todayStr = getTodayString();
+
+      if (ENABLE_DATE_LIMIT && lastCheckInDate === todayStr && !isAlreadyCompleted) {
         btn.classList.remove("active");
-        hint.textContent = "💡 請填寫欄位。";
+        hint.textContent = currentLang === "zh" ? "⏳ 今日打卡額度已用完，請於明日 00:00 刷新後再來！" : "⏳ Today's check-in limit reached. Resets at 00:00!";
         hint.className = "validation-hint warn";
         return false;
       }
+
+      if (isAlreadyCompleted) {
+        btn.classList.add("active");
+        hint.textContent = currentLang === "zh" ? `✓ Day ${String(currentDay).padStart(2, "0")} 打卡紀錄已安全儲存！` : `✓ Day ${String(currentDay).padStart(2, "0")} recorded!`;
+        hint.className = "validation-hint ready";
+        return true;
+      }
+
+      let isValid = true;
+      let errorMsg = "";
+      let wrongQuizCount = 0;
+
+      for (let field of fields) {
+        if (field.type === 'star_rating' || field.type === 'd9_dataset_download_block' || field.type === 'd10_template_download_block' || field.type === 'day1_prompt_display' || field.type === 'day3_style_display' || field.type === 'day4_char_display' || field.type === 'prompt_builder' || field.type === 'prompt_builder_d4' || field.type === 'prompt_builder_d5' || field.type === 'radios_d3' || field.type === 'checkboxes_d3' || field.type === 'checkboxes_persona_d3' || field.type === 'radios_d4_base' || field.type === 'checkboxes_d4_acc' || field.type === 'radios_d5_count' || field.type === 'radios_d5_style' || field.type === 'checkboxes_d5_phrases') continue;
+
+        if (field.type === 'quiz_radio') {
+          const selected = document.querySelector(`input[name="${field.id}"]:checked`);
+          if (!selected) {
+            isValid = false;
+            if (!errorMsg) errorMsg = currentLang === "zh" ? "💡 請完成所有測驗問答。" : "💡 Please answer all questions.";
+          } else {
+            const labels = document.querySelectorAll(`input[name="${field.id}"]`);
+            labels.forEach(input => {
+              const lbl = input.nextElementSibling;
+              if (lbl) {
+                lbl.classList.remove('correct-choice', 'wrong-choice');
+                if (input.checked) {
+                  if (input.value === field.correct) {
+                    lbl.classList.add('correct-choice');
+                  } else {
+                    lbl.classList.add('wrong-choice');
+                    wrongQuizCount++;
+                  }
+                }
+              }
+            });
+          }
+        } else if (field.type === 'd6_video_wrapper') {
+          if (d6Mode === 'custom') {
+            const customVal = document.getElementById("d6CustomPromptInput")?.value.trim();
+            if (!customVal) {
+              isValid = false; errorMsg = currentLang === "zh" ? "💡 請輸入您親自撰寫的 Prompt。" : "💡 Please write your prompt."; break;
+            }
+          }
+        } else if (field.type === 'd7_dual_mode_wrapper') {
+          if (d7Mode === 'custom') {
+            const customVal = document.getElementById("d7CustomPromptInput")?.value.trim();
+            if (!customVal) {
+              isValid = false; errorMsg = currentLang === "zh" ? "💡 請輸入您親自撰寫的 Prompt。" : "💡 Please write your prompt."; break;
+            }
+          }
+        } else if (field.type === 'd10_dual_mode_wrapper') {
+          if (d10Mode === 'custom') {
+            const customVal = document.getElementById("d10CustomPromptInput")?.value.trim();
+            if (!customVal) {
+              isValid = false; errorMsg = currentLang === "zh" ? "💡 請輸入您親自撰寫的 Prompt。" : "💡 Please write your prompt."; break;
+            }
+          }
+        } else if (field.type === 'checkboxes') {
+          const checked = document.querySelectorAll(`input[name="${field.id}"]:checked`).length;
+          if (checked < 1) {
+            isValid = false; errorMsg = currentLang === "zh" ? "💡 請至少勾選 1 項。" : "💡 Please check at least 1 option."; break;
+          }
+        } else if (field.type === 'radios') {
+          const selected = document.querySelector(`input[name="${field.id}"]:checked`);
+          if (!selected) {
+            isValid = false; errorMsg = currentLang === "zh" ? "💡 請完成單選項答覆。" : "💡 Please select one option."; break;
+          }
+        } else if (field.type === 'textarea' || field.type === 'input') {
+          const elem = document.getElementById(field.id);
+          if (!elem || !elem.value.trim()) {
+            isValid = false; errorMsg = currentLang === "zh" ? "💡 請填寫所有必要欄位。" : "💡 Please fill in all required fields."; break;
+          }
+        }
+      }
+
+      if (wrongQuizCount > 0) {
+        isValid = false;
+        errorMsg = currentLang === "zh" ? "⚠️ 有選項非最佳安全作法 (紅標 ✕)，請調整為綠標 (✓)！" : "⚠ Please adjust your answers to green checkmarks (✓)!";
+      }
+
+      if (isValid) {
+        btn.classList.add("active");
+        hint.textContent = currentLang === "zh" ? "✨ 驗證無誤！點擊完成打卡！" : "✨ All answers validated! Click to stamp.";
+        hint.className = "validation-hint ready";
+      } else {
+        btn.classList.remove("active");
+        hint.textContent = errorMsg;
+        hint.className = "validation-hint warn";
+      }
+
+      return isValid;
     }
 
-    // 將資料同步寫入 Google Sheet
     async function syncToGoogleSheet(payload) {
       try {
         const formData = new URLSearchParams();
@@ -531,35 +2352,133 @@
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: formData.toString()
         });
-        console.log("Data successfully sent to Google Sheet");
+        console.log("Data successfully submitted to Google Sheet (no-cors mode)");
       } catch (err) {
-        console.error("Failed to sync to Sheet:", err);
+        console.error("Failed to sync to Google Sheet:", err);
+      }
+    }
+
+    async function fetchLeaderboardFromSheet() {
+      try {
+        const response = await fetch(GAS_URL);
+        const data = await response.json();
+        if (data && Array.isArray(data.leaderboard)) {
+          mockLeaderboard = data.leaderboard;
+          renderLeaderboard();
+        }
+      } catch (err) {
+        console.warn("Unable to fetch live leaderboard, falling back to local cache.", err);
       }
     }
 
     function executeCurrentStamp() {
+      const todayStr = getTodayString();
+
+      if (ENABLE_DATE_LIMIT && lastCheckInDate === todayStr && !(userProgressData[currentDay] && userProgressData[currentDay].completed)) {
+        alert(currentLang === "zh" ? "今日您已經完成過打卡！一天僅限打卡一次，每天 00:00 刷新。" : "You have already checked in today! Limited to once per day.");
+        return;
+      }
+
+      if (!validateCurrentForm() && !(userProgressData[currentDay] && userProgressData[currentDay].completed)) return;
+
       if (!currentUser) {
         openLoginModal();
         return;
       }
 
-      const promptVal = document.getElementById("prompt")?.value.trim() || "已完成打卡";
-      const formDataStr = `prompt: ${promptVal} | rating: 5 星`;
+      const config = daysData[currentDay];
+      const fields = config[currentLang].journeyFields;
+      const formData = {};
+
+      fields.forEach(field => {
+        if (field.type === 'd6_video_wrapper') {
+          formData.d6Mode = d6Mode;
+          if (d6Mode === 'auto') {
+            formData.d6Action = document.querySelector('input[name="d6Action"]:checked')?.value;
+            formData.d6Camera = Array.from(document.querySelectorAll('input[name="d6Camera"]:checked')).map(c => c.value);
+            formData.d6VideoRequirement = document.getElementById("d6VideoRequirement")?.value || '';
+            formData.finalPromptUsed = document.getElementById("d6GeneratedPromptBox")?.value;
+          } else {
+            formData.finalPromptUsed = document.getElementById("d6CustomPromptInput")?.value;
+          }
+        } else if (field.type === 'd7_dual_mode_wrapper') {
+          formData.d7Mode = d7Mode;
+          if (d7Mode === 'auto') {
+            formData.d7Topic = document.querySelector('input[name="d7Topic"]:checked')?.value;
+            formData.d7Output = Array.from(document.querySelectorAll('input[name="d7Output"]:checked')).map(c => c.value);
+            formData.d7CustomRequirement = document.getElementById("d7CustomRequirement")?.value || '';
+            formData.finalPromptUsed = document.getElementById("d7GeneratedPromptBox")?.value;
+          } else {
+            formData.finalPromptUsed = document.getElementById("d7CustomPromptInput")?.value;
+          }
+        } else if (field.type === 'd10_dual_mode_wrapper') {
+          formData.d10Mode = d10Mode;
+          if (d10Mode === 'auto') {
+            formData.d10Type = document.querySelector('input[name="d10Type"]:checked')?.value;
+            formData.d10Topic = document.querySelector('input[name="d10Topic"]:checked')?.value;
+            formData.d10Features = Array.from(document.querySelectorAll('input[name="d10Features"]:checked')).map(c => c.value);
+            formData.finalPromptUsed = document.getElementById("d10GeneratedPromptBox")?.value;
+          } else {
+            formData.finalPromptUsed = document.getElementById("d10CustomPromptInput")?.value;
+          }
+        } else if (field.type === 'day1_prompt_display') {
+          formData[field.id] = getDay1PromptText();
+        } else if (field.type === 'day3_style_display') {
+          formData[field.id] = getDay3StyleSummary();
+        } else if (field.type === 'day4_char_display') {
+          formData[field.id] = getDay4CharacterSummary();
+        } else if (field.type === 'prompt_builder') {
+          formData[field.id] = document.getElementById("generatedPromptBox")?.value;
+        } else if (field.type === 'prompt_builder_d4') {
+          formData[field.id] = document.getElementById("d4GeneratedPromptBox")?.value;
+        } else if (field.type === 'prompt_builder_d5') {
+          formData[field.id] = document.getElementById("d5GeneratedPromptBox")?.value;
+        } else if (field.type === 'radios_d4_base') {
+          formData[field.id] = document.querySelector(`input[name="${field.id}"]:checked`)?.value;
+          formData.d4CustomAnimalInput = document.getElementById("d4CustomAnimalInput")?.value || '';
+        } else if (field.type === 'star_rating') {
+          const val = document.getElementById("rating_value")?.value;
+          const starLabelText = currentLang === "zh" ? "星" : "Stars";
+          formData[field.id] = val && val !== '0' ? `${val} ${starLabelText}` : (currentLang === "zh" ? '未評分' : 'Unrated');
+        } else if (field.type === 'checkboxes' || field.type === 'checkboxes_d3' || field.type === 'checkboxes_persona_d3' || field.type === 'checkboxes_d4_acc' || field.type === 'checkboxes_d5_phrases') {
+          formData[field.id] = Array.from(document.querySelectorAll(`input[name="${field.id}"]:checked`)).map(c => c.value);
+        } else if (field.type === 'radios' || field.type === 'quiz_radio' || field.type === 'radios_d3' || field.type === 'radios_d5_count' || field.type === 'radios_d5_style') {
+          formData[field.id] = document.querySelector(`input[name="${field.id}"]:checked`)?.value;
+        } else if (field.type === 'd9_dataset_download_block') {
+          formData[field.id] = "BSH_ERP_Sales_Data_800.csv";
+        } else if (field.type === 'd10_template_download_block') {
+          formData[field.id] = "BSH_Template_v5.html";
+        } else {
+          const elem = document.getElementById(field.id);
+          formData[field.id] = elem ? elem.value : '';
+        }
+      });
+
+      const isFirstTimeCompleted = !(userProgressData[currentDay] && userProgressData[currentDay].completed);
 
       userProgressData[currentDay] = {
         completed: true,
-        formData: { prompt: promptVal },
+        formData: formData,
         timestamp: new Date().toISOString()
       };
 
+      if (isFirstTimeCompleted) {
+        lastCheckInDate = todayStr;
+        localStorage.setItem(`bsh_passport_last_date_${currentUser.empId}`, lastCheckInDate);
+      }
+
       localStorage.setItem(`bsh_passport_2026_${currentUser.empId}`, JSON.stringify(userProgressData));
 
-      // 傳送資料到 Google Sheet
+      // 整理打卡數據格式並傳送至 Google Sheet
+      let summaryDataString = Object.entries(formData)
+        .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(', ') : v}`)
+        .join(' | ');
+
       syncToGoogleSheet({
         empId: currentUser.empId,
         name: currentUser.name,
         day: `Day ${String(currentDay).padStart(2, "0")}`,
-        formData: formDataStr
+        formData: summaryDataString
       });
 
       const stamp = document.getElementById("digitalStamp");
@@ -569,63 +2488,167 @@
 
       initDaySelector();
       updateUserStateUI();
+      validateCurrentForm();
+      checkGraduationStatus();
+      updateMarqueeAndLeaderboard();
+    }
+
+    function checkGraduationStatus() {
+      let totalCompleted = 0;
+      for (let i = 1; i <= 10; i++) {
+        if (userProgressData[i] && userProgressData[i].completed) totalCompleted++;
+      }
+
+      const gradBanner = document.getElementById("gradBanner");
+      if (totalCompleted === 10) {
+        gradBanner.classList.add("active");
+      } else {
+        gradBanner.classList.remove("active");
+      }
+    }
+
+    function renderLeaderboard() {
+      const emptyText = currentLang === "zh" ? '尚無紀錄' : 'No Record';
+      const daysUnit = currentLang === "zh" ? '天' : 'Days';
+      
+      document.getElementById('top1-name').innerText = mockLeaderboard[0] ? mockLeaderboard[0].name : emptyText;
+      document.getElementById('top1-days').innerText = mockLeaderboard[0] ? `${mockLeaderboard[0].days} / 10 ${daysUnit}` : `0 / 10 ${daysUnit}`;
+      document.getElementById('top2-name').innerText = mockLeaderboard[1] ? mockLeaderboard[1].name : emptyText;
+      document.getElementById('top2-days').innerText = mockLeaderboard[1] ? `${mockLeaderboard[1].days} / 10 ${daysUnit}` : `0 / 10 ${daysUnit}`;
+      document.getElementById('top3-name').innerText = mockLeaderboard[2] ? mockLeaderboard[2].name : emptyText;
+      document.getElementById('top3-days').innerText = mockLeaderboard[2] ? `${mockLeaderboard[2].days} / 10 ${daysUnit}` : `0 / 10 ${daysUnit}`;
+
+      const listContainer = document.getElementById('leaderboardList');
+      listContainer.innerHTML = '';
+
+      if (mockLeaderboard.length === 0) {
+        listContainer.innerHTML = `<div style="color:var(--muted-text); text-align:center; padding:20px;">${currentLang === "zh" ? "尚無打卡紀錄，歡迎率先挑戰！" : "No check-in records yet. Be the first!"}</div>`;
+        return;
+      }
+
+      mockLeaderboard.forEach((user, index) => {
+        listContainer.innerHTML += `
+          <div class="leader-row">
+            <div class="rank-num">${index + 1}</div>
+            <div class="name-section">${user.name} <span style="font-size:0.8em; color:#718096;">(${user.empId})</span></div>
+            <div class="progress-section">
+              <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${(user.days/10)*100}%"></div></div>
+            </div>
+            <div class="score-badge-box">${user.days} / 10 ${daysUnit}</div>
+          </div>
+        `;
+      });
+    }
+
+    function updateMarqueeAndLeaderboard() {
+      if (currentUser) {
+        let userInList = mockLeaderboard.find(u => u.empId === currentUser.empId);
+        let currentCompleted = Object.keys(userProgressData).filter(k => userProgressData[k].completed).length;
+        if (userInList) {
+          userInList.days = currentCompleted;
+          userInList.name = currentUser.name;
+        } else {
+          mockLeaderboard.push({ name: currentUser.name, empId: currentUser.empId, days: currentCompleted });
+        }
+        mockLeaderboard.sort((a,b) => b.days - a.days);
+
+        const marqueeText = document.getElementById("marqueeText");
+        const daysUnit = currentLang === "zh" ? "天" : "Days";
+        marqueeText.innerHTML = `<span>🔥 <b>${currentUser.name} (${currentUser.empId})</b> ${currentLang === "zh" ? "完成打卡！累積" : "checked in! Total"} <b>${currentCompleted}/10 ${daysUnit}</b> ${currentLang === "zh" ? "護照成就！" : "Passport Badge!"}</span> <span>👑 <b>No.1</b> ${mockLeaderboard[0].name} (${mockLeaderboard[0].days}/10 ${daysUnit})</span>`;
+      }
+      renderLeaderboard();
+    }
+
+    function toggleLanguage() {
+      currentLang = currentLang === "zh" ? "en" : "zh";
+      document.getElementById("langBtn").textContent = currentLang === "zh" ? "EN" : "繁中";
+      
+      document.getElementById("modalTitle").textContent = currentLang === "zh" ? "BSH 同仁登入 / 建立帳號" : "BSH Login / Register";
+      document.getElementById("modalSub").textContent = currentLang === "zh" ? "建立個人 AI 護照，記錄 10 天學習旅程" : "Track your 10-day AI learning journey";
+      document.getElementById("lblEmpId").textContent = currentLang === "zh" ? "員工編號 (Employee ID)" : "Employee ID";
+      document.getElementById("lblName").textContent = currentLang === "zh" ? "英文姓名 (English Name)" : "English Name";
+      document.getElementById("btnModalSubmit").textContent = currentLang === "zh" ? "進入 AI Passport 🚀" : "Access AI Passport 🚀";
+      document.getElementById("lblLeaderboardTitle").textContent = currentLang === "zh" ? "📊 全員即時英雄榜" : "📊 Real-time Leaderboard";
+      document.getElementById("btnFloatLeaderboard").textContent = currentLang === "zh" ? "🏆 即時英雄榜" : "🏆 Leaderboard";
+      document.getElementById("lblMarqueeLabel").textContent = currentLang === "zh" ? "⚡ 即時戰報" : "⚡ LIVE NEWS";
+
+      renderDayContent();
+      updateUserStateUI();
+      renderLeaderboard();
     }
 
     function openLoginModal() { document.getElementById("loginModal").style.display = "flex"; }
     function closeLoginModal() { document.getElementById("loginModal").style.display = "none"; }
 
-    // 輸入工號向 GAS 查詢名字並登入
-    async function handleAccountSubmit(e) {
+    function handleAccountSubmit(e) {
       e.preventDefault();
-      const empId = document.getElementById("accEmpId").value.trim().toUpperCase();
-      const msgDiv = document.getElementById("loginMsg");
-      const btn = document.getElementById("btnModalSubmit");
+      const empIdInput = document.getElementById("accEmpId").value.trim().toUpperCase();
+      const name = document.getElementById("accName").value.trim();
 
-      msgDiv.style.color = "#0284C7";
-      msgDiv.textContent = "驗證工號中...";
-      btn.disabled = true;
-
-      try {
-        const resp = await fetch(`${GAS_URL}?empId=${encodeURIComponent(empId)}`);
-        const result = await resp.json();
-
-        if (result.status === "success" && result.name) {
-          currentUser = { empId: empId, name: result.name };
-          
-          const saved = localStorage.getItem(`bsh_passport_2026_${empId}`);
-          userProgressData = saved ? JSON.parse(saved) : {};
-
-          closeLoginModal();
-          msgDiv.textContent = "";
-          initDaySelector();
-          renderDayContent();
-          updateUserStateUI();
-        } else {
-          msgDiv.style.color = "red";
-          msgDiv.textContent = "⚠️ 查無此工號，請確認後重新輸入！";
-        }
-      } catch (err) {
-        // 備用機制：連線超時則備用登入
-        currentUser = { empId: empId, name: `Emp_${empId}` };
-        closeLoginModal();
-        msgDiv.textContent = "";
-        initDaySelector();
-        renderDayContent();
-        updateUserStateUI();
-      } finally {
-        btn.disabled = false;
+      const empIdRegex = /^(5\d{3}|[ET]\d{3})$/;
+      if (!empIdRegex.test(empIdInput)) {
+        alert(currentLang === "zh" ? "請輸入正確的 4 碼員工編號（例如：5404、E001 或 T001）" : "Please enter a valid 4-character Employee ID (e.g. 5404, E001, T001)");
+        return;
       }
+
+      currentUser = { empId: empIdInput, name: name };
+
+      const saved = localStorage.getItem(`bsh_passport_2026_${empIdInput}`);
+      if (saved) {
+        try { userProgressData = JSON.parse(saved); } catch (err) { userProgressData = {}; }
+      } else {
+        userProgressData = {};
+      }
+
+      lastCheckInDate = localStorage.getItem(`bsh_passport_last_date_${empIdInput}`) || null;
+
+      closeLoginModal();
+      initDaySelector();
+      renderDayContent();
+      updateUserStateUI();
+      checkGraduationStatus();
+      updateMarqueeAndLeaderboard();
     }
 
     function updateUserStateUI() {
       const area = document.getElementById("userStateArea");
-      if (currentUser) {
-        area.innerHTML = `<div class="user-profile-badge"><div class="user-avatar">${currentUser.name[0]}</div><span>${currentUser.name} (${currentUser.empId})</span></div>`;
+      let completedCount = 0;
+      for (let i = 1; i <= 10; i++) {
+        if (userProgressData[i] && userProgressData[i].completed) completedCount++;
       }
+
+      if (currentUser) {
+        const initial = currentUser.name.charAt(0).toUpperCase();
+        area.innerHTML = `
+          <div class="user-profile-badge">
+            <div class="user-avatar">${initial}</div>
+            <span>${currentUser.name} (${currentUser.empId}) - ${completedCount}/10</span>
+            <button onclick="logout()" style="background:none;border:none;cursor:pointer;color:var(--muted-text);font-size:11px;margin-left:4px;">${currentLang === "zh" ? "登出" : "Logout"}</button>
+          </div>
+        `;
+      } else {
+        area.innerHTML = `
+          <button class="btn-primary-sm" onclick="openLoginModal()" id="btnLoginNav">
+            ${currentLang === "zh" ? "同仁登入 / 建立帳號" : "Login / Register"}
+          </button>
+        `;
+      }
+    }
+
+    function logout() {
+      currentUser = null;
+      userProgressData = {};
+      lastCheckInDate = null;
+      document.getElementById("gradBanner").classList.remove("active");
+      initDaySelector();
+      renderDayContent();
+      updateUserStateUI();
     }
 
     initDaySelector();
     renderDayContent();
+    renderLeaderboard();
+    fetchLeaderboardFromSheet();
   </script>
 </body>
 </html>
