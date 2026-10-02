@@ -1193,7 +1193,7 @@ Phrases: ${phraseVals}`;
               try: "角色設定 ➔ 選擇動作與運鏡 ➔ 產出流暢短影音 Prompt", 
               details: [
                 "① 🎬 職場日常動態：喝咖啡思考、忙碌打字、歡呼讚許",
-                "② 🗣️ 開口講話導覽：擔任專案大使，做出活潑嘴型與肢體動作",
+                "② 🗣️ 開口講話導覽：擔任專案大使，做出活潑嘴型與肢体動作",
                 "③ 🚀 炫酷登場特效：3D 鏡頭環繞、霓虹光影變身效果",
                 "④ 🎥 多模態相容：支援短影片、GIF 動畫與動態腳本產生"
               ] 
@@ -1337,98 +1337,98 @@ Phrases: ${phraseVals}`;
         zh: {
           kicker: "DAY 08 | LEARNING TICKET",
           title: "Make Your Data AI-Ready",
-          goal: "Protect Customer Privacy & Be AI-Ready! 訂單與客戶個資去識別化大挑戰！",
+          goal: "Protect Privacy & Be AI-Ready! 跨部門通用數據去識別化大挑戰！",
           subGoal: "WORK SMART. SHARE SAFE.",
           cards: [
             { 
               type: "chatgpt", 
-              title: "GEMINI DATA SAFETY GUIDE (ORDERS)", 
-              tag: "訂單個資保護 3 大原則", 
-              try: "客戶隱私 ➔ 去識別化後才能送入 AI 分析", 
+              title: "DATA SAFETY GUIDE (PII & PRIVACY)", 
+              tag: "通用個資保護 3 大原則", 
+              try: "數據去識別化 ➔ 安全送入 AI 分析處理", 
               details: [
-                "① 姓名與電話：去除或替換為代號 (例：Amy → Client A, 0912-345-678 → 0912-***-***)",
-                "② 詳細地址：降精細度至縣市行政區 (例：信義路五段10號5樓 → 台北市信義區)",
-                "③ 興趣愛好/消費偏好：可直接保留以利 AI 做客群偏好歸納"
+                "① 直接識別資訊 (Direct PII)：姓名、手機號碼、個人 Email ➔ 必須移除 (Remove) 或 遮蔽 (Mask)",
+                "② 間接/精細資訊 (Indirect PII)：完整住址、精確生日/年齡 ➔ 降低精細度 (Generalize) 至縣市區或年齡區間",
+                "③ 統計與偏好特徵 (Aggregated / Non-PII)：部門類別、興趣偏好、受訓意願 ➔ 可安全保留 (Keep) 以利歸納分析"
               ] 
             }
           ],
           howTitle: "PROMPT EXAMPLE 範例提示詞",
           steps: [
-            "「請幫我分析以下這批已去識別化的訂單數據（客戶名稱與詳細地址已去識別，僅保留縣市區與購買產品偏好），找出最熱銷的產品組合。」"
+            "「請幫我分析這份已去識別化的商業數據（已遮蔽直接識別個人資訊，僅保留縣市區域與喜好類別），歸納出最主要的客群/行為趨勢。」"
           ],
-          recommendedPrompt: "💡 提示：每個問答選擇後會顯示即時正確性標籤，全對即可完成打卡！",
-          journeyTitle: "數據去識別化挑戰 (Data Detective - Order Processing)",
+          recommendedPrompt: "💡 提示：請完成下列通用職場情境問答，選擇後會顯示即時正確性標籤，全對即可完成打卡！",
+          journeyTitle: "職場數據去識別化挑戰 (Data Detective - General Privacy)",
           journeyFields: [
             { 
               type: "quiz_radio", 
-              id: "orderAddress", 
-              label: "情境 A：處理含有客戶詳細配送地址的訂單時（如：台北市信義區信義路五段10號5樓）：", 
+              id: "genAddress", 
+              label: "情境 A：處理含有客戶或員工『詳細通訊地址』（例：台北市信義區信義路五段10號5樓）資料時：", 
               req: "必選", 
               correct: "B",
               options: [
-                { label: "A. 保留完整門牌地址直接餵給 AI", value: "A" },
+                { label: "A. 保留完整門牌地址直接餵給 AI 處理", value: "A" },
                 { label: "B. 降低精細度，僅保留『台北市信義區』", value: "B" },
                 { label: "C. 將地址欄位完全刪除", value: "C" }
               ] 
             },
             { 
               type: "quiz_radio", 
-              id: "orderPhone", 
-              label: "情境 B：分析客戶聯絡電話（如：0912-345-678）以統計區碼或推廣效益時：", 
+              id: "genPhone", 
+              label: "情境 B：分析聯絡電話或公務手機（例：0912-345-678）以進行數據統計與效益分析時：", 
               req: "必選", 
               correct: "C",
               options: [
-                { label: "A. 保留完整 10 碼手機號碼", value: "A" },
-                { label: "B. 替換為隨機雜湊碼 (Hash ID)", value: "B" },
-                { label: "C. 進行部分遮蔽 (如 0912-***-***)", value: "C" }
+                { label: "A. 保留完整 10 碼電話號碼", value: "A" },
+                { label: "B. 替換為隨機無意義代碼", value: "B" },
+                { label: "C. 進行部分遮蔽 (如：0912-***-***)", value: "C" }
               ] 
             },
             { 
               type: "quiz_radio", 
-              id: "orderInterests", 
-              label: "情境 C：利用客戶填寫的『興趣與偏好』（如：烘焙、露營）進行受眾畫像分析時：", 
+              id: "genPreferences", 
+              label: "情境 C：利用數據進行『偏好與興趣』（例：偏好產品線、受訓意願）分析與畫像歸納時：", 
               req: "必選", 
               correct: "A",
               options: [
-                { label: "A. 直接保留興趣標籤進行分析", value: "A" },
-                { label: "B. 泛化為『戶外活動』", value: "B" },
-                { label: "C. 移除所有興趣資訊", value: "C" }
+                { label: "A. 在去識別化前提下，保留偏好標籤進行 AI 歸納分析", value: "A" },
+                { label: "B. 隨意刪除所有偏好欄位", value: "B" },
+                { label: "C. 將所有偏好替換為通用預設值", value: "C" }
               ] 
             },
             { 
               type: "quiz_radio", 
               id: "highRiskPii", 
-              label: "1. 哪一組欄位組合屬於高風險極致直接個資 (Highest Risk Personal Data)？", 
-              req: "必选", 
+              label: "1. 下列何者屬於『極高風險的直接個人識別資訊 (Direct PII)』？", 
+              req: "必選", 
               correct: "C",
               options: [
-                { label: "客戶姓名 & 電話", value: "A" },
-                { label: "訂單編號 & 購買商品", value: "B" },
-                { label: "完整地址 & 個人 Email", value: "C" }
+                { label: "專案編號與產品分類", value: "A" },
+                { label: "部門名稱與工作地點", value: "B" },
+                { label: "姓名、身分證/員工編號、完整地址與個人 Email", value: "C" }
               ] 
             },
             { 
               type: "quiz_radio", 
               id: "empAnonymize", 
-              label: "2. 如何去識別化員工資料 '5404 / sunny.peng@bshg.com'？", 
-              req: "必选", 
+              label: "2. 若要將資料 (例: '5404 / sunny.peng@bshg.com') 放入 AI 分析，最佳做法是？", 
+              req: "必選", 
               correct: "B",
               options: [
                 { label: "原封不動保留完整資訊", value: "A" },
-                { label: "遮蔽工號與 Email 姓名 (例: Employee 01 / s***@bshg.com)", value: "B" },
-                { label: "僅保留工號 T001", value: "C" }
+                { label: "遮蔽/替換識別碼與 Email 姓名 (例: Member 01 / s***@bshg.com)", value: "B" },
+                { label: "只刪除 Email，保留完整姓名", value: "C" }
               ] 
             },
             { 
               type: "quiz_radio", 
               id: "bestPractice", 
-              label: "3. 準備資料給 AI 分析時的最佳安全作法 (Best Approach)？", 
-              req: "必选", 
+              label: "3. 準備資料給 AI 進行分析與報表生成時的最佳安全原則 (Best Practice)？", 
+              req: "必選", 
               correct: "A",
               options: [
-                { label: "分享已完整遮蔽敏感欄位的去識別化數據集", value: "A" },
+                { label: "僅分享已去除/遮蔽敏感欄位的去識別化數據集", value: "A" },
                 { label: "直接分享含有個人細節的原始資料", value: "B" },
-                { label: "只分享隨意抽樣的幾筆個資", value: "C" }
+                { label: "隨意抽樣幾筆未去識別化的資料", value: "C" }
               ] 
             },
             commonRatingFieldZh
@@ -1437,32 +1437,32 @@ Phrases: ${phraseVals}`;
         en: {
           kicker: "DAY 08 | LEARNING TICKET",
           title: "Make Your Data AI-Ready",
-          goal: "Protect Customer Privacy & Be AI-Ready!",
+          goal: "Protect Privacy & Be AI-Ready!",
           subGoal: "WORK SMART. SHARE SAFE.",
           cards: [
             { 
               type: "chatgpt", 
-              title: "GEMINI DATA SAFETY GUIDE (ORDERS)", 
-              tag: "Order Anonymization Rules", 
-              try: "Protect Privacy -> Safe AI Analysis", 
+              title: "DATA SAFETY GUIDE (PII & PRIVACY)", 
+              tag: "General Data Anonymization", 
+              try: "Protect Privacy -> Safe AI Processing", 
               details: [
-                "① Name & Phone: Mask or replace with alias (e.g., Client A, 0912-***-***)",
-                "② Detailed Address: Generalize to city/district level",
-                "③ Hobbies & Interests: Keep for audience clustering"
+                "① Direct PII (Name, Phone, Email): Must REMOVE or MASK",
+                "② Indirect PII (Full Address, Exact DOB): GENERALIZE to city/district or age groups",
+                "③ Non-PII (Department, Hobbies, Preferences): KEEP for group pattern analysis"
               ] 
             }
           ],
           howTitle: "PROMPT EXAMPLE",
           steps: [
-            "Analyze this anonymized dataset (addresses generalized to district level) and identify top product combinations."
+            "Analyze this anonymized dataset (direct identifiers removed, addresses generalized) and summarize top user behavior trends."
           ],
           recommendedPrompt: "💡 Hint: Instant validation feedback is displayed upon selection!",
-          journeyTitle: "Data Detective - Order Processing",
+          journeyTitle: "Data Detective - General Privacy",
           journeyFields: [
             { 
               type: "quiz_radio", 
-              id: "orderAddress", 
-              label: "Scenario A: Handling detailed customer shipping address:", 
+              id: "genAddress", 
+              label: "Scenario A: Handling detailed contact/shipping address:", 
               req: "Required", 
               correct: "B",
               options: [
@@ -1473,62 +1473,62 @@ Phrases: ${phraseVals}`;
             },
             { 
               type: "quiz_radio", 
-              id: "orderPhone", 
-              label: "Scenario B: Analyzing customer phone numbers:", 
+              id: "genPhone", 
+              label: "Scenario B: Analyzing contact phone numbers:", 
               req: "Required", 
               correct: "C",
               options: [
                 { label: "A. Keep full 10-digit number", value: "A" },
-                { label: "B. Replace with random Hash ID", value: "B" },
+                { label: "B. Replace with random meaningless code", value: "B" },
                 { label: "C. Mask partially (e.g., 0912-***-***)", value: "C" }
               ] 
             },
             { 
               type: "quiz_radio", 
-              id: "orderInterests", 
-              label: "Scenario C: Utilizing customer interests & hobbies:", 
+              id: "genPreferences", 
+              label: "Scenario C: Utilizing preferences & interest tags for analysis:", 
               req: "Required", 
               correct: "A",
               options: [
-                { label: "A. Keep interests as is for audience grouping", value: "A" },
-                { label: "B. Generalize specific hobbies", value: "B" },
-                { label: "C. Remove all interests", value: "C" }
+                { label: "A. Keep preference tags as is for AI grouping", value: "A" },
+                { label: "B. Delete all preference fields", value: "B" },
+                { label: "C. Replace with generic default values", value: "C" }
               ] 
             },
             { 
               type: "quiz_radio", 
               id: "highRiskPii", 
-              label: "1. Which is the highest risk personal data?", 
+              label: "1. Which is considered highest risk Direct PII?", 
               req: "Required", 
               correct: "C",
               options: [
-                { label: "Customer Name & Phone", value: "A" },
-                { label: "Order ID & Purchased Product", value: "B" },
-                { label: "Full Address & Personal Email", value: "C" }
+                { label: "Project ID & Product Category", value: "A" },
+                { label: "Department Name & Work Location", value: "B" },
+                { label: "Name, ID/Emp No., Full Address & Email", value: "C" }
               ] 
             },
             { 
               type: "quiz_radio", 
               id: "empAnonymize", 
-              label: "2. How to anonymize '5404 / sunny.peng@bshg.com'?", 
+              label: "2. Best way to anonymize '5404 / sunny.peng@bshg.com'?", 
               req: "Required", 
               correct: "B",
               options: [
                 { label: "Keep all as is", value: "A" },
-                { label: "Mask Employee ID & Email name", value: "B" },
-                { label: "Keep only ID T001", value: "C" }
+                { label: "Mask ID & Email name (e.g., Member 01 / s***@bshg.com)", value: "B" },
+                { label: "Delete Email only, keep full name", value: "C" }
               ] 
             },
             { 
               type: "quiz_radio", 
               id: "bestPractice", 
-              label: "3. Best approach to share data for AI analysis?", 
+              label: "3. Best safety practice before sharing data with AI?", 
               req: "Required", 
               correct: "A",
               options: [
-                { label: "Share full anonymized dataset with masked fields", value: "A" },
-                { label: "Share raw dataset with personal details", value: "B" },
-                { label: "Share random unmasked samples", value: "C" }
+                { label: "Share anonymized dataset with sensitive fields masked", value: "A" },
+                { label: "Share raw dataset containing personal details", value: "B" },
+                { label: "Share random unmasked data samples", value: "C" }
               ] 
             },
             commonRatingFieldEn
@@ -2052,7 +2052,7 @@ Phrases: ${phraseVals}`;
 
       if (wrongQuizCount > 0) {
         isValid = false;
-        errorMsg = currentLang === "zh" ? "⚠️ 有選項非最佳安全作法 (紅標 ✕)，請調整為綠標 (✓)！" : "⚠️ Please adjust your answers to green checkmarks (✓)!";
+        errorMsg = currentLang === "zh" ? "⚠️ 有選項非最佳安全作法 (紅標 ✕)，請調整為綠標 (✓)！" : "⚠️️ Please adjust your answers to green checkmarks (✓)!";
       }
 
       if (isValid) {
