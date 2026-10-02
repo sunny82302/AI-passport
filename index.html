@@ -1042,7 +1042,7 @@ ${d9Info}
 【希望包含之互動元素】：${featureVals}
 
 【HTML 產出規範與要求】：
-1. 請遵循 BSH 品牌視覺規範（純白背景、BSH 活力橘 #F26A3D、深灰 #3A3A3A 與黑色 #000000  accent 色調）。
+1. 請遵循 BSH 品牌視覺規範（純白背景、BSH 活力橘 #F26A3D、深灰 #3A3A3A 與黑色 #000000 accent 色調）。
 2. 請將上述 Day 09 的【3 個重要發現】與【1 個驗證洞察與證據】轉化為專業的 KPI 數據卡片與 HTML 圖表頁面。
 3. 請輸出完整、可單獨在瀏覽器運行的單一 HTML 檔案程式碼（包含 <style> 與 <script>），不使用外部未授權依賴。`;
 
@@ -1184,8 +1184,8 @@ ${d9Info}
           howTitle: "HOW IT WORKS｜輕鬆 3 步驟",
           steps: [
             "STEP 1｜在右側勾選你喜歡的風格與場合。",
-            "STEP 2｜點擊『📋 複製 Prompt』並貼到 ChatGPT 或 Gemini。",
-            "STEP 3｜將成果貼回右側完成打卡！"
+            "STEP 2｜點擊『📋 複製 Prompt』並貼到 ChatGPT 或 Gemini 體驗。",
+            "STEP 3｜選擇完成後即可直接點擊下方按鈕打卡！"
           ],
           recommendedPrompt: "💡 提示：複製下方產出的 Prompt 後貼給 AI 即可！",
           journeyTitle: "打造我的 AI 職場個人品牌",
@@ -1193,8 +1193,7 @@ ${d9Info}
             { type: "radios_d3", id: "prefStyle", label: "① 風格調性", req: "必選 1 項", options: ["日系質感 Japandi", "現代俐落 Modern Minimal", "美式率性 Smart Street", "北歐極簡 Nordic Clean", "法式優雅 French Chic"] },
             { type: "checkboxes_persona_d3", id: "prefPersona", label: "② 專業形象特質 (最多 2 項)", req: "最多選 2 項", options: ["親切可靠", "俐落專業", "自信有影響力", "沉穩有質感", "聰明有想法", "活力有親和力"] },
             { type: "checkboxes_d3", id: "prefDress", label: "③ 穿搭情境", req: "可複選", options: ["Casual｜輕鬆休閒", "Smart Casual｜日常辦公", "Business Casual｜商務會議", "Business Formal｜正式商務"] },
-            { type: "prompt_builder", id: "generatedPrompt", label: "④ 自動生成的專屬 PROMPT", req: "複製使用" },
-            { type: "textarea", id: "aiOutputPrompt", label: "⑤ 貼上 AI 為你生成的 Style Board 成果", req: "必填", placeholder: "請貼上 AI 生成的內容摘要..." },
+            { type: "prompt_builder", id: "generatedPrompt", label: "④ 自動生成的專屬 PROMPT", req: "複製體驗" },
             commonRatingFieldZh
           ]
         },
@@ -1210,7 +1209,7 @@ ${d9Info}
           steps: [
             "STEP 1 | Select your style tone and traits.",
             "STEP 2 | Copy prompt and paste to ChatGPT/Gemini.",
-            "STEP 3 | Paste result to check in!"
+            "STEP 3 | Click submit below to check in!"
           ],
           recommendedPrompt: "💡 Hint: Copy the prompt below to get your Style Board!",
           journeyTitle: "My AI Personal Branding Record",
@@ -1219,7 +1218,6 @@ ${d9Info}
             { type: "checkboxes_persona_d3", id: "prefPersona", label: "② Desired Persona Traits", req: "Max 2", options: ["Warm & Reliable", "Sleek & Professional", "Confident & Influential", "Poised & Sophisticated", "Smart & Creative", "Energetic & Approachable"] },
             { type: "checkboxes_d3", id: "prefDress", label: "③ Dressing Contexts", req: "Multiple", options: ["Casual", "Smart Casual", "Business Casual", "Business Formal"] },
             { type: "prompt_builder", id: "generatedPrompt", label: "④ Generated Prompt", req: "Copy & Use" },
-            { type: "textarea", id: "aiOutputPrompt", label: "⑤ Paste Style Board Result", req: "Required", placeholder: "Paste summary..." },
             commonRatingFieldEn
           ]
         }
@@ -1237,9 +1235,9 @@ ${d9Info}
           ],
           howTitle: "HOW IT WORKS｜輕鬆 3 步驟",
           steps: [
-            "STEP 1｜選擇公仔型態與配件。",
-            "STEP 2｜點擊複製 3D 公仔 PROMPT 並貼到 ChatGPT / Midjourney。",
-            "STEP 3｜貼上圖片或作品網址打卡！"
+            "STEP 1｜選擇公仔型態、名稱與配件。",
+            "STEP 2｜點擊複製 3D 公仔 PROMPT 並貼到 ChatGPT / Midjourney 體驗。",
+            "STEP 3｜填寫完畢直接點擊打卡！"
           ],
           recommendedPrompt: "💡 提示：複製下方 Prompt 貼給 AI 即可！",
           journeyTitle: "我的 3D 職場公仔紀錄",
@@ -1247,9 +1245,8 @@ ${d9Info}
             { type: "day3_style_display", id: "d3StyleDisplay", label: "① 帶入 DAY 03 個人風格設定", req: "風格延伸" },
             { type: "radios_d4_base", id: "d4CharBase", label: "② 公仔角色型態", req: "必選 1 項", options: ["真人職場造型", "擬人化幸運萌寵"] },
             { type: "checkboxes_d4_acc", id: "d4Accessory", label: "③ 招牌配件", req: "最多選 2 項", options: ["☕ 質感咖啡杯", "💻 筆電與工作檔", "📱 智慧手機 / App", "👓 經典黑框眼鏡"] },
-            { type: "prompt_builder_d4", id: "d4GeneratedPrompt", label: "④ 自動生成的 3D 公仔 PROMPT", req: "複製使用" },
-            { type: "input", id: "sheet", label: "⑤ 貼上產出的 3D 公仔圖片或作品連結", req: "必填", placeholder: "貼上圖片網址或分享連結..." },
-            { type: "input", id: "name", label: "⑥ CHARACTER NAME (公仔名字)", req: "必填", placeholder: "例如：Bosch Buddy" },
+            { type: "input", id: "name", label: "④ CHARACTER NAME (公仔名字)", req: "必填", placeholder: "例如：Bosch Buddy" },
+            { type: "prompt_builder_d4", id: "d4GeneratedPrompt", label: "⑤ 自動生成的 3D 公仔 PROMPT", req: "複製體驗" },
             commonRatingFieldZh
           ]
         },
@@ -1263,9 +1260,9 @@ ${d9Info}
           ],
           howTitle: "HOW IT WORKS | 3 Steps",
           steps: [
-            "STEP 1 | Pick character base and accessories.",
+            "STEP 1 | Pick character base, name, and accessories.",
             "STEP 2 | Copy prompt to ChatGPT / Midjourney.",
-            "STEP 3 | Paste image URL to check in!"
+            "STEP 3 | Click submit below to check in!"
           ],
           recommendedPrompt: "💡 Hint: Copy prompt below to generate 3D figure!",
           journeyTitle: "My 3D Character Record",
@@ -1273,9 +1270,8 @@ ${d9Info}
             { type: "day3_style_display", id: "d3StyleDisplay", label: "① DAY 03 STYLE INHERITED", req: "Reference" },
             { type: "radios_d4_base", id: "d4CharBase", label: "② Character Base", req: "Select 1", options: ["3D Human Avatar", "Anthropomorphic Animal Avatar"] },
             { type: "checkboxes_d4_acc", id: "d4Accessory", label: "③ Signature Accessories", req: "Max 2", options: ["Coffee Cup", "Laptop & Files", "Smartphone & App", "Classic Glasses"] },
-            { type: "prompt_builder_d4", id: "d4GeneratedPrompt", label: "④ Generated 3D Toy Prompt", req: "Copy & Use" },
-            { type: "input", id: "sheet", label: "⑤ Paste 3D Figure Image Link", req: "Required", placeholder: "Paste URL..." },
-            { type: "input", id: "name", label: "⑥ CHARACTER NAME", req: "Required", placeholder: "e.g., Bosch Buddy" },
+            { type: "input", id: "name", label: "④ CHARACTER NAME", req: "Required", placeholder: "e.g., Bosch Buddy" },
+            { type: "prompt_builder_d4", id: "d4GeneratedPrompt", label: "⑤ Generated 3D Toy Prompt", req: "Copy & Use" },
             commonRatingFieldEn
           ]
         }
@@ -1294,8 +1290,8 @@ ${d9Info}
           howTitle: "HOW IT WORKS｜輕鬆 3 步驟",
           steps: [
             "STEP 1｜選擇張數、風格與語錄。",
-            "STEP 2｜複製 Prompt 貼至 ChatGPT / Midjourney。",
-            "STEP 3｜貼上產出的貼圖組合圖網址打卡！"
+            "STEP 2｜複製 Prompt 貼至 ChatGPT / Midjourney 體驗。",
+            "STEP 3｜選取完成即可直接打卡！"
           ],
           recommendedPrompt: "💡 提示：點擊複製下方生成的 Prompt 即可！",
           journeyTitle: "我的 LINE 貼圖套件生成紀錄",
@@ -1304,8 +1300,7 @@ ${d9Info}
             { type: "radios_d5_count", id: "d5Count", label: "② 貼圖張數", req: "必選 1 項", options: ["4 張", "8 張", "12 張", "16 張"] },
             { type: "radios_d5_style", id: "d5Style", label: "③ 貼圖風格", req: "必選 1 項", options: ["Q版可愛表情包", "極簡線條風", "職場實用寫實風", "誇張搞笑表情包"] },
             { type: "checkboxes_d5_phrases", id: "d5Phrases", label: "④ 常用辦公語錄", req: "可複選", options: ["早安！", "收到！", "辛苦了！", "謝謝！", "加油！", "排程中...", "馬上處理！", "完成！"] },
-            { type: "prompt_builder_d5", id: "d5GeneratedPrompt", label: "⑤ 自動生成的 LINE 貼圖 PROMPT", req: "複製使用" },
-            { type: "input", id: "stickerSheet", label: "⑥ 貼上產出的 LINE 貼圖組合圖連結", req: "必填", placeholder: "貼上圖片網址或分享連結..." },
+            { type: "prompt_builder_d5", id: "d5GeneratedPrompt", label: "⑤ 自動生成的 LINE 貼圖 PROMPT", req: "複製體驗" },
             commonRatingFieldZh
           ]
         },
@@ -1321,7 +1316,7 @@ ${d9Info}
           steps: [
             "STEP 1 | Select count, style, and phrases.",
             "STEP 2 | Copy prompt to AI.",
-            "STEP 3 | Paste image URL to check in!"
+            "STEP 3 | Click submit below to check in!"
           ],
           recommendedPrompt: "💡 Hint: Copy prompt below to generate sticker sheet!",
           journeyTitle: "My LINE Sticker Pack Record",
@@ -1331,7 +1326,6 @@ ${d9Info}
             { type: "radios_d5_style", id: "d5Style", label: "③ Visual Style", req: "Select 1", options: ["Cute Chibi Emoji", "Minimalist Outline", "Realistic Workplace", "Expressive & Funny"] },
             { type: "checkboxes_d5_phrases", id: "d5Phrases", label: "④ Daily Office Phrases", req: "Multiple", options: ["Good Morning!", "Got it!", "Good Job!", "Thank you!", "Keep it up!", "In progress...", "On it!", "Done!"] },
             { type: "prompt_builder_d5", id: "d5GeneratedPrompt", label: "⑤ Generated Sticker Sheet Prompt", req: "Copy & Use" },
-            { type: "input", id: "stickerSheet", label: "⑥ Paste Sticker Sheet Image Link", req: "Required", placeholder: "Paste URL..." },
             commonRatingFieldEn
           ]
         }
@@ -1761,7 +1755,7 @@ ${d9Info}
           steps: [
             "STEP 1｜下載 BSH 企業 HTML 範本：點擊右側按鈕取得原始結構檔 (BSH_Template_v5.html)。",
             "STEP 2｜選擇模式並複製 PROMPT：系統將自動結合 Day 09 輸入的 3 大數據發現與洞察，合成精準 HTML 生成指令。",
-            "STEP 3｜貼至 ChatGPT / Gemini 生成 HTML 成果，確認產出後即可點擊完成打卡畢業！"
+            "STEP 3｜貼至 ChatGPT / Gemini 體驗，確認無誤後即可點擊下方按鈕打卡畢業！"
           ],
           recommendedPrompt: "💡 提示：點擊右上角可切換「新手模式」或「進階模式」，複製 Prompt 貼給 AI 即可生成高階 HTML 簡報！",
           journeyTitle: "終極畢業任務打卡 (Final BSH HTML Presentation)",
@@ -2054,7 +2048,7 @@ ${d9Info}
           inputControl = `
             <div class="mode-tab-container">
               <button type="button" class="mode-tab-btn ${d7Mode === 'auto' ? 'active' : ''}" id="btnD7Auto" onclick="switchD7Mode('auto')">⚡ 新手模式：快速組裝 PROMPT</button>
-              <button type="button" class="mode-tab-btn ${d7Mode === 'custom' ? 'active' : ''}" id="btnD7Custom" onclick="switchD7Mode('custom')">✍️️ 進階挑戰：親自撰寫 PROMPT</button>
+              <button type="button" class="mode-tab-btn ${d7Mode === 'custom' ? 'active' : ''}" id="btnD7Custom" onclick="switchD7Mode('custom')">✍ 進階挑戰：親自撰寫 PROMPT</button>
             </div>
 
             <!-- Mode A: 自動組裝 -->
@@ -2331,10 +2325,11 @@ ${d9Info}
 
         await fetch(GAS_URL, {
           method: "POST",
+          mode: "no-cors",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: formData.toString()
         });
-        console.log("Data successfully submitted to Google Sheet");
+        console.log("Data successfully submitted to Google Sheet (no-cors mode)");
       } catch (err) {
         console.error("Failed to sync to Google Sheet:", err);
       }
@@ -2452,11 +2447,16 @@ ${d9Info}
 
       const currentCompletedDays = Object.keys(userProgressData).filter(k => userProgressData[k].completed).length;
 
+      // 整理打卡數據格式並傳送至 Google Sheet (Excel)
+      let summaryDataString = Object.entries(formData)
+        .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(', ') : v}`)
+        .join(' | ');
+
       syncToGoogleSheet({
         empId: currentUser.empId,
         name: currentUser.name,
         day: `Day ${String(currentDay).padStart(2, "0")}`,
-        formData: JSON.stringify(formData)
+        formData: summaryDataString
       });
 
       const stamp = document.getElementById("digitalStamp");
