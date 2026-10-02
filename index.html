@@ -592,6 +592,7 @@
     let userProgressData = {};
     let lastCheckInDate = null; 
     let d6Mode = "auto"; 
+    let d7Mode = "auto";
 
     let mockLeaderboard = [];
 
@@ -696,8 +697,8 @@
       const personaBoxes = document.querySelectorAll('input[name="prefPersona"]:checked');
       const personaVals = Array.from(personaBoxes).map(b => b.value).join(' 與 ') || "親切可靠";
 
-      const dressBoxes = document.querySelector('input[name="prefDress"]:checked');
-      const dressVals = Array.from(document.querySelectorAll('input[name="prefDress"]:checked')).map(b => b.value).join(', ') || "Smart Casual｜日常辦公（一般上班、內部會議）";
+      const dressBoxes = document.querySelectorAll('input[name="prefDress"]:checked');
+      const dressVals = Array.from(dressBoxes).map(b => b.value).join(', ') || "Smart Casual｜日常辦公（一般上班、內部會議）";
 
       const generatedPrompt = `我想為自己打造一份專屬的職場 Professional Style Board。
 
@@ -716,7 +717,7 @@
 
     function handleDay4BaseChange() {
       const charBaseRadio = document.querySelector('input[name="d4CharBase"]:checked');
-      const animalInputContainer = document.getElementById("d4AnimalInputContainer");
+      const animalInputContainer = document.getElementById("d4CustomAnimalInputContainer");
       if (charBaseRadio && (charBaseRadio.value === "擬人化幸運萌寵" || charBaseRadio.value === "Anthropomorphic Animal Avatar")) {
         if (animalInputContainer) animalInputContainer.style.display = "block";
       } else {
@@ -780,6 +781,7 @@ Phrases: ${phraseVals}`;
       validateCurrentForm();
     }
 
+    /* Day 06 (影音動畫) 切換與 Prompt 產生 */
     function switchD6Mode(mode) {
       d6Mode = mode;
       document.getElementById("btnD6Auto").classList.toggle("active", mode === "auto");
@@ -802,13 +804,62 @@ Phrases: ${phraseVals}`;
     function updateDay6GeneratedPrompt() {
       if (d6Mode !== "auto") return;
 
-      const topicRadio = document.querySelector('input[name="d6Topic"]:checked');
+      const d4Info = getDay4CharacterSummary();
+      const actionRadio = document.querySelector('input[name="d6Action"]:checked');
+      const actionVal = actionRadio ? actionRadio.value : "☕ 喝咖啡思考，眼神充滿靈感";
+
+      const cameraBoxes = document.querySelectorAll('input[name="d6Camera"]:checked');
+      const cameraVals = Array.from(cameraBoxes).map(b => b.value).join(' 與 ') || "特寫鏡頭 (Close-up)";
+
+      const customInput = document.getElementById("d6VideoRequirement")?.value.trim();
+      const customDetail = customInput ? `\n【情緒與背景氛圍】：${customInput}` : "";
+
+      const generatedPrompt = `請作為 AI 影音動畫專家，請運用 Gemini 為我生成一份精準的動態影片 Prompt 腳本：
+
+【角色原型】：${d4Info}
+【核心動作/動態】：${actionVal}
+【鏡頭運鏡風格】：${cameraVals}${customDetail}
+
+【執行要求】：
+1. 請產出一段適用於 Gemini / Veo 的英文影片提示詞 (Video Generation Prompt)。
+2. 請標明 Lighting (光影)、Motion (動態流暢度) 與 Camera Angle (鏡頭角度)。
+3. 請維持角色風格與 3D 質感連貫度，長度規劃為 5 秒短影片。`;
+
+      const promptBox = document.getElementById("d6GeneratedPromptBox");
+      if (promptBox) promptBox.value = generatedPrompt;
+      validateCurrentForm();
+    }
+
+    /* Day 07 (工作圖文指南) 切換與 Prompt 產生 */
+    function switchD7Mode(mode) {
+      d7Mode = mode;
+      document.getElementById("btnD7Auto").classList.toggle("active", mode === "auto");
+      document.getElementById("btnD7Custom").classList.toggle("active", mode === "custom");
+
+      const blockAuto = document.getElementById("d7AutoBlock");
+      const blockCustom = document.getElementById("d7CustomBlock");
+
+      if (mode === "auto") {
+        if (blockAuto) blockAuto.style.display = "block";
+        if (blockCustom) blockCustom.style.display = "none";
+        updateDay7GeneratedPrompt();
+      } else {
+        if (blockAuto) blockAuto.style.display = "none";
+        if (blockCustom) blockCustom.style.display = "block";
+      }
+      validateCurrentForm();
+    }
+
+    function updateDay7GeneratedPrompt() {
+      if (d7Mode !== "auto") return;
+
+      const topicRadio = document.querySelector('input[name="d7Topic"]:checked');
       const topicVal = topicRadio ? topicRadio.value : "📂 1. 新進人員公用槽導覽與資料夾目錄結構";
 
-      const outputBoxes = document.querySelectorAll('input[name="d6Output"]:checked');
+      const outputBoxes = document.querySelectorAll('input[name="d7Output"]:checked');
       const outputVals = Array.from(outputBoxes).map(b => b.value).join(' 與 ') || "結構化 SOP 指南表格";
 
-      const customInput = document.getElementById("d6CustomRequirement")?.value.trim();
+      const customInput = document.getElementById("d7CustomRequirement")?.value.trim();
       const customDetail = customInput ? `\n【補充說明】：${customInput}` : "";
 
       const generatedPrompt = `請作為 BSH 行政與 HR 工作流程專家，協助我為全同仁製作一份清晰、專業且易讀的圖文指南：
@@ -822,7 +873,7 @@ Phrases: ${phraseVals}`;
 3. 若適合，請一併附上 Mermaid 流程圖語法或表格，協助同仁一目了然。
 4. 整理出最常被問到的 2 個 FAQ 與解決解答。`;
 
-      const promptBox = document.getElementById("d6GeneratedPromptBox");
+      const promptBox = document.getElementById("d7GeneratedPromptBox");
       if (promptBox) promptBox.value = generatedPrompt;
       validateCurrentForm();
     }
@@ -1117,12 +1168,90 @@ Phrases: ${phraseVals}`;
         accentBg: "#F0F9FF",
         zh: {
           kicker: "DAY 06 | LEARNING TICKET",
+          title: "Bring Your IP to Life! AI 短影音生成",
+          goal: "讓 Day 04/05 的專屬 IP 角色動起來！使用 Gemini 打造動態短影音！",
+          subGoal: "Animate Your Character with AI Motion Prompts.",
+          cards: [
+            { 
+              type: "gemini", 
+              title: "GEMINI MULTIMODAL MOTION", 
+              tag: "多模態影音動態夥伴", 
+              try: "角色設定 ➔ 選擇動作與運鏡 ➔ 產出流暢短影音 Prompt", 
+              details: [
+                "① 🎬 職場日常動態：喝咖啡思考、忙碌打字、歡呼讚許",
+                "② 🗣️ 開口講話導覽：擔任專案大使，做出活潑嘴型與肢體動作",
+                "③ 🚀 炫酷登場特效：3D 鏡頭環繞、霓虹光影變身效果",
+                "④ 🎥 多模態相容：支援短影片、GIF 動畫與動態腳本產生"
+              ] 
+            }
+          ],
+          howTitle: "HOW IT WORKS｜GEMINI 操作 3 步驟",
+          steps: [
+            "STEP 1｜開啟 Gemini 介面：若想直接對圖生成，請點選『多模態/視覺分析模式』並上傳 Day 04 角色圖。",
+            "STEP 2｜在右側選擇您想要的動態與運鏡，複製自動合成的影音 Prompt 貼給 Gemini。",
+            "STEP 3｜體驗完成後，在右側下方進行『五星體驗評分』並完成打卡！"
+          ],
+          recommendedPrompt: "💡 模式指引：Gemini 標準模式可產出影片腳本；圖像/多模態模式可上傳 Day 04 圖進行動態分析與生成！",
+          journeyTitle: "我的個人 IP 動態影音生成紀錄",
+          journeyFields: [
+            {
+              type: "d6_video_wrapper",
+              id: "d6Wrapper",
+              label: "① 選擇體驗模式與動態 PROMPT 產出",
+              req: "核心步驟"
+            },
+            commonRatingFieldZh
+          ]
+        },
+        en: {
+          kicker: "DAY 06 | LEARNING TICKET",
+          title: "Bring Your IP to Life! AI Video Generation",
+          goal: "Animate your Day 04/05 IP character with Gemini!",
+          subGoal: "Animate Your Character with AI Motion Prompts.",
+          cards: [
+            { 
+              type: "gemini", 
+              title: "GEMINI MULTIMODAL MOTION", 
+              tag: "Multimodal Motion Partner", 
+              try: "Character -> Action & Camera -> Motion Prompt", 
+              details: [
+                "① 🎬 Workplace Daily Motion: Coffee drinking, typing, cheering",
+                "② 🗣 Speaking Avatar: Project ambassador with lively gestures",
+                "③ 🚀 Cool Entrance: 3D orbiting camera & lighting FX",
+                "④ 🎥 Multimodal Support: Generates Video/GIF motion scripts"
+              ] 
+            }
+          ],
+          howTitle: "HOW IT WORKS | GEMINI 3 STEPS",
+          steps: [
+            "STEP 1 | Open Gemini: Switch to Multimodal/Vision mode and upload your Day 04 IP image.",
+            "STEP 2 | Select motion and camera settings on the right, then copy the prompt into Gemini.",
+            "STEP 3 | Rate your experience with 5 stars below and check in!"
+          ],
+          recommendedPrompt: "💡 Mode Guide: Standard Chat generates scripts; Vision mode generates image-to-motion prompts!",
+          journeyTitle: "My IP Video Generation Record",
+          journeyFields: [
+            {
+              type: "d6_video_wrapper",
+              id: "d6Wrapper",
+              label: "① Select Mode & Generate Motion Prompt",
+              req: "Core Step"
+            },
+            commonRatingFieldEn
+          ]
+        }
+      },
+      7: {
+        accent: "#7C3AED",
+        accentBg: "#F5F3FF",
+        zh: {
+          kicker: "DAY 07 | LEARNING TICKET",
           title: "Workplace Visual Guidelines & SOPs",
           goal: "打造日常工作圖文指南！選擇新手快速組裝，或親自挑戰寫 Prompt！",
           subGoal: "Turn Complex Workflows into Clear Visual Cards.",
           cards: [
             { 
-              type: "gemini", 
+              type: "copilot", 
               title: "WORKPLACE VISUAL BUILDER", 
               tag: "工作圖文與 SOP 懶人包", 
               try: "選擇主題 ➔ 組裝/撰寫 Prompt ➔ 請 AI 整理精準圖文架構", 
@@ -1143,8 +1272,8 @@ Phrases: ${phraseVals}`;
           journeyTitle: "我的工作圖文與 SOP 指南紀錄",
           journeyFields: [
             {
-              type: "d6_dual_mode_wrapper",
-              id: "d6Wrapper",
+              type: "d7_dual_mode_wrapper",
+              id: "d7Wrapper",
               label: "① 選擇體驗模式與 PROMPT 產出",
               req: "核心步驟"
             },
@@ -1152,13 +1281,13 @@ Phrases: ${phraseVals}`;
           ]
         },
         en: {
-          kicker: "DAY 06 | LEARNING TICKET",
+          kicker: "DAY 07 | LEARNING TICKET",
           title: "Workplace Visual Guidelines & SOPs",
           goal: "Turn Complex Workflows into Clear Visual Cards.",
           subGoal: "Turn Complex Workflows into Clear Visual Cards.",
           cards: [
             { 
-              type: "gemini", 
+              type: "copilot", 
               title: "WORKPLACE VISUAL BUILDER", 
               tag: "Work Guides & SOP Cards", 
               try: "Pick Topic -> Build/Write Prompt -> Get Clear Guidelines", 
@@ -1179,59 +1308,11 @@ Phrases: ${phraseVals}`;
           journeyTitle: "My Workplace Visual Guide Record",
           journeyFields: [
             {
-              type: "d6_dual_mode_wrapper",
-              id: "d6Wrapper",
+              type: "d7_dual_mode_wrapper",
+              id: "d7Wrapper",
               label: "① Select Mode & Generate/Write Prompt",
               req: "Core Step"
             },
-            commonRatingFieldEn
-          ]
-        }
-      },
-      7: {
-        accent: "#7C3AED",
-        accentBg: "#F5F3FF",
-        zh: {
-          kicker: "DAY 07 | LEARNING TICKET",
-          title: "Design Your Dream Workspace",
-          goal: "AI Workspace Makeover! 打造兼具風格、效率與好運的辦公桌！",
-          subGoal: "Same Desk. A Smarter, Happier You.",
-          cards: [
-            { type: "copilot", title: "WORKSPACE MAKEOVER", tag: "軟裝與佈置調整", try: "保持硬體結構 + 調整軟裝物件", details: ["保留：桌子、螢幕、電腦與空間結構", "調整：植物、收納、桌墊、燈具、配色", "Style：Japandi, Minimal, Cozy, Executive", "Lucky Theme：財運, 事業, 靈感, 專注"] }
-          ],
-          howTitle: "PRIVACY FIRST｜安全提醒",
-          steps: [
-            "拍照前請確認關閉螢幕，無 Email 或機密文件內容。",
-            "上傳照片並使用 Master Prompt 生成改造後效果圖。"
-          ],
-          recommendedPrompt: "請以我上傳的辦公桌照片為基礎進行 AI Workspace Makeover。Style：日系 Japandi；Lucky Theme：事業運。保留桌椅螢幕結構，僅建議軟裝改造。",
-          journeyTitle: "我的辦公桌改造紀錄",
-          journeyFields: [
-            { type: "checkboxes", id: "planStyle", label: "① MY PLAN Style & Lucky Theme", req: "必選 1 項", options: ["Japandi 日系", "Minimal 簡約", "Cozy 溫馨", "Executive 專業", "Career 事業運", "Focus 專注運"] },
-            { type: "input", id: "beforeImg", label: "② BEFORE (貼上原始辦公桌照片連結)", req: "必填", placeholder: "貼上照片網址..." },
-            { type: "input", id: "afterImg", label: "③ AFTER (貼上 AI 改造成果照片連結)", req: "必填", placeholder: "貼上成果網址..." },
-            commonRatingFieldZh
-          ]
-        },
-        en: {
-          kicker: "DAY 07 | LEARNING TICKET",
-          title: "Design Your Dream Workspace",
-          goal: "AI Workspace Makeover! Upgrade your daily desk.",
-          subGoal: "Same Desk. A Smarter, Happier You.",
-          cards: [
-            { type: "copilot", title: "WORKSPACE MAKEOVER", tag: "Soft Decor & Layout", try: "Keep Structure + Upgrade Decor", details: ["KEEP: Desk, Monitor, Laptop", "CHANGE: Plants, Storage, Desk Mat, Lighting", "Styles: Japandi, Minimal, Cozy, Executive", "Lucky Themes: Abundance, Career, Focus, Creativity"] }
-          ],
-          howTitle: "PRIVACY FIRST | Safety Note",
-          steps: [
-            "Ensure no confidential docs or emails are visible before taking photo.",
-            "Upload photo and run prompt to generate makeover."
-          ],
-          recommendedPrompt: "Based on my desk photo, propose an AI Workspace Makeover in Japandi style with Career lucky theme.",
-          journeyTitle: "My Workspace Record",
-          journeyFields: [
-            { type: "checkboxes", id: "planStyle", label: "① MY PLAN Style & Lucky Theme", req: "Select 1", options: ["Japandi", "Minimal", "Cozy", "Executive", "Career", "Focus"] },
-            { type: "input", id: "beforeImg", label: "② BEFORE (Paste Desk Photo Link)", req: "Required", placeholder: "Paste URL..." },
-            { type: "input", id: "afterImg", label: "③ AFTER (Paste AI Makeover Result Link)", req: "Required", placeholder: "Paste URL..." },
             commonRatingFieldEn
           ]
         }
@@ -1482,7 +1563,8 @@ Phrases: ${phraseVals}`;
         const savedVal = currentDayStore[field.id];
         const isOptional = field.req && field.req.includes('Optional');
 
-        if (field.type === 'd6_dual_mode_wrapper') {
+        if (field.type === 'd6_video_wrapper') {
+          /* Day 06 IP 影音雙軌面板 */
           inputControl = `
             <div class="mode-tab-container">
               <button type="button" class="mode-tab-btn ${d6Mode === 'auto' ? 'active' : ''}" id="btnD6Auto" onclick="switchD6Mode('auto')">⚡ 新手模式：快速組裝 PROMPT</button>
@@ -1492,36 +1574,92 @@ Phrases: ${phraseVals}`;
             <!-- Mode A: 自動組裝 -->
             <div id="d6AutoBlock" style="display: ${d6Mode === 'auto' ? 'block' : 'none'};">
               <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">帶入 Day 04 角色：${getDay4CharacterSummary()}</label>
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">選擇角色動作與動態情境</label>
+                <div class="radio-pills" style="flex-direction:column; gap:6px;">
+                  <div class="radio-pill-item"><input type="radio" id="d6Action_0" name="d6Action" value="☕ 喝咖啡思考，眼神充滿靈感" checked onchange="updateDay6GeneratedPrompt()"><label for="d6Action_0" class="radio-pill-label" style="width:100%; text-align:left;">☕ 職場日常：喝咖啡思考，眼神充滿靈感</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d6Action_1" name="d6Action" value="🗣️ 活潑講話與手勢，親切進行簡報導覽" onchange="updateDay6GeneratedPrompt()"><label for="d6Action_1" class="radio-pill-label" style="width:100%; text-align:left;">🗣️ 開口講話：擔任大使活潑介紹，附帶肢體手勢</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d6Action_2" name="d6Action" value="🚀 炫酷登場，3D 光影轉身並向鏡頭揮手" onchange="updateDay6GeneratedPrompt()"><label for="d6Action_2" class="radio-pill-label" style="width:100%; text-align:left;">🚀 炫酷登場：3D 光影轉身並向鏡頭開心揮手</label></div>
+                </div>
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">選擇運鏡風格 (可複選)</label>
+                <div class="checkbox-pills">
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d6Camera_0" name="d6Camera" value="特寫鏡頭 (Close-up)" checked onchange="updateDay6GeneratedPrompt()"><label for="d6Camera_0" class="checkbox-pill-label">特寫鏡頭</label></div>
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d6Camera_1" name="d6Camera" value="鏡頭緩慢推近 (Slow Zoom In)" checked onchange="updateDay6GeneratedPrompt()"><label for="d6Camera_1" class="checkbox-pill-label">緩慢推近</label></div>
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d6Camera_2" name="d6Camera" value="環繞運鏡 (360 Orbit)" onchange="updateDay6GeneratedPrompt()"><label for="d6Camera_2" class="checkbox-pill-label">環繞運鏡</label></div>
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d6Camera_3" name="d6Camera" value="電影感光影 (Cinematic Lighting)" onchange="updateDay6GeneratedPrompt()"><label for="d6Camera_3" class="checkbox-pill-label">電影感光影</label></div>
+                </div>
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">補充動態細節 (選填)</label>
+                <input type="text" id="d6VideoRequirement" class="text-input-styled" placeholder="例如：背景有微弱粒子光斑 / 角色微笑點頭..." oninput="updateDay6GeneratedPrompt()" />
+              </div>
+
+              <textarea id="d6GeneratedPromptBox" class="text-input-styled" style="min-height:120px;" readonly></textarea>
+              <button type="button" class="btn-primary-sm" id="btnCopyPromptD6Auto" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('d6GeneratedPromptBox').value, 'btnCopyPromptD6Auto')">📋 複製系統組裝 PROMPT 貼至 Gemini</button>
+            </div>
+
+            <!-- Mode B: 自主撰寫 -->
+            <div id="d6CustomBlock" style="display: ${d6Mode === 'custom' ? 'block' : 'none'};">
+              <div style="background:#FFF0E8; border:1px solid var(--bosch-orange); border-radius:10px; padding:10px 12px; font-size:11px; color:var(--bosch-dark-orange); font-weight:700; margin-bottom:10px;">
+                💡 <b>影音 Prompt 撰寫萬用架構建議：</b><br/>
+                ・<b>[角色與動作]</b> A 3D character in Pop Mart style doing...<br/>
+                ・<b>[運鏡語言]</b> Smooth slow zoom-in close-up shot...<br/>
+                ・<b>[光影氛圍]</b> Soft studio lighting, 5-second video loop.<br/>
+              </div>
+
+              <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">✍️ 請在下方輸入你自己思考並撰寫的動態影音 Prompt：</label>
+              <textarea id="d6CustomPromptInput" class="text-input-styled" style="min-height:130px;" placeholder="試著套用上面提示，寫出屬於你的動態 Prompt..." oninput="validateCurrentForm()">${savedVal || ''}</textarea>
+              <button type="button" class="btn-primary-sm" id="btnCopyPromptD6Custom" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('d6CustomPromptInput').value, 'btnCopyPromptD6Custom')">📋 複製我親自寫的 PROMPT 貼至 Gemini</button>
+            </div>
+          `;
+        } else if (field.type === 'd7_dual_mode_wrapper') {
+          /* Day 07 工作圖文指南雙軌面板 */
+          inputControl = `
+            <div class="mode-tab-container">
+              <button type="button" class="mode-tab-btn ${d7Mode === 'auto' ? 'active' : ''}" id="btnD7Auto" onclick="switchD7Mode('auto')">⚡ 新手模式：快速組裝 PROMPT</button>
+              <button type="button" class="mode-tab-btn ${d7Mode === 'custom' ? 'active' : ''}" id="btnD7Custom" onclick="switchD7Mode('custom')">✍️ 進階挑戰：親自撰寫 PROMPT</button>
+            </div>
+
+            <!-- Mode A: 自動組裝 -->
+            <div id="d7AutoBlock" style="display: ${d7Mode === 'auto' ? 'block' : 'none'};">
+              <div style="margin-bottom:10px;">
                 <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">選擇工作圖文主題 (圖文懶人包 / SOP)</label>
                 <div class="radio-pills" style="flex-direction:column; gap:6px;">
-                  <div class="radio-pill-item"><input type="radio" id="d6Topic_0" name="d6Topic" value="📂 1. 新進人員公用槽導覽與資料夾目錄結構" checked onchange="updateDay6GeneratedPrompt()"><label for="d6Topic_0" class="radio-pill-label" style="width:100%; text-align:left;">📂 1. 新進人員公用槽導覽 (目錄結構與權限說明)</label></div>
-                  <div class="radio-pill-item"><input type="radio" id="d6Topic_1" name="d6Topic" value="📝 2. 合約檢查要點指南與審查 Checklist" onchange="updateDay6GeneratedPrompt()"><label for="d6Topic_1" class="radio-pill-label" style="width:100%; text-align:left;">📝 2. 合約檢查要點指南 ( Check-list 與注意事項圖表)</label></div>
-                  <div class="radio-pill-item"><input type="radio" id="d6Topic_2" name="d6Topic" value="✍️ 3. 簽呈使用範例與撰寫規範說明" onchange="updateDay6GeneratedPrompt()"><label for="d6Topic_2" class="radio-pill-label" style="width:100%; text-align:left;">✍️️ 3. 簽呈使用範例說明 (撰寫架構與範本參照表)</label></div>
-                  <div class="radio-pill-item"><input type="radio" id="d6Topic_3" name="d6Topic" value="🌴 4. 請假流程與系統簽核步驟圖解" onchange="updateDay6GeneratedPrompt()"><label for="d6Topic_3" class="radio-pill-label" style="width:100%; text-align:left;">🌴 4. 請假流程與規則圖解 (簽核階層與系統步驟)</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d7Topic_0" name="d7Topic" value="📂 1. 新進人員公用槽導覽與資料夾目錄結構" checked onchange="updateDay7GeneratedPrompt()"><label for="d7Topic_0" class="radio-pill-label" style="width:100%; text-align:left;">📂 1. 新進人員公用槽導覽 (目錄結構與權限說明)</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d7Topic_1" name="d7Topic" value="📝 2. 合約檢查要點指南與審查 Checklist" onchange="updateDay7GeneratedPrompt()"><label for="d7Topic_1" class="radio-pill-label" style="width:100%; text-align:left;">📝 2. 合約檢查要點指南 ( Check-list 與注意事項圖表)</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d7Topic_2" name="d7Topic" value="✍️ 3. 簽呈使用範例與撰寫規範說明" onchange="updateDay7GeneratedPrompt()"><label for="d7Topic_2" class="radio-pill-label" style="width:100%; text-align:left;">✍ 3. 簽呈使用範例說明 (撰寫架構與範本參照表)</label></div>
+                  <div class="radio-pill-item"><input type="radio" id="d7Topic_3" name="d7Topic" value="🌴 4. 請假流程與系統簽核步驟圖解" onchange="updateDay7GeneratedPrompt()"><label for="d7Topic_3" class="radio-pill-label" style="width:100%; text-align:left;">🌴 4. 請假流程與規則圖解 (簽核階層與系統步驟)</label></div>
                 </div>
               </div>
 
               <div style="margin-bottom:10px;">
                 <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">希望的圖文呈現格式 (可複選)</label>
                 <div class="checkbox-pills">
-                  <div class="checkbox-pill-item"><input type="checkbox" id="d6Output_0" name="d6Output" value="結構化 SOP 指南表格" checked onchange="updateDay6GeneratedPrompt()"><label for="d6Output_0" class="checkbox-pill-label">SOP 指南表格</label></div>
-                  <div class="checkbox-pill-item"><input type="checkbox" id="d6Output_1" name="d6Output" value="重點注意事項提示卡 (Tips Box)" checked onchange="updateDay6GeneratedPrompt()"><label for="d6Output_1" class="checkbox-pill-label">重點提示卡 (Tips)</label></div>
-                  <div class="checkbox-pill-item"><input type="checkbox" id="d6Output_2" name="d6Output" value="Mermaid 流程圖程式碼" onchange="updateDay6GeneratedPrompt()"><label for="d6Output_2" class="checkbox-pill-label">Mermaid 流程圖</label></div>
-                  <div class="checkbox-pill-item"><input type="checkbox" id="d6Output_3" name="d6Output" value="常見問題 FAQ 對答" onchange="updateDay6GeneratedPrompt()"><label for="d6Output_3" class="checkbox-pill-label">常見問題 FAQ</label></div>
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d7Output_0" name="d7Output" value="結構化 SOP 指南表格" checked onchange="updateDay7GeneratedPrompt()"><label for="d7Output_0" class="checkbox-pill-label">SOP 指南表格</label></div>
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d7Output_1" name="d7Output" value="重點注意事項提示卡 (Tips Box)" checked onchange="updateDay7GeneratedPrompt()"><label for="d7Output_1" class="checkbox-pill-label">重點提示卡 (Tips)</label></div>
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d7Output_2" name="d7Output" value="Mermaid 流程圖程式碼" onchange="updateDay7GeneratedPrompt()"><label for="d7Output_2" class="checkbox-pill-label">Mermaid 流程圖</label></div>
+                  <div class="checkbox-pill-item"><input type="checkbox" id="d7Output_3" name="d7Output" value="常見問題 FAQ 對答" onchange="updateDay7GeneratedPrompt()"><label for="d7Output_3" class="checkbox-pill-label">常見問題 FAQ</label></div>
                 </div>
               </div>
 
               <div style="margin-bottom:10px;">
                 <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">自訂補充細節 (選填)</label>
-                <input type="text" id="d6CustomRequirement" class="text-input-styled" placeholder="例如：特別強調權限申請步驟 / 列出前 3 大新手常犯錯誤..." oninput="updateDay6GeneratedPrompt()" />
+                <input type="text" id="d7CustomRequirement" class="text-input-styled" placeholder="例如：特別強調權限申請步驟 / 列出前 3 大新手常犯錯誤..." oninput="updateDay7GeneratedPrompt()" />
               </div>
 
-              <textarea id="d6GeneratedPromptBox" class="text-input-styled" style="min-height:120px;" readonly></textarea>
-              <button type="button" class="btn-primary-sm" id="btnCopyPromptD6Auto" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('d6GeneratedPromptBox').value, 'btnCopyPromptD6Auto')">📋 複製系統組裝 PROMPT 貼至 ChatGPT / Perplexity</button>
+              <textarea id="d7GeneratedPromptBox" class="text-input-styled" style="min-height:120px;" readonly></textarea>
+              <button type="button" class="btn-primary-sm" id="btnCopyPromptD7Auto" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('d7GeneratedPromptBox').value, 'btnCopyPromptD7Auto')">📋 複製系統組裝 PROMPT 貼至 AI</button>
             </div>
 
             <!-- Mode B: 自主撰寫 -->
-            <div id="d6CustomBlock" style="display: ${d6Mode === 'custom' ? 'block' : 'none'};">
+            <div id="d7CustomBlock" style="display: ${d7Mode === 'custom' ? 'block' : 'none'};">
               <div style="background:#FFF0E8; border:1px solid var(--bosch-orange); border-radius:10px; padding:10px 12px; font-size:11px; color:var(--bosch-dark-orange); font-weight:700; margin-bottom:10px;">
                 💡 <b>Prompt 撰寫萬用架構建議：</b><br/>
                 ・<b>[角色]</b> 你是 BSH 行政與 HR 工作流程專家...<br/>
@@ -1531,8 +1669,8 @@ Phrases: ${phraseVals}`;
               </div>
 
               <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">✍️ 請在下方輸入你自己思考並撰寫的完整 Prompt：</label>
-              <textarea id="d6CustomPromptInput" class="text-input-styled" style="min-height:130px;" placeholder="試著套用上面提示，寫出屬於你的 AI 提示詞..." oninput="validateCurrentForm()">${savedVal || ''}</textarea>
-              <button type="button" class="btn-primary-sm" id="btnCopyPromptD6Custom" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('d6CustomPromptInput').value, 'btnCopyPromptD6Custom')">📋 複製我親自寫的 PROMPT 貼至 AI</button>
+              <textarea id="d7CustomPromptInput" class="text-input-styled" style="min-height:130px;" placeholder="試著套用上面提示，寫出屬於你的 AI 提示詞..." oninput="validateCurrentForm()">${savedVal || ''}</textarea>
+              <button type="button" class="btn-primary-sm" id="btnCopyPromptD7Custom" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('d7CustomPromptInput').value, 'btnCopyPromptD7Custom')">📋 複製我親自寫的 PROMPT 貼至 AI</button>
             </div>
           `;
         } else if (field.type === 'day1_prompt_display') {
@@ -1636,6 +1774,7 @@ Phrases: ${phraseVals}`;
       if (currentDay === 4) handleDay4BaseChange();
       if (currentDay === 5) updateDay5GeneratedPrompt();
       if (currentDay === 6) updateDay6GeneratedPrompt();
+      if (currentDay === 7) updateDay7GeneratedPrompt();
       if (!isLockedDay) validateCurrentForm();
     }
 
@@ -1670,9 +1809,16 @@ Phrases: ${phraseVals}`;
       for (let field of fields) {
         if (field.type === 'star_rating' || field.type === 'day1_prompt_display' || field.type === 'day3_style_display' || field.type === 'day4_char_display' || field.type === 'prompt_builder' || field.type === 'prompt_builder_d4' || field.type === 'prompt_builder_d5' || field.type === 'radios_d3' || field.type === 'checkboxes_d3' || field.type === 'checkboxes_persona_d3' || field.type === 'radios_d4_base' || field.type === 'checkboxes_d4_acc' || field.type === 'radios_d5_count' || field.type === 'radios_d5_style' || field.type === 'checkboxes_d5_phrases') continue;
 
-        if (field.type === 'd6_dual_mode_wrapper') {
+        if (field.type === 'd6_video_wrapper') {
           if (d6Mode === 'custom') {
             const customVal = document.getElementById("d6CustomPromptInput")?.value.trim();
+            if (!customVal) {
+              isValid = false; errorMsg = currentLang === "zh" ? "💡 請輸入您親自撰寫的 Prompt。" : "💡 Please write your prompt."; break;
+            }
+          }
+        } else if (field.type === 'd7_dual_mode_wrapper') {
+          if (d7Mode === 'custom') {
+            const customVal = document.getElementById("d7CustomPromptInput")?.value.trim();
             if (!customVal) {
               isValid = false; errorMsg = currentLang === "zh" ? "💡 請輸入您親自撰寫的 Prompt。" : "💡 Please write your prompt."; break;
             }
@@ -1761,15 +1907,25 @@ Phrases: ${phraseVals}`;
       const formData = {};
 
       fields.forEach(field => {
-        if (field.type === 'd6_dual_mode_wrapper') {
+        if (field.type === 'd6_video_wrapper') {
           formData.d6Mode = d6Mode;
           if (d6Mode === 'auto') {
-            formData.d6Topic = document.querySelector('input[name="d6Topic"]:checked')?.value;
-            formData.d6Output = Array.from(document.querySelectorAll('input[name="d6Output"]:checked')).map(c => c.value);
-            formData.d6CustomRequirement = document.getElementById("d6CustomRequirement")?.value || '';
+            formData.d6Action = document.querySelector('input[name="d6Action"]:checked')?.value;
+            formData.d6Camera = Array.from(document.querySelectorAll('input[name="d6Camera"]:checked')).map(c => c.value);
+            formData.d6VideoRequirement = document.getElementById("d6VideoRequirement")?.value || '';
             formData.finalPromptUsed = document.getElementById("d6GeneratedPromptBox")?.value;
           } else {
             formData.finalPromptUsed = document.getElementById("d6CustomPromptInput")?.value;
+          }
+        } else if (field.type === 'd7_dual_mode_wrapper') {
+          formData.d7Mode = d7Mode;
+          if (d7Mode === 'auto') {
+            formData.d7Topic = document.querySelector('input[name="d7Topic"]:checked')?.value;
+            formData.d7Output = Array.from(document.querySelectorAll('input[name="d7Output"]:checked')).map(c => c.value);
+            formData.d7CustomRequirement = document.getElementById("d7CustomRequirement")?.value || '';
+            formData.finalPromptUsed = document.getElementById("d7GeneratedPromptBox")?.value;
+          } else {
+            formData.finalPromptUsed = document.getElementById("d7CustomPromptInput")?.value;
           }
         } else if (field.type === 'day1_prompt_display') {
           formData[field.id] = getDay1PromptText();
