@@ -543,17 +543,20 @@
       </div>
 
       <form onsubmit="handleAccountSubmit(event)">
-        <div style="margin-bottom:12px;">
-          <label style="font-size:12px; font-weight:800; display:block; margin-bottom:4px;" id="lblEmpId">員工編號 (Employee ID)</label>
-          <input type="text" id="accEmpId" required placeholder="例如：5404 / E001 / T001" maxlength="4" class="text-input-styled" />
-        </div>
-        <div style="margin-bottom:16px;">
-          <label style="font-size:12px; font-weight:800; display:block; margin-bottom:4px;" id="lblName">英文姓名 (English Name)</label>
-          <input type="text" id="accName" required placeholder="例如：Sunny Peng" class="text-input-styled" />
-        </div>
-        
-        <button type="submit" class="submit-stamp-btn active" id="btnModalSubmit">進入 AI Passport 🚀</button>
-      </form>
+  <div style="margin-bottom:12px;">
+    <label style="font-size:12px; font-weight:800; display:block; margin-bottom:4px;" id="lblEmpId">員工編號 (Employee ID)</label>
+    <div style="display:flex; gap:8px;">
+      <input type="text" id="accEmpId" required placeholder="例如：T144 / 5404" class="text-input-styled" style="flex:1;" />
+      <button type="button" class="btn-secondary" onclick="verifyEmpIdOnline()" id="btnVerifyEmp">驗證工號 🔍</button>
+    </div>
+  </div>
+  <div style="margin-bottom:16px;">
+    <label style="font-size:12px; font-weight:800; display:block; margin-bottom:4px;" id="lblName">英文姓名 (English Name)</label>
+    <input type="text" id="accName" required readonly placeholder="驗證工號後自動帶入" class="text-input-styled" style="background:#E2E8F0; cursor:not-allowed;" />
+  </div>
+  <div id="loginVerifyHint" style="font-size:12px; margin-bottom:12px; text-align:center; font-weight:bold;"></div>
+  <button type="submit" class="submit-stamp-btn active" id="btnModalSubmit">進入 AI Passport 🚀</button>
+</form>
     </div>
   </div>
 
@@ -2358,18 +2361,99 @@ ${d9Info}
       }
     }
 
-    async function fetchLeaderboardFromSheet() {
-      try {
-        const response = await fetch(GAS_URL);
-        const data = await response.json();
-        if (data && Array.isArray(data.leaderboard)) {
-          mockLeaderboard = data.leaderboard;
-          renderLeaderboard();
-        }
-      } catch (err) {
-        console.warn("Unable to fetch live leaderboard, falling back to local cache.", err);
-      }
+   // 1. 線上向 Google Sheet 驗證工號並自動帶入姓名
+async function verifyEmpIdOnline() {
+  const empIdInput = document.getElementById("accEmpId").value.trim().toUpperCase();
+  const hint = document.getElementById("loginVerifyHint");
+  const nameInput = document.getElementById("accName");
+  const btnVerify = document.getElementById("btnVerifyEmp");
+
+  if (!empIdInput) {
+    alert("請先輸入員工編號！");
+    return;
+  }
+
+  hint.style.color = "#0284C7";
+  hint.textContent = "🔍 正在向 employee list 驗證工號中...";
+  btnVerify.disabled = true;
+
+  try {
+    const response = await fetch(`${GAS_URL}?empId=${encodeURIComponent(empIdInput)}`);
+    const data = await response.json();
+
+    if (data.status === "success") {
+      nameInput.value = data.name; // 自動帶入 Google Sheet 裡對應的英文姓名
+      hint.style.color = "#16A34A";
+      hint.textContent = `✓ 驗證成功！歡迎 ${data.name} (${data.empId})`;
+    } else {
+      nameInput.value = "";
+      hint.style.color = "#DC2626";
+      hint.textContent = "❌ 找不到此工號，請確認 employee list 名單是否有此同仁。";
     }
+  } catch (err) {
+    console.error("驗證失敗:", err);
+    hint.style.color = "#DC2626";
+    hint.textContent = "⚠️ 網路或系統連線異常，請稍後再試。";
+  } finally {
+    btnVerify.disabled = false;
+  }
+}
+
+// 2. 登入表單提交處理
+function handleAccountSubmit(e) {
+  e.preventDefault();
+  const empIdInput = document.getElementById("accEmpId").value.trim().toUpperCase();
+  const name = document.getElementById("accName").value.trim();
+
+  if (!name) {
+    alert("請先點擊「驗證工號 🔍」以自動帶入同仁姓名！");
+    return;
+  }
+
+  currentUser = { empId: empIdInput, name: name };
+
+  const saved = localStorage.getItem(`bsh_passport_2026_${empIdInput}`);
+  if (saved) {
+    try { userProgressData = JSON.parse(saved); } catch (err) { userProgressData = {}; }
+  } else {
+    userProgressData = {};
+  }
+
+  lastCheckInDate = localStorage.getItem(`bsh_passport_last_date_${empIdInput}`) || null;
+
+  closeLoginModal();
+  initDaySelector();
+  renderDayContent();
+  updateUserStateUI();
+  checkGraduationStatus();
+  updateMarqueeAndLeaderboard();
+}
+
+// 3. 穩定將打卡資料發送至 Google Sheet
+async function syncToGoogleSheet(payload) {
+  try {
+    const formData = new URLSearchParams();
+    formData.append("empId", payload.empId || "");
+    formData.append("employeeId", payload.empId || "");
+    formData.append("name", payload.name || "");
+    formData.append("day", payload.day || "");
+    formData.append("formData", payload.formData || "");
+
+    // 使用 POST 發送打卡資料
+    await fetch(GAS_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formData.toString()
+    });
+    
+    console.log("Data successfully submitted to Google Sheet");
+    // 打卡完後重新同步線上最新英雄榜
+    setTimeout(fetchLeaderboardFromSheet, 1000);
+
+  } catch (err) {
+    console.error("Failed to sync to Google Sheet:", err);
+  }
+}
 
     function executeCurrentStamp() {
       const todayStr = getTodayString();
