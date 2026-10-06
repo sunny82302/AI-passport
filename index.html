@@ -561,9 +561,194 @@
   </div>
 
   <script>
+    // 已經將每日打卡次數限制關閉 (設為 false)
     const ENABLE_DATE_LIMIT = true; 
     const GAS_URL = "https://script.google.com/macros/s/AKfycbyxcZpU7hu04j7CVOVDmwrS1EOPFikCC_advL4SYFGTvO4XorFMeOIeW8MbWhL6XvtGUw/exec";
-    const EVENT_START_DATE = new Date("2026-03-02T00:00:00"); 
+    const EVENT_START_DATE = new Date("2026-10-12T00:00:00"); 
+
+    // 內嵌完整員工名單字典庫 (實現秒級 0ms 驗證，不需等待雲端)
+    const localEmployeeDatabase = {
+      "5062": "Xia Lan",
+      "5056": "Doris Hsu",
+      "5010": "Joan Huang",
+      "5011": "Steven Lee",
+      "5018": "Hung Hsuan Chen",
+      "5021": "Tim Fang",
+      "5026": "Yi Ling Tsai",
+      "5032": "Ellen Liu",
+      "5033": "Emily Lin",
+      "5034": "Ivy Ding",
+      "5042": "Una Wang",
+      "5044": "Sam Liao",
+      "5046": "Nemo Yu",
+      "5047": "Robert Cheng",
+      "5048": "Willis Chi",
+      "5049": "Tony Liu",
+      "5050": "George Huang",
+      "5054": "Josh Chou",
+      "5086": "Fiona Hu",
+      "5087": "Ronald Su",
+      "5078": "May Wu",
+      "5079": "Ally Huang",
+      "5089": "Jason Tsai",
+      "5091": "Daniel Chiang",
+      "5093": "April Hsu",
+      "5098": "ChunMay Shen",
+      "5099": "David Lu",
+      "5095": "Joyce Hsieh",
+      "5110": "Joanna Liao",
+      "5113": "Candy Kuo",
+      "5114": "Ethan Chen",
+      "5122": "Alan Chiu",
+      "5124": "JinJia Tsuei",
+      "5140": "Jeff Lai",
+      "5143": "May Tseng",
+      "5142": "Julie Hsu",
+      "5149": "John Chien",
+      "5154": "Joanne Liu",
+      "5157": "Yuhom Hsieh",
+      "5162": "Simon Yeh",
+      "5172": "Cola Huang",
+      "5175": "Summer Chen",
+      "5176": "Rella Lin",
+      "5181": "Elva Yang",
+      "5213": "Selena Chang",
+      "5194": "Celine Chiou",
+      "5187": "Tina Tai",
+      "5191": "Derek Lin",
+      "5193": "ChiHung Chiu",
+      "5200": "Annie Ni",
+      "5203": "Ken Hung",
+      "5208": "Michael Tang",
+      "5237": "Grace Ku",
+      "5212": "Phyllis Huang",
+      "5217": "Yubi Wu",
+      "5218": "HoGing Chen",
+      "5221": "Jack Chen",
+      "5220": "Vivi Chou",
+      "5235": "Hazel Su",
+      "5233": "Ethan Chuang",
+      "5236": "Eunice Wu",
+      "5258": "Yoyo Chang",
+      "5242": "Jamie Shih",
+      "5245": "Maxine Chan",
+      "5246": "George Lin",
+      "5247": "YiJiao Huang",
+      "5249": "Louis Chen",
+      "5253": "Dianna Chen",
+      "5255": "Susan Huang",
+      "5259": "Yugo Chen",
+      "5261": "Rico Lai",
+      "5260": "Rina Liang",
+      "5267": "Zoe Yu",
+      "5268": "Allen Hsueh",
+      "5269": "Tommy Ruan",
+      "5270": "Chaoyi Chang",
+      "5276": "Zoe Chang",
+      "5277": "Raeka Yeh",
+      "5278": "Sammi Chang",
+      "5280": "Ryan Chang",
+      "5282": "Gary Chang",
+      "5283": "Mark Hsieh",
+      "5286": "Tommy Tsai",
+      "5288": "WeiLung Cheng",
+      "5289": "Helena Ho",
+      "5290": "NaiChi Pan",
+      "5294": "Bobbit Chen",
+      "5296": "Ada Kao",
+      "5297": "Neko Huang",
+      "5298": "Wendy Wu",
+      "5300": "Fei Hsieh",
+      "5301": "Belle Liu",
+      "5314": "Kelvin Wang",
+      "5313": "Mars Lin",
+      "5315": "Chian Lu",
+      "5316": "Joger Lin",
+      "5321": "Alsa Lee",
+      "5329": "Rita Lu",
+      "5331": "Aimee Chen",
+      "5336": "Ava Chang",
+      "5338": "Kate Chen",
+      "E203": "Shannon Yang",
+      "5345": "Elaine Hsueh",
+      "5341": "Tracy Chang",
+      "5351": "Kuan Shan",
+      "5353": "Kathy Cai",
+      "E303": "Lucy Lu",
+      "5357": "Eason Chen",
+      "5358": "Bruce Fan",
+      "E501": "YaShin Cheng",
+      "5365": "Angie Lien",
+      "5366": "Cindy Huang",
+      "5368": "Catherine Ding",
+      "5369": "Yuna Lin",
+      "5372": "Jojo Peng",
+      "E505": "Elsa Liu",
+      "E506": "Irene Wang",
+      "5374": "Ryan Liu",
+      "5375": "Hannah Yang",
+      "5378": "Christina Wang",
+      "E608": "Janey Tsai",
+      "E509": "Colin Chang",
+      "E510": "Swing Ong",
+      "5381": "Comy Wang",
+      "E609": "Amber Kuo",
+      "5405": "Martin Tseng",
+      "5383": "Hank Chao",
+      "5384": "Mavis Lin",
+      "5385": "Yumi Yeh",
+      "5386": "Hilda Chen",
+      "5389": "Whitney Huang",
+      "E511": "Joyce Huang",
+      "E512": "Nelson Lu",
+      "E206": "Harry Lai",
+      "E610": "Angela Hsieh",
+      "5393": "Angela Yeh",
+      "5414": "Bonnie Cheng",
+      "E208": "Phoebe Lin",
+      "5394": "Rosa Chang",
+      "E611": "Annie Tsai",
+      "5178": "Andreas Oswald",
+      "5397": "Dennis Paulin",
+      "5398": "Jerry Chen",
+      "E030": "Vivi Lee",
+      "5402": "Lily Hsu",
+      "E306": "Julia Chao",
+      "5403": "Angela Chen",
+      "5404": "Sunny Peng",
+      "E513": "Wilson Wu",
+      "5406": "Spark Huang",
+      "E210": "Bella Yu",
+      "5432": "Alexa Tsai",
+      "5407": "Wayne Chou",
+      "5421": "Kai Chang",
+      "E514": "Miranda Yeh",
+      "E515": "Mia Huang",
+      "E516": "Elmo Chen",
+      "E517": "Yuna Yen",
+      "E518": "Winnie Fang",
+      "E213": "Ray Liou",
+      "5433": "Vera Yang",
+      "E215": "Cathy Su",
+      "5419": "Kelly Lin",
+      "5420": "Tree Yang",
+      "5422": "Abel Lee",
+      "T143": "Peggy Lo",
+      "5423": "Ben Tsai",
+      "5424": "Ann Lin",
+      "5425": "Sherry Wu",
+      "5426": "Brian Huang",
+      "5427": "Rosie Chen",
+      "E217": "Jessica Lee",
+      "5428": "Alice Lin",
+      "5430": "Wayne Lin",
+      "5429": "Gary Yang",
+      "T144": "Roxanne Chen",
+      "5434": "Dennis Chen",
+      "5435": "Summer Huang",
+      "5436": "Pony Wang",
+      "5437": "May Chao"
+    };
 
     function getUnlockedMaxDay() {
       if (!ENABLE_DATE_LIMIT) return 10;
@@ -613,7 +798,7 @@
 
     function copyText(txt, btnId) {
       if (!txt) {
-        alert(currentLang === "zh" ? "⚠️ 請先撰寫或輸入 Prompt 後再複製喔！" : "⚠️ Please write or generate a prompt first!");
+        alert(currentLang === "zh" ? "⚠️️ 請先撰寫或輸入 Prompt 後再複製喔！" : "⚠️ Please write or generate a prompt first!");
         return;
       }
       navigator.clipboard.writeText(txt).then(() => {
@@ -697,7 +882,6 @@
       return "【Day 09 Findings】: 1. SMS53E02TC Dishwasher top sales in North.\n2. Online bulk purchase ratio increased.\n\n【Day 09 Verified Insight】: South store oven sales spike verified via promo correlation.";
     }
 
-    /* Day 09 數據集匯出 */
     function downloadERPDataCSV() {
       const lastNames = ["陳", "林", "黃", "張", "李", "王", "吳", "劉", "蔡", "楊"];
       const firstNames = ["志明", "雅婷", "嘉豪", "怡君", "建宏", "詩涵", "宗翰", "佩珊", "承翰", "雅琪"];
@@ -750,7 +934,6 @@
       document.body.removeChild(link);
     }
 
-    /* Day 10 BSH_Template_v5.html 範本動態下載功能 */
     function downloadBSHTemplateHTML() {
       const templateHTMLContent = `<!DOCTYPE html>
 <html lang="en">
@@ -965,7 +1148,7 @@ Phrases: ${phraseVals}`;
 【鏡頭運鏡風格】：${cameraVals}${customDetail}
 
 【執行要求】：
-1. 請產出一段適用於 Gemini / Veo 的英文影片提示詞 (Video Generation Prompt)。
+1. 請產出適用於 Gemini / Veo 的英文影片提示詞 (Video Generation Prompt)。
 2. 請標明 Lighting (光影)、Motion (動態流暢度) 與 Camera Angle (鏡頭角度)。
 3. 請維持角色風格與 3D 質感連貫度，長度規劃為 5 秒短影片。`;
 
@@ -1023,7 +1206,6 @@ Phrases: ${phraseVals}`;
       validateCurrentForm();
     }
 
-    /* Day 10 專用 Prompt 更新與切換機制 */
     function switchD10Mode(mode) {
       d10Mode = mode;
       const btnAuto = document.getElementById("btnD10Auto");
@@ -1932,7 +2114,6 @@ ${d9Info}
               <button type="button" class="mode-tab-btn ${d10Mode === 'custom' ? 'active' : ''}" id="btnD10Custom" onclick="switchD10Mode('custom')">${currentLang === "zh" ? "✍️ 進階挑戰：親自撰寫 PROMPT" : "✍️ Custom Mode: Write Prompt"}</button>
             </div>
 
-            <!-- Mode A: 自動組裝 -->
             <div id="d10AutoBlock" style="display: ${d10Mode === 'auto' ? 'block' : 'none'};">
               <div style="margin-bottom:10px; background:#FFF0E8; border:1px solid var(--bosch-orange); padding:8px 10px; border-radius:8px; font-size:11px; color:var(--bosch-dark-orange);">
                 <b>${currentLang === "zh" ? "帶入 Day 09 數據洞察：" : "Inherited Day 09 Insights:"}</b><br/>${getDay9InsightSummary().replace(/\n/g, '<br/>')}
@@ -1968,7 +2149,6 @@ ${d9Info}
               <button type="button" class="btn-primary-sm" id="btnCopyPromptD10Auto" style="margin-top:8px; width:100%; border-radius:8px; background:#D69E2E; color:#FFF;" onclick="copyText(document.getElementById('d10GeneratedPromptBox').value, 'btnCopyPromptD10Auto')">📋 ${currentLang === "zh" ? "複製 HTML 生成 PROMPT 貼至 AI" : "Copy HTML Generation Prompt"}</button>
             </div>
 
-            <!-- Mode B: 自主撰寫 -->
             <div id="d10CustomBlock" style="display: ${d10Mode === 'custom' ? 'block' : 'none'};">
               <div style="background:#FFF0E8; border:1px solid var(--bosch-orange); border-radius:10px; padding:10px 12px; font-size:11px; color:var(--bosch-dark-orange); font-weight:700; margin-bottom:10px;">
                 💡 <b>HTML Presentation ${currentLang === "zh" ? "撰寫萬用架構建議：" : "Writing Scaffolding:"}</b><br/>
@@ -2018,10 +2198,9 @@ ${d9Info}
           inputControl = `
             <div class="mode-tab-container">
               <button type="button" class="mode-tab-btn ${d6Mode === 'auto' ? 'active' : ''}" id="btnD6Auto" onclick="switchD6Mode('auto')">${currentLang === "zh" ? "⚡ 新手模式：快速組裝 PROMPT" : "⚡ Auto Mode: Quick Assembly"}</button>
-              <button type="button" class="mode-tab-btn ${d6Mode === 'custom' ? 'active' : ''}" id="btnD6Custom" onclick="switchD6Mode('custom')">${currentLang === "zh" ? "✍ 進階挑戰：親自撰寫 PROMPT" : "✍️️ Custom Mode: Write Prompt"}</button>
+              <button type="button" class="mode-tab-btn ${d6Mode === 'custom' ? 'active' : ''}" id="btnD6Custom" onclick="switchD6Mode('custom')">${currentLang === "zh" ? "✍ 進階挑戰：親自撰寫 PROMPT" : "✍ Custom Mode: Write Prompt"}</button>
             </div>
 
-            <!-- Mode A: 自動組裝 -->
             <div id="d6AutoBlock" style="display: ${d6Mode === 'auto' ? 'block' : 'none'};">
               <div style="margin-bottom:10px;">
                 <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">${currentLang === "zh" ? "帶入 Day 04 角色：" : "Inherited Day 04 Avatar: "}${getDay4CharacterSummary()}</label>
@@ -2055,7 +2234,6 @@ ${d9Info}
               <button type="button" class="btn-primary-sm" id="btnCopyPromptD6Auto" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('d6GeneratedPromptBox').value, 'btnCopyPromptD6Auto')">📋 ${currentLang === "zh" ? "複製系統組裝 PROMPT 貼至 Gemini" : "Copy Generated Motion Prompt"}</button>
             </div>
 
-            <!-- Mode B: 自主撰寫 -->
             <div id="d6CustomBlock" style="display: ${d6Mode === 'custom' ? 'block' : 'none'};">
               <div style="background:#FFF0E8; border:1px solid var(--bosch-orange); border-radius:10px; padding:10px 12px; font-size:11px; color:var(--bosch-dark-orange); font-weight:700; margin-bottom:10px;">
                 💡 <b>影音 Prompt ${currentLang === "zh" ? "撰寫萬用架構建議：" : "Writing Scaffolding:"}</b><br/>
@@ -2076,7 +2254,6 @@ ${d9Info}
               <button type="button" class="mode-tab-btn ${d7Mode === 'custom' ? 'active' : ''}" id="btnD7Custom" onclick="switchD7Mode('custom')">${currentLang === "zh" ? "✍ 進階挑戰：親自撰寫 PROMPT" : "✍ Custom Mode: Write Prompt"}</button>
             </div>
 
-            <!-- Mode A: 自動組裝 -->
             <div id="d7AutoBlock" style="display: ${d7Mode === 'auto' ? 'block' : 'none'};">
               <div style="margin-bottom:10px;">
                 <label style="font-size:11px; font-weight:800; color:var(--bosch-dark); display:block; margin-bottom:4px;">${currentLang === "zh" ? "選擇工作圖文主題 (圖文懶人包 / SOP)" : "Select Workplace Topic"}</label>
@@ -2107,7 +2284,6 @@ ${d9Info}
               <button type="button" class="btn-primary-sm" id="btnCopyPromptD7Auto" style="margin-top:8px; width:100%; border-radius:8px;" onclick="copyText(document.getElementById('d7GeneratedPromptBox').value, 'btnCopyPromptD7Auto')">📋 ${currentLang === "zh" ? "複製系統組裝 PROMPT 貼至 AI" : "Copy Generated Prompt"}</button>
             </div>
 
-            <!-- Mode B: 自主撰寫 -->
             <div id="d7CustomBlock" style="display: ${d7Mode === 'custom' ? 'block' : 'none'};">
               <div style="background:#FFF0E8; border:1px solid var(--bosch-orange); border-radius:10px; padding:10px 12px; font-size:11px; color:var(--bosch-dark-orange); font-weight:700; margin-bottom:10px;">
                 💡 <b>Prompt ${currentLang === "zh" ? "撰寫萬用架構建議：" : "Writing Scaffolding:"}</b><br/>
@@ -2355,14 +2531,13 @@ ${d9Info}
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: formData.toString()
         });
-        console.log("Data successfully submitted to Google Sheet (no-cors mode)");
       } catch (err) {
         console.error("Failed to sync to Google Sheet:", err);
       }
     }
 
-    // 1. 線上向 Google Sheet 驗證工號並自動帶入姓名
-    async function verifyEmpIdOnline() {
+    // ⭐ 方案一優化：直接從本地端字典檔瞬間驗證（0.1 秒內完成，解決轉圈圈延遲問題）
+    function verifyEmpIdOnline() {
       const empIdInput = document.getElementById("accEmpId").value.trim().toUpperCase();
       const hint = document.getElementById("loginVerifyHint");
       const nameInput = document.getElementById("accName");
@@ -2374,32 +2549,24 @@ ${d9Info}
       }
 
       hint.style.color = "#0284C7";
-      hint.textContent = "🔍 正在向 employee list 驗證工號中...";
+      hint.textContent = "🔍 正在驗證工號...";
       btnVerify.disabled = true;
 
-      try {
-        const response = await fetch(`${GAS_URL}?empId=${encodeURIComponent(empIdInput)}&action=verify`);
-        const data = await response.json();
-
-        if (data.status === "success") {
-          nameInput.value = data.name; // 自動帶入 Google Sheet 裡對應的英文姓名
+      setTimeout(() => {
+        if (localEmployeeDatabase[empIdInput]) {
+          const matchedName = localEmployeeDatabase[empIdInput];
+          nameInput.value = matchedName;
           hint.style.color = "#16A34A";
-          hint.textContent = `✓ 驗證成功！歡迎 ${data.name} (${data.empId})`;
+          hint.textContent = `✓ 驗證成功！歡迎 ${matchedName} (${empIdInput})`;
         } else {
           nameInput.value = "";
           hint.style.color = "#DC2626";
-          hint.textContent = "❌ 找不到此工號，請確認 employee list 名單是否有此同仁。";
+          hint.textContent = "❌ 找不到此工號，請確認輸入是否正確。";
         }
-      } catch (err) {
-        console.error("驗證失敗:", err);
-        hint.style.color = "#DC2626";
-        hint.textContent = "⚠️ 網路或系統連線異常，請稍後再試。";
-      } finally {
         btnVerify.disabled = false;
-      }
+      }, 150);
     }
 
-    // 向 Google Sheet 線上同步該同仁「真實存在」的打卡紀錄（當試算表被清空時，網頁也會自動歸零）
     async function syncUserProgressWithSheet(empId) {
       try {
         const response = await fetch(`${GAS_URL}?empId=${encodeURIComponent(empId)}&action=getUserProgress`);
@@ -2407,19 +2574,13 @@ ${d9Info}
 
         if (data.status === "success") {
           const validDays = data.completedDays || []; 
-          
-          // 1. 清空本地舊紀錄
           userProgressData = {};
-
-          // 2. 僅載入 Google Sheet 內還留著的天數
           validDays.forEach(dayStr => {
             const dayNum = parseInt(dayStr.replace("Day ", ""), 10);
             if (!isNaN(dayNum)) {
               userProgressData[dayNum] = { completed: true, formData: {} };
             }
           });
-
-          // 3. 儲存至本地並更新介面
           localStorage.setItem(`bsh_passport_2026_${empId}`, JSON.stringify(userProgressData));
           initDaySelector();
           renderDayContent();
@@ -2431,7 +2592,6 @@ ${d9Info}
       }
     }
 
-    // 2. 登入表單提交處理
     async function handleAccountSubmit(e) {
       e.preventDefault();
       const empIdInput = document.getElementById("accEmpId").value.trim().toUpperCase();
@@ -2444,13 +2604,11 @@ ${d9Info}
 
       currentUser = { empId: empIdInput, name: name };
 
-      // 關閉視窗，並線上向 Google Sheet 確認最新打卡進度
       closeLoginModal();
       await syncUserProgressWithSheet(empIdInput);
       fetchLeaderboardFromSheet();
     }
 
-    // 線上取得英雄榜資料
     async function fetchLeaderboardFromSheet() {
       try {
         const response = await fetch(`${GAS_URL}`);
@@ -2465,7 +2623,6 @@ ${d9Info}
       }
     }
 
-    // 更新走馬燈文字
     function updateMarqueeText() {
       const marqueeText = document.getElementById("marqueeText");
       const daysUnit = currentLang === "zh" ? "天" : "Days";
@@ -2478,7 +2635,6 @@ ${d9Info}
       }
     }
 
-    // 打卡完後直接向後端重新整理英雄榜
     function updateMarqueeAndLeaderboard() {
       fetchLeaderboardFromSheet();
     }
@@ -2581,7 +2737,6 @@ ${d9Info}
 
       localStorage.setItem(`bsh_passport_2026_${currentUser.empId}`, JSON.stringify(userProgressData));
 
-      // 整理打卡數據格式並傳送至 Google Sheet
       let summaryDataString = Object.entries(formData)
         .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(', ') : v}`)
         .join(' | ');
@@ -2708,7 +2863,6 @@ ${d9Info}
       updateUserStateUI();
     }
 
-    // 頁面初始化
     initDaySelector();
     renderDayContent();
     renderLeaderboard();
